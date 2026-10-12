@@ -1,0 +1,71 @@
+{
+  "$schema": "wone.roles.v1",
+  "$description": "颜色用途角色到 Light/Dark 物理 family 的映射。",
+  "roles": {
+    "neutral": {
+      "$label": "中性色",
+      "$light": "neutral",
+      "$dark": "darkNeutral"
+    },
+    "neutralAlpha": {
+      "$label": "透明中性色",
+      "$light": "blackAlpha",
+      "$dark": "whiteAlpha"
+    },
+    "shadowAlpha": {
+      "$label": "阴影透明色",
+      "$light": "blackAlpha",
+      "$dark": "blackAlpha"
+    },
+    "overlayAlpha": {
+      "$label": "覆盖层透明色",
+      "$light": "blackAlpha",
+      "$dark": "blackAlpha"
+    },
+    "brand": {
+      "$label": "主题色",
+      "$light": "blue",
+      "$dark": "darkBlue"
+    },
+    "categoryBlue": {
+      "$label": "分类蓝色",
+      "$light": "blue",
+      "$dark": "darkBlue"
+    },
+    "categoryViolet": {
+      "$label": "分类紫罗兰色",
+      "$light": "violet",
+      "$dark": "darkViolet"
+    },
+    "categoryCyan": {
+      "$label": "分类青色",
+      "$light": "cyan",
+      "$dark": "darkCyan"
+    },
+    "information": {
+      "$label": "信息色",
+      "$light": "slate",
+      "$dark": "darkSlate"
+    },
+    "success": {
+      "$label": "安全／成功色",
+      "$light": "green",
+      "$dark": "darkGreen"
+    },
+    "warning": {
+      "$label": "警告色",
+      "$light": "orange",
+      "$dark": "darkOrange"
+    },
+    "danger": {
+      "$label": "危险色",
+      "$light": "red",
+      "$dark": "darkRed"
+    },
+    "aira": {
+      "$label": "AIRA 品牌渐变",
+      "$light": "orchid",
+      "$dark": "orchid"
+    }
+  }
+}

@@ -1,0 +1,24 @@
+* { box-sizing: border-box; }
+html { font-family: var(--typography-font-family-sans); color: var(--color-text); background: var(--color-background-page); -webkit-text-size-adjust: 100%; color-scheme: light; }
+html[data-color-mode='dark'] { color-scheme: dark; }
+body { margin: 0; font-size: var(--typography-font-size-body); line-height: var(--typography-line-height-body); }
+button, input, select { font: inherit; }
+button, a, input, select { -webkit-tap-highlight-color: transparent; }
+button, input, select { color: inherit; }
+button { cursor: pointer; }
+a { color: inherit; text-decoration: none; }
+h1, h2, h3, p { margin: 0; }
+h1, h2, h3, strong { font-weight: var(--typography-font-weight-semibold); }
+button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, [role='switch']:focus-visible { outline: 2px solid var(--color-border-focused); outline-offset: 3px; }
+button:disabled { cursor: not-allowed; }
+code { font-family: var(--typography-font-family-mono); }
+small { font-size: var(--typography-font-size-caption); }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+.eyebrow { display: block; color: var(--color-text-subtlest); font-size: 11px; line-height: 20px; font-weight: 600; letter-spacing: .12em; }
+.text-link { display: inline-flex; align-items: center; justify-content: center; gap: var(--space-1); min-height: var(--layout-touch-target); color: var(--color-text-brand-accessible); font-size: var(--typography-font-size-secondary); }
+.status-badge { display: inline-flex; align-items: center; align-self: flex-start; gap: 6px; padding: 4px 10px; border-radius: var(--radius-sm); color: var(--color-text-brand-accessible); background: var(--color-background-brand-subtle); font-size: var(--typography-font-size-caption); line-height: 20px; white-space: nowrap; }
+.status-dot { width: 6px; height: 6px; display: inline-block; border-radius: var(--radius-full); background: var(--color-background-success-bold); flex-shrink: 0; }
+.full-width { width: 100%; }
+.not-found { max-width: 640px; margin: 80px auto; padding: 24px; }
+.not-found h1 { margin-bottom: 16px; }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; scroll-behavior: auto !important; } }

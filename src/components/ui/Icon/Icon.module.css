@@ -1,0 +1,43 @@
+.root {
+  display: inline-block;
+  flex: 0 0 auto;
+  width: 1em;
+  height: 1em;
+  overflow: hidden;
+  color: inherit;
+  vertical-align: -0.125em;
+  fill: currentcolor;
+}
+
+.xs {
+  font-size: var(--component-icon-size-xs);
+}
+
+.sm {
+  font-size: var(--component-icon-size-sm);
+}
+
+.base {
+  font-size: var(--component-icon-size-base);
+}
+
+.md {
+  font-size: var(--component-icon-size-md);
+}
+
+.lg {
+  font-size: var(--component-icon-size-lg);
+}
+
+
+.airaMask {
+  mask-type: alpha;
+}
+
+.airaStart {
+  stop-color: var(--color-icon-aira-start);
+}
+
+.airaEnd {
+  stop-color: var(--color-icon-aira-end);
+}

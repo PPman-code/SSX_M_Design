@@ -1,0 +1,36 @@
+.button { display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2); min-width: var(--layout-touch-target); min-height: var(--component-button-height-md); padding: 10px 18px; border: 1px solid transparent; border-radius: var(--component-button-radius); font-weight: 600; font-size: var(--typography-font-size-body); line-height: 24px; transition: background var(--motion-duration-fast); }
+.button--primary { background: var(--color-mobile-action-background); color: var(--color-mobile-action-foreground); }
+.button--primary:active { background: var(--color-mobile-action-pressed); transform: translateY(1px); }
+.button--secondary { background: var(--color-background-surface); border-color: var(--color-border); color: var(--color-text); }
+.button--secondary:active, .button--ghost:active { background: var(--color-background-neutral-selected); }
+.button--ghost { background: transparent; color: var(--color-text-subtle); }
+.button--sm { min-height: var(--component-button-height-sm); padding: 8px 14px; font-size: var(--typography-font-size-secondary); }
+.button--lg { min-height: var(--component-button-height-lg); }
+.button:disabled, .button[data-disabled] { background: var(--color-background-neutral-subtle); color: var(--color-text-disabled); border-color: transparent; }
+.icon-button { display: inline-flex; align-items: center; justify-content: center; width: var(--layout-touch-target); height: var(--layout-touch-target); flex: 0 0 auto; border: 0; border-radius: var(--radius-lg); background: transparent; color: var(--color-text-subtle); }
+.icon-button:active { background: var(--color-background-neutral-subtle); }
+.toggle { position: relative; display: inline-flex; align-items: center; width: 52px; height: var(--layout-touch-target); flex-shrink: 0; cursor: pointer; touch-action: pan-y; }
+.toggle::before { content: ''; position: absolute; inset: 7px 0; border-radius: var(--radius-full); background: var(--color-background-neutral-bold); transition: background var(--motion-duration-fast); }
+.toggle[data-checked]::before { background: var(--color-background-brand-bold); }
+.toggle-thumb { position: relative; width: 24px; height: 24px; margin-left: 3px; background: var(--color-background-inverse); border-radius: var(--radius-full); box-shadow: var(--elevation-shadow-sm); transition: transform var(--motion-duration-fast); }
+.toggle[data-checked] .toggle-thumb { transform: translateX(22px); }
+.sheet-backdrop { position: fixed; inset: 0; z-index: var(--z-index-overlay); background: var(--color-overlay-emphasis); opacity: 1; transition: opacity var(--motion-duration-normal); }
+.sheet-backdrop[data-starting-style], .sheet-backdrop[data-ending-style] { opacity: 0; }
+.sheet-viewport { position: fixed; inset: 0; z-index: var(--z-index-modal); display: flex; align-items: flex-end; justify-content: center; padding-bottom: var(--drawer-keyboard-inset, 0px); }
+.sheet { display: flex; flex-direction: column; width: 100%; max-width: 560px; max-height: min(var(--component-sheet-max-height), calc(100dvh - var(--drawer-keyboard-inset, 0px) - 16px)); background: var(--color-background-surface); border-radius: var(--component-sheet-radius) var(--component-sheet-radius) 0 0; box-shadow: var(--elevation-shadow-lg); outline: none; transform: translateY(var(--drawer-swipe-movement-y, 0px)); transition: transform var(--motion-duration-slow) var(--motion-easing-standard); }
+.sheet[data-starting-style], .sheet[data-ending-style] { transform: translateY(100%); }
+.sheet[data-swiping] { transition: none; }
+.sheet-handle { height: 4px; width: 32px; margin: 10px auto 2px; background: var(--color-border-strong); border-radius: var(--radius-full); flex-shrink: 0; }
+.sheet-heading { display: flex; justify-content: space-between; align-items: center; padding: 4px 8px 0 20px; flex-shrink: 0; }
+.sheet-heading h2 { font-size: var(--typography-font-size-title); }
+.sheet-description { padding: 0 20px 12px; color: var(--color-text-subtlest); font-size: var(--typography-font-size-secondary); flex-shrink: 0; }
+.sheet-content { min-height: 0; overflow-y: auto; overscroll-behavior-y: contain; padding: 4px 20px max(20px, env(safe-area-inset-bottom)); }
+.radio-list { margin: 0 0 20px; padding: 0; border: 0; }
+.radio-option { display: flex; align-items: center; justify-content: space-between; min-height: 56px; border-bottom: 1px solid var(--color-border-lighter); cursor: pointer; }
+.radio-option input { width: 22px; height: 22px; accent-color: var(--color-background-brand-bold); }
+.phone-access { display: flex; flex-direction: column; align-items: center; gap: 16px; padding-bottom: 12px; }
+.phone-access img { max-width: 100%; height: auto; border-radius: var(--radius-md); }
+.phone-access p { color: var(--color-text-subtlest); font-size: 14px; line-height: 22px; }
+.preview-url { word-break: break-all; color: var(--color-text-brand-accessible); font-size: 14px; }
+.phone-access .field, .phone-access select { width: 100%; }
+@media (hover: hover) { .button--primary:hover:not(:disabled) { background: var(--color-mobile-action-hovered); } .button--secondary:hover, .button--ghost:hover { background: var(--color-background-neutral-subtle); } }

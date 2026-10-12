@@ -1,0 +1,17 @@
+{
+  "source": "WOne_PC_Design",
+  "date": "2026-10-12",
+  "filesSha256": {
+    "design-system/tokens/palette.json": "11d24344a9ef943776afc58d48a193e8861a783a7618de5f60e0c8c995737c16",
+    "design-system/tokens/roles.json": "72c67190e692ad415483167e0f8cf564da91d51e2f254b04f9a9dedb397f7670",
+    "scripts/generate-tokens.mjs": "da3dee91cb29577314016692a1419ec8f41e39c12aab093a9e95879be5662a2b",
+    "scripts/token-tools.mjs": "6f54c0d0470c82791601c6c0be7caad6d8e01d26ee0c3e55bd03a1412f9ac50b",
+    "public/iconfont/w1-design.symbol.svg": "109995193ffb71cfdeab32f53922406dfb5b45026786c9368c43499171619356",
+    "public/iconfont/iconfont.json": "cd14f6edd95049a86c6ad6075d998a9120aa2d1205f1706153c0abf3dd804576",
+    "src/components/ui/Icon/Icon.tsx": "4bd7d8a9b9743c8f5541f71e6ed5b8c9b75df9515165a46aaf4da1c856b57281",
+    "src/components/ui/Icon/Icon.module.css": "c16b18bc9273042a5d6f48376899c7b82eeb7823bfb82593fb023098434f6b4c",
+    "src/components/ui/Icon/icon-names.generated.ts": "429ac89f1a97377c3d1f581bc0100b0897f85fdaa9549167952e5cd58dd04508",
+    "src/components/ui/Icon/index.ts": "b0922d09aeb2c74927e859dcbe3fe3d45ecd17725e183f9a42da046b15ddc3a2",
+    "design-system/tokens/tokens.json": "5ea124191fc61a03e75e052265657e01fa534be954fcd7589fb0afc67834dcf4"
+  }
+}
