@@ -66,6 +66,16 @@
       "$label": "AIRA 品牌渐变",
       "$light": "orchid",
       "$dark": "orchid"
+    },
+    "profileNeutral": {
+      "$label": "我的页中性色",
+      "$light": "mist",
+      "$dark": "darkMist"
+    },
+    "profileAccent": {
+      "$label": "我的页装饰蓝色",
+      "$light": "azure",
+      "$dark": "azure"
     }
   }
 }

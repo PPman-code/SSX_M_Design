@@ -1,6 +1,6 @@
 .button { display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2); min-width: var(--layout-touch-target); min-height: var(--component-button-height-md); padding: 10px 18px; border: 1px solid transparent; border-radius: var(--component-button-radius); font-weight: 600; font-size: var(--typography-font-size-body); line-height: 24px; transition: background var(--motion-duration-fast); }
-.button--primary { background: var(--color-mobile-action-background); color: var(--color-mobile-action-foreground); }
-.button--primary:active { background: var(--color-mobile-action-pressed); transform: translateY(1px); }
+.button--primary { background: var(--color-background-brand-bold); color: var(--color-mobile-action-foreground); }
+.button--primary:active { background: var(--color-background-brand-bold-pressed); transform: translateY(1px); }
 .button--secondary { background: var(--color-background-surface); border-color: var(--color-border); color: var(--color-text); }
 .button--secondary:active, .button--ghost:active { background: var(--color-background-neutral-selected); }
 .button--ghost { background: transparent; color: var(--color-text-subtle); }
@@ -33,4 +33,4 @@
 .phone-access p { color: var(--color-text-subtlest); font-size: 14px; line-height: 22px; }
 .preview-url { word-break: break-all; color: var(--color-text-brand-accessible); font-size: 14px; }
 .phone-access .field, .phone-access select { width: 100%; }
-@media (hover: hover) { .button--primary:hover:not(:disabled) { background: var(--color-mobile-action-hovered); } .button--secondary:hover, .button--ghost:hover { background: var(--color-background-neutral-subtle); } }
+@media (hover: hover) { .button--primary:hover:not(:disabled) { background: var(--color-background-brand-bold-hovered); } .button--secondary:hover, .button--ghost:hover { background: var(--color-background-neutral-subtle); } }

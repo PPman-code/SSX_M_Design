@@ -13,4 +13,4 @@ PC 色板、roles 完整复制；通用颜色、字体、间距、圆角、动�
 默认 Light，通过 URL 的 theme 参数切换 Dark；iframe 明确传递相同主题。示例不跨会话持久化。
 移动端新增 layout/component 和字号是 0.1.0 初始基线。继承语义不代表所有前景/背景组合自动满足对比度要求，具体组件仍需检查。
 
-移动端可读性调整：新增 color.mobile.action 与 color.mobile.status；Light 主操作采用品牌 800，Dark 主操作采用品牌 200 配深色文字；状态文字选用既有较深色阶，警告用深色文字和橙色标记。辅助文字/占位符 Light 调整至 neutral.800。物理色板保持来源快照不变。
+移动端可读性调整：主按钮背景直接复用 color.background.brand.bold 及其 hovered/pressed 状态，不维护独立移动端按钮蓝；Dark 主操作保留深色文字；状态文字选用既有较深色阶，警告用深色文字和橙色标记。辅助文字/占位符 Light 调整至 neutral.800。物理色板保持来源快照不变。

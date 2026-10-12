@@ -1,10 +1,11 @@
 import { test, expect } from '@playwright/test';
 
 for (const theme of ['light', 'dark']) {
-  test(`mobile action and status text meet contrast in ${theme}`, async ({ page }) => {
+  test(`mobile buttons use theme blue and status text meets contrast in ${theme}`, async ({ page }) => {
     await page.goto(`/#/mobile?theme=${theme}`);
     await expect(page.locator('html')).toHaveAttribute('data-color-mode', theme);
-    const ratios = await page.locator('.mobile-page .button--primary:not([disabled]), .state-pill').evaluateAll((elements) => {
+    await expect(page.getByRole('button', { name: '主要操作', exact: true })).toHaveCSS('background-color', theme === 'light' ? 'rgb(40, 120, 232)' : 'rgb(64, 158, 255)');
+    const ratios = await page.locator('.state-pill').evaluateAll((elements) => {
       function luminance(value: string) {
         const channels = value.match(/[\d.]+/g)!.slice(0, 3).map(Number).map((v) => v / 255).map((v) => v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4);
         return channels[0] * 0.2126 + channels[1] * 0.7152 + channels[2] * 0.0722;
@@ -15,7 +16,7 @@ for (const theme of ['light', 'dark']) {
         return { name: element.textContent, ratio: (high + 0.05) / (low + 0.05) };
       });
     });
-    expect(ratios.length).toBe(4);
+    expect(ratios.length).toBe(3);
     for (const result of ratios) expect(result.ratio, result.name ?? '').toBeGreaterThanOrEqual(4.5);
   });
 }

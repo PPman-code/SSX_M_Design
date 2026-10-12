@@ -29,15 +29,3 @@
   font-size: var(--component-icon-size-lg);
 }
 
-
-.airaMask {
-  mask-type: alpha;
-}
-
-.airaStart {
-  stop-color: var(--color-icon-aira-start);
-}
-
-.airaEnd {
-  stop-color: var(--color-icon-aira-end);
-}

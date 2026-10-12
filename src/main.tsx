@@ -9,4 +9,5 @@ import './styles/global.css';
 import './styles/components.css';
 import './styles/workspace.css';
 import './styles/mobile.css';
+import './styles/product.css';
 createRoot(document.getElementById('root')!).render(<StrictMode><HashRouter><App /></HashRouter></StrictMode>);

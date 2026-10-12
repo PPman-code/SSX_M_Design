@@ -1,7 +1,7 @@
 .workspace { display: flex; min-height: 100dvh; }
 .sidebar { width: 224px; flex: 0 0 224px; background: var(--color-background-surface); border-right: 1px solid var(--color-border-lighter); padding: 28px 16px 24px; display: flex; flex-direction: column; position: sticky; top: 0; height: 100dvh; }
 .brand { display: flex; gap: 10px; align-items: center; padding: 0 8px; font-size: 17px; font-weight: 600; }
-.brand-mark { display: flex; width: 36px; height: 36px; border-radius: var(--radius-lg); align-items: center; justify-content: center; background: var(--color-background-brand-bold); color: var(--color-text-inverse); font-size: 21px; }
+.brand-mark { display: block; width: 36px; height: 36px; flex: 0 0 36px; object-fit: contain; }
 .brand-sub { display: block; font-size: 9px; line-height: 14px; letter-spacing: .08em; color: var(--color-text-subtlest); }
 .sidebar-group-label { display: flex; align-items: center; justify-content: space-between; margin: 40px 12px 12px; font-size: 11px; color: var(--color-text-subtlest); }
 .nav-item { display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 10px 12px; border-radius: var(--radius-md); font-size: 14px; color: var(--color-text-subtle); margin-bottom: 6px; }
@@ -32,8 +32,14 @@
 .width-selector button[aria-pressed='true'] { background: var(--color-background-neutral-subtle); color: var(--color-text); font-weight: 600; }
 .width-selector > span { font-size: 11px; color: var(--color-text-subtlest); padding: 0 8px; }
 .device-scroll { max-width: 100%; overflow-x: auto; padding: 0 20px 8px; }
-.device-frame { width: fit-content; margin: 0 auto; padding: 6px; background: var(--color-border-bolder); border-radius: 28px; box-shadow: var(--elevation-shadow-md); }
-.device-frame iframe { display: block; height: 700px; border: 0; border-radius: 22px; background: var(--color-background-page); }
+.device-frame { position: relative; margin: 0 auto; }
+.device-frame iframe { display: block; border: 0; background: var(--color-background-page); }
+.device-frame--phone iframe { position: absolute; }
+.device-frame--plain { overflow: hidden; border-radius: var(--radius-lg); box-shadow: var(--elevation-shadow-md); }
+.device-shell { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; user-select: none; }
+.shell-selector { display: flex; padding: 3px; border: 1px solid var(--color-border-lighter); border-radius: var(--radius-lg); background: var(--color-background-surface); }
+.shell-selector button { min-height: 44px; padding: 0 12px; border: 0; border-radius: var(--radius-md); background: transparent; color: var(--color-text-subtle); font-size: 12px; }
+.shell-selector button[aria-pressed='true'] { background: var(--color-background-neutral-subtle); color: var(--color-text); font-weight: 600; }
 .preview-caption { margin-top: 12px; text-align: center; font-size: 11px; color: var(--color-text-subtlest); }
 .spec-panel { flex: 0 0 282px; display: flex; flex-direction: column; gap: 16px; }
 .spec-card { padding: 22px; border: 1px solid var(--color-border-lighter); border-radius: var(--radius-lg); background: var(--color-background-surface); }
@@ -82,3 +88,19 @@
 @media (max-width: 1200px) { .sidebar { width: 196px; flex-basis: 196px; } .workspace-content { padding: 24px; } .workspace-columns { gap: 16px; } .spec-panel { flex-basis: 240px; } .spec-card { padding: 18px; } .workspace-heading > .status-badge { display: none; } }
 @media (max-width: 1000px) { .workspace-columns { flex-direction: column; } .preview-panel { width: 100%; } .spec-panel { flex: auto; width: 100%; flex-direction: row; flex-wrap: wrap; } .spec-panel .spec-card { flex: 1 1 230px; } .work-note { width: 100%; } }
 @media (max-width: 700px) { .sidebar { display: none; } .workspace-toolbar { padding: 8px 16px; } .workspace-toolbar > span { font-size: 12px; } .toolbar-actions { gap: 0; } .toolbar-actions .button { padding: 8px 10px; font-size: 12px; } .workspace-content { padding: 24px 16px; } .workspace-heading h1 { font-size: 24px; line-height: 32px; } .workspace-heading p { font-size: 13px; } .preview-toolbar { padding: 4px 12px; } .device-frame { margin: 0 auto; } .device-scroll { padding: 0 8px 8px; } .color-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .handoff-content { padding: 28px 16px; } .handoff-content h1 { font-size: 26px; } .handoff-metrics .spec-card { flex-basis: 140px; } .component-row h3 code { display: block; } }
+.icon-library-details { margin-top: 8px; border: 1px solid var(--color-border-lighter); border-radius: var(--radius-lg); background: var(--color-background-surface); }
+.icon-library-details > summary { padding: 16px 20px; min-height: 48px; cursor: pointer; font-size: 14px; }
+.icon-library { padding: 0 20px 20px; }
+.icon-library-toolbar { display: flex; align-items: flex-end; gap: 16px; margin-bottom: 20px; }
+.icon-library-toolbar .field { flex: 1; max-width: 440px; }
+.icon-library-toolbar > span { flex-shrink: 0; padding-bottom: 12px; color: var(--color-text-subtlest); font-size: 12px; }
+.icon-gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 12px; }
+.icon-tile { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; min-height: 104px; padding: 16px 8px; border: 1px solid var(--color-border-lighter); border-radius: var(--radius-md); color: var(--color-text); }
+.icon-tile code { font-size: 10px; line-height: 16px; text-align: center; overflow-wrap: anywhere; }
+.icon-empty { padding: 24px; text-align: center; color: var(--color-text-subtlest); font-size: 14px; }
+.icon-library-details > summary:focus-visible { outline: 2px solid var(--color-border-focused); outline-offset: 2px; }
+
+.page-preview-options { display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 12px; margin: -8px 16px 16px; font-size: 12px; color: var(--color-text-subtle); }
+.page-preview-options label { display: flex; align-items: center; min-height: 44px; gap: 8px; }
+.page-preview-options span { color: var(--color-text-subtlest); }
+.page-link-button { border: 0; padding: 0; background: transparent; }

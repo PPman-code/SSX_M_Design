@@ -1,0 +1,29 @@
+.my-content { position: relative; display: flex; flex-direction: column; gap: 16px; padding: 16px; min-height: 100%; overflow: hidden; background: linear-gradient(177.189deg, var(--color-my-hero-start) 1.419%, var(--color-my-hero-end) 16.742%, var(--color-my-hero-clear) 26.689%); }
+.my-decoration { position: absolute; top: 0; pointer-events: none; }
+.my-decoration-left { left: 0; }
+.my-decoration-right { right: 0; }
+.my-profile { position: relative; display: flex; align-items: center; gap: 12px; width: 100%; padding: 16px; background: transparent; border: 0; color: var(--color-text-inverse); text-align: left; }
+.my-avatar { flex-shrink: 0; border-radius: 50%; object-fit: cover; object-position: bottom; }
+.my-identity { display: flex; flex: 1; min-width: 0; flex-direction: column; align-items: flex-start; gap: 2px; }
+.my-name { max-width: 100%; overflow-wrap: anywhere; font-size: 18px; font-weight: 600; line-height: 24px; }
+.my-role { border-radius: 999px; padding: 0 10px; background: color-mix(in srgb, var(--color-text-inverse) 20%, transparent); font-size: 13px; line-height: 24px; }
+.payment-card { position: relative; padding: 1px; border-radius: 13px; background: linear-gradient(to bottom, color-mix(in srgb, var(--color-text-inverse) 15%, transparent), var(--color-my-card-border-end)); }
+.payment-inner { display: flex; align-items: flex-start; gap: 16px; padding: 15px; border-radius: 12px; backdrop-filter: blur(10.5px); background: linear-gradient(118.803deg, color-mix(in srgb, var(--color-background-surface) 40%, transparent) 2.908%, var(--color-background-surface) 99.072%); }
+.payment-inner h2 { font-size: 14px; font-weight: 500; line-height: 20px; color: var(--color-my-secondary); text-align: center; }
+.registration-group { flex: 0 0 98px; display: flex; flex-direction: column; align-items: center; gap: 16px; }
+.payment-entry { border: 0; padding: 0; background: transparent; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; min-height: 56px; width: 100%; border-radius: 8px; color: var(--color-my-caption); font-size: 12px; line-height: 20px; }
+.payment-icon { display: flex; width: 32px; height: 32px; align-items: center; justify-content: center; }
+.payment-icon > svg { width: 32px; height: 32px; }
+.payment-divider { width: 1px; height: 88px; flex-shrink: 0; background: linear-gradient(to bottom, var(--color-my-divider-start), var(--color-my-divider-end)); }
+.collection-group { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 16px; }
+.collection-heading { display: flex; align-items: center; justify-content: center; gap: 4px; height: 20px; }
+.collection-help { position: relative; display: flex; align-items: center; justify-content: center; border: 0; padding: 0; background: transparent; width: 16px; height: 20px; }
+.collection-help::after { content: ''; position: absolute; inset: -12px -14px; }
+.collection-actions { display: flex; width: 100%; }
+.collection-actions > button { flex: 1; min-width: 0; }
+.my-menu { position: relative; overflow: hidden; border-radius: 12px; background: var(--color-background-surface); }
+.menu-cell { display: flex; align-items: center; gap: 12px; width: 100%; padding: 16px; min-height: 56px; border: 0; background: var(--color-background-surface); text-align: left; color: var(--color-my-text); }
+.menu-cell > span:not(.menu-cell-arrow) { flex: 1; min-width: 0; font-size: 16px; line-height: 24px; overflow-wrap: anywhere; }
+.menu-cell-arrow { display: flex; align-items: center; color: var(--color-my-tab-muted); }
+.menu-cell:active, .payment-entry:active { background: var(--color-background-neutral-subtle); }
+.my-entry-note { font-size: 16px; line-height: 24px; }

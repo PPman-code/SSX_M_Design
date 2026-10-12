@@ -1,0 +1,57 @@
+{
+  "fileKey": "lrjKupwY2XZhLxCijHNkr9",
+  "nodeId": "6001:2456",
+  "assets": [
+    {
+      "path": "public/pages/my/v1/decoration-right.svg",
+      "bytes": 1464,
+      "sha256": "422225e7036501ed6d5e30a3a872e86a9ce36382a050cf3036f097c6c5930aa1"
+    },
+    {
+      "path": "public/pages/my/v1/avatar.png",
+      "bytes": 18476,
+      "sha256": "a6881aed5d0d38e0b6fcb2e8796c90356024d1514f6fa5eb08963fd4477c5d0b"
+    },
+    {
+      "path": "public/pages/my/v1/decoration-left.svg",
+      "bytes": 591,
+      "sha256": "7a78f41d2318f0bbd96c3b4fa9a1fd9277c7a4745b91e7f9bf5abd17b9915cab"
+    },
+    {
+      "path": "public/preview/wechat/time.svg",
+      "bytes": 3636,
+      "sha256": "39fbf0ab491dfc75ba6bf85b0b7f4cc02e4b48034a889684b3df166ae104fa2e"
+    },
+    {
+      "path": "public/preview/wechat/close.svg",
+      "bytes": 859,
+      "sha256": "a9a4d5736fb187e41e9fd9d286efc64defc48e27043c62af696ddacf58bf66fa"
+    },
+    {
+      "path": "public/preview/wechat/more.svg",
+      "bytes": 403,
+      "sha256": "3d876291b392d252b65988efd2cc3bb554293bf6c7013814cd5a94fea63edc8c"
+    },
+    {
+      "path": "public/preview/wechat/status.svg",
+      "bytes": 2861,
+      "sha256": "f95857aaf188213a04cd3166e1f3b6d0517c734cc23dfd0808961f8411c4c303"
+    }
+  ],
+  "iconSource": "ssx-design / 5242145 / 180 glyphs",
+  "icons": [
+    "money-collect-filled",
+    "question-line",
+    "qr-code-fill",
+    "qr-scan-2-line",
+    "qrcode-line",
+    "tongue-line",
+    "schedule-line",
+    "chart-pie-2-line",
+    "bill-line",
+    "chat-1-line",
+    "home-1-fill",
+    "user-3-fill",
+    "right"
+  ]
+}

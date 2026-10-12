@@ -2,23 +2,23 @@ import { useEffect, useState } from 'react';
 import QRCode from 'qrcode';
 import { BottomSheet } from './ui/BottomSheet';
 
-export function PhoneAccess({ open, onOpenChange }: { open: boolean; onOpenChange: (open: boolean) => void }) {
+export function PhoneAccess({ open, onOpenChange, route = '/mobile' }: { open: boolean; onOpenChange: (open: boolean) => void; route?: string }) {
   const [urls, setUrls] = useState<string[] | null>(null);
   const [selected, setSelected] = useState('');
   const [qr, setQr] = useState({ url: '', image: '', failed: false });
   useEffect(() => {
     const controller = new AbortController();
     const current = new URL(window.location.href);
-    current.hash = '/mobile';
+    current.hash = route;
     const fallback = ['localhost', '127.0.0.1', '[::1]'].includes(current.hostname) ? [] : [current.href];
     if (!import.meta.env.DEV) { Promise.resolve().then(() => setUrls(fallback)); return; }
     fetch(`${import.meta.env.BASE_URL}__preview-addresses`, { signal: controller.signal })
       .then((response) => response.ok ? response.json() : Promise.reject())
-      .then((data: { urls?: string[] }) => setUrls(data.urls?.length ? data.urls.map((url) => `${url}#/mobile`) : fallback))
+      .then((data: { urls?: string[] }) => setUrls(data.urls?.length ? data.urls.map((url) => `${url}#${route}`) : fallback))
       .catch(() => { if (!controller.signal.aborted) setUrls(fallback); });
     return () => controller.abort();
-  }, []);
-  const active = selected || urls?.[0] || '';
+  }, [route]);
+  const active = selected && urls?.includes(selected) ? selected : urls?.[0] || '';
   useEffect(() => {
     if (!active) return;
     let current = true;

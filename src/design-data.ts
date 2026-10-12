@@ -6,7 +6,10 @@ export const mobileRules = [
 ] as const;
 export const componentCatalog = [
   { name: 'Button', label: '按钮', detail: '主要 / 次要 / 轻量；44 / 48 / 52px' },
-  { name: 'Icon', label: '图标', detail: '继承 w1-design 本地 SVG 图标' },
+  { name: 'Icon', label: '图标', detail: 'ssx-design · 180 个本地 SVG 图标' },
   { name: 'Toggle', label: '开关', detail: 'Base UI 行为，独立触控区域' },
   { name: 'BottomSheet', label: '底部弹层', detail: '手势关闭、焦点恢复与安全区' },
+  { name: 'MobilePage', label: '页面布局', detail: '独立滚动、安全区与可选微信外观' },
+  { name: 'MenuCell', label: '功能入口', detail: '56px 行高；本地图标与箭头' },
+  { name: 'TabBar', label: '底部导航', detail: '固定底部；页面控制当前项' },
 ] as const;

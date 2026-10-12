@@ -43,3 +43,11 @@ PC 来源及哈希见 design-system/tokens/sources/，构建不依赖 PC 项目�
 src/components/ui/ 封装基础交互；src/pages/ 放页面；业务版本遵循 design-system/page-versioning.md。
 
 初始化包含工程入口和组件示例；没有账号、权限、真实接口或业务数据。后续从第一个真实业务页面逐步建立组件与页面库。
+
+## 图标库
+
+正式使用 ssx-design / 5242145，共 180 个图标；源 ZIP 位于 design-assets/iconfont/。
+
+首个业务页面：工作区 `/#/?page=my`，手机路由 `/#/pages/my/v1`；Figma 来源、实现边界和验收范围见 docs/pages/my-v1.md。
+pnpm generate:icons 生成本地 SVG、类型与下载包；pnpm generate 同步 token 和图标。
+pnpm test:icons 验证归档和 SVG；交付页可以预览、检索与下载图标库。
