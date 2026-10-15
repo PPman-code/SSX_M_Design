@@ -1,4 +1,6 @@
 :root {
+  --color-attendance-hero-surface: var(--role-brand-600);
+  --color-attendance-hero-text: var(--role-neutral-100);
   --color-background-brand-bold: var(--role-brand-600);
   --color-background-brand-bold-hovered: var(--role-brand-400);
   --color-background-brand-bold-pressed: var(--role-brand-700);
@@ -57,6 +59,12 @@
   --color-border-warning: var(--role-warning-600);
   --color-border-warning-light: var(--role-warning-400);
   --color-border-warning-subtle: var(--role-warning-300);
+  --color-home-placeholder-blue: var(--role-brand-600);
+  --color-home-placeholder-green: var(--role-success-500);
+  --color-home-placeholder-muted: var(--role-neutral-500);
+  --color-home-placeholder-orange: var(--role-warning-600);
+  --color-home-placeholder-red: var(--role-danger-500);
+  --color-home-placeholder-yellow: var(--role-home-yellow-600);
   --color-icon: var(--role-neutral-900);
   --color-icon-aira-end: var(--role-aira-600);
   --color-icon-aira-start: var(--role-aira-100);
@@ -88,6 +96,12 @@
   --color-my-text: var(--role-profile-neutral-900);
   --color-overlay-emphasis: var(--role-overlay-alpha-45);
   --color-overlay-neutral: var(--role-overlay-alpha-16);
+  --color-popover-dark-surface: var(--role-overlay-alpha-80);
+  --color-popover-dark-text: var(--role-neutral-100);
+  --color-popover-light-surface: var(--role-neutral-100);
+  --color-popover-light-text: var(--role-neutral-900);
+  --color-popover-menu-dark-surface: var(--role-overlay-alpha-90);
+  --color-popover-menu-shadow: var(--role-shadow-alpha-20);
   --color-shadow: var(--role-shadow-alpha-8);
   --color-shadow-strong: var(--role-shadow-alpha-12);
   --color-shadow-subtle: var(--role-shadow-alpha-4);
@@ -124,10 +138,14 @@
   --color-text-warning: var(--role-warning-600);
   --color-text-warning-disabled: var(--role-warning-400);
   --color-text-warning-hovered: var(--role-warning-500);
+  --color-toast-surface: var(--role-overlay-alpha-80);
+  --color-toast-text: var(--role-neutral-100);
+  --component-button-font-size: 15px;
+  --component-button-font-weight: var(--typography-font-weight-regular);
   --component-button-height-lg: 52px;
-  --component-button-height-md: 48px;
+  --component-button-height-md: 44px;
   --component-button-height-sm: 44px;
-  --component-button-radius: var(--radius-lg);
+  --component-button-radius: var(--radius-md);
   --component-cell-min-height: 56px;
   --component-icon-size-base: 16px;
   --component-icon-size-lg: 24px;
@@ -204,6 +222,8 @@
 }
 
 :root[data-color-mode="dark"] {
+  --color-attendance-hero-surface: var(--role-brand-500);
+  --color-attendance-hero-text: var(--role-neutral-100);
   --color-background-brand-bold: var(--role-brand-200);
   --color-background-brand-bold-hovered: var(--role-brand-100);
   --color-background-brand-bold-pressed: var(--role-brand-300);
@@ -262,6 +282,12 @@
   --color-border-warning: var(--role-warning-200);
   --color-border-warning-light: var(--role-warning-100);
   --color-border-warning-subtle: var(--role-warning-500);
+  --color-home-placeholder-blue: var(--role-brand-200);
+  --color-home-placeholder-green: var(--role-success-200);
+  --color-home-placeholder-muted: var(--role-neutral-500);
+  --color-home-placeholder-orange: var(--role-warning-200);
+  --color-home-placeholder-red: var(--role-danger-200);
+  --color-home-placeholder-yellow: var(--role-home-yellow-600);
   --color-icon: var(--role-neutral-150);
   --color-icon-aira-end: var(--role-aira-600);
   --color-icon-aira-start: var(--role-aira-100);
@@ -293,6 +319,12 @@
   --color-my-text: var(--role-profile-neutral-900);
   --color-overlay-emphasis: var(--role-overlay-alpha-45);
   --color-overlay-neutral: var(--role-overlay-alpha-16);
+  --color-popover-dark-surface: var(--role-overlay-alpha-80);
+  --color-popover-dark-text: var(--role-neutral-100);
+  --color-popover-light-surface: var(--role-neutral-100);
+  --color-popover-light-text: var(--role-neutral-900);
+  --color-popover-menu-dark-surface: var(--role-overlay-alpha-90);
+  --color-popover-menu-shadow: var(--role-shadow-alpha-20);
   --color-shadow: var(--role-shadow-alpha-8);
   --color-shadow-strong: var(--role-shadow-alpha-12);
   --color-shadow-subtle: var(--role-shadow-alpha-4);
@@ -329,4 +361,6 @@
   --color-text-warning: var(--role-warning-200);
   --color-text-warning-disabled: var(--role-warning-100);
   --color-text-warning-hovered: var(--role-warning-100);
+  --color-toast-surface: var(--role-overlay-alpha-80);
+  --color-toast-text: var(--role-neutral-100);
 }

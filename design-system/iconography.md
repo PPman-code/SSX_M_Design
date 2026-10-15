@@ -5,8 +5,8 @@
 图标以用户在 Iconfont 的 ssx-design 项目上传并审核通过的最新内容为准。每次更新按该项目下载包同步；历史归档仅供追溯，不参与运行时，也不覆盖最新版本。
 
 - 图标库：ssx-design；Iconfont 项目 ID：5242145。
-- 最新包：通过已登录的 Iconfont 项目下载 download (2).zip；更新日期：2026-10-12；共 180 个图标（新增 12 个）。
-- 原始归档：design-assets/iconfont/ssx-design-5242145-2026-10-12-180.zip。
+- 最新包：通过已登录的 Iconfont 项目下载 download (1).zip；更新日期：2026-10-14；共 185 个图标（本次新增 5 个）。
+- 原始归档：design-assets/iconfont/ssx-design-5242145-2026-10-14-185.zip。
 - 运行时：public/iconfont/ssx-design.symbol.svg 与 iconfont.json。
 - 页面入口：src/components/ui/Icon/index.ts。
 

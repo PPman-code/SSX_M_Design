@@ -17,7 +17,7 @@
 .payment-divider { width: 1px; height: 88px; flex-shrink: 0; background: linear-gradient(to bottom, var(--color-my-divider-start), var(--color-my-divider-end)); }
 .collection-group { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 16px; }
 .collection-heading { display: flex; align-items: center; justify-content: center; gap: 4px; height: 20px; }
-.collection-help { position: relative; display: flex; align-items: center; justify-content: center; border: 0; padding: 0; background: transparent; width: 16px; height: 20px; }
+.collection-help { position: relative; display: flex; align-items: center; justify-content: center; border: 0; padding: 0; background: transparent; width: 16px; height: 20px; color: var(--color-my-secondary); }
 .collection-help::after { content: ''; position: absolute; inset: -12px -14px; }
 .collection-actions { display: flex; width: 100%; }
 .collection-actions > button { flex: 1; min-width: 0; }
@@ -27,3 +27,20 @@
 .menu-cell-arrow { display: flex; align-items: center; color: var(--color-my-tab-muted); }
 .menu-cell:active, .payment-entry:active { background: var(--color-background-neutral-subtle); }
 .my-entry-note { font-size: 16px; line-height: 24px; }
+.collection-instructions { display: flex; flex-direction: column; gap: 6px; text-align: justify; }
+.collection-instructions h3 { font-size: 16px; line-height: 24px; font-weight: 600; color: var(--color-text-subtle); }
+.collection-instructions p { font-size: 14px; line-height: 22px; color: var(--color-text-subtlest); }
+.info-dialog.payment-activation { width: 340px; }
+.info-dialog-viewport:has(.payment-activation) { padding-inline: 16px; }
+.payment-activation .info-dialog-content { gap: 4px; padding: 32px 16px 24px; }
+.payment-activation .info-dialog-title { line-height: 25px; }
+.payment-activation .info-dialog-description { gap: 0; }
+.activation-subtitle, .activation-feature p, .activation-footer > p { font-size: 12px; line-height: 17px; color: var(--color-text-subtlest); }
+.activation-subtitle { text-align: center; }
+.activation-features { display: flex; flex-direction: column; align-items: center; gap: 16px; padding-top: 40px; }
+.activation-feature { display: flex; align-items: center; gap: 12px; }
+.activation-feature > svg { width: 32px; height: 32px; }
+.activation-feature > div { width: 180px; }
+.activation-feature h3 { font-size: 14px; line-height: 20px; color: var(--color-text); font-weight: 600; }
+.activation-footer { display: flex; flex-direction: column; gap: 8px; padding: 16px 16px 32px; flex-shrink: 0; text-align: center; }
+.payment-activation .activation-contact { width: 100%; min-height: var(--component-button-height-md); padding: 9px 12px; border-radius: var(--component-button-radius); gap: 10px; }

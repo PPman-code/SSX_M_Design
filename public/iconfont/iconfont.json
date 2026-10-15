@@ -6,6 +6,41 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "45251194",
+      "name": "选班",
+      "font_class": "xuanban1",
+      "unicode": "e783",
+      "unicode_decimal": 59267
+    },
+    {
+      "icon_id": "45251246",
+      "name": "选课",
+      "font_class": "xuanke1",
+      "unicode": "e778",
+      "unicode_decimal": 59256
+    },
+    {
+      "icon_id": "48175787",
+      "name": "电子钱包",
+      "font_class": "dianziqianbao",
+      "unicode": "ec88",
+      "unicode_decimal": 60552
+    },
+    {
+      "icon_id": "48175788",
+      "name": "选物",
+      "font_class": "xuanwu",
+      "unicode": "ec89",
+      "unicode_decimal": 60553
+    },
+    {
+      "icon_id": "48610913",
+      "name": "储存卡",
+      "font_class": "chucunka",
+      "unicode": "edac",
+      "unicode_decimal": 60844
+    },
+    {
       "icon_id": "48673111",
       "name": "qrcode_line",
       "font_class": "qrcode-line",

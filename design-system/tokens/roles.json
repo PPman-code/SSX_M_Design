@@ -76,6 +76,11 @@
       "$label": "我的页装饰蓝色",
       "$light": "azure",
       "$dark": "azure"
+    },
+    "homeYellow": {
+      "$label": "首页黄色图标占位",
+      "$light": "gold",
+      "$dark": "gold"
     }
   }
 }
