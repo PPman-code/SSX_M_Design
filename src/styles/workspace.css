@@ -22,8 +22,7 @@
 .workspace-heading > .status-badge { margin-top: 28px; }
 .workspace-columns { display: flex; gap: 24px; align-items: flex-start; }
 .preview-panel { flex: 1; min-width: 0; border: 1px solid var(--color-border-lighter); border-radius: var(--radius-lg); background: var(--color-background-surface); overflow: hidden; }
-.preview-toolbar { display: flex; flex-wrap: wrap; gap: 4px 12px; align-items: center; justify-content: space-between; padding: 4px 20px; border-bottom: 1px solid var(--color-border-lighter); }
-.preview-title { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; }
+.preview-toolbar { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; justify-content: space-between; padding: 8px 20px; border-bottom: 1px solid var(--color-border-lighter); }
 .preview-toolbar .text-link { font-size: 12px; }
 .preview-stage { padding: 20px 0 16px; background: var(--color-background-neutral-subtlest); }
 .width-selector { display: flex; align-items: center; justify-content: center; width: fit-content; margin: 0 auto 20px; padding: 3px; border: 1px solid var(--color-border-lighter); border-radius: var(--radius-lg); background: var(--color-background-surface); }
@@ -86,7 +85,7 @@
 .provenance { padding: 24px; background: var(--color-background-surface); border: 1px solid var(--color-border-lighter); border-radius: var(--radius-lg); }
 @media (max-width: 1200px) { .sidebar { width: 196px; flex-basis: 196px; } .workspace-content { padding: 24px; } .workspace-columns { gap: 16px; } .spec-panel { flex-basis: 240px; } .spec-card { padding: 18px; } .workspace-heading > .status-badge { display: none; } }
 @media (max-width: 1000px) { .workspace-columns { flex-direction: column; } .preview-panel { width: 100%; } .spec-panel { flex: auto; width: 100%; flex-direction: row; flex-wrap: wrap; } .spec-panel .spec-card { flex: 1 1 230px; } .work-note { width: 100%; } }
-@media (max-width: 700px) { .workspace-content { padding: 24px 16px; } .workspace-heading h1 { font-size: 24px; line-height: 32px; } .workspace-heading p { font-size: 13px; } .preview-toolbar { padding: 4px 12px; } .device-frame { margin: 0 auto; } .device-scroll { padding: 0 8px 8px; } .color-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .handoff-content { padding: 28px 16px; } .handoff-content h1 { font-size: 26px; } .handoff-metrics .spec-card { flex-basis: 140px; } .component-row h3 code { display: block; } }
+@media (max-width: 700px) { .workspace-content { padding: 24px 16px; } .workspace-heading h1 { font-size: 24px; line-height: 32px; } .workspace-heading p { font-size: 13px; } .preview-toolbar { padding: 8px 12px; } .device-frame { margin: 0 auto; } .device-scroll { padding: 0 8px 8px; } .color-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .handoff-content { padding: 28px 16px; } .handoff-content h1 { font-size: 26px; } .handoff-metrics .spec-card { flex-basis: 140px; } .component-row h3 code { display: block; } }
 .icon-library-details { margin-top: 8px; border: 1px solid var(--color-border-lighter); border-radius: var(--radius-lg); background: var(--color-background-surface); }
 .icon-library-details > summary { padding: 16px 20px; min-height: 48px; cursor: pointer; font-size: 14px; }
 .icon-library { padding: 0 20px 20px; }
@@ -99,11 +98,11 @@
 .icon-empty { padding: 24px; text-align: center; color: var(--color-text-subtlest); font-size: 14px; }
 .icon-library-details > summary:focus-visible { outline: 2px solid var(--color-border-focused); outline-offset: 2px; }
 
-.preview-links { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 16px; }
+.preview-links { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 16px; margin-left: auto; }
 .preview-links > .button { padding-inline: 0; font-size: 12px; }
 .page-config-panel { flex: 0 0 264px; position: sticky; top: 24px; max-height: calc(100dvh - 48px); overflow-y: auto; border: 1px solid var(--color-border-lighter); border-radius: var(--radius-lg); background: var(--color-background-surface); }
 .workspace-config { padding: 20px; }
-.preview-settings { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 12px; padding: 0 16px 20px; }
+.preview-settings { display: flex; flex: 1 1 480px; min-width: 0; align-items: center; justify-content: flex-start; flex-wrap: wrap; gap: 8px; }
 .preview-settings .width-selector { margin: 0; }
 .preview-settings .width-selector button { min-width: 44px; }
 .config-heading { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
