@@ -6,7 +6,7 @@ import { PhoneAccess } from '../components/PhoneAccess';
 import { DevicePreview } from '../components/DevicePreview';
 import { WorkspaceConfig } from '../components/WorkspaceConfig';
 import { PreviewSettings } from '../components/PreviewSettings';
-import { businessPages } from '../page-registry';
+import { archivedBusinessPages, businessPages } from '../page-registry';
 import { Handoff } from './Handoff';
 
 export function Workspace({ mode, onToggleTheme }: { mode: 'light' | 'dark'; onToggleTheme: () => void }) {
@@ -22,9 +22,25 @@ export function Workspace({ mode, onToggleTheme }: { mode: 'light' | 'dark'; onT
   const directRoute = selectedPage ? `${selectedPage.route}?theme=${mode}${pageParams ? `&${pageParams}` : ''}` : `/mobile?theme=${mode}`;
   const iframeRoute = `${directRoute}${selectedPage && previewChrome ? '&chrome=wechat' : !selectedPage && deviceShell ? '&chrome=status' : ''}`;
   const [phoneOpen, setPhoneOpen] = useState(false);
+  const [previewLocation, setPreviewLocation] = useState<{ pathname: string; search: string } | null>(null);
+  const currentPage = previewLocation ? [...businessPages, ...archivedBusinessPages].find((page) => page.route === previewLocation.pathname) : selectedPage;
+  const currentParams = previewLocation ? new URLSearchParams(previewLocation.search) : params;
+  const currentPageName = currentPage?.id.startsWith('attendance') && currentParams.get('view') === 'detail' ? '上课明细' : currentPage?.name;
+  function updatePreviewConfig(key: 'role' | 'payment', value: string) {
+    if (currentPage?.id === selectedPage?.id && !currentParams.has('view') && !currentParams.has('from')) {
+      setParams((previous) => { const next = new URLSearchParams(previous); if (value) next.set(key, value); else next.delete(key); return next; });
+    } else {
+      document.querySelector('iframe')?.contentWindow?.postMessage({ type: 'ssx-preview-config', key, value }, window.location.origin);
+    }
+  }
   useEffect(() => {
     function onMessage(event: MessageEvent) {
-      if (event.origin !== window.location.origin || event.source !== document.querySelector('iframe')?.contentWindow || event.data?.type !== 'ssx-preview-close') return;
+      if (event.origin !== window.location.origin || event.source !== document.querySelector('iframe')?.contentWindow) return;
+      if (event.data?.type === 'ssx-preview-location' && typeof event.data.pathname === 'string' && typeof event.data.search === 'string') {
+        setPreviewLocation({ pathname: event.data.pathname, search: event.data.search });
+        return;
+      }
+      if (event.data?.type !== 'ssx-preview-close') return;
       setParams((previous) => { const next = new URLSearchParams(previous); next.delete('page'); return next; });
     }
     window.addEventListener('message', onMessage);
@@ -52,7 +68,7 @@ export function Workspace({ mode, onToggleTheme }: { mode: 'light' | 'dark'; onT
               <p className="preview-caption">真实页面 · 可点击交互 · 支持手机访问</p>
             </div>
           </section>
-          {selectedPage && <aside className="page-config-panel" aria-label="当前页面配置"><WorkspaceConfig key={selectedPage.id} pageId={selectedPage.id} pageName={`${selectedPage.name} · ${selectedPage.version}`} paymentEnabled={paymentEnabled} onPaymentChange={(enabled) => setParams((previous) => { if (enabled) previous.set('payment', 'enabled'); else previous.delete('payment'); return previous; })} role={role} onRoleChange={(next) => setParams((previous) => { if (next && next !== 'headmaster') previous.set('role', next); else previous.delete('role'); return previous; })} /></aside>}
+          {selectedPage && currentPage && <aside className="page-config-panel" aria-label="当前页面配置"><WorkspaceConfig key={currentPage.id} pageId={currentPage.id} pageName={`${currentPageName} · ${currentPage.version}`} paymentEnabled={currentParams.get('payment') === 'enabled'} onPaymentChange={(enabled) => updatePreviewConfig('payment', enabled ? 'enabled' : '')} role={currentParams.get('role') ?? ''} onRoleChange={(next) => updatePreviewConfig('role', next && next !== 'headmaster' ? next : '')} /></aside>}
         </div>
       </main>
       {handoff && <Handoff mode={mode} />}

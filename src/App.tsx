@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Link, Route, Routes, useSearchParams } from 'react-router-dom';
+import { Link, Route, Routes, useLocation, useSearchParams } from 'react-router-dom';
 import { Workspace } from './pages/Workspace';
 import { MobilePreview } from './pages/MobilePreview';
 import { MyPage } from './pages/my/v1/MyPage';
@@ -9,6 +9,27 @@ import { AttendancePage } from './pages/attendance/v1/AttendancePage';
 
 export function App() {
   const [params, setParams] = useSearchParams();
+  const location = useLocation();
+  useEffect(() => {
+    if (window.parent === window) return;
+    window.parent.postMessage({ type: 'ssx-preview-location', pathname: location.pathname, search: location.search }, window.location.origin);
+  }, [location.pathname, location.search]);
+  useEffect(() => {
+    if (window.parent === window) return;
+    function onPreviewConfig(event: MessageEvent) {
+      if (event.origin !== window.location.origin || event.source !== window.parent || event.data?.type !== 'ssx-preview-config') return;
+      const { key, value } = event.data;
+      if (key !== 'role' && key !== 'payment') return;
+      if (typeof value !== 'string' || (key === 'role' && !['', 'headmaster', 'teacher', 'manager', 'principal'].includes(value)) || (key === 'payment' && !['', 'enabled'].includes(value))) return;
+      setParams((previous) => {
+        const next = new URLSearchParams(previous);
+        if (value) next.set(key, value); else next.delete(key);
+        return next;
+      }, { replace: true });
+    }
+    window.addEventListener('message', onPreviewConfig);
+    return () => window.removeEventListener('message', onPreviewConfig);
+  }, [setParams]);
   const mode = params.get('theme') === 'dark' ? 'dark' : 'light';
   useEffect(() => { document.documentElement.dataset.colorMode = mode; }, [mode]);
   const onToggleTheme = () => setParams((previous) => { previous.set('theme', mode === 'light' ? 'dark' : 'light'); return previous; }, { replace: true });
