@@ -29,5 +29,5 @@ export default defineConfig({
   base: './',
   plugins: [react(), previewAddresses()],
   server: { port: 5178, strictPort: true },
-  build: { sourcemap: true },
+  build: { sourcemap: false },
 });

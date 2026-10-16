@@ -3,6 +3,8 @@ dist/
 test-results/
 playwright-report/
 .DS_Store
+.workbuddy/
+.workbuddy-ai/
 *.local
 .env*
 !.env.example
