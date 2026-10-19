@@ -50,7 +50,7 @@ export function HomePage() {
       <div className="home-grid">{items.map(([label, tone]) => <button type="button" key={label} className="home-entry" onClick={() => open(label)}>{label === '出勤率' ? <img className="home-feature-icon" src={`${import.meta.env.BASE_URL}pages/home/v1/attendance.png`} width="32" height="32" alt="" /> : <Placeholder tone={tone} />}<span>{label}</span></button>)}</div>
     </section>;
   }
-  return <MobilePage title="黄老师-校管家" previewChrome={previewChrome} className="home-page" footer={<ProductTabBar active="home" />}>
+  return <MobilePage title="黄老师-校管家" previewChrome={previewChrome} previewHistory={false} className="home-page" footer={<ProductTabBar active="home" />}>
     <div className="home-role"><span>当前身份：</span><button ref={roleRef} type="button" onClick={() => setRoleOpen(true)}>{roleLabels[role]}<Icon name="caret-down" size="xs" /></button></div>
     <button type="button" className="home-announcement" onClick={() => showToast({ message: '2020年春节放假通知 · 示例公告' })}><Icon name="notification" size="sm" /><span>2020年春节放假通知</span><Icon name="right" size="sm" /></button>
     <div className="home-content">

@@ -13,8 +13,7 @@ test('phone component preview shows status above navigation and plain preview om
     await expect.poll(() => img.evaluate((node) => (node as HTMLImageElement).naturalWidth)).toBeGreaterThan(0);
   }
   await page.screenshot({ path: 'test-results/component-status-shell.png' });
-  await page.getByRole('button', { name: '无外壳', exact: true }).click();
-  await expect(frame.locator('.component-preview-status')).toHaveCount(0);
+  await expect(page.getByRole('link', { name: '独立打开', exact: true })).toHaveAttribute('href', '#/mobile?theme=light');
   await page.goto('/#/mobile?theme=light');
   await expect(page.locator('.component-preview-status')).toHaveCount(0);
 });

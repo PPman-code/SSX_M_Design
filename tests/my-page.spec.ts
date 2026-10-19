@@ -155,14 +155,15 @@ test('workspace selects my v1 and shares its product route without simulated sys
   await page.goto('/#/');
   await page.goto('/#/?page=my&theme=light');
   await expect(page.locator('iframe')).toHaveAttribute('src', './#/pages/my/v1?theme=light&chrome=wechat');
-  await page.getByLabel('微信外观预览', { exact: true }).uncheck();
-  await expect(page.frameLocator('iframe').locator('.preview-chrome')).toHaveCount(0);
+  await expect(page.getByLabel('微信外观预览', { exact: true })).toHaveCount(0);
+  await expect(page.getByRole('group', { name: '预览外壳', exact: true })).toHaveCount(0);
+  await expect(page.getByRole('link', { name: '独立打开', exact: true })).toHaveAttribute('href', '#/pages/my/v1?theme=light');
   await page.getByRole('button', { name: '手机预览', exact: true }).click();
   await expect(page.getByRole('link', { name: 'http://192.168.1.8:5178/#/pages/my/v1?theme=light' })).toBeVisible();
   await expect(page.getByRole('img', { name: '手机预览二维码' })).toBeVisible();
 });
 
-test('phone shell preserves viewport width, interaction and the plain preview option', async ({ page }) => {
+test('phone shell preserves viewport width and interaction while direct pages omit it', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 1200 });
   await page.goto('/#/?page=my&theme=light');
   const frame = page.frameLocator('iframe');
@@ -177,8 +178,8 @@ test('phone shell preserves viewport width, interaction and the plain preview op
   await page.locator('.device-frame').screenshot({ path: 'test-results/phone-shell-my.png', animations: 'disabled' });
   await page.getByRole('button', { name: '430', exact: true }).click();
   expect(await frame.locator('body').evaluate(() => innerWidth)).toBe(430);
-  await page.getByRole('button', { name: '无外壳', exact: true }).click();
-  await expect(page.locator('.device-shell')).toHaveCount(0);
-  expect(await frame.locator('body').evaluate(() => innerWidth)).toBe(430);
-  await expect(frame.getByRole('navigation', { name: '主导航' })).toBeVisible();
+  await expect(page.locator('.device-shell')).toBeVisible();
+  await page.goto('/#/pages/my/v1?theme=light');
+  await expect(page.locator('.device-shell, .preview-chrome')).toHaveCount(0);
+  await expect(page.getByRole('navigation', { name: '主导航' })).toBeVisible();
 });

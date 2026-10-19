@@ -2,7 +2,7 @@
 
 ## 首个业务页面组件
 
-MobilePage 接收 title、children、footer 和 previewChrome；真实页面使用浏览器安全区，内容独立滚动，footer 不遮挡内容。previewChrome 仅用于对照 Figma，不提供真实微信容器功能。MenuCell 接收本地 IconName、label、onClick，保持 56px 行高与 24px 图标。TabBar 接收 items、active、onSelect，不自动改变路由。
+MobilePage 接收 title、children、footer、previewChrome 和 previewHistory（默认 true）；真实页面使用浏览器安全区，内容独立滚动，footer 不遮挡内容。previewChrome 仅用于对照 Figma，不提供真实微信容器功能。MenuCell 接收本地 IconName、label、onClick，保持 56px 行高与 24px 图标。TabBar 接收 items、active、onSelect，不自动改变路由。
 
 ## Button
 主按钮统一使用 color.background.brand.bold（Light #2878E8 / Dark #409EFF），不提供 hover 状态，按下复用同一语义族的 pressed，不自行换成更深品牌色阶。
@@ -64,7 +64,7 @@ RadioGroup 接收 label、value、onChange、children，以及 name/disabled/rea
 
 
 ## 微信预览外壳
-WechatPreviewHeader 显示时间状态栏、关闭按钮、title、当前域名及更多图标；关闭图标保留外观，实际操作为应用内返回；没有历史时返回首页并保留 theme/role/chrome，不退出项目预览。WechatPreviewHistory 显示本次预览路由的后退/前进，首次打开时隐藏，出现历史后按可用方向启用。PreviewHistoryProvider 在路由根部记录本应用 history key；报表明细使用 view=detail/group 路由参数以支持浏览历史。两者仅由 MobilePage 的 previewChrome 启用；手机链接不含 chrome=wechat，业务页面不重复绘制微信导航。更多仅为外观占位，不模拟微信原生菜单能力。
+WechatPreviewHeader 显示时间状态栏、关闭按钮、title、当前域名及更多图标；关闭图标保留外观，实际操作为应用内返回；没有历史时返回首页并保留 theme/role/chrome，不退出项目预览。WechatPreviewHistory 显示本次预览路由的后退/前进，首次打开时隐藏，出现历史后按可用方向启用；首页和「我的」显式设置 previewHistory=false，即使已有历史也不显示底部前进/后退栏，保留透明 Home 指示条。PreviewHistoryProvider 在路由根部记录本应用 history key；报表明细使用 view=detail/group 路由参数以支持浏览历史。两者仅由 MobilePage 的 previewChrome 启用；手机链接不含 chrome=wechat，业务页面不重复绘制微信导航。更多仅为外观占位，不模拟微信原生菜单能力。
 
 ## Collapse / CollapseItem
 封装 Base UI Accordion，参考 Arco component/item 44:1825。基础标题 16px/400/22px、左右 16px、上下 16px，内容 14px/20px、12px 内边距；触控至少 44px。列表式分隔、卡片式 8px 圆角及 12px 组间距。

@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
-import { Link, Route, Routes, useLocation, useSearchParams } from 'react-router-dom';
+import { Link, Route, Routes, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
+import { archivedBusinessPages, businessPages } from './page-registry';
 import { Workspace } from './pages/Workspace';
 import { MobilePreview } from './pages/MobilePreview';
 import { MyPage } from './pages/my/v1/MyPage';
@@ -10,6 +11,7 @@ import { AttendancePage } from './pages/attendance/v1/AttendancePage';
 export function App() {
   const [params, setParams] = useSearchParams();
   const location = useLocation();
+  const navigate = useNavigate();
   useEffect(() => {
     if (window.parent === window) return;
     window.parent.postMessage({ type: 'ssx-preview-location', pathname: location.pathname, search: location.search }, window.location.origin);
@@ -17,10 +19,18 @@ export function App() {
   useEffect(() => {
     if (window.parent === window) return;
     function onPreviewConfig(event: MessageEvent) {
-      if (event.origin !== window.location.origin || event.source !== window.parent || event.data?.type !== 'ssx-preview-config') return;
+      if (event.origin !== window.location.origin || event.source !== window.parent) return;
+      if (event.data?.type === 'ssx-preview-version') {
+        const pages = [...businessPages, ...archivedBusinessPages];
+        const current = pages.find((page) => page.route === location.pathname);
+        const target = pages.find((page) => page.route === event.data.route);
+        if (current && target && current.name === target.name) navigate({ pathname: target.route, search: location.search }, { replace: true });
+        return;
+      }
+      if (event.data?.type !== 'ssx-preview-config') return;
       const { key, value } = event.data;
-      if (key !== 'role' && key !== 'payment') return;
-      if (typeof value !== 'string' || (key === 'role' && !['', 'headmaster', 'teacher', 'manager', 'principal'].includes(value)) || (key === 'payment' && !['', 'enabled'].includes(value))) return;
+      if (key !== 'payment') return;
+      if (typeof value !== 'string' || (key === 'payment' && !['', 'enabled'].includes(value))) return;
       setParams((previous) => {
         const next = new URLSearchParams(previous);
         if (value) next.set(key, value); else next.delete(key);
@@ -29,7 +39,7 @@ export function App() {
     }
     window.addEventListener('message', onPreviewConfig);
     return () => window.removeEventListener('message', onPreviewConfig);
-  }, [setParams]);
+  }, [setParams, navigate, location.pathname, location.search]);
   const mode = params.get('theme') === 'dark' ? 'dark' : 'light';
   useEffect(() => { document.documentElement.dataset.colorMode = mode; }, [mode]);
   const onToggleTheme = () => setParams((previous) => { previous.set('theme', mode === 'light' ? 'dark' : 'light'); return previous; }, { replace: true });

@@ -47,11 +47,11 @@ for (const width of [360, 375, 390, 430]) {
 test('only v2 is active while v1 remains available for archive review', async ({ page }) => {
   await page.goto('/#/?page=attendance&role=teacher&theme=light');
   await expect(page.locator('iframe')).toHaveAttribute('src', './#/pages/attendance/v2?theme=light&role=teacher&chrome=wechat');
-  await expect(page.getByRole('combobox', { name: '页面版本', exact: true })).toHaveCount(0);
-  await expect(page.getByLabel('当前身份')).toHaveValue('teacher');
+  await expect(page.getByRole('combobox', { name: '页面版本', exact: true })).toHaveValue('/pages/attendance/v2');
+  await expect(page.getByLabel('当前身份')).toHaveCount(0);
   await page.goto('/#/handoff?theme=light');
   await expect(page.getByRole('heading', { name: '出勤率报表 · v1', exact: true })).toHaveCount(0);
-  await expect(page.getByRole('heading', { name: '出勤率报表 · v2', exact: true })).toBeVisible();
+  await expect(page.getByRole('heading', { name: '出勤率报表 · 1.1', exact: true })).toBeVisible();
   await page.goto('/#/pages/attendance/v1?theme=light');
   await expect(page.locator('.att-overview')).toBeVisible();
 });

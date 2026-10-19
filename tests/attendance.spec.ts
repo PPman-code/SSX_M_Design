@@ -130,12 +130,11 @@ test('my page omits the duplicate attendance entry', async ({ page }) => {
   await page.screenshot({ path: 'test-results/my-without-attendance.png' });
 });
 
-test('workspace can switch the simulated attendance role', async ({ page }) => {
+test('workspace preserves the requested role without exposing role configuration', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 1100 });
-  await page.goto('/#/?page=attendance&theme=light');
+  await page.goto('/#/?page=attendance&theme=light&role=teacher');
   const config = page.getByRole('region', { name: '页面配置', exact: true });
-  await expect(config.getByLabel('当前身份')).toBeVisible();
-  await config.getByLabel('当前身份').selectOption('teacher');
+  await expect(config.getByLabel('当前身份')).toHaveCount(0);
   await expect(page.locator('iframe')).toHaveAttribute('src', './#/pages/attendance/v2?theme=light&role=teacher&chrome=wechat');
   const frame = page.frameLocator('iframe');
   await expect(frame.locator('.att-header')).toHaveCount(0);
@@ -194,8 +193,8 @@ test('wechat shell supports history back and forward through report and details'
   await page.getByRole('button', { name: '微信后退' }).click();
   await page.getByRole('button', { name: '微信后退' }).click();
   await expect(page).toHaveURL(/pages\/home\/v1/);
-  await expect(page.getByRole('button', { name: '微信后退' })).toBeDisabled();
-  await expect(page.getByRole('button', { name: '微信前进' })).toBeEnabled();
+  await expect(page.getByRole('navigation', { name: '微信浏览导航' })).toHaveCount(0);
+  await expect(page.locator('.preview-home-indicator')).toHaveCSS('background-color', 'rgba(0, 0, 0, 0)');
 });
 
 test('only class and course summaries use the updated Iconfont icons', async ({ page }) => {

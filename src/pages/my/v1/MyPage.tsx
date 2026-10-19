@@ -30,7 +30,7 @@ export function MyPage() {
     return <button type="button" className="payment-entry" aria-haspopup="dialog" onClick={(event) => { paymentTriggerRef.current = event.currentTarget; if (paymentEnabled) setEntry(label); else setActivationOpen(true); }}><span className="payment-icon"><Icon name={icon} size="lg" /></span><span>{label}</span></button>;
   }
   return <>
-    <MobilePage title="我的" previewChrome={previewChrome} className="my-page" footer={<ProductTabBar active="my" />}>
+    <MobilePage title="我的" previewChrome={previewChrome} previewHistory={false} className="my-page" footer={<ProductTabBar active="my" />}>
       <div className="my-content">
         <img className="my-decoration my-decoration-left" src={`${assets}decoration-left.svg`} width="244" height="150" alt="" />
         <img className="my-decoration my-decoration-right" src={`${assets}decoration-right.svg`} width="160" height="109" alt="" />

@@ -8,7 +8,7 @@ export const businessPages = [{
   description: '个人信息、报名收款及常用功能入口。',
   figmaUrl: 'https://www.figma.com/design/lrjKupwY2XZhLxCijHNkr9/?node-id=6001-2456',
 }, {
-  id: 'attendance-v2', name: '出勤率报表', version: 'v2', status: '设计草稿', route: '/pages/attendance/v2',
+  id: 'attendance-v2', name: '出勤率报表', version: '1.1', status: '设计草稿', route: '/pages/attendance/v2',
   audience: '班主任 / 老师 / 学管师',
   description: '复制自 v1 的独立版本，包含汇总报表、筛选与课次明细。',
   figmaUrl: '',
@@ -16,7 +16,7 @@ export const businessPages = [{
 
 /** Historical versions retained for direct-route review, omitted from active navigation. */
 export const archivedBusinessPages = [{
-  id: 'attendance', name: '出勤率报表', version: 'v1', status: '历史留存', route: '/pages/attendance/v1',
+  id: 'attendance', name: '出勤率报表', version: '1.0', status: '历史留存', route: '/pages/attendance/v1',
   audience: '班主任 / 老师 / 学管师',
   description: '按维度汇总出勤率，支持下钻课次明细。',
   figmaUrl: '',

@@ -92,7 +92,6 @@ test('handoff switches within the workspace shell and preserves preview settings
   await page.setViewportSize({ width: 1440, height: 1100 });
   await page.goto('/#/?theme=dark');
   await page.getByRole('button', { name: '430', exact: true }).click();
-  await page.getByRole('button', { name: '无外壳', exact: true }).click();
   const nav = page.getByRole('navigation', { name: '工作区导航' });
   await nav.getByRole('link', { name: '设计规范与交付', exact: true }).click();
   await expect(nav).toBeVisible();
@@ -104,7 +103,7 @@ test('handoff switches within the workspace shell and preserves preview settings
   await nav.getByRole('link', { name: /组件预览/ }).click();
   await expect(page.getByRole('region', { name: '页面预览' })).toBeVisible();
   await expect(page.getByRole('button', { name: '430', exact: true })).toHaveAttribute('aria-pressed', 'true');
-  await expect(page.getByRole('button', { name: '无外壳', exact: true })).toHaveAttribute('aria-pressed', 'true');
+  await expect(page.locator('.device-shell')).toBeVisible();
   await expect(page.frameLocator('iframe').locator('html')).toHaveAttribute('data-color-mode', 'dark');
 });
 

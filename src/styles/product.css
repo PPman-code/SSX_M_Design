@@ -4,7 +4,7 @@
 .product-tabbar button { border: 0; background: transparent; display: flex; flex-direction: column; align-items: center; justify-content: center; flex: 1; min-width: 0; min-height: 50px; padding: 6px 0; color: var(--color-my-tab-muted); gap: 0; }
 .product-tabbar button span { font-size: 10px; line-height: 14px; }
 .product-tabbar button.selected { color: var(--color-my-tab-selected); font-weight: 500; }
-.with-preview-chrome { padding-top: 0; }
+.with-preview-chrome { position: relative; padding-top: 0; }
 .with-preview-chrome .product-tabbar { padding-bottom: 0; }
 .preview-chrome { flex-shrink: 0; background: var(--color-my-chrome); color: var(--color-my-text); }
 .preview-system-status { height: 44px; display: flex; align-items: center; justify-content: space-between; padding: 0 14px 0 32px; }
@@ -22,6 +22,10 @@
 .preview-history button { display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; border: 0; background: transparent; color: var(--color-my-text); }
 .preview-history button:disabled { color: var(--color-text-disabled); cursor: default; }
 .with-preview-chrome .preview-home-indicator { background: var(--color-my-chrome); }
+/* Without browser history, the Home indicator overlays the product's own bottom surface. */
+.with-preview-chrome:not(:has(.preview-history)) .preview-home-indicator { position: absolute; left: 0; right: 0; bottom: 0; background: transparent; pointer-events: none; }
+.with-preview-chrome:not(:has(.preview-history)) .product-tabbar { padding-bottom: 34px; }
+.with-preview-chrome:not(:has(.preview-history)):not(:has(.product-tabbar)) .product-scroll > :first-child { padding-bottom: max(34px, env(safe-area-inset-bottom)); }
 [data-color-mode="dark"] .preview-system-status img { filter: invert(1); }
 
 /* Simulated WeChat bars are outside the product web content. */
