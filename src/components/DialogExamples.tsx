@@ -19,7 +19,7 @@ export function DialogExamples() {
   return <section className="demo-section" aria-labelledby="dialog-demo-title">
     <div className="section-heading"><h2 id="dialog-demo-title">对话框</h2><span>提示 · 确认 · 多操作</span></div>
     <div className="demo-card stack">
-      {(Object.keys(labels) as Mode[]).map(item => <Button key={item} variant="secondary" onClick={event => { trigger.current = event.currentTarget; setMode(item); }}>{labels[item]}</Button>)}
+      {(Object.keys(labels) as Mode[]).map(item => <Button key={item} variant="soft" onClick={event => { trigger.current = event.currentTarget; setMode(item); }}>{labels[item]}</Button>)}
       <p className="sheet-demo-caption" role="status">对话框结果：{result}</p>
     </div>
     <Dialog open={mode !== null} onOpenChange={open => { if (!open) setMode(null); }} title={titles[mode ?? 'notice']} actions={actions} variant={variant} finalFocus={trigger}>

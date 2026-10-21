@@ -5,8 +5,8 @@
 图标以用户在 Iconfont 的 ssx-design 项目上传并审核通过的最新内容为准。每次更新按该项目下载包同步；历史归档仅供追溯，不参与运行时，也不覆盖最新版本。
 
 - 图标库：ssx-design；Iconfont 项目 ID：5242145。
-- 最新包：通过已登录的 Iconfont 项目下载 download (1).zip；更新日期：2026-10-14；共 185 个图标（本次新增 5 个）。
-- 原始归档：design-assets/iconfont/ssx-design-5242145-2026-10-14-185.zip。
+- 最新包：通过已登录的 Iconfont 项目下载 download (3).zip；更新日期：2026-10-21；共 186 个图标（新增组件勾选 zujiangouxuan，更新 check / close）。
+- 当前原始归档：design-assets/iconfont/ssx-design-5242145-2026-10-21-186.zip；旧归档保留供追溯。
 - 运行时：public/iconfont/ssx-design.symbol.svg 与 iconfont.json。
 - 页面入口：src/components/ui/Icon/index.ts。
 
@@ -32,3 +32,20 @@ pnpm check:generated 检查生成物同步；pnpm test:icons 检查归档、名�
 ## 品牌 Logo
 
 左上角仍复用 PC 项目的 public/brand/wone-logo.png，独立复制，36 × 36px，保留原色和比例。品牌 Logo 与 UI 图标分开管理。
+
+## 用户指定的组件勾叉补充（2026-10-20）
+
+用户明确要求采用 [Arco 581:10712](https://www.figma.com/design/507mHwo2qlL72kbftlM9Qi/Arco-Design-Mobile-Components--Community-?node-id=581-10712) 的组件专用勾叉，作为本次任务范围内的来源补充，不替换现有 Iconfont 包，不引入另一套运行时图标库。
+
+- 原始 SVG 本地保存于 public/icons/selection/check.svg、close.svg，均为 16 × 16px；保持文件路径数据、viewBox 及图形比例。
+- 仍通过本地 Icon 公开 API 调用，名称 selection-check / selection-close；用原始 SVG 的 alpha 遮罩着色，颜色来自调用组件 currentColor（--color-*），不用源稿固定白色。
+- 两枚补充图标不写入生成的 iconNames / ssx-design Symbol 或 Iconfont 下载包，不冒充 Iconfont 项目中的正式图标；来源记录见同目录 README。
+- 普通 Checkbox 勾和三种尺寸 Toggle 状态勾叉使用 16px；卡片角标保留其既有 14px / 12px 槽位。其他图标调用不变。
+
+2026-10-21 单元格装饰图标统一为 md=18px：覆盖 Cell、Input 字段、折叠标题及 MenuCell 的前置/尾部/状态/说明/箭头槽。头像与嵌入的选择/开关控件保持独立尺寸；图形大小不改变布局热区或行高。
+
+## Loading 渐变图标（2026-10-21 用户提供）
+
+Icon loading 覆盖为用户提供的 loading-blue.svg / loading-white.svg 渐变圆环。原稿在 public/icons/loading 原样保留；ring-mask.svg 采用原稿 clipPath 的 16×16 圆环轮廓，CSS 按原稿 from 90deg 绘制 transparent → currentColor 角度渐变，颜色跟随组件 --color-* 语义映射。运行适配使用行内 SVG，源 SVG 的 foreignObject 结构保留供溯源。不得退回旧 ssx-design loading 或 CSS border spinner；不改生成物。
+
+已覆盖 Loading/下拉刷新、Toast、Button/Dialog 动作和 Toggle 的标准环形加载；各调用方保持原有 18px 按钮、开关随尺寸变化的图标及 24/28/32px Loading、24/32px Toast。三点与显式自定义图形仍按自身类型展示。Light/Dark 与减少动效均需检查，真机/WebView 渲染另验收。

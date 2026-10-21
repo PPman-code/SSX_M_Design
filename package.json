@@ -17,7 +17,7 @@
     "check": "pnpm check:generated && pnpm typecheck && pnpm lint",
     "build": "pnpm generate && tsc --noEmit && vite build",
     "preview": "vite preview --host 0.0.0.0 --port 5178 --strictPort",
-    "test:e2e": "playwright test",
+    "test:e2e": "node scripts/pre-e2e.mjs && playwright test",
     "generate:icons": "node scripts/generate-iconfont.mjs",
     "generate": "pnpm generate:tokens && pnpm generate:icons",
     "test:icons": "node --test scripts/iconfont-tools.test.mjs"

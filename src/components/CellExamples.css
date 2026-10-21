@@ -1,0 +1,3 @@
+.cell-examples > h3 { margin: 24px 0 12px; color: var(--color-text-subtle); font-size: var(--typography-font-size-secondary); line-height: var(--typography-line-height-secondary); font-weight: 400; }
+.cell-examples > h3:first-of-type { margin-top: 0; }
+.cell-example-block { margin-inline: -16px; }

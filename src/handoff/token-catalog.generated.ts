@@ -1367,6 +1367,15 @@ export const semanticColorCatalog = [
     darkResolved: '#00000033',
   },
   {
+    name: 'color.search.placeholder',
+    cssVariable: '--color-search-placeholder',
+    description: '搜索框占位文字、搜索及清除图标；随主题使用黑/白透明中性色，不改变通用输入占位色。',
+    lightReference: '{role.neutralAlpha.25}',
+    darkReference: '{role.neutralAlpha.30}',
+    lightResolved: '#00000040',
+    darkResolved: '#FFFFFF4D',
+  },
+  {
     name: 'color.shadow',
     cssVariable: '--color-shadow',
     description: '默认组合阴影颜色',
@@ -1613,9 +1622,9 @@ export const semanticColorCatalog = [
     name: 'color.text.placeholder',
     cssVariable: '--color-text-placeholder',
     description: '占位提示文字',
-    lightReference: '{role.neutral.800}',
+    lightReference: '{role.neutral.650}',
     darkReference: '{role.neutral.350}',
-    lightResolved: '#606266',
+    lightResolved: '#A8ABB2',
     darkResolved: '#8D9095',
   },
   {
@@ -1630,10 +1639,10 @@ export const semanticColorCatalog = [
   {
     name: 'color.text.subtlest',
     cssVariable: '--color-text-subtlest',
-    description: '最低强调辅助文字',
-    lightReference: '{role.neutral.800}',
+    description: '最低强调辅助文字，用于卡片指标标签、电话号码、日期补充说明',
+    lightReference: '{role.neutral.700}',
     darkReference: '{role.neutral.250}',
-    lightResolved: '#606266',
+    lightResolved: '#909399',
     darkResolved: '#A3A6AD',
   },
   {

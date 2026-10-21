@@ -1,11 +1,17 @@
 import { useState } from 'react';
+import { Checkbox } from './ui/Checkbox';
 import { Radio, RadioGroup } from './ui/Radio';
 
 export function RadioExamples() {
   const [selection, setSelection] = useState('a');
   const [dot, setDot] = useState('a');
   return <section aria-labelledby="radios-title" className="demo-section">
-    <div className="section-heading"><h2 id="radios-title">单选</h2><span>20px · 44px 触控区</span></div>
+    <div className="section-heading"><h2 id="radios-title">单选</h2><span>20px · 40px 触控区</span></div>
+    <div className="demo-card selection-size-comparison" role="group" aria-label="单选与多选圆形尺寸对照">
+      <div><RadioGroup label="单选尺寸对照组" value="on" readOnly><Radio value="on" label="单选尺寸对照" hideLabel /></RadioGroup><span>单选</span></div>
+      <div><Checkbox label="多选尺寸对照" checked readOnly hideLabel /><span>多选</span></div>
+      <small>20px 占位 · 18px 圆形外径</small>
+    </div>
     <div className="demo-card radio-examples">
       <RadioGroup label="基础单选示例" name="check-demo" value={selection} onChange={setSelection}>
         <Radio value="a" label="选项一" /><Radio value="b" label="选项二" /><Radio value="c" label="禁用未选中" disabled />

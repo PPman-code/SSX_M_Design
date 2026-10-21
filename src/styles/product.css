@@ -25,8 +25,45 @@
 /* Without browser history, the Home indicator overlays the product's own bottom surface. */
 .with-preview-chrome:not(:has(.preview-history)) .preview-home-indicator { position: absolute; left: 0; right: 0; bottom: 0; background: transparent; pointer-events: none; }
 .with-preview-chrome:not(:has(.preview-history)) .product-tabbar { padding-bottom: 34px; }
-.with-preview-chrome:not(:has(.preview-history)):not(:has(.product-tabbar)) .product-scroll > :first-child { padding-bottom: max(34px, env(safe-area-inset-bottom)); }
+.with-preview-chrome:not(:has(.preview-history)):not(:has(.product-tabbar)) .product-scroll > :first-child:not(.pull-refresh-accessible),
+.with-preview-chrome:not(:has(.preview-history)):not(:has(.product-tabbar)) .product-scroll > .pull-refresh + * { padding-bottom: max(34px, env(safe-area-inset-bottom)); }
 [data-color-mode="dark"] .preview-system-status img { filter: invert(1); }
+
+/* Bottom action area — shared geometry, no component yet.
+   Buttons are 40px (--component-button-height-md); a single-row bar is 56px (8 + 40 + 8).
+   The safe area and the simulated WeChat home indicator are added on top of that, so they never eat into the 56px.
+   Variants: .product-footer--row lays children out horizontally; .product-footer-actions is the button grid
+   (two columns by default, --single / --triple for other counts). */
+.product-footer, .sheet-footer, .prospect-footer {
+  --footer-padding-inline: 12px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: calc(var(--component-button-height-md) + 16px);
+  padding: 8px var(--footer-padding-inline) calc(8px + env(safe-area-inset-bottom));
+  background: var(--color-background-surface);
+  box-shadow: inset 0 1px var(--color-border-lighter);
+}
+.sheet-footer { --footer-padding-inline: 16px; }
+.product-footer--row { flex-direction: row; align-items: center; }
+.product-footer-actions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.product-footer-actions--single { grid-template-columns: minmax(0, 1fr); }
+.product-footer-actions--triple { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.with-preview-chrome:not(:has(.preview-history)) .product-footer { padding-bottom: calc(8px + max(34px, env(safe-area-inset-bottom))); }
+
+/* Sort sheet rows — shared geometry, no component yet.
+   One row per sort key: label on the left, direction arrow glued to the label (4px), selected check at the row end.
+   Row height 48px is the value the user settled on 2026-10-21 (was 54px); both pages change together. */
+.student-sort-options, .prospect-sort-options { display: flex; flex-direction: column; }
+.student-sort-options button, .prospect-sort-options button {
+  display: flex; justify-content: space-between; align-items: center; width: 100%; min-height: 48px; padding: 0;
+  border: 0; border-bottom: 1px solid var(--color-border-lighter); background: transparent;
+  color: var(--color-text); font-size: var(--typography-font-size-regular);
+}
+.student-sort-options button[aria-pressed='true'], .prospect-sort-options button[aria-pressed='true'] { color: var(--color-text-brand-accessible); }
+.student-sort-options button > span:first-child, .prospect-sort-options button > span:first-child { display: inline-flex; align-items: center; gap: 4px; }
+.student-sort-hint, .prospect-sort-hint { color: var(--color-text-subtlest); font-size: var(--typography-font-size-caption); padding-top: 12px; }
 
 /* Simulated WeChat bars are outside the product web content. */
 html:has(.with-preview-chrome) { --preview-overlay-top: 98px; --preview-overlay-bottom: 34px; }

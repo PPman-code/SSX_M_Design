@@ -77,6 +77,6 @@ test('short filtered report fills its scroll viewport without a background gap',
   await sheet.getByRole('button', { name, exact: true }).click();
   await sheet.getByRole('button', { name: '确认', exact: true }).click();
   await expect(page.locator('.att-summary')).toHaveCount(1);
-  expect(await page.locator('.product-scroll').evaluate(el => el.firstElementChild!.getBoundingClientRect().height >= el.clientHeight)).toBe(true);
+  expect(await page.locator('.product-scroll').evaluate(el => el.querySelector('.att-body--report')!.getBoundingClientRect().height >= el.clientHeight)).toBe(true);
   await page.screenshot({ path: 'test-results/attendance-short-background.png' });
 });

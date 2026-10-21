@@ -1,3 +1,4 @@
+import { simulateRefresh } from '../../../preview/simulateRefresh';
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { ProductTabBar } from '../../../components/ProductTabBar';
@@ -38,7 +39,13 @@ export function HomePage() {
   useEffect(() => { const previous = document.title; document.title = '黄老师-校管家'; return () => { document.title = previous; }; }, []);
   const roleRef = useRef<HTMLButtonElement>(null);
   function open(label: string) {
-    if (label === '出勤率') {
+    if (label === '学员管理') {
+      const next = new URLSearchParams(params); next.set('from', 'home');
+      navigate(`/pages/students/v1?${next}`);
+    } else if (label === '意向学员') {
+      const next = new URLSearchParams(params); next.set('from', 'home');
+      navigate(`/pages/prospective-students/v1?${next}`);
+    } else if (label === '出勤率') {
       const next = new URLSearchParams(params);
       next.set('role', role); next.set('from', 'home');
       navigate(`/pages/attendance/v2?${next}`);
@@ -46,11 +53,11 @@ export function HomePage() {
   }
   function grid(title: string, items: readonly [string, Tone][], more = false) {
     return <section className="home-card" aria-label={title}>
-      <div className="home-card-heading"><h2>{title}</h2>{more && <button className="home-more" aria-label={`更多${title}`} onClick={() => open(title)}><Icon name="right" size="sm" /></button>}</div>
+      <div className="home-card-heading"><h2>{title}</h2>{more && <button className="home-more touch-target" aria-label={`更多${title}`} onClick={() => open(title)}><Icon name="right" size="sm" /></button>}</div>
       <div className="home-grid">{items.map(([label, tone]) => <button type="button" key={label} className="home-entry" onClick={() => open(label)}>{label === '出勤率' ? <img className="home-feature-icon" src={`${import.meta.env.BASE_URL}pages/home/v1/attendance.png`} width="32" height="32" alt="" /> : <Placeholder tone={tone} />}<span>{label}</span></button>)}</div>
     </section>;
   }
-  return <MobilePage title="黄老师-校管家" previewChrome={previewChrome} previewHistory={false} className="home-page" footer={<ProductTabBar active="home" />}>
+  return <MobilePage onRefresh={simulateRefresh} refreshSuccessText="模拟刷新完成" title="黄老师-校管家" previewChrome={previewChrome} previewHistory={false} className="home-page" footer={<ProductTabBar active="home" />}>
     <div className="home-role"><span>当前身份：</span><button ref={roleRef} type="button" onClick={() => setRoleOpen(true)}>{roleLabels[role]}<Icon name="caret-down" size="xs" /></button></div>
     <button type="button" className="home-announcement" onClick={() => showToast({ message: '2020年春节放假通知 · 示例公告' })}><Icon name="notification" size="sm" /><span>2020年春节放假通知</span><Icon name="right" size="sm" /></button>
     <div className="home-content">

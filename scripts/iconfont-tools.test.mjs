@@ -1,14 +1,15 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
+import { iconfontArchiveName } from './generate-iconfont.mjs';
 import { buildSprite, readIconfontArchive, buildIconNameModule } from './iconfont-tools.mjs';
 
-const archive = new URL('../design-assets/iconfont/ssx-design-5242145-2026-10-14-185.zip', import.meta.url);
-test('uploaded SSX archive imports all 185 symbols and normalizes uppercase names', () => {
+const archive = new URL(`../${iconfontArchiveName}`, import.meta.url);
+test('uploaded SSX archive imports all 186 symbols and normalizes uppercase names', () => {
   const { metadata, symbolSource } = readIconfontArchive(archive);
-  assert.equal(metadata.glyphs.length, 185);
-  for (const name of ['export', 'launch', 'fire', 'qrcode-line', 'money-collect-filled', 'chat-1-line', 'xuanban1', 'xuanke1']) assert.ok(metadata.glyphs.some((g) => g.font_class === name));
+  assert.equal(metadata.glyphs.length, 186);
+  for (const name of ['export', 'launch', 'fire', 'qrcode-line', 'money-collect-filled', 'chat-1-line', 'xuanban1', 'xuanke1', 'zujiangouxuan']) assert.ok(metadata.glyphs.some((g) => g.font_class === name));
   const sprite = buildSprite(symbolSource, metadata);
-  assert.equal([...sprite.matchAll(/<symbol\b/g)].length, 185);
+  assert.equal([...sprite.matchAll(/<symbol\b/g)].length, 186);
   assert.ok(sprite.includes('id="SSX-export"'));
   assert.ok(sprite.includes('fill="currentColor"'));
   assert.ok(!sprite.includes('#4E5969'));

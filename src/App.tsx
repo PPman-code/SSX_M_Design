@@ -1,6 +1,8 @@
 import { useEffect } from 'react';
 import { Link, Route, Routes, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { archivedBusinessPages, businessPages } from './page-registry';
+import { StudentPage } from './pages/students/v1/StudentPage';
+import { CustomerPage } from './pages/prospective-students/v1/CustomerPage';
 import { Workspace } from './pages/Workspace';
 import { MobilePreview } from './pages/MobilePreview';
 import { MyPage } from './pages/my/v1/MyPage';
@@ -45,6 +47,8 @@ export function App() {
   const onToggleTheme = () => setParams((previous) => { previous.set('theme', mode === 'light' ? 'dark' : 'light'); return previous; }, { replace: true });
   return <Routes>
     <Route path="/" element={<Workspace mode={mode} onToggleTheme={onToggleTheme} />} />
+    <Route path="/pages/students/v1" element={<StudentPage />} />
+    <Route path="/pages/prospective-students/v1" element={<CustomerPage />} />
     <Route path="/pages/home/v1" element={<HomePage />} />
     <Route path="/pages/my/v1" element={<MyPage />} />
     <Route path="/pages/attendance/v2" element={<AttendancePageV2 />} />

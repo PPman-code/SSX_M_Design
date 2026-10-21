@@ -20,7 +20,7 @@ export function WheelPickerExamples() {
   return <section className="demo-section" aria-labelledby="wheel-demo-title">
     <div className="section-heading"><h2 id="wheel-demo-title">滚轮选择器</h2><span>单列 · 多列 · 联动</span></div>
     <div className="demo-card stack">
-      {(['single', 'time', 'linked'] as const).map(item => <Button key={item} variant="secondary" onClick={event => { trigger.current = event.currentTarget; setDraft([...values[item]]); setMode(item); setOpen(true); }}>{labels[item]}</Button>)}
+      {(['single', 'time', 'linked'] as const).map(item => <Button key={item} variant="soft" onClick={event => { trigger.current = event.currentTarget; setDraft([...values[item]]); setMode(item); setOpen(true); }}>{labels[item]}</Button>)}
       <p className="sheet-demo-caption">已选时长：{values.single.join('')}</p>
       <p className="sheet-demo-caption">已选时间：{values.time.join(' ')}</p>
       <p className="sheet-demo-caption">已选地区：{values.linked.join(' / ')}</p>

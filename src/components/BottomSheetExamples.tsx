@@ -19,7 +19,7 @@ export function BottomSheetExamples() {
   return <section className="demo-section" aria-labelledby="sheet-demo-title">
     <div className="section-heading"><h2 id="sheet-demo-title">弹出层</h2><span>统一外壳 · 固定操作区</span></div>
     <div className="demo-card stack">
-      {(['basic', 'selection', 'instant', 'multiple', 'filter', 'long'] as const).map(value => <Button key={value} variant="secondary" onClick={event => { trigger.current = event.currentTarget; setDraft(selected); setMultipleDraft(multiple); setFilterDraft(filters); setMode(value); }}>{labels[value]}</Button>)}
+      {(['basic', 'selection', 'instant', 'multiple', 'filter', 'long'] as const).map(value => <Button key={value} variant="soft" onClick={event => { trigger.current = event.currentTarget; setDraft(selected); setMultipleDraft(multiple); setFilterDraft(filters); setMode(value); }}>{labels[value]}</Button>)}
       <p className="sheet-demo-caption">当前选择：{selected}</p><p className="sheet-demo-caption">多选结果：{multiple.join('、') || '无'}</p>
     </div>
     <BottomSheet open={mode !== null} onOpenChange={open => { if (!open) setMode(null); }} title={title} finalFocus={trigger}

@@ -34,7 +34,7 @@ test('desktop workspace switches real iframe width and synchronizes theme', asyn
   await page.screenshot({ path: 'test-results/workspace-dark.png', fullPage: true });
   await page.getByRole('button', { name: '切换到浅色' }).click();
   await expect(page.frameLocator('iframe').locator('html')).toHaveAttribute('data-color-mode', 'light');
-  await expect(page.frameLocator('iframe').getByRole('button', { name: '次要操作' })).toHaveCSS('background-color', 'rgb(255, 255, 255)');
+  await expect(page.frameLocator('iframe').getByRole('button', { name: '次要操作' })).toHaveCSS('background-color', 'rgb(236, 245, 255)');
   await page.screenshot({ path: 'test-results/workspace-light.png', fullPage: true });
 });
 

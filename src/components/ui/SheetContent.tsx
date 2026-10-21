@@ -55,7 +55,7 @@ export function SheetChoiceGroup({ label, options, value, onToggle, hint, error 
 type Action = { label: string; onClick: () => void; disabled?: boolean };
 export function SheetActions({ primary, secondary }: { primary: Action; secondary?: Action }) {
   return <div className={`sheet-actions ${secondary ? '' : 'sheet-actions--single'}`}>
-    {secondary && <Button variant="secondary" disabled={secondary.disabled} onClick={secondary.onClick}>{secondary.label}</Button>}
+    {secondary && <Button variant="soft" disabled={secondary.disabled} onClick={secondary.onClick}>{secondary.label}</Button>}
     <Button disabled={primary.disabled} onClick={primary.onClick}>{primary.label}</Button>
   </div>;
 }

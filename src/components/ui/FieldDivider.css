@@ -1,0 +1,4 @@
+/* Shared by text fields and selection/information cells; outside the layout flow. */
+.field-divider { position: relative; }
+.field-divider::after { content: ''; position: absolute; left: 16px; right: 16px; bottom: 0; height: 1px; background: var(--color-border-lighter); pointer-events: none; }
+.cell-group > .field-divider:last-child::after { content: none; }

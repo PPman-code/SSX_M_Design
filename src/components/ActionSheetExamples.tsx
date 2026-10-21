@@ -16,7 +16,7 @@ export function ActionSheetExamples() {
   return <section className="demo-section" aria-labelledby="action-sheet-demo-title">
     <div className="section-heading"><h2 id="action-sheet-demo-title">动作面板</h2><span>操作即执行 · 独立取消</span></div>
     <div className="demo-card stack">
-      {(Object.keys(labels) as Mode[]).map(item => <Button key={item} variant="secondary" onClick={event => { trigger.current = event.currentTarget; setMode(item); }}>{labels[item]}</Button>)}
+      {(Object.keys(labels) as Mode[]).map(item => <Button key={item} variant="soft" onClick={event => { trigger.current = event.currentTarget; setMode(item); }}>{labels[item]}</Button>)}
       <p className="sheet-demo-caption" role="status">动作结果：{result}</p>
     </div>
     <ActionSheet open={mode !== null} onOpenChange={open => { if (!open) setMode(null); }} title={labels[mode ?? 'basic']} description={mode === 'description' ? '请选择要执行的操作' : undefined} actions={actions} finalFocus={trigger} />

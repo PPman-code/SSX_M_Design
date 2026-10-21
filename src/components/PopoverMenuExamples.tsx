@@ -13,14 +13,14 @@ export function PopoverMenuExamples() {
     <div className="section-heading"><h2 id="popover-menu-demo-title">气泡菜单</h2><span>深 / 浅 · 图标 · 红点</span></div>
     <div className="demo-card stack">
       <div className="popover-example-grid">
-        <PopoverMenu label="深色操作菜单" actions={actions.slice(0, 2)} trigger={<Button variant="secondary">深色菜单</Button>} />
-        <PopoverMenu label="浅色操作菜单" appearance="light" actions={actions} trigger={<Button variant="secondary">浅色菜单</Button>} />
-        <PopoverMenu label="图标操作菜单" appearance="light" actions={icons} trigger={<Button variant="secondary">带图标菜单</Button>} />
-        <PopoverMenu label="深色图标操作菜单" actions={icons} trigger={<Button variant="secondary">深色图标菜单</Button>} />
-        <PopoverMenu label="浅色消息菜单" appearance="light" actions={messages} trigger={<Button variant="secondary">浅色状态菜单</Button>} />
-        <PopoverMenu label="消息操作菜单" actions={messages} trigger={<Button variant="secondary">红点与禁用菜单</Button>} />
+        <PopoverMenu label="深色操作菜单" actions={actions.slice(0, 2)} trigger={<Button variant="soft">深色菜单</Button>} />
+        <PopoverMenu label="浅色操作菜单" appearance="light" actions={actions} trigger={<Button variant="soft">浅色菜单</Button>} />
+        <PopoverMenu label="图标操作菜单" appearance="light" actions={icons} trigger={<Button variant="soft">带图标菜单</Button>} />
+        <PopoverMenu label="深色图标操作菜单" actions={icons} trigger={<Button variant="soft">深色图标菜单</Button>} />
+        <PopoverMenu label="浅色消息菜单" appearance="light" actions={messages} trigger={<Button variant="soft">浅色状态菜单</Button>} />
+        <PopoverMenu label="消息操作菜单" actions={messages} trigger={<Button variant="soft">红点与禁用菜单</Button>} />
       </div>
-      <div className="popover-example-grid">{placements.map(item => <PopoverMenu key={item.value} label={`${item.label}菜单`} placement={item.value} actions={actions.slice(0, 2)} trigger={<Button variant="secondary" size="sm">{item.label}菜单</Button>} />)}</div>
+      <div className="popover-example-grid">{placements.map(item => <PopoverMenu key={item.value} label={`${item.label}菜单`} placement={item.value} actions={actions.slice(0, 2)} trigger={<Button variant="soft" size="sm">{item.label}菜单</Button>} />)}</div>
       <p className="sheet-demo-caption" role="status">菜单结果：{result}</p>
     </div>
   </section>;

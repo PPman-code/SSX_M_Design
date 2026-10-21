@@ -1,3 +1,5 @@
+import { AttendancePeriodFields } from '../shared/AttendancePeriodFields';
+import { simulateRefresh } from '../../../preview/simulateRefresh';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Collapse, CollapseItem } from '../../../components/ui/Collapse';
@@ -7,6 +9,7 @@ import { Button } from '../../../components/ui/Button';
 import { Icon } from '../../../components/ui/Icon';
 import { SheetActions, SheetChoiceGroup, SheetSelectionList } from '../../../components/ui/SheetContent';
 import { Popover } from '../../../components/ui/Popover';
+import { Search } from '../../../components/ui/Search';
 import {
   buildLessons, computeStats, defaultFilters, dimensionNames, dimensions, filterLabels, formatNumber,
   groupRecords, percent, periodLabel, rangeFor, roleLabels, scopeRecords, todayISO,
@@ -17,7 +20,6 @@ import './attendance-page.css';
 const teacherName = '用户名称';
 const groupPageSize = 4;
 const detailPageSize = 6;
-const shortcuts: Exclude<Period, '自定义'>[] = ['本月', '上月', '最近30天'];
 const searchableDimensions: Dimension[] = ['班级名称', '课程名称'];
 
 const scopeCopy: Record<AttendanceRole, string> = {
@@ -42,7 +44,7 @@ function AttendanceDetailTable({ stats, lesson = false }: { stats: Stats; lesson
       </tbody>
     </table>
     <div className="att-v2-detail-rate">{!lesson && <span className="att-v2-report-trial">试听 {formatNumber(stats.trial)}</span>}<span className="att-v2-rate-label">{lesson ? '补课后出勤率' : `缺勤率 ${percent(stats.abs + stats.absFree, stats.people)}`}{lesson && <Popover appearance="dark" placement="top-start"
-      trigger={<Button variant="text" icon="question-circle" iconOnly className="att-v2-rate-info" aria-label="查看补课后出勤率规则" />}
+      trigger={<Button variant="text" icon="question-circle" iconOnly className="att-v2-rate-info touch-target" aria-label="查看补课后出勤率规则" />}
       content={<div className="att-v2-rate-explanation"><p>补课后出勤率：将符合统计规则的“缺勤已补”计入后的出勤率。</p><p>“缺勤已补”指原记录缺勤、后续补课已出勤的人次，属于缺勤中的一部分，不能与缺勤相加作为总人次。</p><p>计费／未计费是否参与计算、试听等学员是否纳入，以及补课计入原缺勤课程还是补课课程，均以当前生效的统计规则为准。</p></div>} />}</span>{lesson && <span>{percent(stats.att + stats.attFree + stats.make + stats.makeFree, stats.people)}</span>}</div>
   </div>;
 }
@@ -55,8 +57,8 @@ export function AttendancePage() {
   const role: AttendanceRole = roleParam && Object.hasOwn(roleLabels, roleParam) ? roleParam as AttendanceRole : 'headmaster';
 
   const today = useState(todayISO)[0];
-  const [period, setPeriod] = useState<Period>('最近30天');
-  const [[start, end], setSpan] = useState<[string, string]>(() => rangeFor('最近30天', today));
+  const [period, setPeriod] = useState<Period>('本月');
+  const [[start, end], setSpan] = useState<[string, string]>(() => rangeFor('本月', today));
   const [dimension, setDimension] = useState<Dimension>('班级名称');
   const [values, setValues] = useState<string[] | null>(null);
   const [filters, setFilters] = useState<AttendanceFilters>(defaultFilters);
@@ -71,7 +73,9 @@ export function AttendancePage() {
   const [valueOpen, setValueOpen] = useState(false);
   const [dimensionOpen, setDimensionOpen] = useState(false);
   const [dateDraft, setDateDraft] = useState<[string, string]>([start, end]);
+  const [periodDraft, setPeriodDraft] = useState<Period>(period);
   const [dateError, setDateError] = useState(false);
+  const [dateResetKey, setDateResetKey] = useState(0);
   const [filterDraft, setFilterDraft] = useState<AttendanceFilters>(defaultFilters);
   const [roleError, setRoleError] = useState(false);
   const [valueDraft, setValueDraft] = useState<string[] | null>(null);
@@ -128,20 +132,18 @@ export function AttendancePage() {
     });
   }
 
+  function resetDate() {
+    setPeriodDraft('本月');
+    setDateDraft(rangeFor('本月', today));
+    setDateError(false);
+    setDateResetKey(key => key + 1);
+  }
+
   function applyDate() {
     if (!dateDraft[0] || !dateDraft[1] || dateDraft[0] > dateDraft[1]) { setDateError(true); return; }
     setDateError(false);
     setSpan(dateDraft);
-    setPeriod('自定义');
-    setDateOpen(false);
-    setGroupLimit(groupPageSize);
-    setExpanded(null);
-  }
-
-  function pickShortcut(name: Exclude<Period, '自定义'>) {
-    setPeriod(name);
-    setSpan(rangeFor(name, today));
-    setDateDraft(rangeFor(name, today));
+    setPeriod(periodDraft);
     setDateOpen(false);
     setGroupLimit(groupPageSize);
     setExpanded(null);
@@ -183,16 +185,16 @@ export function AttendancePage() {
   const noAccess = role === 'principal';
 
   const title = view === 'detail' ? '上课明细' : '出勤率报表';
-  return <MobilePage title={title} previewChrome={previewChrome} className="attendance-page-v2">
+  return <MobilePage onRefresh={simulateRefresh} refreshSuccessText="模拟刷新完成" title={title} previewChrome={previewChrome} className="attendance-page-v2">
     {view === 'report' ? <div className="att-v2-body att-v2-body--report" aria-label="出勤统计">
       <img className="att-v2-report-decoration" src={`${import.meta.env.BASE_URL}pages/attendance/v2/report-decoration.svg`} width="247.776" height="247.776" alt="" />
 
       <div className="att-v2-toolbar">
-        <Button ref={dateRef} variant="secondary" className="att-v2-date" onClick={() => { setDateDraft([start, end]); setDateError(false); setDateOpen(true); }}>
+        <Button ref={dateRef} variant="soft" className="att-v2-date" onClick={() => { setDateDraft([start, end]); setPeriodDraft(period); setDateError(false); setDateOpen(true); }}>
           <span className="att-v2-date-label">{spanLabel}</span><Icon name="down" size="sm" />
         </Button>
         <span className="att-v2-filter-wrap">
-          <Button ref={filterRef} variant="secondary" icon="settings" iconOnly aria-label="筛选条件" onClick={() => { setFilterDraft(filters); setRoleError(false); setFilterOpen(true); }} />
+          <Button ref={filterRef} variant="soft" icon="settings" iconOnly aria-label="筛选条件" onClick={() => { setFilterDraft(filters); setRoleError(false); setFilterOpen(true); }} />
           {filteredChanges && <span className="att-v2-filter-mark" aria-hidden="true" />}
         </span>
       </div>
@@ -200,7 +202,7 @@ export function AttendancePage() {
       {noAccess ? <div className="att-v2-empty">校长身份暂无出勤率报表数据</div> : <>
         <section className="att-v2-overview" aria-label="整体概览">
           <div className="att-v2-overview-heading"><strong>整体概览</strong>
-            <Popover appearance="dark" placement="bottom-end" trigger={<Button variant="text" icon="question-circle" iconOnly className="att-v2-scope-trigger" aria-label="查看统计范围说明" />} content={<div className="att-v2-scope"><p>{scopeCopy[role]}</p></div>} />
+            <Popover appearance="dark" placement="bottom-end" trigger={<Button variant="text" icon="question-circle" iconOnly className="att-v2-scope-trigger touch-target" aria-label="查看统计范围说明" />} content={<div className="att-v2-scope"><p>{scopeCopy[role]}</p></div>} />
           </div>
           <div className="att-v2-rates">
             <div><span>出勤率</span><b>{trimPercent(percent(overview.att + overview.attFree, overview.people))}{overview.people ? <em>%</em> : null}</b></div>
@@ -282,14 +284,9 @@ export function AttendancePage() {
         onChange={value => { changeDimension(value as Dimension); setDimensionOpen(false); }} onReselect={() => setDimensionOpen(false)} />
     </BottomSheet>
 
-    <BottomSheet open={dateOpen} onOpenChange={setDateOpen} title="统计时段" finalFocus={dateRef} footer={<SheetActions primary={{ label: '确认', onClick: applyDate }} />}>
-      <div className="att-v2-shortcuts">
-        {shortcuts.map((name) => <Button key={name} variant="soft" onClick={() => pickShortcut(name)}>{name}</Button>)}
-      </div>
-      <div className="att-v2-date-fields">
-        <label>开始日期<input type="date" value={dateDraft[0]} onChange={(event) => setDateDraft([event.target.value, dateDraft[1]])} /></label>
-        <label>结束日期<input type="date" value={dateDraft[1]} onChange={(event) => setDateDraft([dateDraft[0], event.target.value])} /></label>
-      </div>
+    <BottomSheet open={dateOpen} onOpenChange={setDateOpen} title="统计时段" finalFocus={dateRef} footer={<SheetActions secondary={{ label: '重置', onClick: resetDate }} primary={{ label: '确认', onClick: applyDate }} />}>
+      <AttendancePeriodFields key={dateResetKey} today={today} period={periodDraft} value={dateDraft}
+        onChange={(nextPeriod, nextRange) => { setPeriodDraft(nextPeriod); setDateDraft(nextRange); setDateError(false); }} />
       {dateError && <p className="att-v2-error" role="alert">请选择有效的起止日期</p>}
     </BottomSheet>
 
@@ -301,7 +298,7 @@ export function AttendancePage() {
     </BottomSheet>
 
     <BottomSheet open={valueOpen} onOpenChange={setValueOpen} title={`选择${dimension}（可多选）`} finalFocus={valueRef} footer={<SheetActions secondary={{ label: '取消', onClick: () => setValueOpen(false) }} primary={{ label: '确认', onClick: applyValues }} />}>
-      {searchableDimensions.includes(dimension) && <input className="att-v2-search" type="search" value={valueKeyword} placeholder={`搜索${dimension}`} aria-label={`搜索${dimension}`} onChange={(event) => setValueKeyword(event.target.value)} />}
+      {searchableDimensions.includes(dimension) && <Search className="att-v2-sheet-search" label={`搜索${dimension}`} placeholder={`搜索${dimension}`} clearLabel={`清除${dimension}搜索`} value={valueKeyword} onValueChange={setValueKeyword} />}
       <SheetSelectionList multiple label={`选择${dimension}`} value={valueDraft ?? ['__all__']}
         options={[{ value: '__all__', label: '全部' }, ...groups.filter(group => group.name.toLowerCase().includes(valueKeyword.trim().toLowerCase())).map(group => ({ value: group.name, label: group.name }))]}
         onToggle={value => {

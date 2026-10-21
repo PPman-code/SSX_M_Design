@@ -1,0 +1,19 @@
+.ssx-loading { --loading-size: 24px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; max-width: 100%; vertical-align: middle; font-size: var(--typography-font-size-caption); line-height: var(--typography-line-height-caption); color: var(--color-icon-brand); }
+.ssx-loading--md { --loading-size: 28px; font-size: var(--typography-font-size-secondary); line-height: var(--typography-line-height-secondary); }
+.ssx-loading--lg { --loading-size: 32px; gap: 8px; font-size: var(--typography-font-size-body); line-height: var(--typography-line-height-body); }
+.ssx-loading--vertical { flex-direction: column; gap: 6px; }
+.ssx-loading--subtle { color: var(--color-icon-subtle); }
+.ssx-loading--inherit { color: inherit; }
+.ssx-loading-graphic { display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; width: var(--loading-size); height: var(--loading-size); }
+.ssx-loading .ssx-loading-spinner { width: var(--loading-size); height: var(--loading-size); animation: ssx-loading-spin .8s linear infinite; }
+.ssx-loading-text { min-width: 0; color: var(--color-text-subtle); overflow-wrap: anywhere; }
+.ssx-loading--inherit .ssx-loading-text { color: inherit; }
+.ssx-loading-dots { display: flex; align-items: center; gap: calc(var(--loading-size) / 3); }
+.ssx-loading-dots i { display: block; flex-shrink: 0; width: calc(var(--loading-size) / 3); height: calc(var(--loading-size) / 3); border-radius: var(--radius-full); background: currentColor; animation: ssx-loading-pulse 1.2s ease-in-out infinite; }
+.ssx-loading-dots i:nth-child(2) { animation-delay: .2s; }
+.ssx-loading-dots i:nth-child(3) { animation-delay: .4s; }
+.ssx-loading-graphic:has(.ssx-loading-dots) { width: calc(var(--loading-size) * 5 / 3); }
+.ssx-loading-retry { position: relative; flex-shrink: 0; padding: 0; border: 0; background: transparent; color: var(--color-text-brand-accessible); font: inherit; }
+@keyframes ssx-loading-spin { to { transform: rotate(360deg); } }
+@keyframes ssx-loading-pulse { 0%, 80%, 100% { opacity: .25; } 40% { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .ssx-loading .ssx-loading-spinner, .ssx-loading-dots i { animation: none; } }

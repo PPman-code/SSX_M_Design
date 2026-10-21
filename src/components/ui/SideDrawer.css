@@ -1,0 +1,6 @@
+.sheet-viewport.side-drawer-viewport { justify-content: flex-end; align-items: stretch; }
+.sheet.side-drawer { width: min(88%, 420px); height: 100%; max-height: 100%; border-radius: 0; transform: translateX(var(--drawer-swipe-movement-x, 0px)); }
+.sheet.side-drawer[data-starting-style], .sheet.side-drawer[data-ending-style] { transform: translateX(100%); }
+.side-drawer-heading { display: flex; align-items: center; justify-content: space-between; padding: 8px 12px 8px 16px; }
+.side-drawer-heading h2 { font-size: 17px; font-weight: 500; }
+.side-drawer .sheet-content { padding: 0; }

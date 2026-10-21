@@ -9,9 +9,9 @@ test('shared selection content preserves immediate and draft selection modes', a
   await expect(sheet.locator('.sheet-heading h2')).toHaveCSS('font-size', '16px');
   await expect(sheet.locator('.sheet-close-icon')).toHaveCSS('width', '18px');
   await expect(sheet.locator('.sheet-close-icon')).toHaveCSS('height', '18px');
-  const closeBox = await sheet.getByRole('button', { name: '关闭弹层' }).boundingBox();
-  expect(closeBox!.width).toBeGreaterThanOrEqual(44);
-  expect(closeBox!.height).toBeGreaterThanOrEqual(44);
+  const close = sheet.getByRole('button', { name: '关闭弹层' });
+  await expect(close).toHaveCSS('width', '40px');
+  await expect(close).toHaveCSS('height', '40px');
   await expect(sheet.locator('.sheet-footer')).toHaveCount(0);
   await sheet.getByRole('radio', { name: '宽松' }).click();
   await expect(sheet).toBeHidden();

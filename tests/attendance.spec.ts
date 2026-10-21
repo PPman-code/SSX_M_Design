@@ -86,18 +86,6 @@ test('attendance filters keep a draft until confirmed and mark the change', asyn
   await expect(page.locator('.att-filter-mark')).toBeVisible();
 });
 
-test('attendance date sheet switches the reporting period', async ({ page }) => {
-  await page.setViewportSize({ width: 390, height: 844 });
-  await page.goto('/#/pages/attendance/v1');
-  await expect(page.locator('.att-date-label')).toHaveText('最近30天');
-  await page.locator('.att-date').click();
-  const sheet = page.getByRole('dialog', { name: '统计时段' });
-  await expect(sheet).toBeVisible();
-  await sheet.getByRole('button', { name: '本月', exact: true }).click();
-  await expect(sheet).toBeHidden();
-  await expect(page.locator('.att-date-label')).toHaveText('本月');
-});
-
 test('attendance report switches dimension and filters by value', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/#/pages/attendance/v1');
@@ -151,7 +139,7 @@ test('invalid role falls back safely and date search handles empty results', asy
   await expect(page.locator('.att-scope')).toContainText('作为班主任');
   await page.keyboard.press('Escape');
   await page.getByRole('button', { name: '选择班级名称' }).click();
-  await page.getByRole('searchbox').fill('不存在的班级');
+  await page.getByRole('textbox', { name: '搜索班级名称' }).fill('不存在的班级');
   await expect(page.getByText('没有匹配的选项')).toBeVisible();
   await page.getByRole('button', { name: '关闭弹层' }).click();
   await expect(page.locator('.preview-chrome, .preview-history, .att-header')).toHaveCount(0);

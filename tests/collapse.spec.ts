@@ -7,9 +7,22 @@ for (const mode of ['light', 'dark']) {
     const first = group.getByRole('button', { name: '基础折叠标题', exact: true });
     const second = group.getByRole('button', { name: '带图标与说明', exact: true });
     await expect(first).toHaveAttribute('aria-expanded', 'false');
+    for (const item of await group.getByRole('button').all()) {
+      await expect(item).toHaveCSS('height', '56px');
+      const total = await item.evaluate(el => el.closest('.collapse-item')!.getBoundingClientRect().height);
+      expect(total).toBe(56);
+    }
+    await expect(first).toHaveCSS('line-height', '24px');
+    for (const icon of await group.locator('svg').all()) {
+      await expect(icon).toHaveCSS('width', '18px');
+      await expect(icon).toHaveCSS('height', '18px');
+    }
+    await expect(page.getByLabel('基础输入', { exact: true }).locator('xpath=ancestor::div[contains(@class,"field-divider")]')).toHaveCSS('height', '56px');
+    await expect(page.getByRole('group', { name: '单元格示例', exact: true }).locator('.base-cell').first()).toHaveCSS('height', '56px');
     await first.focus();
     await page.keyboard.press('Enter');
     await expect(first).toHaveAttribute('aria-expanded', 'true');
+    await expect(first).toHaveCSS('height', '56px');
     const panelId = await first.getAttribute('aria-controls');
     await expect(page.locator(`[id="${panelId}"]`)).toBeVisible();
     await group.getByRole('button', { name: '面板内操作' }).click();
@@ -29,6 +42,7 @@ for (const mode of ['light', 'dark']) {
     await expect(card.locator('.collapse-summary')).toBeVisible();
     await expect(card.locator('.collapse-panel')).toHaveCount(0);
     const cardTrigger = card.getByRole('button');
+    await expect(cardTrigger).toHaveCSS('height', '56px');
     await cardTrigger.click();
     await expect(card.locator('.collapse-panel')).toBeVisible();
     await expect(card.locator('.collapse-summary')).toBeVisible();

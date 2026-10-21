@@ -1,30 +1,71 @@
 # 组件规范
 
+## 单元格尺寸口径（2026-10-21 用户确认）
+
+所有单元格标注高度均包含分隔线：输入、选择、普通信息行、单选/多选行统一按最终外框测量。56px 行加 1px 下划线后总高仍为 56px，不能变为 57px；48px、40px 同理。边框用 border-box 计入高度，或将线绝对定位在单元格内部 bottom:0；不得增加额外的分隔线兄弟节点占据行间高度。末行隐藏分隔线时也不能改变行高。多行内容自然增高，但分隔线依然计入最终高度。
+
 ## 首个业务页面组件
 
-MobilePage 接收 title、children、footer、previewChrome 和 previewHistory（默认 true）；真实页面使用浏览器安全区，内容独立滚动，footer 不遮挡内容。previewChrome 仅用于对照 Figma，不提供真实微信容器功能。MenuCell 接收本地 IconName、label、onClick，保持 56px 行高与 24px 图标。TabBar 接收 items、active、onSelect，不自动改变路由。
+MobilePage 接收 title、children、footer、previewChrome 和 previewHistory（默认 true）；真实页面使用浏览器安全区，内容独立滚动，footer 不遮挡内容。previewChrome 仅用于对照 Figma，不提供真实微信容器功能。MenuCell 接收本地 IconName、label、onClick，保持 56px 行高与 18px 图标。TabBar 接收 items、active、onSelect，不自动改变路由。
 
 ## Button
 主按钮统一使用 color.background.brand.bold（Light #2878E8 / Dark #409EFF），不提供 hover 状态，按下复用同一语义族的 pressed，不自行换成更深品牌色阶。
-variant: primary / secondary / ghost / soft / outline / text，默认 primary；soft 为辅助色、outline 为线框、text 为品牌文字按钮。原有 secondary 仍为白底中性描边，ghost 仍为轻量操作。默认 md 统一为 44px 高、8px 圆角、15px 字号 / 400 字重；sm 为同高的紧凑文字版，lg 保留 52px，仅在明确业务需要时使用，不作为常用默认规格。
+variant: primary / secondary / ghost / soft / outline / text，默认 primary；soft 为辅助色、outline 为线框、text 为品牌文字按钮。页面次要操作优先使用 soft（品牌浅底 + 品牌文字，Light/Dark 使用语义映射），包括筛选/选择弹层的重置/取消、页面重试及常规次要按钮（2026-10-21 用户确认）。secondary 保留白底中性描边作为显式例外，ghost 仍为轻量操作；不是将 secondary API 全局重新定义为浅蓝。默认 md 统一为 40px 视觉高、至少 40px 点击热区、8px 圆角、15px 字号 / 400 字重；sm 为同高的紧凑文字版，lg 保留 52px，仅在明确业务需要时使用，不作为常用默认规格。
 tone: brand / danger / warning；shape: default / round / square（默认保持项目圆角）。支持 block 通栏、icon（本地图标名称）、iconOnly（必须提供 icon 和 aria-label），loading/loadingText。加载时保留按钮颜色并显示旋转图形，阻止重复点击，不触发提交；设置 loading=false 后恢复。支持 ref 和标准原生 button 属性。disabled 与 loading 分开表达，减少动效时停止旋转。
-对照 [Arco Mobile Button 文档](https://arco.design/mobile/react/arco-design/pc/#/components/button) 与 Figma 34:3824 的样式、形状与状态；2026-10-13 用户结合 ssx-v10.11.2 的按钮密度，确认默认 44px 高、8px 圆角、15px 字号 / 400 字重。主、次、辅助色、线框及普通通栏/弹窗主按钮共用此规格；round/square 仍为显式特殊形状。项目沿用主题蓝，不引入 Arco 运行时。类型颜色仅应用在 primary、soft、outline、text 上，secondary/ghost 保留中性语义。
+对照 [Arco Mobile Button 文档](https://arco.design/mobile/react/arco-design/pc/#/components/button) 与 Figma 34:3824 的样式、形状与状态；2026-10-13 的 44px 默认高度已被 2026-10-20 用户最新确认的 40px 视觉基线替代；圆角 8px、15px 字号 / 400 字重保留。主、次、辅助色、线框及普通通栏/弹窗主按钮共用此规格；round/square 仍为显式特殊形状。项目沿用主题蓝，不引入 Arco 运行时。类型颜色仅应用在 primary、soft、outline、text 上，secondary/ghost 保留中性语义。
 支持标准 button 属性。封装 Base UI Button；禁用不可操作，焦点可见，pressed 有反馈。默认 type=button，表单提交需显式指定 type=submit。
 
 ## Icon
 name 使用 ssx-design 的 icon-names.generated.ts 类型，size: xs/sm/base/md/lg。label 为独立含义图标的可访问名称；装饰图标省略 label。点击区域由外层控件负责。
 
+## Checkbox / CheckboxGroup
+
+用户 2026-10-20 最后指定的标记尺寸来源为 [Arco checkbox-input 48:7862](https://www.figma.com/design/507mHwo2qlL72kbftlM9Qi/Arco-Design-Mobile-Components--Community-?node-id=48-7862)，覆盖此前 TDesign 24px 标记基线。只调整该节点定义的标记几何与勾的状态表现；列表行与卡片沿用前一版布局。颜色继续消费项目 --color-* 语义色，勾使用用户指定的 Arco 581:10712 组件 SVG（selection-check），均通过本地 Icon；不引入第三方运行时。2026-10-20 追加：纯勾样式（variant="check"）的勾改用与单选列表一致的 ssx-design check 图标，不再使用 selection-check；半选横线改为 CSS 几何横线与勾笔画对齐。
+
+- Checkbox：label 必填；可选 description、value、checked、onChange(checked)、indeterminate、disabled、readOnly、parent、variant（circle / square / check / card）、placement（left / right）、hideLabel、name。组内使用 value，独立使用 checked/onChange；不混用两种受控来源。description 自动关联 aria-describedby。
+- CheckboxGroup：label、value:string[]、onChange(value)、children；可选 allValues、disabled、layout（vertical / horizontal / cards / card-row）。封装 Base UI CheckboxGroup，提供多选数组与组语义，不自动持久化。
+- 全选：组声明 allValues，父项传 parent；使用 Base UI 的 checked / mixed / unchecked 联动。allValues 只列可操作项；动态业务需由页面提供可选范围，不能擅自包含禁用项。
+- 标记槽位 20 × 20px，圆形可见外径 18px（内缩 1px），方形可见边长 16px（内缩 2px）、圆角 2px；圆形与方形恢复为底色叠加专用组件勾（selection-check），基础勾槽位 16px；纯勾槽位 16px，使用与单选列表一致的 ssx-design check 图标；不再使用上一版整枚 check-circle-fill。半选横线不再使用 ssx-design minus 图标（原 16px 内 12.7 × 1.3px，与勾的笔画粗细不一致），改为与勾同笔画的几何横线：基础与纯勾 10 × 2px、卡片角标 9 × 2px、横向卡片 8 × 2px，1px 圆角，颜色继承 currentColor。标记在 24px 文字行内上下各 2px 居中，文字间距 8px；单行 56px（上下各 16px、正文 16px / 24px），说明 14px / 22px、与标题间距 4px；多行自然增高，标记对齐首行顶部。
+- placement 控制左右；circle 为默认，square 为 2px 圆角，check 为仅勾或半选横线、无底色边框，未选中仍显示中性浅灰勾，选中显示系统品牌色。horizontal 自动换行，长文案完整显示。
+- card：6px 圆角、1.5px 选中边框、16px 内容内距；卡片间距 12px。带一行说明时高 82px，长内容自然增高；左上角勾选角标 28px（横向卡片 24px）。不使用固定高度裁切文字。
+- 全行可点，独立 hideLabel 的根元素保持 20px，通过 .touch-target 透明伪元素扩展至少 40 × 40px，禁止撑大 flex 占位或负 margin；相邻独立标记需预留热区间距。
+- 选中使用 color.background.brand.bold，半选横线与完整勾区分；禁用未选使用中性禁用语义色，已选使用系统品牌色淡化，不能改变值；readOnly 保留焦点、不可修改。Space 切换，Tab 独立聚焦，focus-visible 可见，无 hover。
+- 仅新增公共组件与预览；SheetSelectionList 的草稿确认、人员列表批量操作等业务流程不自动迁移。组件预览所有状态仅存内存。
+
+横向卡片多选尺寸（2026-10-21 用户确认）：CheckboxGroup layout=card-row 的单项最小视觉高 40px（单行文字），左右内边距 14.5px、上下 6.5px、含 1.5px 边框；40px 热区由 .touch-target 透明伪元素提供，不参与 flex 排版。长文本自然增高，不固定裁切。仅组件预览横向卡片组使用此组合，已迁移；垂直说明卡片与普通多选行保持现有尺寸。
+
+
 ## Toggle
-label: string，checked: boolean，onChange(value: boolean)；可选 disabled、readOnly、showText、id、name。封装 Base UI Switch，基础轨道 40 × 24px，滑块 20px、边距 2px；触控区 44 × 44px。showText 显示「开／关」，轨道宽 44px、触控区 48 × 44px。disabled 不可切换；readOnly 保留焦点但不可切换；支持键盘 Space、焦点可见和减少动效。开启沿用项目主题蓝，禁用按同一品牌色淡化，滑块保持白色。
-几何及状态参考 [Arco Mobile switch-android 547:9522](https://www.figma.com/design/507mHwo2qlL72kbftlM9Qi/?node-id=547-9522)，不引入 Arco 运行时。组件预览展示开启、关闭、禁用开启、禁用关闭及相应文字版本。
+label: string，checked: boolean，onChange(value: boolean)；可选 disabled、readOnly、showText、content: none/text/icon、size: sm/md/lg（默认 md）、loading、id、name。封装 Base UI Switch。showText 兼容已有调用，显式 content 优先；文字与图标位于滑块内，不改变轨道尺寸。
+
+| 尺寸 | 轨道宽 × 高 | 滑块直径 | 四周内缩 | 文字 / 加载图标 |
+| --- | --- | --- | --- | --- |
+| sm | 39 × 24px | 18px | 3px | 12 / 15px |
+| md（默认） | 45 × 28px | 21px | 3.5px | 14 / 17px |
+| lg | 52 × 32px | 24px | 4px | 16 / 20px |
+
+尺寸依据：用户于 2026-10-20 指定的 [TDesign Switch 25306:19394](https://www.figma.com/design/Bfd7IgvXOOyyD7q2ComKCT/TDesign-for-mobile--Community-?node-id=25306-19394)，覆盖此前 Arco 40 × 24px 基线。只参考几何与状态表现，颜色继续消费本项目 --color-* 语义变量，不引入 TDesign 运行时、色板或整张 SVG 开关。
+
+开启使用 color.background.brand.bold，关闭使用 color.background.neutral.bold.disabled；滑块使用 color.background.inverse，文字/图标使用品牌或禁用语义色。禁用和加载沿用系统品牌色淡化与中性表面，明暗主题均可用。开关勾叉按用户指定的 [Arco 581:10712](https://www.figma.com/design/507mHwo2qlL72kbftlM9Qi/Arco-Design-Mobile-Components--Community-?node-id=581-10712) 原始 16 × 16px SVG，通过 Icon selection-check / selection-close 显示，三种开关尺寸共用 16px 勾叉；加载图标通过本地 Icon loading 使用用户提供的渐变圆环（2026-10-21），保留既有尺寸。
+
+Toggle 自带 .touch-target，绝对定位透明伪元素将热区扩至至少 40 × 40px，根元素保持轨道实际尺寸，不设置占位热区 或负 margin。调用方需保证相邻控件热区不重叠；组件预览行至少 40px、横向间距 24px。
+
+disabled 不可切换；readOnly 保留焦点但不可切换。loading 保留当前 checked、显示滑块内加载图标、aria-busy=true，暂时只读防重复；由调用方结束加载或提交结果，不自行模拟后端成功。支持 Space、焦点可见和减少动效；无 hover。组件预览展示三种尺寸、基础/文字/图标、开关两态、禁用、只读和可结束的内存加载示例。
 
 ## Badge
 count?: number（默认 0）、max?: number（默认 99）、dot?: boolean、bordered?: boolean、showZero?: boolean、label?: string、children?: ReactNode。红点 8px，数字高 16px、12px/500 字号，胶囊圆角；描边为 1px 白色，增加到 10px/18px。超过 max 显示 max+，默认 0 隐藏，showZero 可显示 0。负数按 0、非有限数字按 0、小数向下取整。传 children 时叠放在右上角；徽标不拦截点击，外层按钮负责交互与触控区。默认无障碍标签保留完整未读数量，可用 label 指定业务含义。
 参考 [Arco Mobile Badge 35:5980](https://www.figma.com/design/507mHwo2qlL72kbftlM9Qi/?node-id=35-5980)，复用本项目危险色与主题语义变量，不引入 Arco 运行时。
 
 ## Cell / CellGroup
-参考 [Arco Mobile component/item 158:11007](https://www.figma.com/design/507mHwo2qlL72kbftlM9Qi/?node-id=158-11007)。Cell 接收 label，支持 description、overline、leading、value、arrow、multiline。基础行最小高 54px，说明行 74px，多行自然撑高、最小 90px；左右 16px、图标槽位 24px（头像 32px）、图标与文字间距 8px，垂直居中；正文 16px、说明 14px，多行辅助标记 12px。默认 description 单行省略，multiline 时换行；value 限制到 45% 避免挤出标题。
-传 onClick 时使用原生 button，支持 disabled、键盘和按下反馈；control 插槽用于 Toggle 等独立控件，与 onClick/disabled 互斥，保持非按钮容器，禁止嵌套交互控件。leading/value 只放展示内容。CellGroup 接收 children 与可选 label，统一背景、圆角和缩进分隔线，最后一行无分隔线。既有业务 MenuCell 保持原稿尺寸，不随基础 Cell 更新而改变。
+参考 [TDesign Mobile Cell 25074:19290](https://www.figma.com/design/Bfd7IgvXOOyyD7q2ComKCT/?node-id=25074-19290)，保留既有 Arco 基础组件的公开调用兼容。Cell 接收 label、description、overline、leading、value、arrow、multiline，补充 required 与 media（avatar 默认 / image）。required 星号置于标题右侧，间隔 4px，提供“必填”读屏说明；仅表示字段要求，校验与选择行为由调用者处理，不自动新增业务规则。
+
+已确认尺寸仍优先：基础单行最小 56px（含分隔线）、左右 16px、装饰图形 18px、图标槽 24px、头像 32px、图标与文字间距 8px；正文 16/24。TDesign 补充的候选组合基线：标题/说明间隔 4px，说明 14/22，上下各 16px，双行自然高 82px；多行说明不再缩至 12px，不硬凑旧 74/90px。默认 description 单行省略，multiline 时换行；overline 为 12/20，多行内容自然增高。说明行前置图标/头像与标题顶端对齐，尾部操作垂直居中。media=image 将 leading 中的图片展示为 48px、圆角 8px 缩略图；头像默认 32px 不批量放大。
+
+value 可组合本地 Badge、文字等展示内容，最大 45%，避免挤出标题；不为徽标另造状态 API。传 onClick 时使用原生 button，支持 disabled、键盘和按下反馈；control 插槽用于 Toggle 等独立控件，与 onClick/disabled 互斥，保持非按钮容器，禁止嵌套交互控件。leading/value 只放展示内容；禁用行的标题、说明和装饰图片共同弱化。
+
+CellGroup 接收 children、可选 label 及 variant=card（默认圆角）/block（通栏无圆角）；分组只决定容器样式，外边距由页面决定。统一背景与左右各缩进 16px 的行内分隔线，末行无线。当前全部调用点为组件预览：已有 7 个基础样例，新增 4 个必填/图文样例与 3 个通栏样例；均是内存反馈。业务 MenuCell 保留既有行布局，本次没有迁移人员列表或表单字段。
+
+迁移状态：基础 Cell/CellGroup 已为 Recommended；required、media、block 及 TDesign 说明组合先作为候选扩展，待真实页面验证后再升格，不据预览重复注册新公共组件。输入/选择表单的标签列、值排版与校验状态仍见下方混排审查。
 
 ## Popover
 封装 Base UI Popover；trigger 为本地按钮 ReactElement，content 为说明内容。appearance: light/dark，placement: top/top-start/top-end/bottom/bottom-start/bottom-end；可选 closable、action（label/onClick/style: button 或 text），open/onOpenChange 可受控。不依赖 hover，支持点击外部、重复点击触发器、Escape 关闭，关闭回焦。定位支持碰撞避让、12px 视口边距，六种位置为优先位置，空间不足时可自动翻转。
@@ -33,7 +74,7 @@ count?: number（默认 0）、max?: number（默认 99）、dot?: boolean、bor
 ## BottomSheet
 open: boolean，onOpenChange(value: boolean)，title: string，description?: string，children: ReactNode，footer?: ReactNode，header?: ReactNode，className?: string，finalFocus?: RefObject<HTMLElement|null>。
 封装 Base UI Drawer，支持滑动、遮罩、关闭按钮和 Escape；子级负责草稿/确认逻辑。外部触发器通过 finalFocus 明确回焦。
-最大 85dvh；手机全宽，桌面最大 560px；统一 16px / 24px / 500 居中标题、18px 关闭图标、44px 关闭触控区、16px 水平内容边距。内容区域独立滚动，footer 位于滚动区域之外，操作和安全区保持可见；操作区使用 SheetActions（单按钮全宽、双按钮等宽）。隐藏滚动条但保留触摸、滚轮和键盘滚动；包含 VirtualKeyboardProvider。
+最大 85dvh；手机全宽，桌面最大 560px；统一 16px / 24px / 500 居中标题、18px 关闭图标、40px 关闭触控区、16px 水平内容边距。内容区域独立滚动，footer 位于滚动区域之外，操作和安全区保持可见；操作区使用 SheetActions（单按钮全宽、双按钮等宽）。隐藏滚动条但保留触摸、滚轮和键盘滚动；包含 VirtualKeyboardProvider。
 文字标题与说明必须有意义；滚动与手势在真机检查后再声明兼容通过。
 
 ## InfoDialog
@@ -47,15 +88,33 @@ open: boolean，onOpenChange(value: boolean)，title: string，description?: str
 
 支持遮罩、Escape、滑动关闭和回焦；动作面板作为 InfoDialog 的子组件嵌套时，取消返回父弹窗。共享 sheet-viewport 将动作面板和遮罩裁切在微信应用区域内，现有客服电话 href 调用兼容。组件预览提供基础、带说明、危险/禁用、长内容四个示例。
 
+## Loading / PullToRefresh（2026-10-21 候选扩展）
+参考 [TDesign Mobile Loading 25154:20821](https://www.figma.com/design/Bfd7IgvXOOyyD7q2ComKCT/?node-id=25154-20821)。Loading 支持 variant=spinner/dots/text，size=sm/md/lg 对应 24/28/32px 图标、12/20、14/22、16/24 文字；横向图文间距小/中 6px、大 8px，纵向统一 6px。三点默认 8px 圆点、8px 间距（sm 共 40px），随 size 成比例变化。颜色只用项目语义变量，spinner 和自定义 icon 使用本地 IconName；不照抄参考图的品牌蓝。tone=brand/subtle/inherit；layout=horizontal/vertical；text 为可见文字，纯图标通过 label（默认“加载中”）保持读屏名称。status=error 时显示失败说明、可选 onRetry；重试开始/结束由调用者负责。减少动效时停止旋转与闪烁，仍保留可见图形和文字。不将单元格 18px 图形规则套到加载状态上。
+
+PullToRefresh 绑定已有滚动容器 scrollRef，不包裹内容，不更换业务滚动层。刷新指示器必须位于页面固定顶部栏下方：意向客户放 Search 后、数量栏前；学员放分类 Tab 后、数量栏前。下拉与刷新时顶部栏保持原位，数量/批量操作栏随列表内容下移；不能把指示器统一放在搜索/Tab 之前。onRefresh(signal) 返回 Promise，resolve 后完成、reject 后失败；AbortSignal 在卸载时取消任务。disabled 可阻止触发；successText 可明确模拟反馈。仅在容器顶部开始识别单指向下手势；横向、向上、多指、取消手势与原生输入区域不触发。桌面预览支持鼠标拖动；另有键盘可聚焦的“刷新当前页面”入口，聚焦后显示 40px 操作，不常驻占高。
+
+刷新提示区背景保持透明，沿用所在内容区底色，不单独使用 page 色制造与列表的色差（2026-10-21 用户确认）。共享调整同步六个业务页和组件演示，不改页面各自背景 token。
+
+候选几何与行为：下拉位移采用 0.5 阻尼，64px 显示位移为释放阈值，最大 96px；刷新中状态区 56px、完成/失败保留 1200ms 后收起。未达到阈值直接回弹。任务进行中不重复发起；指示器不扩大页面外壳边界，不改变 Search/Tab 的既定吸顶策略。失败可再次下拉或用键盘入口重试；不重载浏览器、不清空业务筛选或编辑草稿。后续真机验证后才能将这些手势参数升格为正式规范。
+
+迁移记录：Loading 已用于组件预览、刷新指示器及学员页 state=loading。组件预览有成功/失败刷新演示与完成计数。MobilePage 提供可选 onRefresh、refreshDisabled、refreshSuccessText；children 可用函数接收 refreshIndicator，在页面固定顶部栏之后显式插入；没有业务固定栏时继续使用默认首部位置。首页、我的、学员、意向客户、出勤率 v1/v2 六个调用点已接入 src/preview/simulateRefresh.ts（700ms 演示），只显示“模拟刷新完成”，不请求生产接口、不重建或回滚已编辑的模拟数据。意向客户批量模式、两页无权限状态禁用刷新；权限、原失败示例、搜索、排序、Tab 与本地修改保持。按钮、Toggle 和 Toast 保留各自加载尺寸和交互，现已统一通过 Icon loading 使用用户提供的渐变圆环（见 iconography.md）；不强制改为 Loading 的 24/28/32px 布局。
+
 ## Toast
-参考 Figma Arco Mobile Toast 97:12379，黑色 80% 背景、白字、4px 圆角、16px/400/1.4 文字、16px 内边距；状态图标 24px，与文字间距 8px。原始图标保存在 public/components/toast。Light/Dark 均保持深色提示。
-ToastProvider 已接入应用根；useToast 从 src/components/ui/useToast.ts 导入，页面调用 useToast().showToast({ message, type, duration })，type 为 text（默认）/success/error/warning/loading。默认普通提示 2000ms，loading 为 0（主动关闭），duration 可覆盖；closeToast() 关闭当前提示。空文字仅允许 loading；重复触发替换当前提示并重置计时。非模态、不拦截触摸、不移动焦点；Base UI 负责消息播报和计时，失败消息优先播报。居中显示，窄屏自然换行并保留 24px 边距；加载旋转尊重减少动效。
+参考 [TDesign Mobile Toast 25169:19856](https://www.figma.com/design/Bfd7IgvXOOyyD7q2ComKCT/?node-id=25169-19856)。文字 14px / 22px / 400、6px 圆角；纯文字与横向图标提示上下 16px、左右 24px，横向图标 24px；纵向图标提示四边 24px、图标 32px。图文间隔 8px。单行纯文字高 54px、单行横向图标高 56px、单行纵向图标高 110px；不将表单单元格的 56px 或 18px 图标规则套在 Toast 上。
+
+颜色沿用 --color-toast-surface / --color-toast-text，Light/Dark 都保持现有 80% 黑底白字，不照抄 TDesign 的 90% 背景。状态图标由本地 Icon 的 check-circle / close-circle / exclamation-circle / loading 提供；loading 已覆盖为用户提供的白/蓝角度渐变圆环，尺寸仍为横向 24px / 纵向 32px；通用图标通过 IconName 传入，例如 cloud-download。旧 public/components/toast 资产留存，当前渲染不再调用，不引入新图标库。
+
+ToastProvider 已接入应用根；useToast 从 src/components/ui/useToast.ts 导入，showToast({ message, type, duration, layout, icon })。type 为 text（默认）/success/error/warning/loading；layout 为 horizontal/vertical，默认 vertical，兼容既有图标上下排布；纯文字不产生图标占位。icon 可传本地 IconName，覆盖状态默认图标；默认无需手动传 icon。
+
+默认普通提示 2000ms，loading 为 0（主动关闭），duration 可覆盖；closeToast() 关闭当前提示。空文字仅允许 loading，屏幕阅读器仍播报“加载中”；重复触发替换当前提示并重置计时，替换时同步清除旧布局和图标配置。非模态、不拦截触摸、不移动焦点；Base UI 负责消息播报和计时，失败消息优先播报。居中显示并保留视口至少 24px 边距；正文约十个汉字宽，建议内容最多三行，超长内容仍完整换行，不用省略号隐藏错误原因；复杂说明应由业务选用说明弹窗。加载旋转尊重减少动效。
+
+迁移记录：共享文字排版、间距和圆角同步组件预览、首页、学员管理及意向客户管理的全部 useToast 调用点；既有业务消息、计时和回调不改。组件预览新增横/纵四种状态、自定义图标、纯加载组合。横向布局和自定义图标是本次候选扩展，目前由预览验证，业务调用仍沿用既有默认形式；没有新接后端或制造下载业务。
 
 ## PreviewStatusBar
 仅为桌面手机外壳中的组件预览展示静态 9:41、信号和电量；54px 高，为灵动岛预留空间。工作区手机外壳通过 chrome=status 启用，无外壳和独立手机地址不携带该参数。深色主题反转原始状态栏素材以保持可读。
 
 ## Radio / RadioGroup
-参考 Arco Figma .radio-input 68:10176 与 radio 68:10139：20px 标记、8px 图文间距、16px/400/1.4 文字。默认 dot 圆点；variant=list 为右侧无圆圈的独立勾，仅已选项显示；原 check 圆圈对勾仅保留兼容，新增单选流程不采用。主题蓝继承本项目，不使用 Arco 品牌色。标记按选中状态动态绘制，禁用背景与文字使用项目语义 token。触控至少 44px，长文字换行并与首行对齐。
+按用户 2026-10-20 最新指定的 [Arco .radio-input 578:10673](https://www.figma.com/design/507mHwo2qlL72kbftlM9Qi/Arco-Design-Mobile-Components--Community-?node-id=578-10673) 校准：20 × 20px 占位、18px 可见圆形外径，与 Checkbox circle 的占位和外径一致；选中圆点保持 12px，8px 图文间距、16px/400/1.4 文字。默认 dot 圆点；variant=list 为右侧无圆圈的独立勾，仅已选项显示；原 check 圆圈对勾仅保留兼容，新增单选流程不采用。主题蓝继承本项目，不使用 Arco 品牌色。标记按选中状态动态绘制，禁用背景与文字使用项目语义 token。variant=list 的勾使用 ssx-design check 图标并取主色 --color-icon-brand（与多选纯勾一致），不再使用文本可用级品牌色 --color-text-brand-accessible；选中行文字仍用 --color-text-brand-accessible 保证对比度。Root 自带 .touch-target，将 20px 根元素的命中区扩展至至少 40 × 40px；独立标记不占位 44px、不使用负 margin，示例相邻标记间距 24px；普通文字行随 --layout-touch-target 使用 40px 最小排版空间。长文字换行并与首行对齐。
 RadioGroup 接收 label、value、onChange、children，以及 name/disabled/readOnly/required/className；Radio 接收 value、label、variant、disabled、hideLabel、className、onSelect（选项被点击时触发，可用于再次点击当前项后关闭即时选择弹层）。必须放在 RadioGroup 内，组内 value 唯一；hideLabel 仍以 label 提供可访问名称。封装 Base UI Radio/RadioGroup，支持键盘箭头切换与焦点样式；禁用不可切换。选择弹层采用该组件，取消保留旧选择，确认提交草稿。
 
 ## ProductTabBar
@@ -67,7 +126,7 @@ RadioGroup 接收 label、value、onChange、children，以及 name/disabled/rea
 WechatPreviewHeader 显示时间状态栏、关闭按钮、title、当前域名及更多图标；关闭图标保留外观，实际操作为应用内返回；没有历史时返回首页并保留 theme/role/chrome，不退出项目预览。WechatPreviewHistory 显示本次预览路由的后退/前进，首次打开时隐藏，出现历史后按可用方向启用；首页和「我的」显式设置 previewHistory=false，即使已有历史也不显示底部前进/后退栏，保留透明 Home 指示条。PreviewHistoryProvider 在路由根部记录本应用 history key；报表明细使用 view=detail/group 路由参数以支持浏览历史。两者仅由 MobilePage 的 previewChrome 启用；手机链接不含 chrome=wechat，业务页面不重复绘制微信导航。更多仅为外观占位，不模拟微信原生菜单能力。
 
 ## Collapse / CollapseItem
-封装 Base UI Accordion，参考 Arco component/item 44:1825。基础标题 16px/400/22px、左右 16px、上下 16px，内容 14px/20px、12px 内边距；触控至少 44px。列表式分隔、卡片式 8px 圆角及 12px 组间距。
+封装 Base UI Accordion，参考 Arco component/item 44:1825。基础标题 16px/400/24px、单行总高 56px（包含分隔线）、左右 16px、上下 16px，内容 14px/20px、12px 内边距；触控至少 40px。列表式分隔、卡片式 8px 圆角及 12px 组间距。
 Collapse 接收 children、label、variant:list/card、value/defaultValue（string[]）、onChange、multiple（默认 false）、disabled、className。CollapseItem 接收唯一 value、title、children、leading、suffix、summary、disabled、arrow:down/right、triggerLabel、className、triggerClassName。title/leading/suffix 仅展示，不嵌套交互控件；summary 独立于触发按钮，保持可见，children 为可折叠内容。受控与非受控二选一，组内 value 唯一。
 原生按钮支持 Enter/Space、可见焦点及禁用；Base UI 管理 aria-expanded、aria-controls 与面板关联。内容自动高度过渡，减少动效时关闭过渡；关闭时卸载内容，业务需保留的数据放在上层。
 出勤率使用 card 变体，统计摘要常驻、详细统计折叠；受控单项展开，日期/筛选/维度切换仍由页面清空展开值。
@@ -83,8 +142,8 @@ Collapse 接收 children、label、variant:list/card、value/defaultValue（stri
 BottomSheet 继续统一外壳、微信视口边界、动画、焦点恢复和滚动锁定。标题统一 16px / 24px、500，内容区左右 16px，操作区固定；业务内容不另设嵌套滚动容器。取消出勤页的 16px 标题覆盖与页面选项样式。
 
 `src/components/ui/SheetContent.tsx` 提供以下组合，不维护业务草稿或主动关闭：
-- SheetSelectionList：label、options（value/label/disabled）、value。单选使用 onChange、可选 onReselect（再次点击当前项）；indicator=list 为右侧勾的即时单选，indicator=dot 为需确认单选。multiple=true 时 value 为 string[]，使用 onToggle，由调用者处理全部、互斥和至少一项等规则。选项行最小 44px、15px / 24px，长名称自然换行，无 hover；多选选中无底色块，使用强调文字和右勾，单选 list 只显示右勾。
-- SheetChoiceGroup：label、options、value:string[]、onToggle、hint/error；两列选择块，自动关联组标题和说明，错误播报；校验保留在页面。
+- SheetSelectionList：label、options（value/label/disabled）、value。单选使用 onChange、可选 onReselect（再次点击当前项）；indicator=list 为右侧勾的即时单选，indicator=dot 为需确认单选。multiple=true 时 value 为 string[]，使用 onToggle，由调用者处理全部、互斥和至少一项等规则。选项行最小 48px（2026-10-21 用户确认，取代 44px；弹层单选/多选列表单元格统一 48px，与排序弹层一致；chip 网格 SheetChoiceGroup 为 40px（2026-10-21 用户更新））、15px / 24px，长名称自然换行，无 hover；多选选中无底色块，使用强调文字和右勾，单选 list 只显示右勾。
+- SheetChoiceGroup：label、options、value:string[]、onToggle、hint/error；未选中可用项背景使用 --color-background-neutral-subtle（2026-10-21 用户要求较原 subtlest 加深一阶），选中保留品牌浅底/边框，禁用保留 subtlest/disabled 文字；两列选择块，自动关联组标题和说明，错误播报；校验保留在页面。
 - SheetActions：primary 必填、secondary 可选，每项含 label/onClick/disabled；一个按钮全宽，两个按钮等宽排列。通过 BottomSheet.footer 传入。
 
 四种实例分别为即时单选、确认多选、分组筛选、日期表单；日期字段和快捷时段仍由业务页组合。无底部按钮的即时单选点击提交并关闭；其他模式关闭不提交。组件预览补齐即时单选、多选和分组筛选示例，确认单选继续使用圆点。
@@ -94,7 +153,7 @@ BottomSheet 继续统一外壳、微信视口边界、动画、焦点恢复和�
 - 即时单选：无 footer，点击提交并关闭；已选项右侧独立勾。
 - 需确认单选：取消 / 确认，使用圆点标记；取消不提交。
 - 多选：取消 / 确认；取消、关闭、遮罩均不提交，不使用“重置”替代取消。
-- 公共标题 16px / 24px / 500；关闭使用 Icon md（18px），外围点击区域保持 44 × 44px。
+- 公共标题 16px / 24px / 500；关闭使用 Icon md（18px），外围点击区域保持 40 × 40px。
 - 日期表单仍可按用途只放“确认”；本次不改变既有快捷时段行为。
 
 ## WheelPicker · 滚轮选择器
@@ -115,7 +174,7 @@ WheelPicker 本体不包含按钮，只更新传入的受控值；内联使用�
 
 Props：open、onOpenChange、title、children、variant?（ios 默认 / android / custom）、actions?、actionLayout?（horizontal / vertical）、finalFocus?。不传 actions 默认“知道了”，建议 1–3 项；多于两项自动纵向，自定义外观始终纵向。DialogAction 为 label、onSelect?、closeOnSelect?（默认 true）、disabled?、loading?、danger?。取消项不放业务回调，确认项显式放回调；选中执行回调后关闭，closeOnSelect=false 可保留弹窗，异步状态由调用方通过 loading 控制。组件不内置接口或删除操作。
 
-视觉：270px 宽并受容器约束；iOS 顶角 8px，内容 20px×16px，17px/500/1.4 标题、15px/400/1.4 居中正文、4px 标题正文间距，底部 16px 操作文字及细线。Android 4px 顶角、24px 水平内边距、17px Regular 标题与正文左对齐，按钮靠右。custom 8px 顶角、圆角实心主按钮和可选弱按钮。颜色使用本项目语义变量，不采用 Arco 品牌蓝。按钮触控至少 44px，因此 Android 文本按钮和 custom 按钮高度遵循项目移动端底线，未缩成旧稿的纯文字行高。
+视觉：270px 宽并受容器约束；iOS 顶角 8px，内容 20px×16px，17px/500/1.4 标题、15px/400/1.4 居中正文、4px 标题正文间距，底部 16px 操作文字及细线。Android 4px 顶角、24px 水平内边距、17px Regular 标题与正文左对齐，按钮靠右。custom 8px 顶角、圆角实心主按钮和可选弱按钮。颜色使用本项目语义变量，不采用 Arco 品牌蓝。按钮触控至少 40px，因此 Android 文本按钮和 custom 按钮高度遵循项目移动端底线，未缩成旧稿的纯文字行高。
 
 长正文独立滚动，按钮固定；支持 Escape、遮罩关闭、焦点限制/恢复，微信预览沿用应用区域裁切。无 hover。组件预览提供稿中七种按钮/外观组合及长内容示例；状态仅在内存。真机软键盘与屏幕阅读器另行验收。
 
@@ -134,3 +193,84 @@ Props：open、onOpenChange、title、children、variant?（ios 默认 / android
 只点击/键盘打开，无 hover 状态或遮罩；外部点击和 Escape 关闭，执行后回到触发按钮，边缘自动避让。Base UI 管理 roving focus 与键盘字符导航；禁用项允许获得焦点供读屏识别，但 Enter/点击不执行、不关闭。正文长名称换行，菜单滚动隐藏滚动条。
 
 原始箭头与红点 SVG 保存于 public/components/popover-menu，保留根宽高与路径，按 0.5 比例在包装槽内显示，无临时资源地址运行依赖。深色红点/箭头及浅色箭头根尺寸 24×24，浅色红点 20×20；显示红点约 10px（深色含白描边 12px），箭头旋转方形约 17px 对角宽。浅深色菜单、纯文字/图标/红点禁用与六种定位示例位于组件预览。业务示例只更新内存反馈，不调用真实扫码/通讯功能。
+
+## SideDrawer
+本地封装 Base UI Drawer。open/onOpenChange、title、children、footer、finalFocus；从右侧进入，最大 420px、窄屏 88% 宽。复用 BottomSheet 的产品视口边界、遮罩、焦点、键盘避让和滚动区，底部操作固定。意向客户与学员管理筛选共用，样式位于 SideDrawer.css；不改变 BottomSheet 默认行为。
+
+## Search 搜索框
+
+本地 `src/components/ui/Search.tsx`，由学员管理与意向客户两页共用。参考 [TDesign Search 25328:19716](https://www.figma.com/design/Bfd7IgvXOOyyD7q2ComKCT/?node-id=25328-19716) 的基础方形款实例 27771:32133（2026-10-20 读取设计上下文与截图）。只参考尺寸与组合，不引入 TDesign 依赖、字体、主题蓝或图标资产。
+
+- 外层 Search 整组高 56px、左右 16px；内部输入区高 36px、上下各 10px（2026-10-21 用户更新，取代此前 40px）、左右 12px、圆角 6px。搜索图标与清除图标沿用当前 16px，清除使用本地 close-circle-fill 实心圆底叉号，文字 16px / 24px / Regular 400，图标与文字间距沿用当前 8px。
+- `value`、`onValueChange(value)`、`label` 为必填；可传 `placeholder`、`clearLabel`（默认“清除搜索”）、`actions`、`className`。无障碍名称由 label 提供，占位文字不替代名称。
+- 输入即时回传，不新增提交/取消流程；非空显示清除按钮，清除后回焦输入。正常、聚焦、输入状态共用几何；焦点描边、文本、底色消费本项目语义 token，无 hover。
+- 清除及配套图标操作保留至少 40×40px 命中区，40px 热区比 36px 输入区上下各延伸 2px，仍在外层 56px 范围内。搜索本体用原生受控 input，未直接使用 Base UI。
+- actions 是排序/筛选等配套操作槽，不将其业务状态和回调搬进 Search；外层给操作组预留 8px 间距。操作采用现有 36px 布局槽并通过 .touch-target 扩到 40px，垂直居中，不据此撑高搜索整组。
+- sticky、业务筛选、分类 Tab、数量栏由页面控制；组件不接接口，不修改路由。两页的排序/筛选按钮及资源保持原调用，搜索及清除图标统一使用本地 Icon。
+- “搜索框”指整个 Search 组合；“输入区”指内部 36px 灰底区域。该组件采用新参考稿的 56px，取代此前顶部 48px 决定；当前两页的第二层分类 Tab 为 48px、数量栏为 40px；独立第一层 Tab 则为 56px，页面组合细则见 page-patterns.md。不是通用表单 Input 默认高 48px 的全局替换。
+- 弹层内复用（2026-10-20）：出勤率报表「选择班级名称」的底部浮层改用公共 Search，替换原先自写的 `input[type=search]`；组合保持 56px、输入区现为 36px（2026-10-21 同步更新），仅用 `.att-sheet-search` 去掉组件外层的 16px 左右内边距以贴合浮层内容边距。浮层内不再出现第二个搜索样式。
+- 组件预览提供可输入、清除和回焦的示例；两个业务列表验证带 actions 的组合。更换图形、居中/圆形外观、取消按钮等扩展未在本次引入。
+
+Search 颜色修正（2026-10-20）：搜索图标、占位文字和清除图标共用 `--color-search-placeholder`，对应参考稿的 40% 中性色（Light 黑色 40%，Dark 白色 40%）；已输入文字继续 `--color-text`。禁止借用正文辅助色，或为搜索框改写全局 text.placeholder。此为占位提示色，不宣称达到正文文字对比度。
+
+底部操作区统一（2026-10-20）：页面底栏与弹层底栏同属一套几何，样式集中在 `src/styles/product.css` 的共享块（`.product-footer` / `.sheet-footer` / `.prospect-footer`），暂不封装组件，等待多种组合稳定后再决定是否组件化。按钮统一使用公共 Button 的 40px 默认高度；单行动作区高 56px（上下各 8px），safe-area 与微信 Home 指示器叠加在 56px 之外，不挤占内容高度；分隔线用 `inset 0 1px` 阴影绘制，不占布局高度。多行动作区（如批量操作）不套固定 56px，按内容自然增高，行间距 8px。横向留白默认 12px，弹层覆写 `--footer-padding-inline: 16px`。组合变体：`.product-footer--row` 横向排列，`.product-footer-actions` 为按钮栅格（默认两列，`--single` / `--triple` 切换列数）。通过 touch-target 保留至少 40px 命中范围。
+
+Button 40px 基线（2026-10-20）：md/sm 视觉高度 40px，24px 行高配上下各 7px 内边距及 1px 边框；sm 仅紧凑文字与水平留白。组件默认添加 .touch-target，用绝对定位透明伪元素扩展至少 40px 点击范围，不参与 flex 布局，调用者无需额外包裹或重复设置热区。纯图标按钮同步 40×40px。lg 保留 52px，Picker 工具栏与 Dialog/Popover 专属操作行仍遵循其显式组合尺寸。共享调用点已检索；不修改回调、加载和禁用行为。
+
+
+## Input（候选 API，TDesign 输入框参考基线）
+
+本地入口 `src/components/ui/Input.tsx`，封装 Base UI Input；页面不直接导入底层库。参考 [TDesign Mobile Input 25427:20369](https://www.figma.com/design/Bfd7IgvXOOyyD7q2ComKCT/?node-id=25427-20369)，只参考布局和尺寸，颜色沿用本项目语义 token，字重使用 400/500，不复制参考稿 600。横排、垂直、标签外置为字段布局，和页面顶部导航 56/48/40 层级无关；Search 仍是独立搜索组合。
+
+- 受控 `value: string` / `onValueChange(value)`；`label` 必填，默认关联原生 input。`hideLabel` 只视觉隐藏，保留可访问名称。`required` 原生必填，星号统一跟在标题右侧、间隔 4px，标题左端与非必填行对齐（2026-10-21 用户确认）；`optional` 为选填文字，和 required 同时传入时以 required 为准。
+- `layout`: horizontal 默认基础行 56px，左右各 16px，标签 81px，标签到输入区间隔 16px；文字 16/24。长标签及说明自然增高，不截断。`vertical` 为基础 86px，标签 14/22、间隔 8px、输入 16/24。`external` 标签 12/20、间隔 8px，输入区域 48px、圆角 6px、左右 16px；它细化原有通用表单 48px 基线，不改变 Search 输入区 36px。
+- `description` 12/20，横排/垂直间隔 4px，外置间隔 8px，通过 aria-describedby 关联。`status`: default / success / warning / error，图标和说明共同表达，error 设置 aria-invalid；状态由调用方传入，不自行验证业务数据。
+- `clearable` 清空受控值并恢复焦点；`type=password` 提供显隐切换。禁用和只读均不允许改值，只读可聚焦、复制和查看密码。可传原生 `name` / `autoComplete` / `inputMode` / `maxLength` / `readOnly` / `disabled` 等属性。
+- `leadingIcon: IconName` 为字段含义图标，位于标题左侧，图形 18px、与标题间隔 8px；`prefix` / `suffix` 是输入值的前后缀，组合文本、本地 Icon 或本地 Button；电话、验证码、金额、数量属于组合示例，不注册为业务组件。多图标间隔保证 40px 热区不重叠；状态及密码图标视觉 18px；清除图标为 18px，使用更浅的 --color-icon-placeholder，保留 24px 布局槽与 40px 热区。状态图标使用本地 check / exclamation / close 无圆底图形。扩大点击热区使用 .touch-target，不增大 flex 布局盒。示例内发送验证码按钮参考稿视觉 28px、圆角 6px、文字 14/22，热区仍 40px，仅是 Input 内紧凑操作的候选特例，公共 Button 默认 40px 保持不变。
+
+迁移记录：组件预览“名称”字段已使用 external Input；新增输入框示例覆盖三种布局。Search、意向客户编辑表单、出勤率日期等现有业务字段暂未迁移；后续按字段校验、键盘及提交语义逐项核对。当前 API 为 Candidate，待真实业务表单验证后再升级 Recommended。短信/后端校验未接入，验证码按钮只显示本地演示反馈；真机软键盘、安全区和自动填充另验收。
+
+
+## Input 与选择型 Cell 的表单混排审查（2026-10-21）
+
+共同项：本地入口、语义颜色、左右 16px、主标签 16/24、可见标签、禁用与键盘支持；交互不同：Input 编辑文本，选择 Cell 整行触发选择器，control Cell 承载独立开关，不可为了外观统一而改成嵌套按钮。
+
+| 对照项 | Input horizontal 当前实现 | Cell 当前实现 | 审查结论 |
+| --- | --- | --- | --- |
+| 基础行 | 56px | 56px | 2026-10-21 与折叠标题统一 |
+| 标签与值 | 标签 81px，间隔 16px，值左对齐 | 标签占剩余空间，值右对齐且最大 45% | 通用 Cell 布局不适合直接对齐表单输入列 |
+| 值字号 | 16/24 | 14/20 | 表单混排存在字号差异 |
+| 辅助说明 | 12/20，基础行增加 24px；错误说明关联输入 | 14/22，标题间隔 4px，上下 16px，双行 82px；默认单行省略 | 通用信息行与字段说明职责不同 |
+| 状态 | 必填、选填、成功/警示/错误、只读/禁用 | disabled、required 标记；无字段校验 API | 不能宣称表单字段状态已统一 |
+| 分隔线 | 1px，左右各缩进 16px | 1px，左右各缩进 16px | 2026-10-21 已按用户要求统一 |
+
+候选（未实施、未确认为正式规范）：为表单选择行增加显式布局模式，优先对齐横排 Input 的 56px、81px 标签、16px 间隔、16/24 值字号；通用导航/信息 Cell 保留其右对齐语义。确认字段说明、必填、错误及外置/垂直布局需求后再确定 API，不因两个示例就抽取 FormField。标签列、值字号和字段状态仍只审查和记录，尚未迁移业务表单；基础单行高度与分隔线已按后续用户要求统一。
+
+40px 最小热区迁移：layout.touchTarget 源 token 与 .touch-target fallback 已改为 40px；依赖 token 的 Button/Toggle/Radio/Checkbox/Input 小操作与公共 icon-button 随之更新。显式 44px 的微信外壳、滚轮、旧业务字段等实际布局尺寸不因“最低值降低”而批量缩小。筛选 chip 单行最小 40px、上下 7px（含 1px 边框），长文字自然增高；已覆盖学员、意向客户、出勤率 v1/v2 与组件预览的 SheetChoiceGroup 调用点。SheetSelectionList 与排序列表仍是另行确认的 48px。
+
+
+### Input / Cell 分隔线与聚焦（2026-10-21 用户确认）
+
+Input 横排/垂直行及 Cell 共享 FieldDivider.css：分隔线为 --color-border-lighter、1px，左右各缩进 16px，绝对定位且不影响行高。CellGroup 可连续组合 Input 与 Cell，按最终子项隐藏末行分隔线；输入示例组同样隐藏末线。已覆盖本地 Input 示例与 Cell 示例；外置标签的框式输入不额外绘制下划线。
+
+Input 聚焦时只显示输入光标，普通分隔线保持原色/粗细，不使用品牌色下划线或焦点阴影；框式输入同样不增加品牌色聚焦边框，错误边框保留状态色。清除/密码按钮及可点击 Cell 的键盘焦点提示保留。其他表单混排差异仍按上方候选清单处理，本次没有调整行高、字号、标签列或选择行为。
+
+Search 36px 迁移（2026-10-21）：已通过共享组件同步组件预览、学员管理、意向客户、出勤率 v1/v2 浮层搜索。外层 56px、列表滚动策略、排序/筛选操作和搜索清空回焦行为保持原定义；本次只改变内部几何与清除图形。
+
+折叠标题高度统一（2026-10-21）：普通单行 Collapse 标题在收起/展开时均为 56px，与横排 Input、基础 Cell 一致；左右 16px，上下 16px、文字 16/24，分隔线绘于内部底边并左右缩进 16px。列表末项收起时无线，不因有无线或展开态新增 1px。多行标题自然增高；带常驻 summary 的卡片高度包含额外摘要，不强制整卡 56px。出勤率 v1/v2 的专用统计标题覆写与无分隔线布局保留；已更新组件预览的 list/card 与基础 Cell。
+
+单元格图标（2026-10-21 用户确认）：Cell、Input 字段、Collapse 标题和 MenuCell 中的装饰图形统一 18×18px，使用本地 Icon/md 与 CellIcons.css 槽位约束；前置、尾部状态、说明和箭头均适用。Cell 的 24px 前置槽保留，头像 32px、Toggle/Radio/Checkbox 控件、40px 点击热区及 56px 单行高度不随图形缩放。已迁移组件预览、我的功能菜单和出勤率 v1/v2 折叠标题中的图标，不改搜索及普通页面导航图标。
+
+选填文字行盒修正（2026-10-21）：Input 的 12px 选填标签使用自身 line-height:1，保持与主标签基线对齐；不能直接继承主标签固定 24px 行高，否则大小字体的行内盒会共同撑高单行（本次浏览器复现 58px，用户截图为 57.5px）。只修正小字行盒，不用固定行高裁切长标签/说明。现有基础、必填、选填、前后缀及只读/禁用单行核对为 56px；说明/长标签 80px、垂直基础 86px、带说明 110px 等按组合自然增高。
+
+字段图标位置迁移（2026-10-21）：账号示例由输入区 prefix 改为 leadingIcon="user"，图标放标题左侧。+86 国家码保留输入前缀，元/个等保留值后缀；密码显隐/状态/清除仍在输入区尾部。新增标题图标槽随横排/垂直/外置标签行高居中，不扩大单行高度，未迁移原生业务表单。
+
+筛选选择块背景迁移（2026-10-21）：共享 SheetChoiceGroup 未选中背景从 neutral.subtlest 改为 neutral.subtle，Light/Dark 均使用主题映射，不改全局 token 值。已覆盖学员管理、意向客户、出勤率 v1/v2 和组件预览，40px 高度、选中/禁用和选择行为保留。
+
+底栏空提示占位修正（2026-10-21）：客户筛选和批量修改曾在 .sheet-footer 中一直输出空错误段落，零高段落仍形成 8px flex gap，使单行动作区成为 64px；现仅在实际出错时渲染提示。标准无提示底栏仍是 40px 按钮 + 上下各 8px = 56px，安全区另加；有真实错误说明或多行操作时按内容增高，不能裁切提示来凑 56px。BottomSheet/SideDrawer 的所有 footer 调用点逐项核对；Picker 使用顶部工具栏，Dialog/InfoDialog/ActionSheet 的专用操作行保持各自规范，不将它们计作 SheetActions 标准工具栏已迁移。
+
+次要按钮迁移（2026-10-21）：SheetActions 的 secondary 操作统一使用 Button soft，同步客户/学员筛选、中心/责任人选择、批量修改、两版出勤率及组件示例弹层；页面普通次要入口、重试及组件示例触发器改为 soft。Button 示例将“次要操作”展示为浅蓝，并单列“中性描边按钮”保留样式说明。平台 Dialog、ActionSheet、Picker 文字操作和 Popover 深色面板中的白底动作保留专用语义；报表蓝色头部覆盖保持。此次不改默认主按钮、危险操作、筛选 chip、尺寸或业务回调。
+
+出勤率统计时段组合（2026-10-21，V/I 已迁移）：v1/v2 共用页面级 AttendancePeriodFields，复用本地 Button、Icon 与 WheelPicker，未注册为通用日期组件。初始本月（月初至今天）；本月/上月（完整自然月）/最近30天（含今天）仅填充弹层草稿，明确选中态，确认才应用。起止日期始终显示；点击日期展开年/月/日滚轮，切换编辑开始/结束日期时保留另一端，滚轮修改日期后快捷项不选中。月末与闰日按目标月份收敛；起始晚于结束时提示并保留草稿，关闭/遮罩/Escape 不提交。两版已迁移，当前仅页面内存状态；其他业务日期字段未迁移，滚轮触摸与 WebView 待真机验收。
+
+统计时段重置（2026-10-21，V/I/D）：用户确认保留“点击具体日期展开滚轮”的自定义入口，不额外增加自定义按钮。两版出勤率弹层底栏增加浅蓝底“重置”，只将草稿恢复为本月（月初至今天），清除日期错误并收起滚轮，弹层保持打开；确认后才应用，关闭不提交重置。底栏仍高 56px、按钮高 40px；其他日期场景不受影响。

@@ -1,6 +1,8 @@
 import { Accordion } from '@base-ui/react/accordion';
 import type { ReactNode } from 'react';
 import { Icon } from './Icon';
+import './CellIcons.css';
+import './FieldDivider.css';
 
 interface Props {
   children: ReactNode;
@@ -32,9 +34,9 @@ interface ItemProps {
 export function CollapseItem({ value, title, children, leading, suffix, summary, disabled = false, arrow = 'down', triggerLabel, className = '', triggerClassName = '' }: ItemProps) {
   return <Accordion.Item value={value} disabled={disabled} className={`collapse-item ${className}`}>
     <Accordion.Header className="collapse-header">
-      <Accordion.Trigger className={`collapse-trigger ${triggerClassName}`} aria-label={triggerLabel}>
+      <Accordion.Trigger className={`collapse-trigger field-divider ${triggerClassName}`} aria-label={triggerLabel}>
         <span className="collapse-heading">{leading && <span className="collapse-leading">{leading}</span>}<span className="collapse-title">{title}</span>{suffix && <span className="collapse-suffix">{suffix}</span>}</span>
-        <span className={`collapse-arrow collapse-arrow--${arrow}`} aria-hidden="true"><Icon name={arrow === 'right' ? 'right' : 'down'} size="sm" /></span>
+        <span className={`collapse-arrow collapse-arrow--${arrow}`} aria-hidden="true"><Icon name={arrow === 'right' ? 'right' : 'down'} size="md" /></span>
       </Accordion.Trigger>
     </Accordion.Header>
     {summary != null && <div className="collapse-summary">{summary}</div>}

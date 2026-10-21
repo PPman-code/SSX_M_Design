@@ -57,7 +57,9 @@ for (const width of [360, 375, 390, 430]) {
       await expect(contact).toHaveCSS('border-radius', '8px');
       await expect(contact).toHaveCSS('font-size', '15px');
       await expect(contact).toHaveCSS('font-weight', '400');
-      expect((await contact.boundingBox())!.height).toBe(44);
+      expect((await contact.boundingBox())!.height).toBe(40);
+      expect((await contact.boundingBox())!.width).toBeGreaterThanOrEqual(40);
+      await expect(contact).not.toHaveClass(/touch-target/);
       if (label === '收费报名') {
         await page.screenshot({ path: `test-results/payment-activation-${width}.png` });
         await contact.click();
@@ -183,3 +185,16 @@ test('phone shell preserves viewport width and interaction while direct pages om
   await expect(page.locator('.device-shell, .preview-chrome')).toHaveCount(0);
   await expect(page.getByRole('navigation', { name: '主导航' })).toBeVisible();
 });
+
+for (const theme of ['light', 'dark']) {
+  test(`menu cell decoration icons are 18px in ${theme}`, async ({ page }) => {
+    await page.goto(`/#/pages/my/v1?theme=${theme}`);
+    const icons = page.locator('.menu-cell > svg, .menu-cell-arrow > svg');
+    expect(await icons.count()).toBeGreaterThan(0);
+    for (const icon of await icons.all()) {
+      await expect(icon).toHaveCSS('width', '18px');
+      await expect(icon).toHaveCSS('height', '18px');
+    }
+    await expect(page.locator('.menu-cell').first()).toHaveCSS('height', '56px');
+  });
+}

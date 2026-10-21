@@ -13,4 +13,6 @@ PC 色板、roles 完整复制；通用颜色、字体、间距、圆角、动�
 默认 Light，通过 URL 的 theme 参数切换 Dark；iframe 明确传递相同主题。示例不跨会话持久化。
 移动端新增 layout/component 和字号是 0.1.0 初始基线。继承语义不代表所有前景/背景组合自动满足对比度要求，具体组件仍需检查。
 
-移动端可读性调整：主按钮背景直接复用 color.background.brand.bold 及其 pressed 状态；继承的 hovered token 仅保留在来源数据中，移动端组件不消费，不维护独立移动端按钮蓝；Dark 主操作保留深色文字；状态文字选用既有较深色阶，警告用深色文字和橙色标记。辅助文字/占位符 Light 调整至 neutral.800。物理色板保持来源快照不变。
+移动端可读性调整：主按钮背景直接复用 color.background.brand.bold 及其 pressed 状态；继承的 hovered token 仅保留在来源数据中，移动端组件不消费，不维护独立移动端按钮蓝；Dark 主操作保留深色文字；状态文字选用既有较深色阶，警告用深色文字和橙色标记。2026-10-20 根据移动端设计稿纠偏：最低强调辅助文字（`color.text.subtlest`）恢复至 `neutral.700`，占位文字（`color.text.placeholder`）恢复至 `neutral.650`，恢复移动端指标与弱文字的真实层次。物理色板保持来源快照不变。
+
+2026-10-21 用户更新 layout.touchTarget=40px，替代原 44px 最低值；只改源 tokens.json 并重新生成 CSS 和 token catalog。显式组件布局高度独立维护，不能全局替换所有 44px。

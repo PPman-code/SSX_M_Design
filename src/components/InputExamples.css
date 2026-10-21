@@ -1,0 +1,10 @@
+.input-examples h3 { margin: 20px 0 8px; color: var(--color-text-subtle); font-size: 14px; line-height: 22px; font-weight: 400; }
+.input-example-group { border-radius: 8px; background: var(--color-background-surface); }
+.input-example-group > .ssx-input:first-child { border-radius: 8px 8px 0 0; }
+.input-example-group > .ssx-input:last-child { border-radius: 0 0 8px 8px; }
+.input-example-group > .field-divider:last-child::after { content: none; }
+.input-example-group > .ssx-input:only-child { border-radius: 8px; }
+.input-example-external { display: grid; gap: 16px; padding: 16px; background: var(--color-background-surface); border-radius: 8px; }
+.input-example-numeric .ssx-input-native { text-align: right; }
+.input-examples .input-code-action { height: 28px; min-height: 28px; padding: 0 8px; border-radius: 6px; font-size: 14px; line-height: 22px; }
+.input-example-feedback { margin: 8px 0; font-size: 12px; line-height: 20px; color: var(--color-text-subtle); }

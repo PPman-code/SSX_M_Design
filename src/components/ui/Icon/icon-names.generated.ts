@@ -1,6 +1,7 @@
 /* 此文件由 scripts/generate-iconfont.mjs 自动生成，请勿手工修改。 */
 export const iconSpritePrefix = "SSX-";
 export const iconNames = [
+  "zujiangouxuan",
   "xuanban1",
   "xuanke1",
   "dianziqianbao",

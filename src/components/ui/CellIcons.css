@@ -1,0 +1,14 @@
+/* Decoration glyphs inside cells share 18px; controls and avatars keep their own geometry. */
+.base-cell-leading > svg,
+.base-cell-value > svg,
+.base-cell-arrow > svg,
+.collapse-leading > svg,
+.collapse-suffix > svg,
+.collapse-arrow > svg,
+.ssx-input-label-icon > svg,
+.ssx-input-prefix > svg,
+.ssx-input-suffix > svg,
+.ssx-input-icon > svg,
+.ssx-input-status,
+.menu-cell > svg,
+.menu-cell-arrow > svg { width: var(--component-icon-size-md); height: var(--component-icon-size-md); font-size: var(--component-icon-size-md); }

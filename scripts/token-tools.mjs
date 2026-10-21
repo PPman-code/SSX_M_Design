@@ -455,8 +455,17 @@ function validateSemanticReferences(palette, roles, leaves) {
   for (const path of dependencies.keys()) visit(path, []);
 }
 
+function validateTextHierarchy(tokens) {
+  const subtleLight = tokens?.color?.text?.subtle?.$light;
+  const subtlestLight = tokens?.color?.text?.subtlest?.$light;
+  if (subtleLight && subtlestLight && subtleLight === subtlestLight) {
+    throw new Error(`Token 层级错误: color.text.subtlest 与 color.text.subtle 在 light 模式下不能指向相同角色 (${subtleLight})，会导致文字对比层级缺失`);
+  }
+}
+
 function validateSemanticTree(palette, roles, tokens) {
   getRoleEntries(roles);
+  validateTextHierarchy(tokens);
   const leaves = collectSemanticLeaves(tokens);
   for (const [path, { token }] of leaves) validateSemanticLeaf(path, token);
   validateSemanticReferences(palette, roles, leaves);

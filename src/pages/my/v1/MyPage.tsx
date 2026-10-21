@@ -1,3 +1,4 @@
+import { simulateRefresh } from '../../../preview/simulateRefresh';
 import { useEffect, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { MobilePage } from '../../../components/ui/MobilePage';
@@ -30,7 +31,7 @@ export function MyPage() {
     return <button type="button" className="payment-entry" aria-haspopup="dialog" onClick={(event) => { paymentTriggerRef.current = event.currentTarget; if (paymentEnabled) setEntry(label); else setActivationOpen(true); }}><span className="payment-icon"><Icon name={icon} size="lg" /></span><span>{label}</span></button>;
   }
   return <>
-    <MobilePage title="我的" previewChrome={previewChrome} previewHistory={false} className="my-page" footer={<ProductTabBar active="my" />}>
+    <MobilePage onRefresh={simulateRefresh} refreshSuccessText="模拟刷新完成" title="我的" previewChrome={previewChrome} previewHistory={false} className="my-page" footer={<ProductTabBar active="my" />}>
       <div className="my-content">
         <img className="my-decoration my-decoration-left" src={`${assets}decoration-left.svg`} width="244" height="150" alt="" />
         <img className="my-decoration my-decoration-right" src={`${assets}decoration-right.svg`} width="160" height="109" alt="" />
@@ -43,7 +44,7 @@ export function MyPage() {
           <div className="payment-inner">
             <div className="registration-group"><h2>正式报名</h2>{payment('收费报名', 'money-collect-filled')}</div>
             <div className="payment-divider" aria-hidden="true" />
-            <div className="collection-group"><div className="collection-heading"><h2>仅收款</h2><button ref={collectionHelpRef} type="button" className="collection-help" aria-label="仅收款说明" aria-haspopup="dialog" onClick={() => setCollectionHelpOpen(true)}><Icon name="question-circle" size="sm" /></button></div>
+            <div className="collection-group"><div className="collection-heading"><h2>仅收款</h2><button ref={collectionHelpRef} type="button" className="collection-help touch-target" aria-label="仅收款说明" aria-haspopup="dialog" onClick={() => setCollectionHelpOpen(true)}><Icon name="question-circle" size="sm" /></button></div>
               <div className="collection-actions">{payment('收款码', 'qr-code-fill')}{payment('扫码收款', 'qr-scan-2-line')}</div>
             </div>
           </div>

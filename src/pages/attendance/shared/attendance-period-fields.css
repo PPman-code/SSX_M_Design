@@ -1,0 +1,11 @@
+.attendance-period-options { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin-bottom: 16px; }
+.attendance-period-options .button { min-width: 0; padding-inline: 0; font-size: 14px; border-color: transparent; background: var(--color-background-neutral-subtle); color: var(--color-text-subtle); }
+.attendance-period-options .button[aria-pressed="true"] { border-color: var(--color-border-brand); background: var(--color-background-brand-subtle); color: var(--color-text-brand); }
+.attendance-period-dates { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.attendance-period-date { min-width: 0; }
+.attendance-period-date > span { display: block; margin-bottom: 8px; font-size: 14px; line-height: 20px; color: var(--color-text-subtle); }
+.attendance-period-date .button { width: 100%; height: 48px; justify-content: space-between; padding-inline: 12px; border: 1px solid transparent; background: var(--color-background-neutral-subtle); color: var(--color-text); font-size: 16px; font-variant-numeric: tabular-nums; }
+.attendance-period-date .button .icon { width: 18px; height: 18px; flex-shrink: 0; color: var(--color-text-subtle); }
+.attendance-period-date .button[aria-pressed="true"] { border-color: var(--color-border-brand); background: var(--color-background-brand-subtle); color: var(--color-text-brand); }
+.attendance-period-date .button[aria-pressed="true"] .icon { color: var(--color-text-brand); }
+.attendance-period-fields > .wheel-picker { margin-top: 16px; }

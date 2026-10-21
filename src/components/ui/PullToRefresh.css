@@ -1,0 +1,7 @@
+.pull-refresh { height: var(--pull-distance, 0px); flex-shrink: 0; display: flex; align-items: center; justify-content: center; overflow: hidden; color: var(--color-text-subtlest); background: transparent; transition: height .18s ease; }
+.pull-refresh[data-state="pulling"], .pull-refresh[data-state="ready"] { transition: none; }
+.pull-refresh-feedback { display: inline-flex; align-items: center; justify-content: center; gap: 8px; font-size: var(--typography-font-size-caption); line-height: var(--typography-line-height-caption); }
+.pull-refresh-ready { transform: rotate(180deg); }
+.pull-refresh-accessible { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); padding: 0; border: 0; }
+.pull-refresh-accessible:focus-visible { z-index: var(--z-index-sticky); width: auto; height: 40px; clip-path: none; padding-inline: 16px; border-radius: 6px; background: var(--color-background-surface); color: var(--color-text-brand-accessible); }
+@media (prefers-reduced-motion: reduce) { .pull-refresh { transition: none; } }
