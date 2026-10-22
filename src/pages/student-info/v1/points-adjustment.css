@@ -17,6 +17,7 @@
 .points-entry-heading > .button { --button-tone-text: var(--color-text-subtle); --button-tone-pressed: var(--color-text); flex-shrink: 0; }
 .points-entry-fields { display: flex; flex-direction: column; }
 .points-entry-fields .field-divider::after { height: 0.5px; background: var(--color-border-lighter); }
+.points-entry-fields > .field-divider:last-child::after { content: none; }
 .points-entry-fields .ssx-input { min-width: 0; }
 .points-entry-fields .points-reason-input .ssx-input-native { text-align: right; }
 .points-entry-list > .points-add-item { margin-top: 0; }
