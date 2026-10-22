@@ -55,7 +55,7 @@ for (const width of [360, 375, 390, 430]) {
       const contact = dialog.getByRole('button', { name: '联系客服开通' });
       await expect(contact).toHaveCSS('background-color', 'rgb(40, 120, 232)');
       await expect(contact).toHaveCSS('border-radius', '8px');
-      await expect(contact).toHaveCSS('font-size', '15px');
+      await expect(contact).toHaveCSS('font-size', '16px');
       await expect(contact).toHaveCSS('font-weight', '400');
       expect((await contact.boundingBox())!.height).toBe(40);
       expect((await contact.boundingBox())!.width).toBeGreaterThanOrEqual(40);

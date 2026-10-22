@@ -138,18 +138,18 @@ for (const chrome of ['', '&chrome=wechat']) {
   });
 }
 
-test('student heading opens details while phone and other actions remain independent', async ({ page }) => {
+test('student heading navigates while metrics, phone and shortcuts remain independent', async ({ page }) => {
   await page.goto('/#/pages/students/v1?phone=masked');
   const first = page.getByRole('listitem').first();
   await first.locator('.student-metrics').click({ position: { x: 5, y: 5 } });
-  await expect(page.getByText('金灿灿的学员详情待对接', { exact: true })).toBeHidden();
-  await first.locator('.student-card-heading').click({ position: { x: 5, y: 5 } });
-  await expect(page.getByText('金灿灿的学员详情待对接', { exact: true })).toBeVisible();
+  await expect(page).toHaveURL(/pages\/students\/v1/);
   await first.getByRole('button', { name: '拨打金灿灿电话' }).click();
   await expect(page.getByText('暂无号码查看及拨号权限', { exact: true })).toBeVisible();
-  await expect(page.getByText('金灿灿的学员详情待对接', { exact: true })).toBeHidden();
   await first.getByRole('button', { name: '金灿灿课程信息' }).click();
   await expect(page.getByText('金灿灿的课程信息待对接', { exact: true })).toBeVisible();
   await first.getByRole('button', { name: '金灿灿学员二维码' }).click();
   await expect(page.getByText('金灿灿的学员二维码待对接', { exact: true })).toBeVisible();
+  await expect(page).toHaveURL(/pages\/students\/v1/);
+  await first.locator('.student-card-heading').click({ position: { x: 5, y: 5 } });
+  await expect(page).toHaveURL(/pages\/student-info\/v1\?.*student=s1/);
 });

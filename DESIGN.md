@@ -20,8 +20,10 @@ PC 规范按 2026-10-12 快照继承，不自动跟随 PC 更新；没有在本�
 | 顶部导航 / Search / Tab 组合与底部工具栏 | page-patterns.md 的顶部层级规则、interaction.md、相关组件 API 与全部调用点；人员列表另读 list-pages.md |
 | 人员管理列表的新建、审查或统一 | list-pages.md（含已确认规则、候选基线及迁移记录）、两个现有列表样本；涉及抽取再读 component-registry.md / components.md |
 | 加载 / 下拉刷新 | components.md 的 Loading / PullToRefresh、interaction.md、page-patterns.md、实际滚动容器及全部 MobilePage 调用点；先明确模拟回调或真实请求 |
-| 修改组件 | components.md（Cell / Toast 含 TDesign 候选扩展及迁移状态）、interaction.md、accessibility.md、相关 token、组件实现与调用点 |
-| 表单输入 | components.md 的 Input（候选 API 与迁移记录）及 Input/选择型 Cell 混排审查（基础单行与折叠标题统一 56px）、accessibility.md；搜索使用 Search，不混用页面顶部层级高度 |
+| 上拉层 / 多层编辑 / 选择与编辑混合 | sheet-interactions.md（含编辑内单选左上返回、独立选择取消用语）（已确认执行基线、积分流程与待迁移分开）、interaction.md、components.md 的 BottomSheet |
+| 修改组件 | components.md（BottomSheet selection/editor 模式试行及关闭委托；Button 默认 16px/24px，筛选与日期快捷项共用文字样式；PopoverMenu 含 20px 图标/16px 文字与带箭头优先规则；Search 含弹层首行留白规则；Cell / Toast 含 TDesign 候选扩展及迁移状态）、interaction.md、accessibility.md、相关 token、组件实现与调用点 |
+| 学员加减积分原型 | docs/requirements/student-info.md、components.md 的 BottomSheet / Input / Cell / SheetChoiceGroup / SheetSelectionList；按系统组件实现，弹层内不添加加减 Tab |
+| 表单输入 / 日期区间选择 | components.md 的 DateRangeFields（候选共享字段，重置由场景决定）、Input（候选 API 与迁移记录）及 Input/选择型 Cell 混排审查（基础单行与折叠标题统一 56px）、accessibility.md；搜索使用 Search，不混用页面顶部层级高度 |
 | 字体 | typography.md、foundations.md、相关组件与 token |
 | 修改 token | token-sync.md、tokens.json；改物理色或角色时再读对应 JSON |
 | 图标 | iconography.md（含单元格装饰图形 18px 规则）、Icon 公共 API |
@@ -29,10 +31,13 @@ PC 规范按 2026-10-12 快照继承，不自动跟随 PC 更新；没有在本�
 
 ## 移动端底线
 
+- 页面锚点按钮触发的小型操作菜单优先使用带箭头 PopoverMenu；图标 20px、文字 16px/24px，箭头随实际弹出方向指向按钮，细则和已迁移调用点见 components.md。
+
 2026-10-21 用户更新：项目最小点击热区为 40×40px，替代此前 44px 底线。大于 40px 的既定组件高度按各自规范保留。
 - 390 CSS px 为默认检查宽度，同时验证 360、375、430px；真机按 viewport 自适应，不整页缩放。
 - 页面常规次要按钮优先使用 Button soft（品牌浅底），筛选/选择底栏重置与取消共用该样式；平台文字动作、特殊背景及中性描边例外见 components.md。
-- 按钮默认视觉高 40px（热区至少 40px）、圆角 8px、当前实现字号 15px、字重 400（字体迁移时对照 typography.md）；标签外置表单的输入区高 48px；TDesign 参考的横排输入行 56px、垂直输入行 86px 为候选基线，见 components.md。所有独立操作触控区域至少 40 × 40px。本身尺寸已 $\ge 40\text{px}$ 的按钮和操作项直接以自身为点击区，不加 `.touch-target` 伪元素扩展，避免热区外溢造成相邻误触；仅视觉尺寸 $< 40\text{px}$ 的小图标、行内辅助按钮才使用伪元素扩展。
+- 表单提交按钮默认可点击，点击后用字段错误/必要的轻提示说明未完成项；不得仅因表单未填完整而禁用。提交中、无权限或确实不可用状态另处理；详见 sheet-interactions.md，存量调用尚待迁移。
+- 按钮默认视觉高 40px（热区至少 40px）、圆角 8px、默认字号 16px/24px、字重 400（2026-10-22 已迁移公共 Button；sm 及语义专用组件保留显式规格）；标签外置表单的输入区高 48px；TDesign 参考的横排输入行 56px、垂直输入行 86px 为候选基线，见 components.md。所有独立操作触控区域至少 40 × 40px。本身尺寸已 $\ge 40\text{px}$ 的按钮和操作项直接以自身为点击区，不加 `.touch-target` 伪元素扩展，避免热区外溢造成相邻误触；仅视觉尺寸 $< 40\text{px}$ 的小图标、行内辅助按钮才使用伪元素扩展。
 - 移动端字体以用户 2026-10-14 提供的 [typography.md](design-system/typography.md) 为准：Regular 400、Medium 500；原图单位及未指定行高按文档记录。现有组件字号与字重尚未批量迁移；出勤率辅助指标标签保持 11px / 20px。
 - 所有单元格的高度包含下划线/分隔线；线画在行内，不额外增加高度，末行隐藏线也不改变行高。
 - 页面顶部层级按 56 / 48 / 40px：第一层 56px、第二层 48px、数量/批量操作层 40px；Tab 独立作为第一层时 56px、上方有第一层时 48px。初始顶部排列不等于共同吸顶，常见上滑为第一层移出、只第二层吸顶且仍高 48px。标准单行底部工具栏 56px，安全区另加；细则与迁移状态见 page-patterns.md。
@@ -45,3 +50,7 @@ PC 规范按 2026-10-12 快照继承，不自动跟随 PC 更新；没有在本�
 ## 跨页面一致性
 
 学员管理与意向客户管理的共同规则见 [人员管理列表](design-system/list-pages.md)。区分「已确认规则」「待迁移现状」「候选基线」；当前实现值不自动成为规范。只将相同语义和操作统一，保留业务字段、列数及已确认的滚动差异。
+
+## 主题验证范围（用户确认 · 2026-10-22）
+
+线上目标仅浅色主题，浅色为主要验收。暗色保留规范完整性，采用轻量抽查：普通文案、单页间距、与主题无关的行为修改不重复进行暗色截图和整套流程；新增/修改语义色、共享组件配色、遮罩/层级、禁用/危险/错误等主题敏感状态时针对性抽查暗色。不硬编码物理色、不删除暗色token；记录实际检查范围，不宣称双主题全量验收。已有双主题自动测试可按相关变更选择运行，不因保留暗色而每轮重复全量执行。

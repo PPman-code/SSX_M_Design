@@ -10,6 +10,10 @@ for (const version of ['v1', 'v2']) {
       await expect(trigger).toContainText('本月');
       await trigger.click();
       const sheet = page.getByRole('dialog', { name: '统计时段', exact: true });
+      for (const option of await sheet.getByRole('group', { name: '快捷时段', exact: true }).getByRole('button').all()) {
+        await expect(option).toHaveCSS('font-size', '16px');
+        await expect(option).toHaveCSS('height', '40px');
+      }
       await expect(sheet.getByRole('button', { name: '本月', exact: true })).toHaveAttribute('aria-pressed', 'true');
       await expect(sheet.getByRole('button', { name: /^开始日期/ })).toContainText('2026/10/01');
       await sheet.getByRole('button', { name: '上月', exact: true }).click();

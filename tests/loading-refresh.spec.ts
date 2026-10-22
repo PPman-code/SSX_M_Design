@@ -128,7 +128,8 @@ test('horizontal, multitouch and input gestures do not refresh and navigation ca
   await input.dispatchEvent('touchend', { touches: [] });
   await expect(indicator).toHaveAttribute('data-state', 'idle');
   await page.getByRole('button', { name: '金灿灿学员详情', exact: true }).click();
-  await expect(page.locator('.toast-message')).toHaveText('金灿灿的学员详情待对接');
+  await expect(page).toHaveURL(/pages\/student-info\/v1\?.*student=s1/);
+  await page.goBack();
   const errors: string[] = []; page.on('pageerror', error => errors.push(error.message));
   await page.getByRole('button', { name: '刷新当前页面', exact: true }).focus();
   await page.keyboard.press('Enter');

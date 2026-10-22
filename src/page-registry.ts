@@ -20,6 +20,10 @@ export const businessPages = [{
   id: 'students', name: '学员管理', version: '1.0', status: '设计草稿', route: '/pages/students/v1',
   audience: '老师 / 班主任 / 学管师', description: '学员列表、分类页签、搜索、排序及筛选；本地模拟数据。',
   figmaUrl: 'https://www.figma.com/design/hoN0voWKmRtnWBPuzMw1yB/?node-id=4300-74914',
+}, {
+  id: 'student-info', name: '学员信息', version: '1.0', status: '设计草稿', route: '/pages/student-info/v1',
+  audience: '老师 / 班主任 / 学管师', description: '页面骨架，仅实现加减积分菜单入口，正文和后续操作待设计。',
+  figmaUrl: '',
 }] as const;
 
 /** Historical versions retained for direct-route review, omitted from active navigation. */

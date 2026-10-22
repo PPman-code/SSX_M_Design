@@ -10,9 +10,9 @@ MobilePage 接收 title、children、footer、previewChrome 和 previewHistory�
 
 ## Button
 主按钮统一使用 color.background.brand.bold（Light #2878E8 / Dark #409EFF），不提供 hover 状态，按下复用同一语义族的 pressed，不自行换成更深品牌色阶。
-variant: primary / secondary / ghost / soft / outline / text，默认 primary；soft 为辅助色、outline 为线框、text 为品牌文字按钮。页面次要操作优先使用 soft（品牌浅底 + 品牌文字，Light/Dark 使用语义映射），包括筛选/选择弹层的重置/取消、页面重试及常规次要按钮（2026-10-21 用户确认）。secondary 保留白底中性描边作为显式例外，ghost 仍为轻量操作；不是将 secondary API 全局重新定义为浅蓝。默认 md 统一为 40px 视觉高、至少 40px 点击热区、8px 圆角、15px 字号 / 400 字重；sm 为同高的紧凑文字版，lg 保留 52px，仅在明确业务需要时使用，不作为常用默认规格。
+variant: primary / secondary / ghost / soft / outline / text，默认 primary；soft 为辅助色、outline 为线框、text 为品牌文字按钮。页面次要操作优先使用 soft（品牌浅底 + 品牌文字，Light/Dark 使用语义映射），包括筛选/选择弹层的重置/取消、页面重试及常规次要按钮（2026-10-21 用户确认）。secondary 保留白底中性描边作为显式例外，ghost 仍为轻量操作；不是将 secondary API 全局重新定义为浅蓝。默认 md 统一为 40px 视觉高、至少 40px 点击热区、8px 圆角、16px/24px 字号行高 / 400 字重；sm 为同高的紧凑文字版，lg 保留 52px，仅在明确业务需要时使用，不作为常用默认规格。
 tone: brand / danger / warning；shape: default / round / square（默认保持项目圆角）。支持 block 通栏、icon（本地图标名称）、iconOnly（必须提供 icon 和 aria-label），loading/loadingText。加载时保留按钮颜色并显示旋转图形，阻止重复点击，不触发提交；设置 loading=false 后恢复。支持 ref 和标准原生 button 属性。disabled 与 loading 分开表达，减少动效时停止旋转。
-对照 [Arco Mobile Button 文档](https://arco.design/mobile/react/arco-design/pc/#/components/button) 与 Figma 34:3824 的样式、形状与状态；2026-10-13 的 44px 默认高度已被 2026-10-20 用户最新确认的 40px 视觉基线替代；圆角 8px、15px 字号 / 400 字重保留。主、次、辅助色、线框及普通通栏/弹窗主按钮共用此规格；round/square 仍为显式特殊形状。项目沿用主题蓝，不引入 Arco 运行时。类型颜色仅应用在 primary、soft、outline、text 上，secondary/ghost 保留中性语义。
+对照 [Arco Mobile Button 文档](https://arco.design/mobile/react/arco-design/pc/#/components/button) 与 Figma 34:3824 的样式、形状与状态；2026-10-13 的 44px 默认高度已被 2026-10-20 用户最新确认的 40px 视觉基线替代；圆角 8px、400 字重保留；2026-10-22 默认字号已从 15px 迁移为 16px/24px。主、次、辅助色、线框及普通通栏/弹窗主按钮共用此规格；round/square 仍为显式特殊形状。项目沿用主题蓝，不引入 Arco 运行时。类型颜色仅应用在 primary、soft、outline、text 上，secondary/ghost 保留中性语义。
 支持标准 button 属性。封装 Base UI Button；禁用不可操作，焦点可见，pressed 有反馈。默认 type=button，表单提交需显式指定 type=submit。
 
 ## Icon
@@ -143,7 +143,7 @@ BottomSheet 继续统一外壳、微信视口边界、动画、焦点恢复和�
 
 `src/components/ui/SheetContent.tsx` 提供以下组合，不维护业务草稿或主动关闭：
 - SheetSelectionList：label、options（value/label/disabled）、value。单选使用 onChange、可选 onReselect（再次点击当前项）；indicator=list 为右侧勾的即时单选，indicator=dot 为需确认单选。multiple=true 时 value 为 string[]，使用 onToggle，由调用者处理全部、互斥和至少一项等规则。选项行最小 48px（2026-10-21 用户确认，取代 44px；弹层单选/多选列表单元格统一 48px，与排序弹层一致；chip 网格 SheetChoiceGroup 为 40px（2026-10-21 用户更新））、15px / 24px，长名称自然换行，无 hover；多选选中无底色块，使用强调文字和右勾，单选 list 只显示右勾。
-- SheetChoiceGroup：label、options、value:string[]、onToggle、hint/error；未选中可用项背景使用 --color-background-neutral-subtle（2026-10-21 用户要求较原 subtlest 加深一阶），选中保留品牌浅底/边框，禁用保留 subtlest/disabled 文字；两列选择块，自动关联组标题和说明，错误播报；校验保留在页面。
+- SheetChoiceGroup：label、options、value:string[]、onToggle、hint/error；选项文字统一 16px/24px（2026-10-22 用户确认），与 DateRangeFields 快捷项共用 .sheet-choice-option 文字样式，40px 单行高度保留；未选中可用项背景使用 --color-background-neutral-subtle（2026-10-21 用户要求较原 subtlest 加深一阶），选中保留品牌浅底/边框，禁用保留 subtlest/disabled 文字；两列选择块，自动关联组标题和说明，错误播报；校验保留在页面。
 - SheetActions：primary 必填、secondary 可选，每项含 label/onClick/disabled；一个按钮全宽，两个按钮等宽排列。通过 BottomSheet.footer 传入。
 
 四种实例分别为即时单选、确认多选、分组筛选、日期表单；日期字段和快捷时段仍由业务页组合。无底部按钮的即时单选点击提交并关闭；其他模式关闭不提交。组件预览补齐即时单选、多选和分组筛选示例，确认单选继续使用圆点。
@@ -186,13 +186,13 @@ Props：open、onOpenChange、title、children、variant?（ios 默认 / android
 
 ## PopoverMenu · 气泡菜单
 
-来源：[Ant Design Mobile 气泡菜单页 4:99](https://www.figma.com/design/oYpPxX1OgLSbDfjaucWhBU/Ant-Design-Mobile?node-id=4-99)，具体黑/白状态节点 233:12394、233:12530。原稿为双倍尺寸，映射为最小宽 145px、8px 圆角、51px 行高、15px/21px 普通文字、24px 图标与 8px 图文间距，分隔线从文字起点开始。深色背景 90% 黑，浅色沿用白气泡语义表面；按下态、边线与阴影使用语义色及混色。图标使用本项目 Icon；稿内灰色方块是图标占位，不作为图标资源。深色图标归一为单色，避免原矢量固定灰色在深背景上不可读。
+来源：[Ant Design Mobile 气泡菜单页 4:99](https://www.figma.com/design/oYpPxX1OgLSbDfjaucWhBU/Ant-Design-Mobile?node-id=4-99)，具体黑/白状态节点 233:12394、233:12530。原稿为双倍尺寸，映射为最小宽 145px、8px 圆角、最小 51px 操作行、16px/24px 普通文字、20px 图标与 8px 图文间距（2026-10-22 用户更新），分隔线从文字起点开始。深色背景 90% 黑，浅色沿用白气泡语义表面；按下态、边线与阴影使用语义色及混色。图标使用本项目 Icon；稿内灰色方块是图标占位，不作为图标资源。深色图标归一为单色，避免原矢量固定灰色在深背景上不可读。
 
 公开入口 `src/components/ui/PopoverMenu.tsx`，封装已安装的 Base UI Menu，区别于说明型 Popover。Props：label（菜单可访问名）、trigger（本地按钮）、actions、appearance?（dark 默认 / light）、placement?（默认 bottom-end，支持 top/top-start/top-end/bottom/bottom-start/bottom-end）、open?、onOpenChange?。每项含唯一 key、label、icon?（IconName）、dot?、disabled?、onSelect?。动作触发回调后关闭，不表示持久选中状态。红点附带“有新消息”可访问名称。
 
 只点击/键盘打开，无 hover 状态或遮罩；外部点击和 Escape 关闭，执行后回到触发按钮，边缘自动避让。Base UI 管理 roving focus 与键盘字符导航；禁用项允许获得焦点供读屏识别，但 Enter/点击不执行、不关闭。正文长名称换行，菜单滚动隐藏滚动条。
 
-原始箭头与红点 SVG 保存于 public/components/popover-menu，保留根宽高与路径，按 0.5 比例在包装槽内显示，无临时资源地址运行依赖。深色红点/箭头及浅色箭头根尺寸 24×24，浅色红点 20×20；显示红点约 10px（深色含白描边 12px），箭头旋转方形约 17px 对角宽。浅深色菜单、纯文字/图标/红点禁用与六种定位示例位于组件预览。业务示例只更新内存反馈，不调用真实扫码/通讯功能。
+原始箭头与红点 SVG 保存于 public/components/popover-menu；红点继续按 0.5 比例在包装槽内显示，约 10px（深色含白描边 12px）。2026-10-22 箭头改为 14×6px CSS 三角，使用与面板一致的 --menu-surface；根据实际 data-side 朝向锚点，放在面板外侧，不叠加半透明 SVG 形成深色缺口。原箭头 SVG 仅保留为参考资产，无临时资源地址运行依赖。浅深色菜单、纯文字/图标/红点禁用与六种定位示例位于组件预览。业务示例只更新内存反馈，不调用真实扫码/通讯功能。
 
 ## SideDrawer
 本地封装 Base UI Drawer。open/onOpenChange、title、children、footer、finalFocus；从右侧进入，最大 420px、窄屏 88% 宽。复用 BottomSheet 的产品视口边界、遮罩、焦点、键盘避让和滚动区，底部操作固定。意向客户与学员管理筛选共用，样式位于 SideDrawer.css；不改变 BottomSheet 默认行为。
@@ -208,7 +208,7 @@ Props：open、onOpenChange、title、children、variant?（ios 默认 / android
 - actions 是排序/筛选等配套操作槽，不将其业务状态和回调搬进 Search；外层给操作组预留 8px 间距。操作采用现有 36px 布局槽并通过 .touch-target 扩到 40px，垂直居中，不据此撑高搜索整组。
 - sticky、业务筛选、分类 Tab、数量栏由页面控制；组件不接接口，不修改路由。两页的排序/筛选按钮及资源保持原调用，搜索及清除图标统一使用本地 Icon。
 - “搜索框”指整个 Search 组合；“输入区”指内部 36px 灰底区域。该组件采用新参考稿的 56px，取代此前顶部 48px 决定；当前两页的第二层分类 Tab 为 48px、数量栏为 40px；独立第一层 Tab 则为 56px，页面组合细则见 page-patterns.md。不是通用表单 Input 默认高 48px 的全局替换。
-- 弹层内复用（2026-10-20）：出勤率报表「选择班级名称」的底部浮层改用公共 Search，替换原先自写的 `input[type=search]`；组合保持 56px、输入区现为 36px（2026-10-21 同步更新），仅用 `.att-sheet-search` 去掉组件外层的 16px 左右内边距以贴合浮层内容边距。浮层内不再出现第二个搜索样式。
+- 弹层首行复用（2026-10-21 统一）：Search 作为 `.sheet-content` 的首个直接子元素时，内容区取消额外 12px 顶部内边距，Search 行高 48px、输入区 36px（上下各 6px），左右使用内容区既有 16px 留白，Search 不重复增加水平内边距。搜索与紧随的选项列表不额外叠加间隔。由公共弹层 CSS 统一识别，不再使用页面级负 margin 或高度补丁；非首行 Search 和页面顶部 56px Search 保持各自布局。已核对中心名称、主责任人及出勤率 v1/v2 班级/课程搜索；原有 sticky/滚动、选择与清空回焦行为不变。
 - 组件预览提供可输入、清除和回焦的示例；两个业务列表验证带 actions 的组合。更换图形、居中/圆形外观、取消按钮等扩展未在本次引入。
 
 Search 颜色修正（2026-10-20）：搜索图标、占位文字和清除图标共用 `--color-search-placeholder`，对应参考稿的 40% 中性色（Light 黑色 40%，Dark 白色 40%）；已输入文字继续 `--color-text`。禁止借用正文辅助色，或为搜索框改写全局 text.placeholder。此为占位提示色，不宣称达到正文文字对比度。
@@ -271,6 +271,56 @@ Search 36px 迁移（2026-10-21）：已通过共享组件同步组件预览、�
 
 次要按钮迁移（2026-10-21）：SheetActions 的 secondary 操作统一使用 Button soft，同步客户/学员筛选、中心/责任人选择、批量修改、两版出勤率及组件示例弹层；页面普通次要入口、重试及组件示例触发器改为 soft。Button 示例将“次要操作”展示为浅蓝，并单列“中性描边按钮”保留样式说明。平台 Dialog、ActionSheet、Picker 文字操作和 Popover 深色面板中的白底动作保留专用语义；报表蓝色头部覆盖保持。此次不改默认主按钮、危险操作、筛选 chip、尺寸或业务回调。
 
-出勤率统计时段组合（2026-10-21，V/I 已迁移）：v1/v2 共用页面级 AttendancePeriodFields，复用本地 Button、Icon 与 WheelPicker，未注册为通用日期组件。初始本月（月初至今天）；本月/上月（完整自然月）/最近30天（含今天）仅填充弹层草稿，明确选中态，确认才应用。起止日期始终显示；点击日期展开年/月/日滚轮，切换编辑开始/结束日期时保留另一端，滚轮修改日期后快捷项不选中。月末与闰日按目标月份收敛；起始晚于结束时提示并保留草稿，关闭/遮罩/Escape 不提交。两版已迁移，当前仅页面内存状态；其他业务日期字段未迁移，滚轮触摸与 WebView 待真机验收。
+出勤率统计时段组合（2026-10-21，V/I 已迁移）：v1/v2 原共用页面级 AttendancePeriodFields；本轮已与客户筛选共同迁移至候选 DateRangeFields，复用本地 Button、Icon 与 WheelPicker。初始本月（月初至今天）；本月/上月（完整自然月）/最近30天（含今天）仅填充弹层草稿，明确选中态，确认才应用。起止日期始终显示；点击日期展开年/月/日滚轮，切换编辑开始/结束日期时保留另一端，滚轮修改日期后快捷项不选中。月末与闰日按目标月份收敛；起始晚于结束时提示并保留草稿，关闭/遮罩/Escape 不提交。两版已迁移，当前仅页面内存状态；其他业务日期字段未迁移，滚轮触摸与 WebView 待真机验收。
 
 统计时段重置（2026-10-21，V/I/D）：用户确认保留“点击具体日期展开滚轮”的自定义入口，不额外增加自定义按钮。两版出勤率弹层底栏增加浅蓝底“重置”，只将草稿恢复为本月（月初至今天），清除日期错误并收起滚轮，弹层保持打开；确认后才应用，关闭不提交重置。底栏仍高 56px、按钮高 40px；其他日期场景不受影响。
+
+### DateRangeFields · 候选共享日期区间字段（2026-10-21）
+
+公开入口 src/components/ui/DateRangeFields.tsx。在出勤率 v1/v2 和客户筛选三个时间条件核对后抽取，Candidate；不把仅有两个场景的组合直接标为 Recommended。Props：today（调用方本地 ISO 日期）、period（本月/上月/最近30天/自定义/null）、value（[开始,结束] ISO 日期，支持空端点）、onChange(period,value)。只管理当前编辑端点与滚轮展开，不包含弹层、提交或重置；调用方重置时通过 key 重建来收起滚轮。日期运算和摘要位于 src/lib/date-range.ts，避免共享 UI 依赖出勤率业务目录。
+
+快捷项高 40px，日期按钮高 48px、图标 18px；点击具体日期展开年月日滚轮，空端点初次点击以 today 填入该端点，另一端仍可为空，显示“请选择”。滚动修改置为自定义，月份/年份变化时截断无效月末日；控件空值与标题可访问名称同步。颜色使用语义 token，保留 Light/Dark。
+
+业务差异：出勤率默认本月，重置恢复本月，必须两端都有日期；客户筛选默认不限，重置清空当前字段两端，允许单边界筛选。客户子弹层“确认”只回填父筛选草稿，关闭/遮罩/Escape 不回填；父筛选“确定”才应用，父关闭不应用。反向区间在子弹层提示并保留草稿。底栏共用 56px SheetActions 与 40px 按钮。
+
+已迁移：两版出勤率统计时段；客户下次跟进/录入/上次沟通时间改为 56px Cell 选择行；客户号码归属地、备注改用横排 Input、可清空、白底及内置分隔线，长标签使用页面作用域 96px 标签槽；可配置文本/单日期字段改用现有 external Input。未迁移：其他业务日期字段、元数据单日期滚轮；组件预览暂未新增独立日期示例。真机键盘、滚轮与 WebView 仍待验收。
+
+客户日期摘要数字对齐（2026-10-21，V/D）：三个时间条件的摘要启用 tabular-nums，保持现有 12px/18px、字体族及补零格式。摘要列在当前客户单元格内放宽可用宽度，360px 下仍单行右对齐、无溢出；该宽度覆写仅用于日期列，不改变公共 Cell 的默认值槽宽度和其他字段排版。
+
+客户筛选文本字段样式回退（2026-10-21 用户确认，V/D）：号码归属地、客户备注信息恢复标题在上、浅灰底输入区在下的原外观；继续复用本地 Input external，页面作用域设置 14px 标签、44px 输入区、8px 水平内边距，保留输入值及清空行为。此项覆盖前述这两个字段的横排迁移记录；公共 Input、时间选择单元格、等宽日期摘要及弹层搜索留白保持。
+
+气泡菜单页面使用规则（2026-10-22 用户确认，V/D）：页面中由锚点按钮触发的小型操作菜单优先使用带箭头 PopoverMenu，默认渲染箭头并随碰撞避让后的实际方向定位。图标 20px、文字 16px/24px，图文间距 8px；有图标的分隔线对齐文字起点（20px 内边距 + 20px 图标 + 8px 间距）。已同步全部组件预览样例及学员信息积分入口；回调、禁用项、键盘与关闭回焦不变，未将说明 Popover、整屏筛选或 ActionSheet 全局替换成菜单。
+
+2026-10-22 V/D 迁移：公共 Button 默认 md/lg 字号 16px、24px 行高，保留 sm 14px 与场景显式字号；SheetChoiceGroup 和 DateRangeFields 快捷项共用 .sheet-choice-option 的 16px/24px 样式，覆盖客户、学员、两版出勤率与组件预览。客户批量修改已使用 Cell/CellGroup，56px 行含缩进分隔线、18px 箭头；客户筛选 14px 小标题统一 Regular 400。各页回调和业务数据保持。
+
+2026-10-22 SheetActions 扩展：primary 可选 tone=brand/danger/warning，直接透传本地 Button，默认品牌不变；减积分确认使用 danger。secondary 继续 soft。核对既有28处引用，只有积分减分主确认传入 danger，其他调用点无行为或配色迁移。
+
+## BottomSheet 模式试行（2026-10-22）
+
+新增 mode?: selection/editor（默认selection）、onCloseRequest?: () => void。selection显示横杠、支持下滑关闭；editor不显示横杠、不启动下滑关闭手势，默认标题区56px。搜索框不等于编辑表单。mode不自动判断脏状态；有onCloseRequest时，关闭按钮/遮罩/Escape/平台关闭请求委托页面，页面决定直接关闭或使用本地Dialog确认。正常提交直接更新open，不触发放弃提示。自定义header仍由调用方负责。
+
+已迁移加减积分主表单及新增规则为editor，规则库保持selection；积分项非空即为主草稿，新建表单与初始字段比较。其他既有BottomSheet与SideDrawer未批量迁移，保留原语义。新API先在积分流程试行，不据此宣称所有编辑弹层均已保护。
+
+叠加确认（2026-10-22试行）：Dialog/InfoDialog可选stacked=true，将确认遮罩提至父modal层，确认viewport为modal+1；积分放弃确认使用此模式，普通Dialog默认不变，避免遮罩在父Drawer下面无法压暗表单。
+
+2026-10-22 PopoverMenu：action支持可选danger，使用--color-text-danger；只对意向客户批量删除启用，其他菜单项保持原外观。
+
+2026-10-22 Dialog次要动作（用户确认）：ios/android多动作的非主动作采用--color-text，末项主动作保持品牌色；custom首项主按钮、其余次要动作采用正文色。danger动作仍危险红，disabled保留禁用色。此次作用于Dialog共享样式，不改变SheetActions浅蓝底次要按钮。
+
+2026-10-22 弹层导航返回（用户确认，V）：本地Button text配left图标，sheet-nav-back采用二级文字色color-text-subtle、二级图标色color-icon-subtle、14px文字/16px图标、图文间距4px、40px热区；已迁移积分新增规则与客户批量修改选择头部，普通文字操作不受影响。
+
+2026-10-22 更新：BottomSheet选择/编辑规则已获用户确认，后续遵循sheet-interactions.md。selection带横杠可下滑，editor无横杠且禁止下滑；有返回则不同时显示关闭。选择内新增属于新编辑任务第一层，但有明确返回来源时可用返回，积分新增规则按此执行。此前“试行/保留右上关闭”的历史记录以本更新为准；其他页面未完成迁移，不能宣称已全部执行。
+
+2026-10-22 按钮校验基线补充（用户确认）：表单未完成不作为默认禁用理由，主按钮可点，点击后校验并阻止无效提交，通过字段/区域警告和必要Toast解释，定位首个问题。提交中、防重复、权限或不存在有效业务对象可保留限制并说明。底层Button disabled保留，组件预览禁用示例保留。已迁移积分确认、客户批量修改保存和无选中客户的批量动作；学员信息无效学员时有明确说明，保留禁用。
+
+2026-10-22 BottomSheet叠层外壳：嵌套子Drawer打开时通过data-nested-drawer-open隐藏父sheet的绘制并禁止其指针事件，父表单不卸载，关闭后恢复其原高度、草稿和滚动。只显示当前层的标题和圆角，不露出父层半截标题。居中Dialog确认不触发该Drawer状态，父表单仍在遮罩下显示。
+
+2026-10-22 单选导航补充（用户确认，D，待迁移）：编辑BottomSheet打开的字段单选仍是selection，保留横杠/下滑，左上使用sheet-nav-back“图标＋返回”、右侧等宽空槽，不显示关闭；独立选择任务无父编辑路径时可使用取消。返回只取消当前单选，不放弃父编辑；详见sheet-interactions.md。客户批量修改状态/校区等调用尚未迁移，本条不表示组件API或页面已经变更。
+
+2026-10-22 单选返回已迁移（V/I）：BottomSheet新增onBack?: () => void，使用默认标题头时替换为左上本地Button返回、居中标题及右侧等宽空槽，selection横杠/下滑不变；返回逻辑由调用方负责。自定义header仍由调用方管理。客户批量修改状态/校区已接入，返回恢复字段焦点与父草稿；其余调用未传入时保持关闭入口。此记录覆盖前述该场景待迁移状态。
+
+## Stepper · 积分候选组合（2026-10-22）
+
+本地候选 src/components/ui/Stepper.tsx，组合Input/Button/Icon；用于积分主编辑分值和新增规则默认分值两个场景，暂不注册为Recommended。参考用户指定Arco Figma 507mHwo2qlL72kbftlM9Qi / 594:11445；用户明确要求参考尺寸，视觉按钮28×28、输入40×28、2px间距，主体100px，单位另置，16px加减图标、15px数字。该紧凑按钮28px尺寸为本场景用户指定例外，不改公共Button的40px底线。外层横排输入行仍56px，颜色仅使用本项目语义token。
+
+每次增减1、保留已有小数部分，最小0；空值显示灰色0占位，点击加号得到1，手输支持两位小数。0/空值仍由积分业务提交校验拒绝，不自动当有效分值。现有规则按预设值显示，允许扣成负余额的业务规则不变。无新增Arco依赖；只复用项目精确匹配的加减号图标，不将Figma图片用于界面。

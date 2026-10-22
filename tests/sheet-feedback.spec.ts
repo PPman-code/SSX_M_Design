@@ -1,0 +1,53 @@
+import { enterEmptyPointsEditor } from './helpers/points';
+import { test, expect } from '@playwright/test';
+for (const theme of ['light', 'dark']) {
+  test(`points submit explains missing work and nested sheets hide only parent shell in ${theme}`, async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto(`/#/pages/student-info/v1?student=s1&theme=${theme}`);
+    await page.getByRole('button', { name: '加减积分', exact: true }).click();
+    await page.getByRole('menuitem', { name: '加分', exact: true }).click();
+    const main = await enterEmptyPointsEditor(page);
+    await main.getByRole('button', { name: '确认加分', exact: true }).click();
+    await expect(main.getByRole('alert')).toHaveText('请先选择积分项');
+    await expect(main.getByRole('button', { name: '选择积分项', exact: true })).toBeFocused();
+    await main.getByRole('button', { name: '选择积分项', exact: true }).click();
+    const selector = page.getByRole('dialog', { name: '选择加分项', exact: true });
+    await expect(main).toHaveCSS('opacity', '0');
+    await expect(main).toHaveCSS('pointer-events', 'none');
+    await expect(selector).toHaveCSS('opacity', '1');
+    await selector.getByRole('checkbox', { name: '课堂表现积极 +3 分', exact: true }).check();
+    await selector.getByRole('button', { name: '新增', exact: true }).click();
+    const create = page.getByRole('dialog', { name: '新增加分规则', exact: true });
+    await expect(page.locator('.points-selector')).toHaveCSS('opacity', '0');
+    await create.getByRole('button', { name: '保存并选中', exact: true }).click();
+    await expect(create.getByRole('textbox', { name: '规则名称', exact: true })).toBeFocused();
+    await create.getByRole('button', { name: '返回', exact: true }).click();
+    await expect(selector).toHaveCSS('opacity', '1');
+    await expect(selector.getByRole('checkbox', { name: '课堂表现积极 +3 分', exact: true })).toBeChecked();
+    await selector.getByRole('button', { name: '确认选择', exact: true }).click();
+    await expect(main).toHaveCSS('opacity', '1');
+    const value = main.getByRole('textbox', { name: '课堂表现积极加分分值', exact: true });
+    await value.fill('0');
+    await main.getByRole('button', { name: '确认加分', exact: true }).click();
+    await expect(value).toBeFocused();
+    await expect(main.getByRole('alert')).toContainText('大于 0');
+    await expect(main.locator('.points-student-summary')).toContainText('128 积分');
+  });
+  test(`customer actions and edit save explain missing selection in ${theme}`, async ({ page }) => {
+    await page.goto(`/#/pages/prospective-students/v1?theme=${theme}`);
+    await page.getByRole('button', { name: '批量管理', exact: true }).click();
+    await page.getByRole('button', { name: '转为正式', exact: true }).click();
+    await expect(page.getByText('请先选择客户', { exact: true })).toBeVisible();
+    await expect(page.getByRole('dialog')).toHaveCount(0);
+    await page.getByRole('checkbox', { name: '选择王五五', exact: true }).check();
+    await page.getByRole('button', { name: '更多', exact: true }).click();
+    await page.getByRole('menuitem', { name: '修改', exact: true }).click();
+    const edit = page.getByRole('dialog', { name: '批量修改', exact: true });
+    await edit.getByRole('button', { name: '保存修改', exact: true }).click();
+    await expect(edit.getByRole('alert')).toHaveText('请选择至少一个需要修改的字段');
+    await expect(edit.getByRole('button', { name: '客户状态 请选择', exact: true })).toBeFocused();
+    await edit.getByRole('button', { name: '取消', exact: true }).click();
+    await expect(edit).toBeHidden();
+    await expect(page.getByRole('listitem').filter({ hasText: '王五五' })).toContainText('待邀约');
+  });
+}

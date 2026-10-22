@@ -1,3 +1,4 @@
+import { rangeForPreset } from '../../../lib/date-range';
 export type AttendanceRole = 'teacher' | 'headmaster' | 'manager' | 'principal';
 export type Period = '本月' | '上月' | '最近30天' | '自定义';
 
@@ -85,12 +86,7 @@ export function offsetDate(anchor: string, offset: number): string {
 }
 
 export function rangeFor(period: Exclude<Period, '自定义'>, today = todayISO()): [string, string] {
-  if (period === '最近30天') return [offsetDate(today, -29), today];
-  const [year, month] = today.split('-').map(Number);
-  if (period === '本月') return [`${today.slice(0, 8)}01`, today];
-  const start = toISODate(new Date(Date.UTC(year, month - 2, 1, 4)));
-  const end = toISODate(new Date(Date.UTC(year, month - 1, 0, 4)));
-  return [start, end];
+  return rangeForPreset(period, today);
 }
 
 export function periodLabel(start: string, end: string): string {

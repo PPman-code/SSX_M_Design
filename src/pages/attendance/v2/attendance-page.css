@@ -54,7 +54,6 @@
 .att-v2-load { min-height: 30px; padding: 5px; text-align: center; font-size: var(--typography-font-size-badge); color: var(--color-text-subtle); }
 .att-v2-empty { padding: 34px 8px; border-radius: var(--radius-lg); background: var(--color-background-surface); text-align: center; color: var(--color-text-subtle); }
 
-.att-v2-sheet-search { padding: 0; margin: -12px 0 0; height: 48px; min-height: 48px; }
 .att-v2-error { margin: 8px 0 0; font-size: var(--typography-font-size-caption); color: var(--color-text-danger); }
 
 .att-v2-hint { margin: 10px 0 0; font-size: var(--typography-font-size-badge); color: var(--color-text-subtle); }

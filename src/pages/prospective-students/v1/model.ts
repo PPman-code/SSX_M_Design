@@ -44,16 +44,16 @@ export function createCustomers(): Customer[] {
     tags: i % 2 ? ['重点跟进'] : ['新客户'],
     region: i % 2 ? '上海' : '北京',
     remark: i === 5 ? '跨年跟进需求' : i % 2 ? '希望周末上课' : '',
-    custom: { course: i % 2 ? '美术' : '编程' },
+    custom: { course: i % 2 ? '美术' : '编程', experience: ['零基础', '学过一点', '有基础'][i % 3], goals: i % 2 ? ['兴趣', '表达'] : ['长期系统学习'], contactTime: i % 2 ? '工作日上午' : '工作日晚上（家长下班后联系）', notes: i % 2 ? '希望周末安排课程' : '', budget: '3000' },
     subordinate: i === 4 || i === 8,
   }));
 }
 export type Filters = {
-  includeSubordinates: boolean; campus: string[]; owner: string[]; status: string[]; level: string[];
+  scope: 'self' | 'subordinates' | 'all'; campus: string[]; owner: string[]; status: string[]; level: string[];
   grade: string[]; source: string[]; tags: string[]; region: string; remark: string; custom: Record<string, string | string[]>;
   nextDate: [string, string]; inputDate: [string, string]; lastDate: [string, string];
 };
-export const emptyFilters = (): Filters => ({ includeSubordinates: true, campus: [], owner: [], status: [], level: [], grade: [], source: [], tags: [], region: '', remark: '', custom: {}, nextDate: ['', ''], inputDate: ['', ''], lastDate: ['', ''] });
+export const emptyFilters = (): Filters => ({ scope: 'all', campus: [], owner: [], status: [], level: [], grade: [], source: [], tags: [], region: '', remark: '', custom: {}, nextDate: ['', ''], inputDate: ['', ''], lastDate: ['', ''] });
 export const sortOptions = [{ key: 'name', label: '姓名' }, { key: 'inputDate', label: '录入时间' }, { key: 'nextDate', label: '跟进时间' }, { key: 'lastDate', label: '沟通时间' }, { key: 'level', label: '意向级别' }] as const;
 export type SortKey = typeof sortOptions[number]['key'];
 export function invalidDateRange(filters: Filters) {
@@ -62,7 +62,10 @@ export function invalidDateRange(filters: Filters) {
 export function selectCustomers(customers: Customer[], query: string, filters: Filters, sort: SortKey, descending: boolean) {
   const multiple = ['campus', 'owner', 'status', 'level', 'grade', 'source', 'tags'] as const;
   return customers.filter(customer => {
-    if (!filters.includeSubordinates && customer.subordinate) return false;
+    // Preview identity only; production must use authorized ownership metadata.
+    const own = customer.owner === owners[0] && !customer.subordinate;
+    if (filters.scope === 'self' && !own) return false;
+    if (filters.scope === 'subordinates' && !own && !customer.subordinate) return false;
     if (query && ![customer.name, customer.phone, customer.school].some(value => value.toLocaleLowerCase().includes(query.trim().toLocaleLowerCase()))) return false;
     if (multiple.some(key => filters[key].length && !filters[key].some(value => key === 'tags' ? customer.tags.includes(value) : String(customer[key] ?? '') === value))) return false;
     if (filters.region && !customer.region.includes(filters.region)) return false;
@@ -85,6 +88,13 @@ export function selectCustomers(customers: Customer[], query: string, filters: F
   });
 }
 
-export type CustomField = { key: string; label: string; type: 'text' | 'single' | 'multiple' | 'date'; options?: string[] };
+export type CustomField = { key: string; label: string; type: 'text' | 'single' | 'multiple' | 'date' | 'number'; presentation?: 'inline' | 'selector'; options?: string[] };
 /** Preview configuration, replaced by authorized server field metadata during integration. */
-export const customFields: CustomField[] = [{ key: 'course', label: '意向课程', type: 'multiple', options: ['编程', '美术'] }];
+export const customFields: CustomField[] = [
+  { key: 'course', label: '意向课程', type: 'multiple', options: ['编程', '美术'] },
+  { key: 'experience', label: '学习基础', type: 'single', presentation: 'inline', options: ['零基础', '学过一点', '有基础'] },
+  { key: 'goals', label: '家长期望通过课程重点培养的能力与学习目标', type: 'multiple', presentation: 'inline', options: ['兴趣', '提升逻辑思维与独立解决问题的能力', '表达', '参加校内外科技创新活动并完成作品展示', '长期系统学习'] },
+  { key: 'contactTime', label: '方便联系的时间', type: 'single', options: ['工作日上午', '工作日晚上（家长下班后联系）', '周末或节假日，联系前请先发消息确认'] },
+  { key: 'notes', label: '其他需要提前了解的学习情况与家长补充说明', type: 'text' },
+  { key: 'budget', label: '预计课程预算（元）', type: 'number' },
+];

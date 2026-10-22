@@ -27,7 +27,7 @@ for (const theme of ['light', 'dark']) {
 }
 
 for (const theme of ['light', 'dark']) {
-  test(`filter chips use 40px in both people lists in ${theme}`, async ({ page }) => {
+  test(`filter chips preserve people-list specifications in ${theme}`, async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     for (const [route, label] of [['students', '筛选学员'], ['prospective-students', '筛选客户']] as const) {
       await page.goto(`/#/pages/${route}/v1?theme=${theme}`);
@@ -39,8 +39,16 @@ for (const theme of ['light', 'dark']) {
       expect(await chips.count()).toBeGreaterThan(0);
       const unselected = dialog.locator('.sheet-choice-grid button[aria-pressed="false"]:not(:disabled)');
       for (const chip of await unselected.all()) await expect(chip).toHaveCSS('background-color', theme === 'light' ? 'rgb(245, 247, 250)' : 'rgb(38, 39, 39)');
-      for (const chip of await chips.all()) await expect(chip).toHaveCSS('height', '40px');
-      const first = chips.first();
+      for (const chip of await chips.all()) {
+        if (route === 'prospective-students') { await expect(chip).toHaveCSS('min-height', '36px'); expect((await chip.boundingBox())!.height).toBeGreaterThanOrEqual(36); } else await expect(chip).toHaveCSS('height', '40px');
+        await expect(chip).toHaveCSS('font-size', route === 'prospective-students' ? '14px' : '16px');
+        await expect(chip).toHaveCSS('line-height', route === 'prospective-students' ? '22px' : '24px');
+      }
+      if (route === 'prospective-students') {
+        await expect(dialog.getByRole('checkbox', { name: '包含责任人下属的客户', exact: true })).toHaveCount(0);
+        await expect(dialog.getByRole('button', { name: '所有人', exact: true })).toHaveAttribute('aria-pressed', 'true');
+      }
+      const first = route === 'prospective-students' ? dialog.getByRole('button', { name: '1心', exact: true }) : chips.first();
       const before = await first.getAttribute('aria-pressed');
       await first.click();
       await expect(first).toHaveAttribute('aria-pressed', before === 'true' ? 'false' : 'true');

@@ -2,6 +2,7 @@ import { Dialog } from '@base-ui/react/dialog';
 import type { ReactNode, RefObject } from 'react';
 
 interface Props {
+  stacked?: boolean;
   open: boolean;
   onOpenChange: (open: boolean) => void;
   title: string;
@@ -11,11 +12,11 @@ interface Props {
   footer?: ReactNode;
 }
 
-export function InfoDialog({ open, onOpenChange, title, children, finalFocus, className = '', footer }: Props) {
+export function InfoDialog({ open, onOpenChange, title, children, finalFocus, className = '', footer, stacked = false }: Props) {
   return <Dialog.Root open={open} onOpenChange={onOpenChange}>
     <Dialog.Portal>
-      <Dialog.Backdrop className="info-dialog-backdrop" />
-      <Dialog.Viewport className="info-dialog-viewport">
+      <Dialog.Backdrop forceRender={stacked} className={`info-dialog-backdrop ${stacked ? 'info-dialog-backdrop--stacked' : ''}`} />
+      <Dialog.Viewport className={`info-dialog-viewport ${stacked ? 'info-dialog-viewport--stacked' : ''}`}>
         <Dialog.Popup className={`info-dialog ${className}`} finalFocus={finalFocus}>
           <div className="info-dialog-content">
             <Dialog.Title className="info-dialog-title">{title}</Dialog.Title>

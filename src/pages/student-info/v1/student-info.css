@@ -1,0 +1,4 @@
+.product-page.student-info-page { background: var(--color-background-page); }
+.student-info-footer { display: flex; flex-shrink: 0; align-items: center; justify-content: center; min-height: 56px; padding: 8px 16px calc(8px + env(safe-area-inset-bottom, 0px)); background: var(--color-background-page); }
+.student-info-page.with-preview-chrome:not(:has(.preview-history)) .student-info-footer { padding-bottom: calc(8px + max(34px, env(safe-area-inset-bottom, 0px))); }
+.student-info-unavailable { display: grid; justify-items: center; gap: 16px; padding: 48px 16px; color: var(--color-text-subtlest); text-align: center; }

@@ -29,7 +29,7 @@ for (const mode of ['light', 'dark']) {
       const button = section.getByRole('button', { name, exact: true });
       expect((await button.boundingBox())!.height).toBe(40);
       await expect(button).toHaveCSS('border-radius', '8px');
-      await expect(button).toHaveCSS('font-size', '15px');
+      await expect(button).toHaveCSS('font-size', '16px');
       await expect(button).toHaveCSS('font-weight', '400');
       const target = (await button.boundingBox())!;
       expect(target.height).toBeGreaterThanOrEqual(40);

@@ -1,0 +1,112 @@
+import { enterEmptyPointsEditor } from './helpers/points';
+import { test, expect, type Page } from '@playwright/test';
+async function open(page: Page, subtract = false) {
+  await page.getByRole('button', { name: '加减积分', exact: true }).click();
+  await page.getByRole('menuitem', { name: subtract ? '减分' : '加分', exact: true }).click();
+  return enterEmptyPointsEditor(page, subtract);
+}
+async function drag(page: Page, x: number, y: number) {
+  const cdp = await page.context().newCDPSession(page);
+  await cdp.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x, y }] });
+  for (let step = 1; step <= 8; step++) await cdp.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x, y: y + step * 25 }] });
+  await cdp.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
+  await cdp.detach();
+}
+for (const theme of ['light', 'dark']) {
+  for (const subtract of [false, true]) {
+    test(`${theme} ${subtract ? 'subtract' : 'add'} dirty main close confirms and preserves draft`, async ({ page }) => {
+      await page.setViewportSize({ width: 390, height: 844 });
+      await page.goto(`/#/pages/student-info/v1?student=s1&theme=${theme}`);
+      let main = await open(page, subtract);
+      await expect(main.locator('.sheet-handle')).toHaveCount(0);
+      await expect(main.locator('.sheet-heading')).toHaveCSS('height', '56px');
+      await main.getByRole('button', { name: '关闭弹层', exact: true }).click();
+      await expect(main).toBeHidden();
+      await expect(page.getByRole('dialog', { name: '放弃本次修改？' })).toHaveCount(0);
+      main = await open(page, subtract);
+      await main.getByRole('button', { name: '选择积分项', exact: true }).click();
+      const select = page.getByRole('dialog', { name: subtract ? '选择减分项' : '选择加分项', exact: true });
+      await expect(select.locator('.sheet-handle')).toBeVisible();
+      await expect(select.getByRole('button', { name: '返回', exact: true })).toBeVisible();
+      await expect(select.getByRole('button', { name: '关闭弹层', exact: true })).toHaveCount(0);
+      await select.getByRole('checkbox', { name: subtract ? '迟到 −1 分' : '课堂表现积极 +3 分', exact: true }).click();
+      await select.getByRole('button', { name: '确认选择', exact: true }).click();
+      const reason = main.getByRole('textbox', { name: subtract ? '迟到原因' : '课堂表现积极原因', exact: true });
+      await reason.fill('保留这段原因');
+      await main.getByRole('button', { name: '关闭弹层', exact: true }).click();
+      const discard = page.getByRole('dialog', { name: '放弃本次修改？', exact: true });
+      await expect(discard).toBeVisible();
+      await expect(page.locator('.info-dialog-backdrop--stacked')).toHaveCSS('z-index', '1300');
+      await expect(page.locator('.info-dialog-viewport--stacked')).toHaveCSS('z-index', '1301');
+      await discard.getByRole('button', { name: '继续编辑', exact: true }).click();
+      await expect(discard).toBeHidden();
+      await expect(reason).toHaveValue('保留这段原因');
+      await page.keyboard.press('Escape');
+      await expect(discard).toBeVisible();
+      await page.keyboard.press('Escape');
+      await expect(discard).toBeHidden();
+      await expect(reason).toHaveValue('保留这段原因');
+      const heading = (await main.locator('.sheet-heading').boundingBox())!;
+      await page.mouse.click(10, Math.max(4, heading.y - 30));
+      await expect(discard).toBeVisible();
+      await discard.getByRole('button', { name: '放弃修改', exact: true }).click();
+      await expect(main).toBeHidden();
+      main = await open(page, subtract);
+      await expect(main).toContainText(/金灿灿：\s*128 积分/);
+      await expect(main.locator('.points-entry-count')).toHaveText('0');
+    });
+  }
+  test(`${theme} rule editor protects unsaved fields and returns to selector`, async ({ page }) => {
+    await page.goto(`/#/pages/student-info/v1?student=s1&theme=${theme}`);
+    const main = await open(page);
+    await main.getByRole('button', { name: '选择积分项', exact: true }).click();
+    const select = page.getByRole('dialog', { name: '选择加分项', exact: true });
+    await select.getByRole('button', { name: '新增', exact: true }).click();
+    const create = page.getByRole('dialog', { name: '新增加分规则', exact: true });
+    await expect(create.getByRole('button', { name: '关闭弹层', exact: true })).toHaveCount(0);
+    await expect(create.locator('.sheet-handle')).toHaveCount(0);
+    await create.getByRole('button', { name: '返回', exact: true }).click();
+    await expect(create).toBeHidden();
+    await select.getByRole('button', { name: '新增', exact: true }).click();
+    await create.getByRole('textbox', { name: '规则名称', exact: true }).fill('未保存规则');
+    await create.getByRole('button', { name: '返回', exact: true }).click();
+    const discard = page.getByRole('dialog', { name: '放弃本次修改？', exact: true });
+    await expect(discard).toBeVisible();
+    await discard.getByRole('button', { name: '继续编辑', exact: true }).click();
+    await expect(create.getByRole('textbox', { name: '规则名称', exact: true })).toHaveValue('未保存规则');
+    await create.getByRole('button', { name: '返回', exact: true }).click();
+    await discard.getByRole('button', { name: '放弃修改', exact: true }).click();
+    await expect(create).toBeHidden();
+    await expect(select).toBeVisible();
+    await expect(select.getByRole('button', { name: /未保存规则/ })).toHaveCount(0);
+    await select.getByRole('button', { name: '新增', exact: true }).click();
+    await create.getByRole('textbox', { name: '规则名称', exact: true }).fill('已保存规则');
+    await create.getByRole('textbox', { name: '默认加分分值', exact: true }).fill('2');
+    await create.getByRole('button', { name: '保存并选中', exact: true }).click();
+    await expect(create).toBeHidden();
+    await expect(discard).toBeHidden();
+    await select.getByRole('button', { name: '返回', exact: true }).click();
+    await main.getByRole('button', { name: '关闭弹层', exact: true }).click();
+    await open(page);
+    await main.getByRole('button', { name: '选择积分项', exact: true }).click();
+    await expect(select.getByRole('checkbox', { name: '已保存规则 +2 分', exact: true })).toBeVisible();
+  });
+}
+test('editor ignores down-swipes while the selection sheet remains swipe-dismissible', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/#/pages/student-info/v1?student=s1');
+  const main = await open(page);
+  await expect(main).toHaveCSS('transform', 'matrix(1, 0, 0, 1, 0, 0)');
+  let header = (await main.locator('.sheet-heading').boundingBox())!;
+  await drag(page, 170, header.y + 14);
+  await expect(main).toBeVisible();
+  await expect(page.getByRole('dialog', { name: '放弃本次修改？' })).toHaveCount(0);
+  await main.getByRole('button', { name: '选择积分项', exact: true }).click();
+  const select = page.getByRole('dialog', { name: '选择加分项', exact: true });
+  await expect(select.locator('.sheet-handle')).toBeVisible();
+  await expect(select).toHaveCSS('transform', 'matrix(1, 0, 0, 1, 0, 0)');
+  header = (await select.locator('.sheet-heading').boundingBox())!;
+  await drag(page, 170, header.y + 14);
+  await expect(select).toBeHidden();
+  await expect(main).toBeVisible();
+});

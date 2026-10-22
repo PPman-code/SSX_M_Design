@@ -11,6 +11,7 @@ export interface DialogAction {
   danger?: boolean;
 }
 interface Props {
+  stacked?: boolean;
   open: boolean;
   onOpenChange: (open: boolean) => void;
   title: string;
@@ -22,13 +23,13 @@ interface Props {
 }
 
 /** Uses the existing local modal for portal, focus, scrolling and preview boundaries. */
-export function Dialog({ open, onOpenChange, title, children, variant = 'ios', actions, actionLayout, finalFocus }: Props) {
+export function Dialog({ open, onOpenChange, title, children, variant = 'ios', actions, actionLayout, finalFocus, stacked = false }: Props) {
   const items = actions?.length ? actions : [{ label: '知道了' }];
   const vertical = variant === 'custom' || actionLayout === 'vertical' || items.length > 2;
-  return <InfoDialog open={open} onOpenChange={onOpenChange} title={title} finalFocus={finalFocus} className={`dialog dialog--${variant}`}
+  return <InfoDialog stacked={stacked} open={open} onOpenChange={onOpenChange} title={title} finalFocus={finalFocus} className={`dialog dialog--${variant}`}
     footer={<div className={`dialog-actions ${vertical ? 'dialog-actions--vertical' : ''}`}>
       {items.map((action, index) => <Button key={index} variant={variant === 'custom' && index === 0 ? 'primary' : 'text'} shape={variant === 'custom' ? 'round' : 'default'}
-        className="dialog-action" tone={action.danger ? 'danger' : 'brand'} disabled={action.disabled} loading={action.loading}
+        className={`dialog-action ${!action.danger && (variant === 'custom' ? index > 0 : index < items.length - 1) ? 'dialog-action--secondary' : ''}`} tone={action.danger ? 'danger' : 'brand'} disabled={action.disabled} loading={action.loading}
         onClick={() => { action.onSelect?.(); if (action.closeOnSelect !== false) onOpenChange(false); }}>{action.label}</Button>)}
     </div>}>
     {children}

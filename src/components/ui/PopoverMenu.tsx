@@ -8,6 +8,7 @@ export interface PopoverMenuAction {
   label: string;
   icon?: IconName;
   dot?: boolean;
+  danger?: boolean;
   disabled?: boolean;
   onSelect?: () => void;
 }
@@ -31,10 +32,10 @@ export function PopoverMenu({ label, trigger, actions, appearance = 'dark', plac
     <Menu.Portal>
       <Menu.Positioner className="popover-menu-positioner" side={side === 'top' ? 'top' : 'bottom'} align={align} sideOffset={9} collisionPadding={12} arrowPadding={12}>
         <Menu.Popup className={`popover-menu popover-menu--${appearance}`} aria-label={label} finalFocus>
-          <Menu.Arrow className="popover-menu-arrow"><img src={`${assets}/${appearance}-arrow.svg`} alt="" width="24" height="24" /></Menu.Arrow>
+          <Menu.Arrow className="popover-menu-arrow" />
           <div className="popover-menu-list">
-            {actions.map(action => <Menu.Item key={action.key} className="popover-menu-item" label={action.label} disabled={action.disabled} onClick={action.onSelect} closeOnClick>
-              {action.icon && <span className="popover-menu-icon"><Icon name={action.icon} size="lg" /></span>}
+            {actions.map(action => <Menu.Item key={action.key} className="popover-menu-item" label={action.label} data-danger={action.danger || undefined} disabled={action.disabled} onClick={action.onSelect} closeOnClick>
+              {action.icon && <span className="popover-menu-icon"><Icon name={action.icon} /></span>}
               <span className="popover-menu-label">{action.label}</span>
               {action.dot && <span className="popover-menu-dot" role="img" aria-label="有新消息"><img src={`${assets}/${appearance}-dot.svg`} alt="" width={appearance === 'dark' ? 24 : 20} height={appearance === 'dark' ? 24 : 20} /></span>}
             </Menu.Item>)}

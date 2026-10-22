@@ -1,0 +1,73 @@
+/* Page composition only. Geometry and controls come from the local UI components. */
+.points-adjustment > .sheet-content { background: var(--color-background-surface); padding: 12px 16px 16px; }
+.points-create > .sheet-content { background: var(--color-background-surface); }
+.points-adjustment .cell-group, .points-create .cell-group { margin-bottom: 16px; }
+
+/* Student summary and entries share the sheet surface. */
+.points-section-title { display: flex; gap: 8px; align-items: baseline; margin-bottom: 12px; }
+.points-section-title h3 { font-size: var(--typography-font-size-body); line-height: var(--typography-line-height-body); font-weight: var(--typography-font-weight-medium); color: var(--color-text); overflow-wrap: anywhere; }
+.points-section-title h3, .points-entry-count { flex-shrink: 0; }
+.points-student-summary { margin-left: auto; min-width: 0; text-align: right; overflow-wrap: anywhere; font-variant-numeric: tabular-nums; }
+.points-section-title > span { font-size: var(--typography-font-size-secondary); color: var(--color-text-subtlest); }
+/* Approved scheme B: gray title bands, white fields, separate item groups. */
+.points-entry-list { display: flex; flex-direction: column; gap: 20px; margin-bottom: 16px; }
+.points-entry { min-width: 0; border: 0.5px solid var(--color-border-light); border-radius: var(--radius-md); overflow: hidden; }
+.points-entry-heading { display: flex; gap: 12px; align-items: center; justify-content: space-between; min-height: 40px; padding-inline: 16px; background: var(--color-background-neutral-subtle); }
+.points-entry-heading h3 { font-size: var(--typography-font-size-body); line-height: var(--typography-line-height-body); font-weight: var(--typography-font-weight-medium); color: var(--color-text); overflow-wrap: anywhere; }
+.points-entry-heading > .button { --button-tone-text: var(--color-text-subtle); --button-tone-pressed: var(--color-text); flex-shrink: 0; }
+.points-entry-fields { display: flex; flex-direction: column; }
+.points-entry-fields .field-divider::after { height: 0.5px; background: var(--color-border-lighter); }
+.points-entry-fields .ssx-input { min-width: 0; }
+.points-entry-fields .points-reason-input .ssx-input-native { text-align: right; }
+.points-entry-list > .points-add-item { margin-top: 0; }
+
+.points-error { color: var(--color-text-danger); font-size: var(--typography-font-size-caption); line-height: 20px; margin-block: 8px; text-align: center; }
+.points-selector, .points-create { height: min(78dvh, 760px); }
+.points-empty, .points-empty-hint { text-align: center; padding: 16px; font-size: var(--typography-font-size-secondary); color: var(--color-text-subtlest); }
+.points-create .sheet-choice-section { margin-bottom: 16px; }
+.points-note { color: var(--color-text-subtlest); font-size: var(--typography-font-size-caption); line-height: 20px; margin-top: 16px; }
+
+/* Standard 56px sheet footer; the left slot replaces the former cancel action. */
+.points-submit-bar { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center; gap: 12px; }
+.points-submit-total { min-width: 0; display: flex; flex-direction: column; justify-content: center; font-size: var(--typography-font-size-secondary); line-height: 20px; color: var(--color-text-subtlest); }
+.points-submit-total > span { font-size: var(--typography-font-size-caption); }
+.points-submit-total strong { color: var(--color-text-brand); font-size: var(--typography-font-size-body); line-height: 20px; font-weight: var(--typography-font-weight-medium); font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.points-adjustment--subtract .points-submit-total strong { color: var(--color-text-danger); }
+.points-selection-count { color: var(--color-text-subtlest); font-size: var(--typography-font-size-secondary); line-height: 22px; font-variant-numeric: tabular-nums; }
+/* Circle Checkbox keeps full-row interaction with name on left and score on right */
+.points-selector .search-actions { margin-right: 0; }
+.points-rule-options { margin-top: 8px; }
+.points-rule-options > .ssx-checkbox { position: relative; min-height: 48px; padding: 12px 0; align-items: center; }
+.points-rule-options > .ssx-checkbox + .ssx-checkbox::before { content: ''; position: absolute; top: 0; left: 28px; right: 0; height: 0.5px; background: var(--color-border-lighter); }
+.points-rule-checkbox .ssx-checkbox-content { width: 100%; flex: 1; min-width: 0; }
+.points-rule-checkbox .ssx-checkbox-label { display: block; width: 100%; }
+.points-rule-item { display: flex; align-items: center; justify-content: space-between; gap: 12px; width: 100%; }
+.points-rule-name { flex: 1; min-width: 0; color: var(--color-text); font-size: var(--typography-font-size-body); font-weight: var(--typography-font-weight-regular); overflow-wrap: anywhere; }
+.points-rule-score { flex-shrink: 0; color: var(--color-text-subtle); font-size: var(--typography-font-size-body); font-variant-numeric: tabular-nums; text-align: right; }
+.points-create-nav { display: grid; grid-template-columns: 72px minmax(0, 1fr) 72px; align-items: center; min-height: 56px; padding: 8px 12px; flex-shrink: 0; }
+.points-create-nav > .button { justify-self: start; }
+.points-create-nav-title { text-align: center; font-size: var(--typography-font-size-body); line-height: var(--typography-line-height-body); font-weight: var(--typography-font-weight-medium); overflow-wrap: anywhere; }
+
+/* Do not show the real-time status icon (✕) inside input bodies; show only the bottom error description */
+.points-adjustment .ssx-input-status,
+.points-create .ssx-input-status {
+  display: none;
+}
+
+/* Create Rule form unified into a seamless 56px cell rhythm */
+.points-create-fields { margin-inline: -16px; margin-top: -12px; }
+.points-create-fields > .cell-group { border-radius: 0; background: var(--color-background-surface); }
+.points-create .base-cell-control { margin-left: auto; flex-shrink: 0; }
+.points-create .field-divider::after { height: 0.5px; background: var(--color-border-lighter); }
+.points-create .ssx-input-native { text-align: right; }
+.points-create .points-note, .points-create .points-error { padding-inline: 16px; }
+
+/* Segmented toggle for rule kind on the right side of the Cell */
+.points-kind-toggle { display: inline-flex; align-items: center; background: var(--color-background-neutral-subtle); border-radius: 6px; padding: 2px; gap: 2px; }
+.points-kind-btn { border: 0; border-radius: 4px; padding: 5px 12px; font-size: var(--typography-font-size-secondary); line-height: 20px; color: var(--color-text-subtle); background: transparent; cursor: pointer; transition: background-color var(--motion-duration-fast), color var(--motion-duration-fast); }
+.points-kind-btn--active { background: var(--color-background-surface); color: var(--color-text-brand); font-weight: 500; box-shadow: var(--elevation-shadow-sm); }
+
+/* Expand the main editor before scrolling, leaving 16px above usable space. */
+.sheet.points-adjustment { max-height: calc(100dvh - var(--preview-overlay-top, 0px) - var(--preview-overlay-bottom, 0px) - var(--drawer-keyboard-inset, 0px) - max(16px, env(safe-area-inset-top))); }
+
+.points-create .ssx-stepper .ssx-input-native { text-align: center; }

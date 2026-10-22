@@ -26,8 +26,8 @@ for (const theme of ['light', 'dark']) {
       await page.getByRole('button', { name: '批量管理', exact: true }).click();
       await page.getByRole('checkbox', { name: '选择王五五', exact: true }).check();
       await page.getByRole('button', { name: '更多', exact: true }).click();
-      await page.getByRole('dialog', { name: '更多操作', exact: true }).getByRole('button', { name: '修改', exact: true }).click();
-      await expect(page.getByRole('dialog', { name: '更多操作', exact: true })).toBeHidden();
+      await page.getByRole('menu', { name: '更多操作', exact: true }).getByRole('menuitem', { name: '修改', exact: true }).click();
+      await expect(page.getByRole('menu', { name: '更多操作', exact: true })).toBeHidden();
       await checkFooter(page, '批量修改');
       for (const [version, prefix] of [['v1', 'att'], ['v2', 'att-v2']]) {
         await page.goto(`/#/pages/attendance/${version}?${params}`);

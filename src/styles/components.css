@@ -102,11 +102,16 @@ button.base-cell:not(:disabled):active { background: var(--color-background-neut
 .sheet[data-swiping] { transition: none; }
 .sheet-handle { height: 4px; width: 32px; margin: 10px auto 2px; background: var(--color-border-strong); border-radius: var(--radius-full); flex-shrink: 0; }
 .sheet-heading { display: grid; grid-template-columns: 44px minmax(0, 1fr) 44px; align-items: center; padding: 4px 12px 8px; flex-shrink: 0; }
+.sheet--editor > .sheet-heading { min-height: 56px; padding-block: 8px; }
 .sheet-heading h2 { grid-column: 2; margin: 0; font-size: var(--typography-font-size-body); line-height: var(--typography-line-height-body); font-weight: var(--typography-font-weight-medium); text-align: center; overflow-wrap: anywhere; }
 .sheet-heading .icon-button { grid-column: 3; color: var(--color-icon-subtle); }
 .sheet-description { margin: 0; padding: 0 16px 12px; color: var(--color-text-subtlest); font-size: var(--typography-font-size-secondary); line-height: var(--typography-line-height-caption); flex-shrink: 0; }
 .sheet-content { flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior-y: contain; padding: 12px 16px max(16px, env(safe-area-inset-bottom)); }
 .sheet--with-footer .sheet-content { padding-bottom: 16px; }
+/* Search owns the first row's vertical spacing inside a selection sheet. */
+.sheet-content:has(> .search:first-child) { padding-top: 0; }
+.sheet-content > .search:first-child { height: 48px; min-height: 48px; padding-inline: 0; }
+
 /* Geometry lives with the shared bottom action area in product.css; only the sheet keeps its own inline padding. */
 .sheet-footer { flex-shrink: 0; }
 .sheet-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
@@ -218,8 +223,9 @@ html:has(.mobile-page)::-webkit-scrollbar { display: none; }
 .sheet-selection-option[aria-pressed="false"] .sheet-selection-mark { visibility: hidden; }
 .sheet-choice-section + .sheet-choice-section { margin-top: 16px; }
 .sheet-choice-section h3 { margin: 0 0 12px; font-size: var(--typography-font-size-regular); line-height: var(--typography-line-height-regular); font-weight: var(--typography-font-weight-medium); }
+.sheet-choice-option { font-size: var(--typography-font-size-body); line-height: var(--typography-line-height-body); }
 .sheet-choice-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
-.sheet-choice-grid button { min-height: 40px; padding: 7px 8px; border: 1px solid transparent; border-radius: var(--radius-md); background: var(--color-background-neutral-subtle); color: var(--color-text-subtle); font-size: var(--typography-font-size-regular); line-height: var(--typography-line-height-regular); overflow-wrap: anywhere; }
+.sheet-choice-grid button { min-height: 40px; padding: 7px 8px; border: 1px solid transparent; border-radius: var(--radius-md); background: var(--color-background-neutral-subtle); color: var(--color-text-subtle); overflow-wrap: anywhere; }
 .sheet-choice-grid button[aria-pressed="true"] { border-color: var(--color-border-brand-subtle); background: var(--color-background-brand-subtle); color: var(--color-text-brand); }
 .sheet-choice-hint, .sheet-choice-error { margin: 10px 0 0; font-size: var(--typography-font-size-caption); line-height: var(--typography-line-height-caption); color: var(--color-text-subtle); }
 .sheet-choice-error { color: var(--color-text-danger); }
@@ -261,7 +267,7 @@ html:has(.mobile-page)::-webkit-scrollbar { display: none; }
 .dialog--custom .dialog-actions { gap: 8px; padding: 0 16px 20px; border: 0; }
 .dialog--custom .dialog-action { flex: auto; border: 0; border-radius: var(--radius-full); font-size: var(--typography-font-size-regular); line-height: 21px; padding: 8px 16px; }
 .dialog--custom .dialog-action + .dialog-action { border: 0; }
-.dialog--custom .dialog-action.button--text:not(.button--danger) { color: var(--color-text-subtlest); }
+.dialog .dialog-action--secondary:not(:disabled) { color: var(--color-text); }
 
 .wheel-picker-window::after { content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 3; background: linear-gradient(180deg, var(--color-background-surface) 0%, color-mix(in srgb, var(--color-background-surface) 65%, transparent) 39.557%, transparent 39.838%, transparent 60.039%, color-mix(in srgb, var(--color-background-surface) 65%, transparent) 60.252%, var(--color-background-surface) 100%); }
 .sheet.picker-sheet { border-radius: 16px 16px 0 0; }
@@ -276,19 +282,34 @@ html:has(.mobile-page)::-webkit-scrollbar { display: none; }
 .popover-menu--light { --menu-surface: var(--color-popover-light-surface); --menu-text: var(--color-popover-light-text); --menu-divider: color-mix(in srgb, var(--menu-text) 8%, transparent); --menu-pressed: color-mix(in srgb, var(--menu-text) 8%, var(--menu-surface)); }
 .popover-menu-list { position: relative; max-height: min(360px, var(--available-height)); overflow-y: auto; overscroll-behavior-y: contain; scrollbar-width: none; border-radius: 8px; background: var(--menu-surface); color: var(--menu-text); }
 .popover-menu-list::-webkit-scrollbar { display: none; }
-.popover-menu-item { position: relative; display: flex; align-items: center; gap: 8px; min-height: 51px; padding: 12px 20px; font-size: var(--typography-font-size-regular); line-height: 21px; font-weight: var(--typography-font-weight-regular); outline: none; }
+.popover-menu-item { position: relative; display: flex; align-items: center; gap: 8px; min-height: 51px; padding: 12px 20px; font-size: var(--typography-font-size-body); line-height: var(--typography-line-height-body); font-weight: var(--typography-font-weight-regular); outline: none; }
 .popover-menu-item:not(:last-child)::after { content: ''; position: absolute; bottom: 0; left: 20px; right: 0; height: 0.5px; background: var(--menu-divider); }
-.popover-menu-item:has(.popover-menu-icon):not(:last-child)::after { left: 52px; }
+.popover-menu-item:has(.popover-menu-icon):not(:last-child)::after { left: 48px; }
 .popover-menu-label { min-width: 0; overflow-wrap: anywhere; }
-.popover-menu-icon { display: flex; flex: 0 0 24px; }
+.popover-menu-icon { display: flex; align-items: center; justify-content: center; flex: 0 0 20px; }
+.popover-menu-icon > svg { width: 20px; height: 20px; }
 .popover-menu-item:active:not([data-disabled]) { background: var(--menu-pressed); }
 .popover-menu-item:focus-visible { outline: 2px solid var(--color-border-focused); outline-offset: -2px; }
 .popover-menu-item[data-disabled] { opacity: 0.4; }
 .popover-menu-dot { position: relative; flex: 0 0 12px; height: 12px; }
-.popover-menu-dot img, .popover-menu-arrow img { position: absolute; top: 0; left: 0; transform: scale(0.5); transform-origin: 0 0; }
-.popover-menu-arrow { width: 12px; height: 12px; rotate: 45deg; pointer-events: none; }
-.popover-menu-arrow[data-side='bottom'] { top: -6px; }
+.popover-menu-dot img { position: absolute; top: 0; left: 0; transform: scale(0.5); transform-origin: 0 0; }
+.popover-menu-arrow { width: 14px; height: 6px; background: var(--menu-surface); clip-path: polygon(0 0, 100% 0, 50% 100%); pointer-events: none; }
+.popover-menu-arrow[data-side='bottom'] { top: -6px; rotate: 180deg; }
 .popover-menu-arrow[data-side='top'] { bottom: -6px; }
 .popover-menu--light .popover-menu-dot img { top: 1px; left: 1px; }
 
 .popover-menu--dark .popover-menu-icon { filter: brightness(0) invert(1); }
+
+/* A confirmation above a sheet needs its backdrop above the parent modal plane. */
+.info-dialog-backdrop--stacked { z-index: var(--z-index-modal); }
+.info-dialog-viewport--stacked { z-index: calc(var(--z-index-modal) + 1); }
+.popover-menu-item[data-danger="true"] { color: var(--color-text-danger); }
+/* Back navigation in sheet headers is neutral, with a compact icon/label gap. */
+.button.sheet-nav-back { --button-tone-text: var(--color-text-subtle); --button-tone-pressed: var(--color-text); gap: 4px; min-height: 40px; font-size: var(--typography-font-size-secondary); line-height: 22px; }
+.button.sheet-nav-back > svg { width: 16px; height: 16px; color: var(--color-icon-subtle); }
+
+/* Keep parent state mounted; only the frontmost nested sheet paints its shell. */
+.sheet[data-nested-drawer-open] { opacity: 0; pointer-events: none; }
+
+.sheet-heading.sheet-heading--back { grid-template-columns: 72px minmax(0, 1fr) 72px; min-height: 56px; padding-block: 8px; }
+.sheet-heading--back > .sheet-nav-back { grid-column: 1; justify-self: start; }

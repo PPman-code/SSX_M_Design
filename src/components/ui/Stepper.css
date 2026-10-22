@@ -1,0 +1,11 @@
+/* Figma compact stepper: 28 + 2 + 40 + 2 + 28 = 100px; unit sits outside. */
+.ssx-stepper .ssx-input-body { flex: 0 0 124px; margin-left: auto; height: 28px; gap: 2px; }
+.ssx-stepper .ssx-input-main { align-items: center; }
+.ssx-stepper .ssx-input-prefix, .ssx-stepper .ssx-input-suffix { gap: 8px; }
+.ssx-stepper .ssx-input-native { flex: 0 0 40px; width: 40px; height: 28px; text-align: center; background: var(--color-background-neutral-subtle); font-size: var(--typography-font-size-regular); line-height: 20px; font-weight: var(--typography-font-weight-regular); }
+.ssx-stepper .button { width: 28px; min-width: 28px; height: 28px; min-height: 28px; padding: 0; background: var(--color-background-neutral-subtle); color: var(--color-icon); border-radius: 2px; }
+.ssx-stepper .button > svg { width: 16px; height: 16px; }
+.ssx-stepper .button:active:not(:disabled) { background: var(--color-background-neutral-selected); }
+.ssx-stepper .button:disabled { color: var(--color-icon-disabled); }
+/* The user's compact control size is scoped here; the form row remains 56px. */
+.ssx-stepper.ssx-input--horizontal { padding-block: 14px; }

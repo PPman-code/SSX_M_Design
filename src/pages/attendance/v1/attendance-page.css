@@ -55,8 +55,6 @@
 .att-load { min-height: 30px; padding: 5px; text-align: center; font-size: var(--typography-font-size-badge); color: var(--color-text-subtle); }
 .att-empty { padding: 34px 8px; border-radius: var(--radius-lg); background: var(--color-background-surface); text-align: center; color: var(--color-text-subtle); }
 
-/* Sheet-embedded Search keeps the component's 56px/40px geometry; only its outer page padding is removed. */
-.att-sheet-search { padding: 0; margin: -12px 0 0; height: 48px; min-height: 48px; }
 .att-error { margin: 8px 0 0; font-size: var(--typography-font-size-caption); color: var(--color-text-danger); }
 
 .att-hint { margin: 10px 0 0; font-size: var(--typography-font-size-badge); color: var(--color-text-subtle); }

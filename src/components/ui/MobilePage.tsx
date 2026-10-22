@@ -1,4 +1,4 @@
-import { useRef, type ReactNode } from 'react';
+import { useEffect, useRef, type ReactNode } from 'react';
 import { WechatPreviewHeader, WechatPreviewHistory } from './WechatPreviewChrome';
 import { PullToRefresh } from './PullToRefresh';
 
@@ -6,6 +6,11 @@ export function MobilePage({ title, previewChrome = false, previewHistory = true
   title: string; previewChrome?: boolean; previewHistory?: boolean; children: ReactNode | ((refreshIndicator: ReactNode) => ReactNode); footer?: ReactNode; className?: string;
   onRefresh?: (signal: AbortSignal) => Promise<void>; refreshDisabled?: boolean; refreshSuccessText?: string;
 }) {
+  useEffect(() => {
+    const previous = document.title;
+    document.title = title;
+    return () => { document.title = previous; };
+  }, [title]);
   const scrollRef = useRef<HTMLElement>(null);
   const refreshIndicator = onRefresh ? <PullToRefresh scrollRef={scrollRef} onRefresh={onRefresh} disabled={refreshDisabled} successText={refreshSuccessText} /> : null;
   return <div className={`product-page ${previewChrome ? 'with-preview-chrome' : ''} ${className}`}>

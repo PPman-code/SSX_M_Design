@@ -45,7 +45,7 @@ export function SheetChoiceGroup({ label, options, value, onToggle, hint, error 
   return <section className="sheet-choice-section" aria-labelledby={`${id}-title`}>
     <h3 id={`${id}-title`}>{label}</h3>
     <div className="sheet-choice-grid" role="group" aria-label={label} aria-describedby={[hint ? `${id}-hint` : '', error ? `${id}-error` : ''].filter(Boolean).join(' ') || undefined}>
-      {options.map(option => <button type="button" key={option.value} disabled={option.disabled} aria-pressed={value.includes(option.value)} onClick={() => onToggle(option.value)}>{option.label}</button>)}
+      {options.map(option => <button className="sheet-choice-option" type="button" key={option.value} disabled={option.disabled} aria-pressed={value.includes(option.value)} onClick={() => onToggle(option.value)}>{option.label}</button>)}
     </div>
     {hint && <p className="sheet-choice-hint" id={`${id}-hint`}>{hint}</p>}
     {error && <p className="sheet-choice-error" id={`${id}-error`} role="alert">{error}</p>}
@@ -53,9 +53,10 @@ export function SheetChoiceGroup({ label, options, value, onToggle, hint, error 
 }
 
 type Action = { label: string; onClick: () => void; disabled?: boolean };
-export function SheetActions({ primary, secondary }: { primary: Action; secondary?: Action }) {
+type PrimaryAction = Action & { tone?: 'brand' | 'danger' | 'warning' };
+export function SheetActions({ primary, secondary }: { primary: PrimaryAction; secondary?: Action }) {
   return <div className={`sheet-actions ${secondary ? '' : 'sheet-actions--single'}`}>
     {secondary && <Button variant="soft" disabled={secondary.disabled} onClick={secondary.onClick}>{secondary.label}</Button>}
-    <Button disabled={primary.disabled} onClick={primary.onClick}>{primary.label}</Button>
+    <Button tone={primary.tone} disabled={primary.disabled} onClick={primary.onClick}>{primary.label}</Button>
   </div>;
 }

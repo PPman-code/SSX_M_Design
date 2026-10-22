@@ -1,5 +1,5 @@
 import { simulateRefresh } from '../../../preview/simulateRefresh';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { MobilePage } from '../../../components/ui/MobilePage';
 import { MenuCell } from '../../../components/ui/MenuCell';
@@ -26,7 +26,6 @@ export function MyPage() {
   const paymentEnabled = params.get('payment') === 'enabled';
   const previewChrome = params.get('chrome') === 'wechat';
   const assets = `${import.meta.env.BASE_URL}pages/my/v1/`;
-  useEffect(() => { const previous = document.title; document.title = '我的 · 师生信'; return () => { document.title = previous; }; }, []);
   function payment(label: string, icon: IconName) {
     return <button type="button" className="payment-entry" aria-haspopup="dialog" onClick={(event) => { paymentTriggerRef.current = event.currentTarget; if (paymentEnabled) setEntry(label); else setActivationOpen(true); }}><span className="payment-icon"><Icon name={icon} size="lg" /></span><span>{label}</span></button>;
   }

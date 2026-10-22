@@ -57,7 +57,7 @@ test('attendance report expands a group and drills into lesson details', async (
   await expect(page.locator('.att-inline')).toBeVisible();
   await expect(page.getByText('补课后出勤率', { exact: true }).first()).toBeVisible();
   await page.getByRole('button', { name: '查看课次明细' }).click();
-  await expect(page).toHaveTitle('上课明细 · 智校');
+  await expect(page).toHaveTitle('上课明细');
   await expect(page.locator('.att-lesson')).toHaveCount(6);
   await expect(page.locator('.att-lesson').first()).toContainText(name);
   await page.screenshot({ path: 'test-results/attendance-detail.png', fullPage: true });

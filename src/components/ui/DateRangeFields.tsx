@@ -1,26 +1,24 @@
 import { useState } from 'react';
-import { Button } from '../../../components/ui/Button';
-import { Icon } from '../../../components/ui/Icon';
-import { WheelPicker } from '../../../components/ui/WheelPicker';
-import { rangeFor, type Period } from '../v1/attendance-data';
-import './attendance-period-fields.css';
+import { Button } from './Button';
+import { Icon } from './Icon';
+import { WheelPicker } from './WheelPicker';
+import { dateRangePresets, rangeForPreset, type DateRange, type DateRangePeriod } from '../../lib/date-range';
+import './DateRangeFields.css';
 
-type DateRange = [string, string];
 interface Props {
   today: string;
-  period: Period;
+  period: DateRangePeriod | null;
   value: DateRange;
-  onChange: (period: Period, value: DateRange) => void;
+  onChange: (period: DateRangePeriod | null, value: DateRange) => void;
 }
-const periods: Exclude<Period, '自定义'>[] = ['本月', '上月', '最近30天'];
 const labels = ['开始日期', '结束日期'];
 const pad = (value: number) => String(value).padStart(2, '0');
 
-// Page-level combination shared by the two attendance versions; not a public date-picker API.
-export function AttendancePeriodFields({ today, period, value, onChange }: Props) {
+// Controlled fields only: each caller owns its draft, reset and confirmation semantics.
+export function DateRangeFields({ today, period, value, onChange }: Props) {
   const [active, setActive] = useState<0 | 1 | null>(null);
   const activeIndex = active ?? 0;
-  const [year, month, day] = value[activeIndex].split('-').map(Number);
+  const [year, month, day] = (value[activeIndex] || today).split('-').map(Number);
   const baseYear = Number(today.slice(0, 4));
   const firstYear = Math.min(baseYear - 100, year);
   const lastYear = Math.max(baseYear + 100, year);
@@ -37,24 +35,27 @@ export function AttendancePeriodFields({ today, period, value, onChange }: Props
     next[activeIndex] = `${nextYear}-${pad(nextMonth)}-${pad(clampedDay)}`;
     onChange('自定义', next);
   }
-  return <div className="attendance-period-fields">
-    <div className="attendance-period-options" role="group" aria-label="快捷时段">
-      {periods.map(name => <Button key={name} variant="soft" aria-pressed={period === name}
+  return <div className="date-range-fields">
+    <div className="date-range-options" role="group" aria-label="快捷时段">
+      {dateRangePresets.map(name => <Button key={name} className="sheet-choice-option" variant="soft" aria-pressed={period === name}
         onClick={() => {
           setActive(null);
-          onChange(name, rangeFor(name, today));
+          onChange(name, rangeForPreset(name, today));
         }}>{name}</Button>)}
     </div>
-    <div className="attendance-period-dates">
-      {labels.map((label, index) => <div key={label} className="attendance-period-date">
+    <div className="date-range-dates">
+      {labels.map((label, index) => <div key={label} className="date-range-date">
         <span aria-hidden="true">{label}</span>
-        <Button variant="soft" aria-label={`${label} ${value[index].replaceAll('-', '/')}`}
-          aria-pressed={active === index}
+        <Button variant="soft" aria-label={`${label} ${value[index] ? value[index].replaceAll('-', '/') : '请选择'}`}
+          aria-pressed={active === index} data-empty={!value[index] || undefined}
           onClick={() => {
             const nextActive = active === index ? null : (index as 0 | 1);
             setActive(nextActive);
+            if (!value[index] && nextActive !== null) {
+              const next: DateRange = [...value]; next[index] = today; onChange('自定义', next);
+            }
           }}>
-          <span>{value[index].replaceAll('-', '/')}</span><Icon name="calendar" />
+          <span>{value[index] ? value[index].replaceAll('-', '/') : '请选择'}</span><Icon name="calendar" />
         </Button>
       </div>)}
     </div>

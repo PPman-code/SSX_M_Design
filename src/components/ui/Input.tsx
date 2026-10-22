@@ -47,6 +47,6 @@ export function Input({ label, value, onValueChange, layout = 'horizontal', hide
         {suffix && <span className="ssx-input-suffix">{suffix}</span>}
       </div>
     </div>
-    {description && <p className="ssx-input-description" id={descriptionId}>{description}</p>}
+    {description && <p className="ssx-input-description" id={descriptionId} role={status === 'error' ? 'alert' : undefined}>{description}</p>}
   </div>;
 }

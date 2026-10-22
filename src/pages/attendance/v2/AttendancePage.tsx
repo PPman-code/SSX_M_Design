@@ -1,4 +1,4 @@
-import { AttendancePeriodFields } from '../shared/AttendancePeriodFields';
+import { DateRangeFields } from '../../../components/ui/DateRangeFields';
 import { simulateRefresh } from '../../../preview/simulateRefresh';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
@@ -114,11 +114,6 @@ export function AttendancePage() {
     return () => observer.disconnect();
   }, [view, visibleGroups.length, detailRecords.length, groupLimit, detailLimit]);
 
-  useEffect(() => {
-    const previous = document.title;
-    document.title = `${view === 'detail' ? '上课明细' : '出勤率报表'} · 智校`;
-    return () => { document.title = previous; };
-  }, [view]);
 
   function toggleDraft(key: keyof AttendanceFilters) {
     setFilterDraft((current) => {
@@ -285,8 +280,8 @@ export function AttendancePage() {
     </BottomSheet>
 
     <BottomSheet open={dateOpen} onOpenChange={setDateOpen} title="统计时段" finalFocus={dateRef} footer={<SheetActions secondary={{ label: '重置', onClick: resetDate }} primary={{ label: '确认', onClick: applyDate }} />}>
-      <AttendancePeriodFields key={dateResetKey} today={today} period={periodDraft} value={dateDraft}
-        onChange={(nextPeriod, nextRange) => { setPeriodDraft(nextPeriod); setDateDraft(nextRange); setDateError(false); }} />
+      <DateRangeFields key={dateResetKey} today={today} period={periodDraft} value={dateDraft}
+        onChange={(nextPeriod, nextRange) => { setPeriodDraft(nextPeriod ?? '自定义'); setDateDraft(nextRange); setDateError(false); }} />
       {dateError && <p className="att-v2-error" role="alert">请选择有效的起止日期</p>}
     </BottomSheet>
 
@@ -298,7 +293,7 @@ export function AttendancePage() {
     </BottomSheet>
 
     <BottomSheet open={valueOpen} onOpenChange={setValueOpen} title={`选择${dimension}（可多选）`} finalFocus={valueRef} footer={<SheetActions secondary={{ label: '取消', onClick: () => setValueOpen(false) }} primary={{ label: '确认', onClick: applyValues }} />}>
-      {searchableDimensions.includes(dimension) && <Search className="att-v2-sheet-search" label={`搜索${dimension}`} placeholder={`搜索${dimension}`} clearLabel={`清除${dimension}搜索`} value={valueKeyword} onValueChange={setValueKeyword} />}
+      {searchableDimensions.includes(dimension) && <Search label={`搜索${dimension}`} placeholder={`搜索${dimension}`} clearLabel={`清除${dimension}搜索`} value={valueKeyword} onValueChange={setValueKeyword} />}
       <SheetSelectionList multiple label={`选择${dimension}`} value={valueDraft ?? ['__all__']}
         options={[{ value: '__all__', label: '全部' }, ...groups.filter(group => group.name.toLowerCase().includes(valueKeyword.trim().toLowerCase())).map(group => ({ value: group.name, label: group.name }))]}
         onToggle={value => {

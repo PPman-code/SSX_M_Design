@@ -1,5 +1,5 @@
 import { simulateRefresh } from '../../../preview/simulateRefresh';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { ProductTabBar } from '../../../components/ProductTabBar';
 import { Icon } from '../../../components/ui/Icon';
@@ -36,7 +36,6 @@ export function HomePage() {
   const candidate = params.get('role');
   const role: AttendanceRole = candidate && Object.hasOwn(roleLabels, candidate) ? candidate as AttendanceRole : 'teacher';
   const [roleOpen, setRoleOpen] = useState(false);
-  useEffect(() => { const previous = document.title; document.title = '黄老师-校管家'; return () => { document.title = previous; }; }, []);
   const roleRef = useRef<HTMLButtonElement>(null);
   function open(label: string) {
     if (label === '学员管理') {

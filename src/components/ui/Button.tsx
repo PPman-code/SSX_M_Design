@@ -15,8 +15,9 @@ type Props = ComponentPropsWithRef<'button'> & {
 export function Button({ variant = 'primary', size = 'md', tone = 'brand', shape = 'default', block = false, loading = false, loadingText, icon, iconOnly = false, disabled = false, children, className = '', type = 'button', ...props }: Props) {
   const isText = variant === 'text';
   const classes = `button ${isText ? 'touch-target' : ''} button--${variant} button--${size} ${tone !== 'brand' ? `button--${tone}` : ''} ${shape !== 'default' ? `button--${shape}` : ''} ${block ? 'button--block' : ''} ${iconOnly ? 'button--icon-only' : ''} ${className}`;
+  const iconSize = iconOnly ? (size === 'lg' ? 'lg' : size === 'sm' ? 'base' : 'md') : (isText || size === 'sm' ? 'sm' : 'base');
   return <BaseButton {...props} type={type} className={classes} disabled={disabled || loading} aria-busy={loading || undefined} data-loading={loading && !disabled ? '' : undefined}>
-    {loading ? <Icon name="loading" className="button-spinner" /> : icon ? <Icon name={icon} size="md" /> : null}
+    {loading ? <Icon name="loading" className="button-spinner" /> : icon ? <Icon name={icon} size={iconSize} /> : null}
     {!iconOnly && (loading && loadingText ? loadingText : children)}
   </BaseButton>;
 }
