@@ -6,6 +6,7 @@ playwright-report/
 .workbuddy/
 .workbuddy-ai/
 *.local
+*.genie
 .env*
 !.env.example
 outputs/*.png

@@ -7,9 +7,9 @@
 .prospect-search button { display: flex; align-items: center; border: 0; background: transparent; color: inherit; min-width: 44px; min-height: 44px; }
 .prospect-tools > button { position: relative; flex-shrink: 0; }
 .prospect-active-dot { position: absolute; right: 4px; top: 4px; width: 6px; height: 6px; border-radius: 50%; background: var(--color-background-brand-bold); }
-.prospect-count { display: flex; align-items: center; justify-content: space-between; height: 40px; min-height: 40px; padding: 0 12px; color: var(--color-text-subtlest); font-size: var(--typography-font-size-caption); }
+.prospect-count { display: flex; align-items: center; justify-content: space-between; height: 48px; min-height: 48px; padding: 0 12px; color: var(--color-text-subtlest); font-size: var(--typography-font-size-secondary); }
 .prospect-count b { font-weight: 400; }
-.prospect-count .button { font-size: var(--typography-font-size-caption); padding-right: 0; }
+.prospect-count .button { font-size: var(--typography-font-size-secondary); min-height: 48px; padding-right: 0; }
 .prospect-list { display: grid; gap: 12px; padding: 0 12px; }
 .prospect-card { isolation: isolate; position: relative; border: 1px solid transparent; border-radius: 8px; padding: 12px 12px 0; background: var(--color-background-surface); }
 .prospect-card.is-selected { border-color: var(--color-border-brand); }
@@ -47,11 +47,11 @@
 .prospect-card-bottom button { display: flex; align-items: center; background: transparent; border: 0; color: var(--color-text-subtlest); padding: 0; min-height: 44px; font-size: 11px; }
 .prospect-card-bottom button:active { opacity: 0.6; }
 .prospect-follow-today { color: var(--color-text-warning); }
-.prospect-list-end { text-align: center; font-size: 12px; color: var(--color-text-subtlest); padding: 16px; }
 /* Base geometry comes from the shared bottom action area in product.css; the batch bar is a stacked variant. */
 .prospect-footer--batch { gap: 0; padding: 0 12px calc(8px + env(safe-area-inset-bottom)); }
-.prospect-batch-heading { min-height: 40px; display: flex; align-items: center; justify-content: space-between; gap: 8px; color: var(--color-text-subtlest); font-size: 12px; }
+.prospect-batch-heading { min-height: 48px; display: flex; align-items: center; justify-content: space-between; gap: 8px; color: var(--color-text-subtlest); font-size: var(--typography-font-size-secondary); }
 .prospect-batch-heading b { color: var(--color-text-brand-accessible); font-weight: 500; }
+.prospect-batch-heading .button { font-size: var(--typography-font-size-secondary); }
 .prospect-check.ssx-checkbox { align-items: center; gap: 6px; width: auto; min-height: 40px; padding: 0; color: var(--color-text); }
 .prospect-check .ssx-checkbox-label { font-size: var(--typography-font-size-secondary); line-height: 20px; }
 .prospect-check .ssx-checkbox-mark { margin-block: 0; }
@@ -75,7 +75,6 @@
 .prospect-filter-group .sheet-choice-section { margin-block: 16px; }
 .prospect-filter-group .sheet-choice-section h3 { font-size: var(--typography-font-size-secondary); font-weight: var(--typography-font-weight-regular); color: var(--color-text); }
 .prospect-filter-group .sheet-choice-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-.prospect-filter-group .sheet-choice-grid button { padding-inline: 4px; }
 
 .prospect-page.with-preview-chrome:not(:has(.preview-history)) .prospect-footer { padding-bottom: max(34px, env(safe-area-inset-bottom)); }
 
@@ -106,8 +105,6 @@
 .prospect-filter-group .sheet-choice-section h3,
 .prospect-filter-input .ssx-input-label,
 .prospect-custom-input .ssx-input-label { font-size: var(--typography-font-size-body); }
-.prospect-filter-group .sheet-choice-grid button { position: relative; min-height: 36px; padding-block: 6px; font-size: var(--typography-font-size-secondary); line-height: 22px; }
-.prospect-filter-group .sheet-choice-grid button::after { content: ''; position: absolute; inset: -2px 0; min-height: 40px; }
 .prospect-filter-select-row { margin-inline: -16px; }
 .prospect-scope-choice .sheet-choice-section { margin-top: 0; }
 .prospect-scope-choice .sheet-choice-section h3 { color: var(--color-text-subtlest); font-size: var(--typography-font-size-caption); }

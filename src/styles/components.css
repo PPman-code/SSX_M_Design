@@ -223,9 +223,10 @@ html:has(.mobile-page)::-webkit-scrollbar { display: none; }
 .sheet-selection-option[aria-pressed="false"] .sheet-selection-mark { visibility: hidden; }
 .sheet-choice-section + .sheet-choice-section { margin-top: 16px; }
 .sheet-choice-section h3 { margin: 0 0 12px; font-size: var(--typography-font-size-regular); line-height: var(--typography-line-height-regular); font-weight: var(--typography-font-weight-medium); }
-.sheet-choice-option { font-size: var(--typography-font-size-body); line-height: var(--typography-line-height-body); }
+.sheet-choice-grid .sheet-choice-option, .date-range-options .sheet-choice-option { position: relative; min-width: 0; min-height: 36px; padding: 6px 4px; border: 1px solid transparent; border-radius: var(--radius-md); font-size: var(--typography-font-size-secondary); line-height: 22px; font-weight: var(--typography-font-weight-regular); background: var(--color-background-neutral-subtle); color: var(--color-text-subtle); overflow-wrap: anywhere; }
+.sheet-choice-grid .sheet-choice-option::after, .date-range-options .sheet-choice-option::after { content: ''; position: absolute; inset: -2px 0; min-height: 40px; }
+.date-range-options .sheet-choice-option[aria-pressed="true"] { border-color: var(--color-border-brand-subtle); background: var(--color-background-brand-subtle); color: var(--color-text-brand); }
 .sheet-choice-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
-.sheet-choice-grid button { min-height: 40px; padding: 7px 8px; border: 1px solid transparent; border-radius: var(--radius-md); background: var(--color-background-neutral-subtle); color: var(--color-text-subtle); overflow-wrap: anywhere; }
 .sheet-choice-grid button[aria-pressed="true"] { border-color: var(--color-border-brand-subtle); background: var(--color-background-brand-subtle); color: var(--color-text-brand); }
 .sheet-choice-hint, .sheet-choice-error { margin: 10px 0 0; font-size: var(--typography-font-size-caption); line-height: var(--typography-line-height-caption); color: var(--color-text-subtle); }
 .sheet-choice-error { color: var(--color-text-danger); }

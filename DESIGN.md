@@ -19,17 +19,21 @@ PC 规范按 2026-10-12 快照继承，不自动跟随 PC 更新；没有在本�
 | 新页面 | governance.md、page-patterns.md（含 56/48/40 顶部层级与单栏吸顶规则）、component-registry.md |
 | 顶部导航 / Search / Tab 组合与底部工具栏 | page-patterns.md 的顶部层级规则、interaction.md、相关组件 API 与全部调用点；人员列表另读 list-pages.md |
 | 人员管理列表的新建、审查或统一 | list-pages.md（含已确认规则、候选基线及迁移记录）、两个现有列表样本；涉及抽取再读 component-registry.md / components.md |
+| 列表结尾 / 已加载完毕 | components.md 的 ListEnd；非空且全部加载完成时复用，不替代空状态或加载更多 |
 | 加载 / 下拉刷新 | components.md 的 Loading / PullToRefresh、interaction.md、page-patterns.md、实际滚动容器及全部 MobilePage 调用点；先明确模拟回调或真实请求 |
 | 上拉层 / 多层编辑 / 选择与编辑混合 | sheet-interactions.md（含编辑内单选左上返回、独立选择取消用语）（已确认执行基线、积分流程与待迁移分开）、interaction.md、components.md 的 BottomSheet |
-| 修改组件 | components.md（BottomSheet selection/editor 模式试行及关闭委托；Button 默认 16px/24px，筛选与日期快捷项共用文字样式；PopoverMenu 含 20px 图标/16px 文字与带箭头优先规则；Search 含弹层首行留白规则；Cell / Toast 含 TDesign 候选扩展及迁移状态）、interaction.md、accessibility.md、相关 token、组件实现与调用点 |
+| 修改组件 | components.md（BottomSheet selection/editor 模式试行及关闭委托；Button 默认 16px/24px，筛选与日期快捷项统一36px视觉高、14px/22px文字、10px间距、至少40px热区；PopoverMenu 含 20px 图标/16px 文字与带箭头优先规则；Search 含弹层首行留白规则；Cell / Toast 含 TDesign 候选扩展及迁移状态）、interaction.md、accessibility.md、相关 token、组件实现与调用点 |
 | 学员加减积分原型 | docs/requirements/student-info.md、components.md 的 BottomSheet / Input / Cell / SheetChoiceGroup / SheetSelectionList；按系统组件实现，弹层内不添加加减 Tab |
 | 表单输入 / 日期区间选择 | components.md 的 DateRangeFields（候选共享字段，重置由场景决定）、Input（候选 API 与迁移记录）及 Input/选择型 Cell 混排审查（基础单行与折叠标题统一 56px）、accessibility.md；搜索使用 Search，不混用页面顶部层级高度 |
+| AI 实时沟通记录原型 | docs/requirements/ai-communication.md；新页面/表单/弹层分别按本表已有路由读取；样式以本项目规范为准，需求图与原详情 Figma 仅作功能与结构参考 |
 | 字体 | typography.md、foundations.md、相关组件与 token |
 | 修改 token | token-sync.md、tokens.json；改物理色或角色时再读对应 JSON |
 | 图标 | iconography.md（含单元格装饰图形 18px 规则）、Icon 公共 API |
 | 版本 | page-versioning.md、目标页版本目录 |
 
 ## 移动端底线
+
+- H5 默认使用微信容器导航，不自行新增页面标题/返回栏；页面标题通过 MobilePage 的 title / document.title 提供。56px 顶部规则只约束实际需要的业务栏，不表示每个页面都要添加导航；弹层标题与返回按弹层任务规范处理。
 
 - 页面锚点按钮触发的小型操作菜单优先使用带箭头 PopoverMenu；图标 20px、文字 16px/24px，箭头随实际弹出方向指向按钮，细则和已迁移调用点见 components.md。
 
@@ -48,6 +52,10 @@ PC 规范按 2026-10-12 快照继承，不自动跟随 PC 更新；没有在本�
 - 首个业务页面“我的”v1 为设计草稿，固定路由 /pages/my/v1；组件示例保持独立。反馈状态保存在内存，真实接口接入需明确契约、状态与验证范围。
 
 ## 跨页面一致性
+
+模拟学员头像：新建或调整模拟人员数据时，前六位优先使用用户提供的本地六张头像，按种子身份固定绑定；其余保持文字头像，不随排序/筛选更换。顺序与现有映射见 [头像素材说明](public/mock/students/README.md)，公共入口为 src/mocks/student-avatars.ts。
+
+人员头像统一采用 6px 圆角方形，与列表保持一致；各场景尺寸按页面层级保留，迁移状态见 list-pages.md。
 
 学员管理与意向客户管理的共同规则见 [人员管理列表](design-system/list-pages.md)。区分「已确认规则」「待迁移现状」「候选基线」；当前实现值不自动成为规范。只将相同语义和操作统一，保留业务字段、列数及已确认的滚动差异。
 

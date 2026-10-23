@@ -9,7 +9,7 @@ for (const theme of ['light', 'dark']) {
         await expect(page.locator('.search')).toHaveCSS('height', '56px');
         await expect(page.locator('.search-field')).toHaveCSS('height', '36px');
         const count = page.locator(`.${prefix}-count`);
-        await expect(count).toHaveCSS('height', '40px');
+        await expect(count).toHaveCSS('height', prefix === 'prospect' ? '48px' : '40px');
         await expect(count).toHaveCSS('padding-left', '12px');
         await expect(count).toHaveCSS('padding-right', '12px');
         const cards = page.getByRole('listitem');
@@ -40,9 +40,9 @@ for (const theme of ['light', 'dark']) {
       const unselected = dialog.locator('.sheet-choice-grid button[aria-pressed="false"]:not(:disabled)');
       for (const chip of await unselected.all()) await expect(chip).toHaveCSS('background-color', theme === 'light' ? 'rgb(245, 247, 250)' : 'rgb(38, 39, 39)');
       for (const chip of await chips.all()) {
-        if (route === 'prospective-students') { await expect(chip).toHaveCSS('min-height', '36px'); expect((await chip.boundingBox())!.height).toBeGreaterThanOrEqual(36); } else await expect(chip).toHaveCSS('height', '40px');
-        await expect(chip).toHaveCSS('font-size', route === 'prospective-students' ? '14px' : '16px');
-        await expect(chip).toHaveCSS('line-height', route === 'prospective-students' ? '22px' : '24px');
+        if (route === 'prospective-students') { await expect(chip).toHaveCSS('min-height', '36px'); expect((await chip.boundingBox())!.height).toBeGreaterThanOrEqual(36); } else await expect(chip).toHaveCSS('height', '36px');
+        await expect(chip).toHaveCSS('font-size', '14px');
+        await expect(chip).toHaveCSS('line-height', '22px');
       }
       if (route === 'prospective-students') {
         await expect(dialog.getByRole('checkbox', { name: '包含责任人下属的客户', exact: true })).toHaveCount(0);

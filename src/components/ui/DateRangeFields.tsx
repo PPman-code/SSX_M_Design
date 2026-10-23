@@ -2,11 +2,12 @@ import { useState } from 'react';
 import { Button } from './Button';
 import { Icon } from './Icon';
 import { WheelPicker } from './WheelPicker';
-import { dateRangePresets, rangeForPreset, type DateRange, type DateRangePeriod } from '../../lib/date-range';
+import { dateRangePresets, rangeForPreset, type DateRange, type DateRangePeriod, type DateRangePreset } from '../../lib/date-range';
 import './DateRangeFields.css';
 
 interface Props {
   today: string;
+  presets?: readonly DateRangePreset[];
   period: DateRangePeriod | null;
   value: DateRange;
   onChange: (period: DateRangePeriod | null, value: DateRange) => void;
@@ -15,7 +16,7 @@ const labels = ['开始日期', '结束日期'];
 const pad = (value: number) => String(value).padStart(2, '0');
 
 // Controlled fields only: each caller owns its draft, reset and confirmation semantics.
-export function DateRangeFields({ today, period, value, onChange }: Props) {
+export function DateRangeFields({ today, period, value, onChange, presets = dateRangePresets }: Props) {
   const [active, setActive] = useState<0 | 1 | null>(null);
   const activeIndex = active ?? 0;
   const [year, month, day] = (value[activeIndex] || today).split('-').map(Number);
@@ -37,7 +38,7 @@ export function DateRangeFields({ today, period, value, onChange }: Props) {
   }
   return <div className="date-range-fields">
     <div className="date-range-options" role="group" aria-label="快捷时段">
-      {dateRangePresets.map(name => <Button key={name} className="sheet-choice-option" variant="soft" aria-pressed={period === name}
+      {presets.map(name => <Button key={name} className="sheet-choice-option" variant="soft" aria-pressed={period === name}
         onClick={() => {
           setActive(null);
           onChange(name, rangeForPreset(name, today));

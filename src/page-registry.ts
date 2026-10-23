@@ -24,7 +24,9 @@ export const businessPages = [{
   id: 'student-info', name: '学员信息', version: '1.0', status: '设计草稿', route: '/pages/student-info/v1',
   audience: '老师 / 班主任 / 学管师', description: '页面骨架，仅实现加减积分菜单入口，正文和后续操作待设计。',
   figmaUrl: '',
-}] as const;
+}, ...[
+  ['customer-info', '意向客户信息'], ['ai-recording', 'AI 实时记录'], ['ai-pending', '待处理 AI 记录'], ['ai-record', 'AI 记录详情'], ['communication-form', '添加沟通记录'], ['communication-detail', '沟通记录详情'],
+].map(([id, name]) => ({ id, name, version: '1.0', status: '设计草稿', route: `/pages/${id}/v1`, audience: '招生顾问 / 客户责任人', description: 'AI 沟通记录交互演示；收音、转写和总结为模拟。', figmaUrl: '' }))] as const;
 
 /** Historical versions retained for direct-route review, omitted from active navigation. */
 export const archivedBusinessPages = [{

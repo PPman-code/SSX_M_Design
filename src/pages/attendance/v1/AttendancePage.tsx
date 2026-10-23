@@ -285,7 +285,7 @@ export function AttendancePage() {
 
     <BottomSheet open={dateOpen} onOpenChange={setDateOpen} title="统计时段" finalFocus={dateRef} footer={<SheetActions secondary={{ label: '重置', onClick: resetDate }} primary={{ label: '确认', onClick: applyDate }} />}>
       <DateRangeFields key={dateResetKey} today={today} period={periodDraft} value={dateDraft}
-        onChange={(nextPeriod, nextRange) => { setPeriodDraft(nextPeriod ?? '自定义'); setDateDraft(nextRange); setDateError(false); }} />
+        onChange={(nextPeriod, nextRange) => { setPeriodDraft(nextPeriod === '本月' || nextPeriod === '上月' || nextPeriod === '最近30天' ? nextPeriod : '自定义'); setDateDraft(nextRange); setDateError(false); }} />
       {dateError && <p className="att-error" role="alert">请选择有效的起止日期</p>}
     </BottomSheet>
 

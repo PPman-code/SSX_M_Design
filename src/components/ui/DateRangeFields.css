@@ -1,6 +1,4 @@
-.date-range-options { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin-bottom: 16px; }
-.date-range-options .button { min-width: 0; padding-inline: 0; border-color: transparent; background: var(--color-background-neutral-subtle); color: var(--color-text-subtle); }
-.date-range-options .button[aria-pressed="true"] { border-color: var(--color-border-brand); background: var(--color-background-brand-subtle); color: var(--color-text-brand); }
+.date-range-options { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-bottom: 16px; }
 .date-range-dates { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
 .date-range-date { min-width: 0; }
 .date-range-date > span { display: block; margin-bottom: 8px; font-size: 14px; line-height: 20px; color: var(--color-text-subtle); }

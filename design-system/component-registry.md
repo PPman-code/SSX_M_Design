@@ -4,6 +4,7 @@ Recommended 表示推荐复用的工程 API；移动端视觉基线仍需业务�
 
 | 组件 | 用途 | 状态 | 公开入口 |
 | --- | --- | --- | --- |
+| ListEnd | 非空列表加载完成后的静态结尾提示；默认“这是我的底线” | Candidate | src/components/ui/ListEnd.tsx |
 | Button | 主要、次要、轻量操作 | Recommended | src/components/ui/Button.tsx |
 | Input | 受控表单输入，横排 / 垂直 / 标签外置 | Candidate | src/components/ui/Input.tsx |
 | DateRangeFields | 快捷时段、起止日期与内联年月日滚轮；提交与重置由调用方管理 | Candidate | src/components/ui/DateRangeFields.tsx |

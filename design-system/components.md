@@ -143,7 +143,7 @@ BottomSheet 继续统一外壳、微信视口边界、动画、焦点恢复和�
 
 `src/components/ui/SheetContent.tsx` 提供以下组合，不维护业务草稿或主动关闭：
 - SheetSelectionList：label、options（value/label/disabled）、value。单选使用 onChange、可选 onReselect（再次点击当前项）；indicator=list 为右侧勾的即时单选，indicator=dot 为需确认单选。multiple=true 时 value 为 string[]，使用 onToggle，由调用者处理全部、互斥和至少一项等规则。选项行最小 48px（2026-10-21 用户确认，取代 44px；弹层单选/多选列表单元格统一 48px，与排序弹层一致；chip 网格 SheetChoiceGroup 为 40px（2026-10-21 用户更新））、15px / 24px，长名称自然换行，无 hover；多选选中无底色块，使用强调文字和右勾，单选 list 只显示右勾。
-- SheetChoiceGroup：label、options、value:string[]、onToggle、hint/error；选项文字统一 16px/24px（2026-10-22 用户确认），与 DateRangeFields 快捷项共用 .sheet-choice-option 文字样式，40px 单行高度保留；未选中可用项背景使用 --color-background-neutral-subtle（2026-10-21 用户要求较原 subtlest 加深一阶），选中保留品牌浅底/边框，禁用保留 subtlest/disabled 文字；两列选择块，自动关联组标题和说明，错误播报；校验保留在页面。
+- SheetChoiceGroup：label、options、value:string[]、onToggle、hint/error；选项文字统一 14px/22px（2026-10-23 用户确认），与 DateRangeFields 快捷项共用 .sheet-choice-option 样式，36px 单行视觉高度、至少40px热区；未选中可用项背景使用 --color-background-neutral-subtle（2026-10-21 用户要求较原 subtlest 加深一阶），选中保留品牌浅底/边框，禁用保留 subtlest/disabled 文字；两列选择块，自动关联组标题和说明，错误播报；校验保留在页面。
 - SheetActions：primary 必填、secondary 可选，每项含 label/onClick/disabled；一个按钮全宽，两个按钮等宽排列。通过 BottomSheet.footer 传入。
 
 四种实例分别为即时单选、确认多选、分组筛选、日期表单；日期字段和快捷时段仍由业务页组合。无底部按钮的即时单选点击提交并关闭；其他模式关闭不提交。组件预览补齐即时单选、多选和分组筛选示例，确认单选继续使用圆点。
@@ -328,3 +328,11 @@ Search 36px 迁移（2026-10-21）：已通过共享组件同步组件预览、�
 2026-10-23 积分调用迁移（V/I/D，已完成）：主编辑固定分值改为只读Cell，不限分值改为40px浅底Input；Stepper目前仅保留新增规则默认分值场景，继续为候选，不升为Recommended。覆盖上述主编辑Stepper调用记录，不将本页40px输入尺寸推广为全局输入规范。
 
 2026-10-23 V/I/D：积分页新增规则默认分值已由Stepper迁移为本地Input，后缀“分”。Stepper不再用于积分业务页，仍为候选组件，不升级为Recommended。
+
+2026-10-23 · DateRangeFields 候选 API 增加可选 presets（DateRangePreset[]），省略时仍为本月/上月/最近30天。AI沟通筛选单独配置不限时间、今天、昨天、本周、最近 7 天、最近 30 天、最近 1 年、本月；复用原起止日期与滚轮，不改出勤率/客户筛选的快捷项。日期按调用方本地日期进行日历运算，本周为周一至今天，最近7/30/365日含今天，最近1年按365日；本月保持月初至今天。
+
+2026-10-23 用户确认统一（V/D，覆盖此前40px/16px快捷块规格）：SheetChoiceGroup与DateRangeFields快捷项同为36px最小视觉高、14px/22px Regular文字、10px网格间距、水平4px/垂直6px内边距（含1px边框），上下扩展热区至至少40px；长标签自然增高，列数由场景保留。共享CSS统一，不再由意向客户/AI局部复制尺寸。已迁移学员、意向客户、AI阶段/日期、出勤率v1/v2与BottomSheetExamples；日期输入仍48px，日期快捷项默认内容/各页业务回调不变，Candidate日期组件级别不变。
+
+## ListEnd · 候选公共列表结束提示（2026-10-23）
+
+公开入口src/components/ui/ListEnd.tsx。默认文案“这是我的底线”，children可覆盖，支持标准p属性与className。12px/20px Regular、color.text.subtlest、居中、16px内边距，无背景、图标及业务逻辑。由调用方在非空列表全部加载后渲染，不替代空状态、加载/错误或“加载更多”，不主动播报为live状态。已对照并迁移沟通记录、学员、意向客户三处；学员保留原底部安全留白。分页出勤列表未迁移；候选API不因复用次数自动升级为Recommended。

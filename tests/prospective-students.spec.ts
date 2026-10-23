@@ -61,7 +61,7 @@ for (const width of [360, 375, 390, 430]) {
     await page.setViewportSize({ width, height: 844 });
     await page.goto('/#/pages/prospective-students/v1?theme=light');
     await expect(page.getByRole('listitem')).toHaveCount(10);
-    await expect(page.locator('.prospect-count')).toHaveCSS('height', '40px');
+    await expect(page.locator('.prospect-count')).toHaveCSS('height', '48px');
     await expect(page.getByRole('button', { name: '返回首页', exact: true })).toHaveCount(0);
     await expect(page.locator('.preview-chrome, .prospect-header')).toHaveCount(0);
     const toolsBox = await page.locator('.prospect-tools').boundingBox();
@@ -215,7 +215,8 @@ test('customer heading opens the profile and preserves phone and batch selection
   await first.locator('.prospect-metrics').click({ position: { x: 5, y: 5 } });
   await expect(page.getByText('廖小龙 · 客户主页请在现有业务系统中办理', { exact: true })).toBeHidden();
   await first.locator('.prospect-card-heading').click({ position: { x: 5, y: 5 } });
-  await expect(page.getByText('廖小龙 · 客户主页请在现有业务系统中办理', { exact: true })).toBeVisible();
+  await expect(page).toHaveURL(/pages\/customer-info\/v1.*customer=customer-1/);
+  await page.goBack();
   await first.getByRole('button', { name: '拨打廖小龙电话' }).click();
   await expect(page.getByText('暂无号码查看及拨号权限', { exact: true })).toBeVisible();
   await expect(page.getByText('廖小龙 · 客户主页请在现有业务系统中办理', { exact: true })).toBeHidden();
@@ -279,7 +280,7 @@ for (const width of [360, 375, 390, 430]) {
     await page.getByRole('button', { name: '批量管理', exact: true }).click();
     const footer = page.locator('.prospect-footer--batch');
     await expect(footer).toBeInViewport();
-    await expect(footer.locator('.prospect-batch-heading')).toHaveCSS('height', '40px');
+    await expect(footer.locator('.prospect-batch-heading')).toHaveCSS('height', '48px');
     for (const button of await footer.locator('.prospect-batch-actions > button').all()) {
       await expect(button).toHaveCSS('height', '56px');
       await expect(button.locator('svg')).toHaveCSS('width', '18px');

@@ -1,6 +1,10 @@
 import { useEffect } from 'react';
 import { Link, Route, Routes, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { archivedBusinessPages, businessPages } from './page-registry';
+import { CustomerInfoPage } from './pages/ai-communication/v1/CustomerInfoPage';
+import { RecordingPage } from './pages/ai-communication/v1/RecordingPage';
+import { PendingRecordsPage, RecordDetailPage } from './pages/ai-communication/v1/RecordDetailPage';
+import { CommunicationForm, CommunicationDetailPage } from './pages/ai-communication/v1/CommunicationForm';
 import { StudentInfoPage } from './pages/student-info/v1/StudentInfoPage';
 import { StudentPage } from './pages/students/v1/StudentPage';
 import { CustomerPage } from './pages/prospective-students/v1/CustomerPage';
@@ -48,6 +52,12 @@ export function App() {
   const onToggleTheme = () => setParams((previous) => { previous.set('theme', mode === 'light' ? 'dark' : 'light'); return previous; }, { replace: true });
   return <Routes>
     <Route path="/" element={<Workspace mode={mode} onToggleTheme={onToggleTheme} />} />
+    <Route path="/pages/customer-info/v1" element={<CustomerInfoPage />} />
+    <Route path="/pages/ai-recording/v1" element={<RecordingPage />} />
+    <Route path="/pages/ai-pending/v1" element={<PendingRecordsPage />} />
+    <Route path="/pages/ai-record/v1" element={<RecordDetailPage />} />
+    <Route path="/pages/communication-form/v1" element={<CommunicationForm />} />
+    <Route path="/pages/communication-detail/v1" element={<CommunicationDetailPage />} />
     <Route path="/pages/student-info/v1" element={<StudentInfoPage />} />
     <Route path="/pages/students/v1" element={<StudentPage />} />
     <Route path="/pages/prospective-students/v1" element={<CustomerPage />} />

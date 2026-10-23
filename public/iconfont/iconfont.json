@@ -6,6 +6,27 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "48753868",
+      "name": "转试听学员",
+      "font_class": "zhuanshitingxueyuan",
+      "unicode": "edae",
+      "unicode_decimal": 60846
+    },
+    {
+      "icon_id": "48753870",
+      "name": "转正式学员",
+      "font_class": "zhuanzhengshixueyuan",
+      "unicode": "edaf",
+      "unicode_decimal": 60847
+    },
+    {
+      "icon_id": "48753869",
+      "name": "取消转化",
+      "font_class": "quxiaozhuanhua",
+      "unicode": "edb0",
+      "unicode_decimal": 60848
+    },
+    {
       "icon_id": "48724219",
       "name": "组件勾选",
       "font_class": "zujiangouxuan",

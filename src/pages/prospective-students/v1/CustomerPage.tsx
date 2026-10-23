@@ -1,6 +1,7 @@
+import { ListEnd } from '../../../components/ui/ListEnd';
 import { simulateRefresh } from '../../../preview/simulateRefresh';
 import { useRef, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Cell, CellGroup } from '../../../components/ui/Cell';
 import { Search } from '../../../components/ui/Search';
 import { Checkbox } from '../../../components/ui/Checkbox';
@@ -18,6 +19,7 @@ import type { Customer, SortKey } from './model';
 import './customers.css';
 
 export function CustomerPage() {
+  const navigate = useNavigate();
   const [params, setParams] = useSearchParams(); const { showToast } = useToast();
   const [customers, setCustomers] = useState(createCustomers); const [query, setQuery] = useState('');
   const [filters, setFilters] = useState(emptyFilters); const [filterOpen, setFilterOpen] = useState(false); const [filterKey, setFilterKey] = useState(0);
@@ -37,7 +39,7 @@ export function CustomerPage() {
   const visible = scenario === 'empty' ? [] : selectCustomers(customers, query, filters, sort, descending);
   const allSelected = visible.length > 0 && visible.every(customer => selected.includes(customer.id));
   const filterActive = JSON.stringify(filters) !== JSON.stringify(emptyFilters());
-  function externalFlow(name: string, customer?: Customer) { showToast({ message: `${customer ? `${customer.name} · ` : ''}${name}请在现有业务系统中办理` }); }
+  function externalFlow(name: string, customer?: Customer) { if (name === '客户主页' && customer) { const next = new URLSearchParams(params); next.delete('state'); next.set('customer', customer.id); navigate(`/pages/customer-info/v1?${next}`); return; } showToast({ message: `${customer ? `${customer.name} · ` : ''}${name}请在现有业务系统中办理` }); }
   function toggle(id: string) { setSelected(previous => previous.includes(id) ? previous.filter(item => item !== id) : [...previous, id]); }
   function beginEdit() { setEditStatus(''); setEditCampus(''); setEditError(''); setChoosing(null); setEditOpen(true); }
   function requestEditClose() { if (editStatus || editCampus) setDiscardEdit(true); else setEditOpen(false); }
@@ -84,7 +86,7 @@ export function CustomerPage() {
           <dl className="prospect-metrics"><div><dt>主责任人</dt><dd>{customer.owner || '\u00a0'}</dd></div><div><dt>意向级别</dt><dd className="prospect-hearts" aria-label={customer.level == null ? '未设置意向级别' : `${customer.level}心`}>{Array.from({ length: customer.level ?? 0 }, (_, heart) => <Icon key={heart} name="heart-fill" size="xs" />)}</dd></div><div><dt>上次沟通</dt><dd>{dateLabel(customer.lastDate) || '\u00a0'}</dd></div></dl>
           <div className="prospect-card-bottom"><span className={customer.nextDate.slice(0, 10) === localDay() ? 'prospect-follow-today' : ''}><Icon name="clock-circle" size="xs" />下次跟进 {dateLabel(customer.nextDate, true)}</span>{!batch && <button type="button" onClick={() => externalFlow('基本信息', customer)}>查看资料<Icon name="right" size="xs" /></button>}</div>
         </article>)}</div>
-        {!visible.length ? <div className="prospect-empty" role="status"><h2>暂无符合条件的客户</h2><Button variant="text" onClick={recover}>清除条件</Button></div> : <p className="prospect-list-end">已显示全部客户</p>}
+        {!visible.length ? <div className="prospect-empty" role="status"><h2>暂无符合条件的客户</h2><Button variant="text" onClick={recover}>清除条件</Button></div> : <ListEnd />}
       </>}
     </div>
     <BottomSheet title="排序方式" open={sortOpen} onOpenChange={setSortOpen} finalFocus={sortRef}><div className="prospect-sort-options">{sortOptions.map(option => <button type="button" aria-pressed={sort === option.key} key={option.key} onClick={() => { const nextDescending = sort === option.key ? !descending : option.key !== 'name'; setSort(option.key); setDescending(nextDescending); setSortOpen(false); showToast({ message: nextDescending ? '已按降序排列' : '已按升序排列' }); }}><span>按{option.label === '跟进时间' ? '下次跟进时间' : option.label === '沟通时间' ? '上次沟通时间' : option.label}排序{sort === option.key && <Icon name={descending ? 'arrow-down' : 'arrow-up'} size="sm" />}</span>{sort === option.key && <Icon name="check" size="sm" />}</button>)}</div><p className="prospect-sort-hint">再次点击已选项切换升序 / 降序</p></BottomSheet>

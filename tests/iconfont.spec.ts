@@ -4,8 +4,8 @@ for (const theme of ['light', 'dark']) {
   test(`current icon library exposes the new symbol and updated checks in ${theme}`, async ({ page }) => {
     await page.goto(`/#/handoff?theme=${theme}`);
     const details = page.locator('.icon-library-details');
-    await details.getByText('查看全部 186 个图标', { exact: true }).click();
-    await expect(details.locator('.icon-tile')).toHaveCount(186);
+    await details.getByText('查看全部 189 个图标', { exact: true }).click();
+    await expect(details.locator('.icon-tile')).toHaveCount(189);
     const search = details.getByRole('searchbox');
     await search.fill('zujiangouxuan');
     const tile = details.locator('.icon-tile');

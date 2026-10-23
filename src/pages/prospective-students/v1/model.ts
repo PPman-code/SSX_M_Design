@@ -1,3 +1,5 @@
+import { mockStudentPortraits } from '../../../mocks/student-avatars';
+
 export type Customer = {
   id: string; name: string; gender?: 'male' | 'female'; phone: string; avatar?: string;
   status: string; owner: string; level: number | null; lastDate: string; nextDate: string; inputDate: string;
@@ -30,7 +32,7 @@ export function createCustomers(): Customer[] {
     '18612345678', '17798765432', '13567891234', '15811223344', '19988776655'
   ];
   return names.map((name, i) => ({
-    id: `customer-${i + 1}`, name, gender: i % 2 === 0 ? 'male' : 'female', phone: phones[i],
+    id: `customer-${i + 1}`, name, avatar: mockStudentPortraits[i]?.avatar, gender: mockStudentPortraits[i]?.gender ?? (i % 2 === 0 ? 'male' : 'female'), phone: phones[i],
     status: statuses[i % statuses.length],
     owner: i === 4 || i === 7 ? owners[1] : owners[0],
     level: [4, 3, null, 1, 3, 5, 4, 3, null, 2][i],
