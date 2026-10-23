@@ -71,7 +71,6 @@
 /* Expand the main editor before scrolling, leaving 16px above usable space. */
 .sheet.points-adjustment { max-height: calc(100dvh - var(--preview-overlay-top, 0px) - var(--preview-overlay-bottom, 0px) - var(--drawer-keyboard-inset, 0px) - max(16px, env(safe-area-inset-top))); }
 
-.points-create .ssx-stepper .ssx-input-native { text-align: center; }
 
 /* Four-character reason label plus optional text stays on a single line. */
 .points-reason-input .ssx-input-label { flex-basis: 120px; width: 120px; }

@@ -32,7 +32,7 @@ for (const subtract of [false, true]) {
     await expect(discard).toBeVisible();
     await discard.getByRole('button', { name: '继续编辑', exact: true }).click();
     await expect(create.getByRole('textbox', { name: '规则名称', exact: true })).toHaveValue('入口新增规则');
-    await create.getByRole('button', { name: '增加默认分值', exact: true }).click();
+    await create.getByRole('textbox', { name: `默认${verb}分分值`, exact: true }).fill('1');
     await create.getByRole('button', { name: '保存并选中', exact: true }).click();
     await expect(selector.getByRole('status')).toHaveText('已选 1 项');
     await selector.getByRole('button', { name: '确认选择', exact: true }).click();

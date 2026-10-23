@@ -4,7 +4,6 @@ import { Dialog } from '../../../components/ui/Dialog';
 import { useToast } from '../../../components/ui/useToast';
 import { Button } from '../../../components/ui/Button';
 import { Input } from '../../../components/ui/Input';
-import { Stepper } from '../../../components/ui/Stepper';
 import { Cell, CellGroup } from '../../../components/ui/Cell';
 import { Checkbox } from '../../../components/ui/Checkbox';
 import { Search } from '../../../components/ui/Search';
@@ -162,7 +161,7 @@ export function PointsAdjustment({ open, onOpenChange, student, balance, rules, 
               onValueChange={val => { setName(val); if (nameError) setNameError(''); }}
               status={nameError ? 'error' : 'default'}
               description={nameError || undefined}
-              placeholder="请输入规则名称"
+              placeholder="请输入"
             />
             <Cell
               label={`${verb}分分值类型`}
@@ -188,7 +187,7 @@ export function PointsAdjustment({ open, onOpenChange, student, balance, rules, 
               }
             />
             {kind === 'fixed' && (
-              <Stepper
+              <Input
                 label="默认分值"
                 aria-label={`默认${verb}分分值`}
                 required
@@ -198,7 +197,7 @@ export function PointsAdjustment({ open, onOpenChange, student, balance, rules, 
                 description={pointsError || undefined}
                 inputMode="decimal"
                 placeholder="0"
-                unit="分"
+                suffix="分"
               />
             )}
             <Input label="备注" optional value={reason} onValueChange={setReason} placeholder="请输入" />

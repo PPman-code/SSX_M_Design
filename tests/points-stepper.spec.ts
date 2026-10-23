@@ -2,7 +2,7 @@ import { addUnlimitedRule } from './helpers/points';
 import { test, expect } from '@playwright/test';
 
 for (const operation of ['add', 'subtract']) {
-  test(`${operation} fixed values are static, unrestricted input is 40px, rule default retains stepper`, async ({ page }) => {
+  test(`${operation} fixed values are static, unrestricted input is 40px, rule default uses direct input`, async ({ page }) => {
     const verb = operation === 'add' ? '加' : '减';
     const fixedName = operation === 'add' ? '课堂表现积极' : '迟到';
     const fixedValue = operation === 'add' ? '3' : '1';
@@ -30,7 +30,9 @@ for (const operation of ['add', 'subtract']) {
     await main.getByRole('button', { name: '添加积分项', exact: true }).click();
     await selector.getByRole('button', { name: '新增', exact: true }).click();
     const create = page.getByRole('dialog', { name: `新增${verb}分规则`, exact: true });
-    await create.getByRole('button', { name: '增加默认分值', exact: true }).click();
+    await expect(create.getByRole('button', { name: '增加默认分值', exact: true })).toHaveCount(0);
+    await create.getByRole('textbox', { name: `默认${verb}分分值`, exact: true }).fill('1');
+    await expect(create.getByRole('textbox', { name: `默认${verb}分分值`, exact: true })).toHaveCSS('text-align', 'right');
     await expect(create.getByRole('textbox', { name: `默认${verb}分分值`, exact: true })).toHaveValue('1');
     await create.getByRole('button', { name: '返回', exact: true }).click();
     await page.getByRole('dialog', { name: '放弃本次修改？', exact: true }).getByRole('button', { name: '放弃修改', exact: true }).click();
