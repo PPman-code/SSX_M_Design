@@ -49,3 +49,5 @@ pnpm check:generated 检查生成物同步；pnpm test:icons 检查归档、名�
 Icon loading 覆盖为用户提供的 loading-blue.svg / loading-white.svg 渐变圆环。原稿在 public/icons/loading 原样保留；ring-mask.svg 采用原稿 clipPath 的 16×16 圆环轮廓，CSS 按原稿 from 90deg 绘制 transparent → currentColor 角度渐变，颜色跟随组件 --color-* 语义映射。运行适配使用行内 SVG，源 SVG 的 foreignObject 结构保留供溯源。不得退回旧 ssx-design loading 或 CSS border spinner；不改生成物。
 
 已覆盖 Loading/下拉刷新、Toast、Button/Dialog 动作和 Toggle 的标准环形加载；各调用方保持原有 18px 按钮、开关随尺寸变化的图标及 24/28/32px Loading、24/32px Toast。三点与显式自定义图形仍按自身类型展示。Light/Dark 与减少动效均需检查，真机/WebView 渲染另验收。
+
+2026-10-23 用户确认场景例外（V）：我的页面常用功能、服务与帮助菜单为功能入口，前置图标使用本地lg=24px；尾部箭头保持md=18px，56px行高与12px图文间距保持。仅.my-menu作用域覆盖，不放大全局MenuCell/Cell/Input图标。

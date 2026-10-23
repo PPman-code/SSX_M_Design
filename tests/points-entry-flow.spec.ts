@@ -38,14 +38,14 @@ for (const subtract of [false, true]) {
     await selector.getByRole('button', { name: '确认选择', exact: true }).click();
     await expect(main).toBeVisible();
     await expect(main.locator('.points-entry-count')).toHaveText('1');
-    await main.getByRole('textbox', { name: '入口新增规则原因', exact: true }).fill('保留父表单');
+    await main.getByRole('textbox', { name: `入口新增规则${verb}分原因`, exact: true }).fill('保留父表单');
     await main.getByRole('button', { name: '添加积分项', exact: true }).click();
     await expect(selector.getByRole('button', { name: '关闭弹层', exact: true })).toHaveCount(0);
     await expect(selector.locator('.sheet-handle')).toBeVisible();
     await selector.getByRole('checkbox').first().check();
     await selector.getByRole('button', { name: '返回', exact: true }).click();
     await expect(main.locator('.points-entry-count')).toHaveText('1');
-    await expect(main.getByRole('textbox', { name: '入口新增规则原因', exact: true })).toHaveValue('保留父表单');
+    await expect(main.getByRole('textbox', { name: `入口新增规则${verb}分原因`, exact: true })).toHaveValue('保留父表单');
     await main.getByRole('button', { name: '移除入口新增规则', exact: true }).click();
     await expect(main.locator('.points-entry-count')).toHaveText('0');
     await expect(main.getByRole('button', { name: '选择积分项', exact: true })).toBeVisible();

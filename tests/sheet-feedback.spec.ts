@@ -15,7 +15,7 @@ for (const theme of ['light', 'dark']) {
     await expect(main).toHaveCSS('opacity', '0');
     await expect(main).toHaveCSS('pointer-events', 'none');
     await expect(selector).toHaveCSS('opacity', '1');
-    await selector.getByRole('checkbox', { name: '课堂表现积极 +3 分', exact: true }).check();
+    await selector.getByRole('checkbox', { name: '其他奖励 不限分值', exact: true }).check();
     await selector.getByRole('button', { name: '新增', exact: true }).click();
     const create = page.getByRole('dialog', { name: '新增加分规则', exact: true });
     await expect(page.locator('.points-selector')).toHaveCSS('opacity', '0');
@@ -23,10 +23,10 @@ for (const theme of ['light', 'dark']) {
     await expect(create.getByRole('textbox', { name: '规则名称', exact: true })).toBeFocused();
     await create.getByRole('button', { name: '返回', exact: true }).click();
     await expect(selector).toHaveCSS('opacity', '1');
-    await expect(selector.getByRole('checkbox', { name: '课堂表现积极 +3 分', exact: true })).toBeChecked();
+    await expect(selector.getByRole('checkbox', { name: '其他奖励 不限分值', exact: true })).toBeChecked();
     await selector.getByRole('button', { name: '确认选择', exact: true }).click();
     await expect(main).toHaveCSS('opacity', '1');
-    const value = main.getByRole('textbox', { name: '课堂表现积极加分分值', exact: true });
+    const value = main.getByRole('textbox', { name: '其他奖励加分分值', exact: true });
     await value.fill('0');
     await main.getByRole('button', { name: '确认加分', exact: true }).click();
     await expect(value).toBeFocused();

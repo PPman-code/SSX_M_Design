@@ -43,3 +43,6 @@
 .activation-feature h3 { font-size: var(--typography-font-size-secondary); line-height: var(--typography-line-height-caption); color: var(--color-text); font-weight: var(--typography-font-weight-medium); }
 .activation-footer { display: flex; flex-direction: column; gap: 8px; padding: 16px 16px 32px; flex-shrink: 0; text-align: center; }
 .payment-activation .activation-contact { width: 100%; min-height: var(--component-button-height-md); padding: 7px 12px; border-radius: var(--component-button-radius); gap: 10px; }
+
+/* Functional menu entries use larger leading icons; field/arrow glyphs stay 18px. */
+.my-menu .menu-cell > svg { width: var(--component-icon-size-lg); height: var(--component-icon-size-lg); font-size: var(--component-icon-size-lg); }

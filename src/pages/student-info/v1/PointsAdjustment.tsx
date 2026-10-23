@@ -43,7 +43,10 @@ export function PointsAdjustment({ open, onOpenChange, student, balance, rules, 
   const addRef = useRef<HTMLButtonElement>(null);
   const createRef = useRef<HTMLButtonElement>(null);
   const submitting = useRef(false);
-  const amounts = entries.map(entry => pointsInCents(entry.points));
+  const amounts = entries.map(entry => {
+    const rule = rules.find(rule => rule.id === entry.id)!;
+    return pointsInCents(rule.unlimited ? entry.points : rule.points);
+  });
   const total = amounts.reduce<number>((sum, amount) => sum + (amount ?? 0), 0);
   const valid = entries.length > 0 && amounts.every(amount => amount !== null) && Number.isSafeInteger(total);
   const filtered = rules.filter(rule => rule.name.includes(query.trim()));
@@ -105,7 +108,7 @@ export function PointsAdjustment({ open, onOpenChange, student, balance, rules, 
       const message = !entries.length ? '请先选择积分项' : !Number.isSafeInteger(total) ? '积分数值过大，请调整后重试' : '请为每项填写大于 0 的分值';
       setSubmitError(message); showToast({ message });
       if (!entries.length) addRef.current?.focus();
-      else { const index = amounts.findIndex(amount => amount === null); entryFields.current?.querySelectorAll<HTMLElement>('.points-value-input input')[Math.max(index, 0)]?.focus(); }
+      else { const index = amounts.findIndex(amount => amount === null); entryFields.current?.querySelectorAll('.points-entry')[Math.max(index, 0)]?.querySelector<HTMLInputElement>('.points-value-input input')?.focus(); }
       return;
     }
     if (!Number.isSafeInteger(balance + (operation === 'add' ? total : -total))) { setSubmitError('积分数值过大，请调整后重试'); return; }
@@ -114,7 +117,7 @@ export function PointsAdjustment({ open, onOpenChange, student, balance, rules, 
   const discardDialog = (
     <Dialog stacked open={discardTarget !== null} onOpenChange={next => { if (!next) setDiscardTarget(null); }} title="放弃本次修改？"
       actions={[{ label: '继续编辑' }, { label: '放弃修改', danger: true, onSelect: discard }]}>
-      {discardTarget === 'create' ? '已填写的规则名称、分值和原因将被丢弃。' : '已选择的积分项及填写的分值、原因将被丢弃。'}
+      {discardTarget === 'create' ? '已填写的规则名称、分值和备注将被丢弃。' : '已选择的积分项及填写的分值、原因将被丢弃。'}
     </Dialog>
   );
   const selector = (
@@ -198,7 +201,7 @@ export function PointsAdjustment({ open, onOpenChange, student, balance, rules, 
                 unit="分"
               />
             )}
-            <Input label="原因" optional value={reason} onValueChange={setReason} placeholder="请输入" />
+            <Input label="备注" optional value={reason} onValueChange={setReason} placeholder="请输入" />
           </CellGroup>
           <p className="points-note">保存后返回规则库并自动勾选，确认选择后应用到本次操作。积分在主页面提交后生效。</p>
         </div>
@@ -217,12 +220,13 @@ export function PointsAdjustment({ open, onOpenChange, student, balance, rules, 
     <div className="points-section-title"><h3>积分项</h3><span className="points-entry-count" aria-label={`已选 ${entries.length} 项`}>{entries.length}</span><span className="points-student-summary">{student.name}：{formatPoints(balance)} 积分</span></div>
     <div className="points-entry-list" ref={entryFields}>
       {entries.map(entry => {
-        const amount = pointsInCents(entry.points);
+        const rule = rules.find(rule => rule.id === entry.id)!;
+        const amount = pointsInCents(rule.unlimited ? entry.points : rule.points);
         const hasError = submitAttempted && (amount === null || amount <= 0);
         return <section className="points-entry" key={entry.id} aria-label={rules.find(rule => rule.id === entry.id)!.name}>
           <div className="points-entry-heading"><h3>{rules.find(rule => rule.id === entry.id)!.name}</h3><Button variant="text" size="sm" onClick={() => setEntries(current => current.filter(item => item.id !== entry.id))} aria-label={`移除${rules.find(rule => rule.id === entry.id)!.name}`}>移除</Button></div>
           <div className="points-entry-fields">
-            <Stepper
+            {rule.unlimited ? <Input
               label={`${verb}分分值`}
               aria-label={`${rules.find(rule => rule.id === entry.id)!.name}${verb}分分值`}
               className="points-value-input"
@@ -232,10 +236,10 @@ export function PointsAdjustment({ open, onOpenChange, student, balance, rules, 
               description={hasError ? '请为每项填写大于 0 的分值' : undefined}
               inputMode="decimal"
               placeholder="0"
-              unit="分"
+              suffix="分"
               aria-invalid={hasError}
-            />
-            <Input label="原因" aria-label={`${rules.find(rule => rule.id === entry.id)!.name}原因`} optional className="points-reason-input" value={entry.reason} onValueChange={reason => updateEntry(entry.id, { reason })} placeholder="请输入" />
+            /> : <Cell label={`${verb}分分值`} value={`${rule.points} 分`} />}
+            <Input label={`${verb}分原因`} aria-label={`${rules.find(rule => rule.id === entry.id)!.name}${verb}分原因`} optional className="points-reason-input" value={entry.reason} onValueChange={reason => updateEntry(entry.id, { reason })} placeholder="请输入" />
           </div>
         </section>;
       })}

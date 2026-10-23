@@ -1,4 +1,4 @@
-import { enterEmptyPointsEditor } from './helpers/points';
+import { enterEmptyPointsEditor, addUnlimitedRule } from './helpers/points';
 import { test, expect, type Page } from '@playwright/test';
 async function open(page: Page, subtract = true) {
   await page.getByRole('button', { name: '加减积分', exact: true }).click();
@@ -27,20 +27,18 @@ for (const theme of ['light', 'dark']) {
       const confirm = await main.getByRole('button', { name: '确认减分', exact: true }).boundingBox();
       expect(total!.x + total!.width).toBeLessThanOrEqual(confirm!.x);
       await expect(main.locator('.sheet-content').getByRole('group', { name: '本次减分汇总' })).toHaveCount(0);
-      await main.getByRole('textbox', { name: '迟到减分分值', exact: true }).fill('-1');
-      await expect(main.getByRole('button', { name: '确认减分' })).toBeEnabled();
-      await main.getByRole('textbox', { name: '迟到减分分值', exact: true }).fill('0.1');
-      await main.getByRole('textbox', { name: '未带学习用品减分分值', exact: true }).fill('0.2');
-      await expect(main.getByRole('group', { name: '本次减分汇总' })).toContainText('−0.3 分');
+      await expect(main.getByRole('textbox', { name: '迟到减分分值', exact: true })).toHaveCount(0);
+      await expect(main.getByRole('region', { name: '迟到', exact: true })).toContainText('1 分');
+      await expect(main.getByRole('group', { name: '本次减分汇总' })).toContainText('−3 分');
       await main.getByRole('button', { name: '关闭弹层', exact: true }).click();
       if (await page.getByRole('dialog', { name: '放弃本次修改？', exact: true }).isVisible()) await page.getByRole('dialog', { name: '放弃本次修改？', exact: true }).getByRole('button', { name: '放弃修改', exact: true }).click();
       main = await open(page);
       await expect(main).toContainText(/金灿灿：\s*128 积分/);
       await expect(main.locator('.points-entry-count')).toHaveText('0');
       await main.getByRole('button', { name: '选择积分项', exact: true }).click();
-      await selector.getByRole('checkbox', { name: '迟到 −1 分', exact: true }).click();
+      await addUnlimitedRule(page, '减', '其他扣分');
       await selector.getByRole('button', { name: '确认选择', exact: true }).click();
-      await main.getByRole('textbox', { name: '迟到减分分值', exact: true }).fill('129');
+      await main.getByRole('textbox', { name: '其他扣分减分分值', exact: true }).fill('129');
       await main.getByRole('button', { name: '确认减分', exact: true }).click();
       await expect(page.getByText('减分成功 本次 −129 分', { exact: true })).toBeVisible();
       main = await open(page);
@@ -71,13 +69,13 @@ for (const theme of ['light', 'dark']) {
     await create.getByRole('textbox', { name: '规则名称', exact: true }).fill('未完成练习');
     await create.getByRole('button', { name: '不限分值', exact: true }).click();
     await expect(create.getByRole('textbox', { name: '默认减分分值' })).toHaveCount(0);
-    await create.getByRole('textbox', { name: '原因（选填）', exact: true }).fill('未按时完成');
+    await create.getByRole('textbox', { name: '备注（选填）', exact: true }).fill('未按时完成');
     await create.getByRole('button', { name: '保存并选中' }).click();
     await expect(selector.getByRole('checkbox', { name: '未完成练习 不限分值' })).toHaveAttribute('aria-checked', 'true');
     await selector.getByRole('button', { name: '确认选择' }).click();
     await expect(main.getByRole('button', { name: '确认减分' })).toBeEnabled();
     await main.getByRole('textbox', { name: '未完成练习减分分值' }).fill('2.5');
-    await expect(main.getByRole('textbox', { name: '未完成练习原因' })).toHaveValue('未按时完成');
+    await expect(main.getByRole('textbox', { name: '未完成练习减分原因' })).toHaveValue('未按时完成');
     await expect(main.getByRole('group', { name: '本次减分汇总' })).toContainText('−2.5 分');
     await main.getByRole('button', { name: '移除未完成练习' }).click();
     await expect(main.getByRole('button', { name: '确认减分' })).toBeEnabled();

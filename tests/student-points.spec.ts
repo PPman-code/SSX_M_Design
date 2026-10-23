@@ -43,10 +43,10 @@ for (const theme of ['light', 'dark']) {
       expect(countBox!.x + countBox!.width).toBeLessThanOrEqual(confirmBox!.x);
       await selector.getByRole('button', { name: '确认选择', exact: true }).click();
       await expect(main.getByRole('group', { name: '本次加分汇总' })).toContainText('+5 分');
-      await main.getByRole('textbox', { name: '课堂表现积极加分分值', exact: true }).fill('0.1');
-      await main.getByRole('textbox', { name: '按时完成作业加分分值', exact: true }).fill('0.2');
-      await main.getByRole('textbox', { name: '课堂表现积极原因', exact: true }).fill('课堂发言');
-      await expect(main.getByRole('group', { name: '本次加分汇总' })).toContainText('+0.3 分');
+      await expect(main.getByRole('textbox', { name: '课堂表现积极加分分值', exact: true })).toHaveCount(0);
+      await expect(main.getByRole('region', { name: '课堂表现积极', exact: true })).toContainText('3 分');
+      await main.getByRole('textbox', { name: '课堂表现积极加分原因', exact: true }).fill('课堂发言');
+      await expect(main.getByRole('group', { name: '本次加分汇总' })).toContainText('+5 分');
       await main.getByRole('button', { name: '关闭弹层', exact: true }).click();
       if (await page.getByRole('dialog', { name: '放弃本次修改？', exact: true }).isVisible()) await page.getByRole('dialog', { name: '放弃本次修改？', exact: true }).getByRole('button', { name: '放弃修改', exact: true }).click();
       main = await openAdd(page);
@@ -81,7 +81,7 @@ for (const theme of ['light', 'dark']) {
     await create.getByRole('textbox', { name: '规则名称', exact: true }).fill('主动帮助同学');
     await create.getByRole('button', { name: '不限分值', exact: true }).click();
     await expect(create.getByRole('textbox', { name: '默认加分分值', exact: true })).toHaveCount(0);
-    await create.getByRole('textbox', { name: '原因（选填）', exact: true }).fill('主动帮助');
+    await create.getByRole('textbox', { name: '备注（选填）', exact: true }).fill('主动帮助');
     await create.getByRole('button', { name: '保存并选中', exact: true }).click();
     await expect(create).toBeHidden();
     await expect(selector.getByRole('checkbox', { name: '主动帮助同学 不限分值', exact: true })).toHaveAttribute('aria-checked', 'true');
@@ -91,7 +91,7 @@ for (const theme of ['light', 'dark']) {
     await amount.fill('-2');
     await expect(main.getByRole('button', { name: '确认加分' })).toBeEnabled();
     await amount.fill('2.5');
-    await expect(main.getByRole('textbox', { name: '主动帮助同学原因', exact: true })).toHaveValue('主动帮助');
+    await expect(main.getByRole('textbox', { name: '主动帮助同学加分原因', exact: true })).toHaveValue('主动帮助');
     await expect(main.getByRole('button', { name: '确认加分' })).toBeEnabled();
     await main.getByRole('button', { name: '移除主动帮助同学', exact: true }).click();
     await expect(main.getByRole('button', { name: '确认加分' })).toBeEnabled();
@@ -115,7 +115,8 @@ test('fixed rule validation and keyboard cancellation preserve the balance', asy
   await create.getByRole('button', { name: '保存并选中', exact: true }).click();
   await expect(selector.getByRole('checkbox', { name: '阅读打卡 +1.5 分', exact: true })).toHaveAttribute('aria-checked', 'true');
   await selector.getByRole('button', { name: '确认选择', exact: true }).click();
-  await expect(main.getByRole('textbox', { name: '阅读打卡加分分值', exact: true })).toHaveValue('1.5');
+  await expect(main.getByRole('textbox', { name: '阅读打卡加分分值', exact: true })).toHaveCount(0);
+  await expect(main.getByRole('region', { name: '阅读打卡', exact: true })).toContainText('1.5 分');
   await page.keyboard.press('Escape');
   await page.getByRole('dialog', { name: '放弃本次修改？', exact: true }).getByRole('button', { name: '放弃修改', exact: true }).click();
   await expect(main).toBeHidden();

@@ -187,13 +187,17 @@ test('phone shell preserves viewport width and interaction while direct pages om
 });
 
 for (const theme of ['light', 'dark']) {
-  test(`menu cell decoration icons are 18px in ${theme}`, async ({ page }) => {
+  test(`my menu leading icons are 24px and arrows remain 18px in ${theme}`, async ({ page }) => {
     await page.goto(`/#/pages/my/v1?theme=${theme}`);
-    const icons = page.locator('.menu-cell > svg, .menu-cell-arrow > svg');
+    const icons = page.locator('.my-menu .menu-cell > svg');
     expect(await icons.count()).toBeGreaterThan(0);
     for (const icon of await icons.all()) {
-      await expect(icon).toHaveCSS('width', '18px');
-      await expect(icon).toHaveCSS('height', '18px');
+      await expect(icon).toHaveCSS('width', '24px');
+      await expect(icon).toHaveCSS('height', '24px');
+    }
+    for (const arrow of await page.locator('.menu-cell-arrow > svg').all()) {
+      await expect(arrow).toHaveCSS('width', '18px');
+      await expect(arrow).toHaveCSS('height', '18px');
     }
     await expect(page.locator('.menu-cell').first()).toHaveCSS('height', '56px');
   });

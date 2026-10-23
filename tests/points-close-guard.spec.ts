@@ -31,7 +31,7 @@ for (const theme of ['light', 'dark']) {
       await expect(select.getByRole('button', { name: '关闭弹层', exact: true })).toHaveCount(0);
       await select.getByRole('checkbox', { name: subtract ? '迟到 −1 分' : '课堂表现积极 +3 分', exact: true }).click();
       await select.getByRole('button', { name: '确认选择', exact: true }).click();
-      const reason = main.getByRole('textbox', { name: subtract ? '迟到原因' : '课堂表现积极原因', exact: true });
+      const reason = main.getByRole('textbox', { name: subtract ? '迟到减分原因' : '课堂表现积极加分原因', exact: true });
       await reason.fill('保留这段原因');
       await main.getByRole('button', { name: '关闭弹层', exact: true }).click();
       const discard = page.getByRole('dialog', { name: '放弃本次修改？', exact: true });
