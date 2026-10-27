@@ -1,0 +1,9 @@
+/* Served by this application; deliberately no local() dependency. */
+@font-face {
+  font-family: 'SSX JingBei Number';
+  src: url('/fonts/numeric/JingBeiNumber-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+002C-002E, U+0030-0039, U+00A5, U+2212, U+FFE5;
+}

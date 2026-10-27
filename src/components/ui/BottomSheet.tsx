@@ -40,9 +40,9 @@ export function BottomSheet({ open, onOpenChange, title, description, children, 
                   {onBack ? <span aria-hidden="true" /> : <Drawer.Close className="icon-button" aria-label="关闭弹层"><Icon name="close" size="md" className="sheet-close-icon" /></Drawer.Close>}
                 </div>
               </>}
-              {description && <Drawer.Description className="sheet-description">{description}</Drawer.Description>}
-              <Drawer.Content className="sheet-content">{children}</Drawer.Content>
-              {footer != null && <div className="sheet-footer">{footer}</div>}
+              {description && <Drawer.Description data-base-ui-swipe-ignore="" className="sheet-description">{description}</Drawer.Description>}
+              <Drawer.Content data-base-ui-swipe-ignore="" className="sheet-content">{children}</Drawer.Content>
+              {footer != null && <div data-base-ui-swipe-ignore="" className="sheet-footer">{footer}</div>}
             </Drawer.Popup>
           </Drawer.Viewport>
         </Drawer.VirtualKeyboardProvider>

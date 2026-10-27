@@ -333,19 +333,23 @@ for (const width of [360, 375, 390, 430]) {
     await expect(page).toHaveTitle('廖小龙');
     await expect(tabs).toHaveAttribute('data-stuck', 'true');
     await expect(tabs).toHaveCSS('height', '48px');
-    expect(Math.abs((await tabs.boundingBox())!.y - (await scroll.boundingBox())!.y)).toBeLessThanOrEqual(1);
+    await expect.poll(async () => Math.abs((await tabs.boundingBox())!.y - (await scroll.boundingBox())!.y)).toBeLessThanOrEqual(1);
     expect(await tabs.evaluate(el => getComputedStyle(el).backgroundColor)).toBe(await page.locator('.ai-communication-card').first().evaluate(el => getComputedStyle(el).backgroundColor));
-    await scroll.evaluate(el => { el.scrollTop = 360; });
-    await expect(page.locator('.ai-customer-page')).toHaveClass(/is-actions-revealed/);
+    const navigation = page.locator('.ai-customer-navigation');
+    await scroll.evaluate(async el => { el.scrollTop = 388; await new Promise(requestAnimationFrame); await new Promise(requestAnimationFrame); });
+    await expect(navigation).toHaveAttribute('data-reveal', '0');
+    await scroll.evaluate(async el => { el.scrollTop = 360; await new Promise(requestAnimationFrame); await new Promise(requestAnimationFrame); });
+    const partial = Number(await navigation.getAttribute('data-reveal'));
+    expect(partial).toBeGreaterThan(0); expect(partial).toBeLessThan(48);
+    await scroll.evaluate(el => { el.scrollTop = 310; });
+    await expect(navigation).toHaveAttribute('data-reveal', '48');
     await expect(page.getByRole('button', { name: '转正式学员', exact: true })).toBeInViewport();
-    expect(Math.abs((await tabs.boundingBox())!.y - (await scroll.boundingBox())!.y - 72)).toBeLessThanOrEqual(1);
-    await scroll.evaluate(el => { el.scrollTop = 320; });
-    await expect(page.locator('.ai-customer-page')).toHaveClass(/is-actions-revealed/);
+    await expect.poll(async () => Math.abs((await tabs.boundingBox())!.y - (await scroll.boundingBox())!.y - 48)).toBeLessThanOrEqual(1);
     if (width === 390) await page.screenshot({ path: 'outputs/ai-customer-actions-revealed.png' });
-    await scroll.evaluate(el => { el.scrollTop = 370; });
-    await expect(page.locator('.ai-customer-page')).not.toHaveClass(/is-actions-revealed/);
+    await scroll.evaluate(el => { el.scrollTop = 360; });
+    await expect(navigation).toHaveAttribute('data-reveal', '0');
     await scroll.evaluate(el => { el.scrollTop = 700; });
-    expect(Math.abs((await tabs.boundingBox())!.y - (await scroll.boundingBox())!.y)).toBeLessThanOrEqual(1);
+    await expect.poll(async () => Math.abs((await tabs.boundingBox())!.y - (await scroll.boundingBox())!.y)).toBeLessThanOrEqual(1);
     if (width === 390) await page.screenshot({ path: 'outputs/ai-communication-sticky.png' });
     await scroll.evaluate(el => { el.scrollTop = 0; });
     await expect(page.locator('.preview-web-title strong')).toHaveText('意向客户信息');
@@ -519,4 +523,42 @@ test('communication date and stage filters are independent and outbound drafts a
   await dates.getByRole('button', { name: '不限时间', exact: true }).click();
   await dates.getByRole('button', { name: '确定', exact: true }).click();
   await expect(page.locator('.ai-communication-card')).toHaveCount(4);
+});
+
+
+test('progressive header holds an active gesture and returns continuously to its natural position', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto(base + '&chrome=wechat');
+  const scroll = page.locator('.product-scroll');
+  const navigation = page.locator('.ai-customer-navigation');
+  await scroll.evaluate(el => { el.scrollTop = 500; });
+  await expect(navigation).toHaveAttribute('data-pinned', '');
+  await scroll.dispatchEvent('touchstart');
+  await scroll.evaluate(el => { el.scrollTop = 460; });
+  await expect(navigation).toHaveAttribute('data-reveal', '16');
+  await page.waitForTimeout(250);
+  await expect(navigation).toHaveAttribute('data-reveal', '16');
+  await scroll.dispatchEvent('touchend');
+  await expect.poll(() => navigation.getAttribute('data-reveal'), { intervals: [5, 10, 15] }).toBe('0');
+  await page.waitForTimeout(35);
+  const interrupted = await navigation.evaluate(async el => {
+    const before = new DOMMatrixReadOnly(getComputedStyle(el).transform).m42;
+    el.closest('.product-scroll')!.dispatchEvent(new Event('touchstart'));
+    await new Promise(requestAnimationFrame); await new Promise(requestAnimationFrame);
+    const after = new DOMMatrixReadOnly(getComputedStyle(el).transform).m42;
+    return { before, after };
+  });
+  expect(interrupted.before).toBeGreaterThan(1);
+  expect(Math.abs(interrupted.after - interrupted.before)).toBeLessThan(1);
+
+  await scroll.evaluate(el => { el.scrollTop = 360; });
+  await expect(navigation).toHaveAttribute('data-reveal', '48');
+  await scroll.dispatchEvent('touchend');
+  await scroll.evaluate(el => { el.scrollTop = 120; });
+  await expect.poll(async () => Math.abs((await navigation.boundingBox())!.y - (await scroll.boundingBox())!.y)).toBeLessThanOrEqual(1);
+  await scroll.evaluate(el => { el.scrollTop = 0; });
+  await expect(navigation).toHaveAttribute('data-reveal', '0');
+  await expect(navigation).not.toHaveAttribute('data-pinned');
+  await expect(page.locator('.preview-web-title strong')).toHaveText('意向客户信息');
+  expect((await navigation.boundingBox())!.y).toBeGreaterThan((await scroll.boundingBox())!.y);
 });

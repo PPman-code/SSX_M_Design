@@ -1,3 +1,4 @@
+import { ParentCourseDetailPage } from './pages/parent-course-detail/v1/ParentCourseDetailPage';
 import { useEffect } from 'react';
 import { Link, Route, Routes, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { archivedBusinessPages, businessPages } from './page-registry';
@@ -36,8 +37,9 @@ export function App() {
       }
       if (event.data?.type !== 'ssx-preview-config') return;
       const { key, value } = event.data;
-      if (key !== 'payment') return;
-      if (typeof value !== 'string' || (key === 'payment' && !['', 'enabled'].includes(value))) return;
+      if (!['payment', 'classMultiple', 'remainingSeats'].includes(key)) return;
+      if (key !== 'payment' && location.pathname !== '/pages/parent-course-detail/v1') return;
+      if (typeof value !== 'string' || !(key === 'remainingSeats' ? ['', 'hidden'] : ['', 'enabled']).includes(value)) return;
       setParams((previous) => {
         const next = new URLSearchParams(previous);
         if (value) next.set(key, value); else next.delete(key);
@@ -52,6 +54,7 @@ export function App() {
   const onToggleTheme = () => setParams((previous) => { previous.set('theme', mode === 'light' ? 'dark' : 'light'); return previous; }, { replace: true });
   return <Routes>
     <Route path="/" element={<Workspace mode={mode} onToggleTheme={onToggleTheme} />} />
+    <Route path="/pages/parent-course-detail/v1" element={<ParentCourseDetailPage />} />
     <Route path="/pages/customer-info/v1" element={<CustomerInfoPage />} />
     <Route path="/pages/ai-recording/v1" element={<RecordingPage />} />
     <Route path="/pages/ai-pending/v1" element={<PendingRecordsPage />} />

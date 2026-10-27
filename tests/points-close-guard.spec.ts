@@ -105,6 +105,14 @@ test('editor ignores down-swipes while the selection sheet remains swipe-dismiss
   const select = page.getByRole('dialog', { name: '选择加分项', exact: true });
   await expect(select.locator('.sheet-handle')).toBeVisible();
   await expect(select).toHaveCSS('transform', 'matrix(1, 0, 0, 1, 0, 0)');
+  await expect(select.locator('.sheet-content')).toHaveAttribute('data-base-ui-swipe-ignore', '');
+  await expect(select.locator('.sheet-footer')).toHaveAttribute('data-base-ui-swipe-ignore', '');
+  const content = select.locator('.sheet-content');
+  await content.evaluate(el => { el.scrollTop = 0; });
+  const body = (await content.boundingBox())!;
+  await drag(page, body.x + body.width / 2, body.y + 25);
+  await expect(select).toBeVisible();
+  await expect(select).toHaveCSS('transform', 'matrix(1, 0, 0, 1, 0, 0)');
   header = (await select.locator('.sheet-heading').boundingBox())!;
   await drag(page, 170, header.y + 14);
   await expect(select).toBeHidden();

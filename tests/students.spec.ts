@@ -16,7 +16,7 @@ for (const width of [360, 375, 390, 430]) {
     await expect(page.getByRole('listitem')).toHaveCount(5);
     await expect(page.locator('.student-count')).toHaveCSS('height', '40px');
     const activeTab = page.getByRole('tab', { name: '全部', exact: true });
-    const brandColors = await activeTab.evaluate(element => ({ text: getComputedStyle(element).color, underline: getComputedStyle(element, '::after').backgroundColor }));
+    const brandColors = { text: await activeTab.evaluate(element => getComputedStyle(element).color), underline: await page.locator('.student-tabs .ssx-tabs-indicator').evaluate(element => getComputedStyle(element).backgroundColor) };
     expect(brandColors.text).toBe(brandColors.underline);
     await expect(page.getByRole('tab', { name: '全部', exact: true })).toHaveAttribute('aria-selected', 'true');
     await expect(page.locator('.preview-chrome')).toHaveCount(0);

@@ -32,6 +32,7 @@ Recommended 表示推荐复用的工程 API；移动端视觉基线仍需业务�
 | MobilePage | 满屏滚动、安全区、底部区域与可选微信外观预览 | Recommended | src/components/ui/MobilePage.tsx |
 | MenuCell | 带图标与箭头的功能入口 | Recommended | src/components/ui/MenuCell.tsx |
 | ProductTabBar | 首页与我的共用产品底部导航 | Recommended | src/components/ProductTabBar.tsx |
+| Tabs | 受控横向内容分类，统一选中、键盘焦点和下划线；吸顶由页面组合 | Candidate | src/components/ui/Tabs.tsx |
 | TabBar | 底部主导航，当前项由页面控制 | Recommended | src/components/ui/TabBar.tsx |
 
 详细 API 见 components.md。原生 input/label/fieldset/radio 作为受控基础元素可在当前工具示例使用；进入第二个真实业务页面前按需要封装共享字段组件。

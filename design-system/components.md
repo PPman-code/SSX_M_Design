@@ -336,3 +336,18 @@ Search 36px 迁移（2026-10-21）：已通过共享组件同步组件预览、�
 ## ListEnd · 候选公共列表结束提示（2026-10-23）
 
 公开入口src/components/ui/ListEnd.tsx。默认文案“这是我的底线”，children可覆盖，支持标准p属性与className。12px/20px Regular、color.text.subtlest、居中、16px内边距，无背景、图标及业务逻辑。由调用方在非空列表全部加载后渲染，不替代空状态、加载/错误或“加载更多”，不主动播报为live状态。已对照并迁移沟通记录、学员、意向客户三处；学员保留原底部安全留白。分页出勤列表未迁移；候选API不因复用次数自动升级为Recommended。
+
+## Tabs · 候选内容页签（2026-10-26）
+
+公开入口 `src/components/ui/Tabs.tsx`，与底部主导航 `TabBar` 分开。Props：items（value、ReactNode label、可选稳定id、panelId）、value、onValueChange、label；size=secondary/primary分别48/56px，layout=stretch/content等分/按内容排列，indicator=fixed/label分别24×3px居中线/文字宽底边。支持标准div属性及ref，业务数量可放入label；当前页面提供稳定id并用其标注对应tabpanel。
+
+组件负责role/tablist/tab、aria-selected/controls、单一tabIndex=0、左右键循环及Home/End自动激活和焦点切换；使用组件内ref，不通过全局document查找。页面负责受控状态、内容与panel、业务计数、背景、边距和sticky。只使用语义色；允许页面以--tabs-text/active-text/active-weight/item-padding/indicator-radius保留已确认的文字与下划线差异，不将偶然的页面CSS升级为统一视觉规则。
+
+已迁移：学员分类（数量、小字号计数与Medium选中）、客户详情分类（等分、Regular选中、渐变及原有72px展开行为）、AI记录内容（靠左、按文字宽下划线）。三处均保留48px、原路由与键盘交互，未重写滚动逻辑。底部TabBar继续使用主导航语义；Tabs无路由、数据请求或吸顶实现，也不自动把内容包成新滚动区。Candidate状态待后续API评审。
+
+2026-10-26 · Tabs组件展示补齐（V/I）：/mobile组件预览的介绍下方增加TabsExamples，提供48px等分含数量、56px独立首层、文字宽下划线三组可交互实例；多个实例独立受控，面板有可访问名称，示例覆盖自动ID及焦点隔离。不影响业务页或组件Candidate状态。
+
+2026-10-26 · Tabs指示线动效（V）：由各项独立线改为单一共享指示线，以220ms transform/width过渡追随选中项；保留固定24×3px及文字宽两种规格，ResizeObserver校准容器/文字宽变化，首次直接定位，连续切换从当前位置衔接；减少动态效果时关闭过渡。指示线不拦截点击，不新增布局高度或改变页面sticky。
+
+
+2026-10-26 已确认：BottomSheet selection 下滑关闭只从顶部横杠/标题区域起手。公共封装的正文、描述、底栏统一标记 swipe-ignore，正文滚到顶部也不触发关闭。editor 仍整层禁用；自定义 header 属于顶部区，内部交互控件继续遵循组件本身的手势保护。

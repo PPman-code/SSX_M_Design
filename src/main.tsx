@@ -7,6 +7,7 @@ import { ToastProvider } from './components/ui/Toast';
 import './styles/palette.css';
 import './styles/roles.css';
 import './styles/tokens.css';
+import './styles/fonts.css';
 import './styles/global.css';
 import './styles/components.css';
 import './styles/workspace.css';

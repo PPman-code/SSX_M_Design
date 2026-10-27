@@ -1,7 +1,7 @@
 # 视觉基础与移动端差异
 
 ## 保留 PC 基础
-品牌色、状态色、中性色与 Light/Dark 角色继承 PC；保持 Palette → Role → Semantic 引用链。系统字体栈与数字字体回退继续沿用。移动端字号和字重以用户确认的 [typography.md](typography.md) 为准，Regular 为 400、Medium 为 500；原 PC 字重规则不再作为移动端的优先依据。不加载网络字体。
+品牌色、状态色、中性色与 Light/Dark 角色继承 PC；保持 Palette → Role → Semantic 引用链。系统字体栈与数字字体回退继续沿用。移动端字号和字重以用户确认的 [typography.md](typography.md) 为准，Regular 为 400、Medium 为 500；原 PC 字重规则不再作为移动端的优先依据。正文不加载外部字体。2026-10-26 用户确认数字专用字体 JingBeiNumber-Bold 随站点自托管，按 typography.md 限定使用范围，不依赖访问者本机安装。
 具体字体和颜色见 tokens.json；来源快照与 SHA256 见 tokens/sources/。
 
 ## 移动端初始基线（历史实现）

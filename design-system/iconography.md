@@ -5,8 +5,8 @@
 图标以用户在 Iconfont 的 ssx-design 项目上传并审核通过的最新内容为准。每次更新按该项目下载包同步；历史归档仅供追溯，不参与运行时，也不覆盖最新版本。
 
 - 图标库：ssx-design；Iconfont 项目 ID：5242145。
-- 最新包：用户提供 download.zip；更新日期：2026-10-23；共 189 个图标（新增转正式学员 zhuanzhengshixueyuan、转试听学员 zhuanshitingxueyuan、取消转化 quxiaozhuanhua）。
-- 当前原始归档：design-assets/iconfont/ssx-design-5242145-2026-10-23-189.zip；旧归档保留供追溯。
+- 最新包：用户提供 download.zip；更新日期：2026-10-26；共 193 个图标（本次新增座位 frame，原192枚保持不变）。
+- 当前原始归档：design-assets/iconfont/ssx-design-5242145-2026-10-26-193.zip；旧归档保留供追溯。
 - 运行时：public/iconfont/ssx-design.symbol.svg 与 iconfont.json。
 - 页面入口：src/components/ui/Icon/index.ts。
 
@@ -51,3 +51,7 @@ Icon loading 覆盖为用户提供的 loading-blue.svg / loading-white.svg 渐�
 已覆盖 Loading/下拉刷新、Toast、Button/Dialog 动作和 Toggle 的标准环形加载；各调用方保持原有 18px 按钮、开关随尺寸变化的图标及 24/28/32px Loading、24/32px Toast。三点与显式自定义图形仍按自身类型展示。Light/Dark 与减少动效均需检查，真机/WebView 渲染另验收。
 
 2026-10-23 用户确认场景例外（V）：我的页面常用功能、服务与帮助菜单为功能入口，前置图标使用本地lg=24px；尾部箭头保持md=18px，56px行高与12px图文间距保持。仅.my-menu作用域覆盖，不放大全局MenuCell/Cell/Input图标。
+
+2026-10-26 更新迁移（V/D）：192枚包保留的187枚图形与上一版一致，新增gouwuche/xuexishangcheng/shoucang/shoucangxuanzhong/mic-ai-fill，移除heart/heart-fill。家长端底栏改用新增商城/购物车/收藏；客户列表意向级别改用shoucangxuanzhong，其他图标调用不变。原189枚包保留归档，当前运行及下载仅使用192枚包。
+
+2026-10-26 座位图标更新：用户download (1).zip增加frame（座位），193枚无删除/改名/既有图形变化。网格座位使用32px图形、至少40px按钮，图例16px；选中图标上方显示座位号，颜色采用本项目语义状态。仅选座图场景，不改变普通单元格18px规范。

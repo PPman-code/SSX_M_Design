@@ -1,6 +1,12 @@
 /* 此文件由 scripts/generate-iconfont.mjs 自动生成，请勿手工修改。 */
 export const iconSpritePrefix = "SSX-";
 export const iconNames = [
+  "frame",
+  "gouwuche",
+  "xuexishangcheng",
+  "shoucangxuanzhong",
+  "shoucang",
+  "mic-ai-fill",
   "zhuanshitingxueyuan",
   "zhuanzhengshixueyuan",
   "quxiaozhuanhua",
@@ -36,10 +42,8 @@ export const iconNames = [
   "download",
   "export",
   "import",
-  "heart-fill",
   "history",
   "launch",
-  "heart",
   "list",
   "home",
   "eye",

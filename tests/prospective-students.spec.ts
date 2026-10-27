@@ -209,11 +209,12 @@ test('empty, error, forbidden and masked-number states are explicit', async ({ p
   await expect(page.getByRole('listitem').first()).toContainText('132****7182');
 });
 
-test('customer heading opens the profile and preserves phone and batch selection', async ({ page }) => {
+test('customer card opens the profile and preserves phone and batch selection', async ({ page }) => {
   await page.goto('/#/pages/prospective-students/v1?phone=masked');
   const first = page.getByRole('listitem').first();
   await first.locator('.prospect-metrics').click({ position: { x: 5, y: 5 } });
-  await expect(page.getByText('廖小龙 · 客户主页请在现有业务系统中办理', { exact: true })).toBeHidden();
+  await expect(page).toHaveURL(/pages\/customer-info\/v1.*customer=customer-1/);
+  await page.goBack();
   await first.locator('.prospect-card-heading').click({ position: { x: 5, y: 5 } });
   await expect(page).toHaveURL(/pages\/customer-info\/v1.*customer=customer-1/);
   await page.goBack();

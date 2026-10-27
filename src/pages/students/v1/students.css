@@ -1,11 +1,8 @@
 .student-page { background: var(--color-background-page); }
 .student-content { min-height: 100%; }
 .student-filter-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--color-background-brand-bold); position: absolute; top: 4px; right: 4px; }
-.student-tabs { position: sticky; top: 0; z-index: 1; background: var(--color-background-surface); display: flex; height: 48px; min-height: 48px; border-bottom: 1px solid var(--color-border-lighter); }
-.student-tabs button { flex: 1; min-width: 0; position: relative; padding: 0 4px; min-height: 0; border: 0; background: transparent; color: var(--color-text); font-size: var(--typography-font-size-secondary); font-weight: 400; white-space: nowrap; }
+.student-tabs { --tabs-text: var(--color-text); --tabs-item-padding: 0 4px; --tabs-indicator-radius: 0px; position: sticky; top: 0; z-index: 1; background: var(--color-background-surface); border-bottom: 1px solid var(--color-border-lighter); }
 .student-tabs button > span { font-size: var(--typography-font-size-caption); }
-.student-tabs button[aria-selected='true'] { color: var(--color-text-brand); font-weight: 500; }
-.student-tabs button[aria-selected='true']::after { content: ''; position: absolute; bottom: 0; height: 3px; width: 24px; left: calc(50% - 12px); background: var(--color-background-brand-bold); }
 .student-count { height: 40px; padding: 10px 12px; margin: 0; color: var(--color-text-subtlest); font-size: var(--typography-font-size-caption); line-height: 20px; }
 .student-count b { font-weight: 400; color: var(--color-text-subtle); }
 .student-list { display: grid; gap: 12px; padding: 0 12px; }

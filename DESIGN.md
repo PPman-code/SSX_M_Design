@@ -17,7 +17,7 @@ PC 规范按 2026-10-12 快照继承，不自动跟随 PC 更新；没有在本�
 | 任务 | 必读 |
 | --- | --- |
 | 新页面 | governance.md、page-patterns.md（含 56/48/40 顶部层级与单栏吸顶规则）、component-registry.md |
-| 顶部导航 / Search / Tab 组合与底部工具栏 | page-patterns.md 的顶部层级规则、interaction.md、相关组件 API 与全部调用点；人员列表另读 list-pages.md |
+| 顶部导航 / Search / Tab 组合与底部工具栏 | page-patterns.md 的顶部层级规则、interaction.md、components.md 的 Tabs（内容页签）/TabBar（底部主导航）、相关组件 API 与全部调用点；人员列表另读 list-pages.md |
 | 人员管理列表的新建、审查或统一 | list-pages.md（含已确认规则、候选基线及迁移记录）、两个现有列表样本；涉及抽取再读 component-registry.md / components.md |
 | 列表结尾 / 已加载完毕 | components.md 的 ListEnd；非空且全部加载完成时复用，不替代空状态或加载更多 |
 | 加载 / 下拉刷新 | components.md 的 Loading / PullToRefresh、interaction.md、page-patterns.md、实际滚动容器及全部 MobilePage 调用点；先明确模拟回调或真实请求 |
@@ -62,3 +62,7 @@ PC 规范按 2026-10-12 快照继承，不自动跟随 PC 更新；没有在本�
 ## 主题验证范围（用户确认 · 2026-10-22）
 
 线上目标仅浅色主题，浅色为主要验收。暗色保留规范完整性，采用轻量抽查：普通文案、单页间距、与主题无关的行为修改不重复进行暗色截图和整套流程；新增/修改语义色、共享组件配色、遮罩/层级、禁用/危险/错误等主题敏感状态时针对性抽查暗色。不硬编码物理色、不删除暗色token；记录实际检查范围，不宣称双主题全量验收。已有双主题自动测试可按相关变更选择运行，不因保留暗色而每轮重复全量执行。
+
+## 预览项目范围（2026-10-26）
+
+工作区分教师端与家长端两个项目入口，共用组件库与语义规范。教师端保留已有页面；家长端从parent-course-detail课程详情开始，按用户截图搭建；封面使用用户图片并保持4:3，缺少图标占位，首页/课程列表及购买流程待补。详情边界见docs/requirements/parent-course-detail.md。项目入口登记于page-registry.ts的previewProjects，家长页面单列parentBusinessPages。

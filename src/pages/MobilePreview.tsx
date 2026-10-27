@@ -1,3 +1,4 @@
+import { TabsExamples } from '../components/TabsExamples';
 import { useRef, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { PreviewStatusBar } from '../components/ui/PreviewStatusBar';
@@ -53,6 +54,8 @@ export function MobilePreview() {
           <p>沿用智校视觉基础，探索移动端的尺寸与交互。</p>
           <span className="status-badge">初始设计基线</span>
         </div>
+
+        <TabsExamples />
 
         <ButtonExamples />
 

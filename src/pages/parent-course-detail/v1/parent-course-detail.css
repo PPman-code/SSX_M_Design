@@ -1,0 +1,107 @@
+.product-page.parent-course-page { --parent-course-bottom-inset: env(safe-area-inset-bottom); background: var(--color-background-page); }
+.parent-course-cover { width: 100%; aspect-ratio: 4 / 3; background: var(--color-background-neutral-subtle); }
+.parent-course-cover > img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.parent-course-cover-placeholder { height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; color: var(--color-text-subtlest); font-size: 14px; }
+.parent-course-cover-placeholder small { font-size: 12px; }
+.parent-course-intro { padding: 16px; background: var(--color-background-surface); border-radius: 12px 12px 0 0; }
+.parent-course-intro h1 { margin: 0 0 8px; font-size: 18px; line-height: 26px; font-weight: 500; }
+.parent-course-price { font-family: var(--typography-font-family-numeric); display: flex; align-items: baseline; gap: 4px; margin: 0; color: var(--color-text-warning); font-size: 24px; line-height: 34px; font-weight: 500; font-variant-numeric: tabular-nums; }
+.parent-course-price > span { font-size: 14px; font-weight: 400; }
+.parent-course-original { display: flex; margin: 0; color: var(--color-text-subtlest); font-size: 14px; line-height: 22px; }
+.parent-course-pricing { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.parent-course-bundle { margin-top: 8px; padding: 16px 12px; background: var(--color-background-surface); }
+.parent-bundle-heading { display: flex; align-items: center; gap: 8px; margin: 0 4px 12px; }
+.parent-bundle-heading h2 { margin: 0; font-size: 16px; line-height: 24px; font-weight: 500; }
+.parent-bundle-heading > span { padding: 1px 8px; border-radius: 12px; background: var(--color-background-neutral-subtle); color: var(--color-text-subtlest); font-size: 12px; line-height: 18px; }
+.parent-bundle-list { display: grid; gap: 12px; padding: 0 4px; }
+.parent-bundle-row.button { display: grid; width: 100%; padding: 12px; border: 0; border-radius: 8px; background: var(--color-background-neutral-subtlest); text-align: left; color: var(--color-text); white-space: normal; grid-template-columns: minmax(0, 1fr) auto; column-gap: 12px; row-gap: 4px; align-items: start; }
+.parent-bundle-row.button:active:not(:disabled) { background: var(--color-background-neutral-subtle); }
+.parent-bundle-row.touch-target::after { content: none; }
+.parent-bundle-info { display: block; min-width: 0; }
+.parent-bundle-name { display: flex; min-height: 24px; align-items: center; gap: 4px; margin: 0 0 4px; overflow-wrap: anywhere; font-size: 15px; line-height: 22px; font-weight: 500; }
+.parent-bundle-name > span:last-child { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.parent-bundle-kind-icons { display: inline-flex; align-items: center; gap: 2px; flex-shrink: 0; padding-top: 0; color: var(--color-text-brand); }
+.parent-bundle-price { display: flex; align-items: baseline; gap: 2px; margin: 0; color: var(--color-text-subtlest); font-size: 12px; line-height: 18px; font-variant-numeric: tabular-nums; }
+.parent-bundle-select { box-sizing: border-box; background: var(--color-background-brand-subtle); color: var(--color-text-brand); display: flex; gap: 4px; align-items: center; max-width: 124px; min-height: 24px; height: 24px; padding: 3px 8px; border-radius: 6px; white-space: normal; font-size: 12px; line-height: 18px; text-align: left; }
+.parent-bundle-select > span { min-width: 0; overflow-wrap: anywhere; }
+.parent-bundle-select svg { flex-shrink: 0; margin-inline: -4px; }
+.parent-bundle-select.is-selected { color: var(--color-text-subtle); background: var(--color-background-surface); }
+.parent-bundle-placeholder { font: inherit; }
+.parent-bundle-details { display: flex; flex-direction: column; gap: 4px; margin-top: 8px; color: var(--color-text-subtle); font-size: 12px; line-height: 18px; }
+.parent-bundle-class-line { display: flex; gap: 8px; overflow-wrap: anywhere; }
+.parent-bundle-summary-line { display: flex; flex-wrap: wrap; column-gap: 12px; row-gap: 4px; }
+.parent-bundle-summary-line > span { display: inline-flex; gap: 4px; white-space: nowrap; }
+.parent-bundle-detail-label { flex-shrink: 0; color: var(--color-text-subtlest); }
+.parent-bundle-goods-summary { display: flex; gap: 8px; overflow-wrap: anywhere; }
+.parent-course-footer { flex-shrink: 0; display: grid; grid-template-columns: repeat(3, 44px) minmax(0, 1fr); align-items: center; gap: 8px; height: calc(56px + var(--parent-course-bottom-inset)); padding: 5px 12px calc(6px + var(--parent-course-bottom-inset)); border-top: 1px solid var(--color-border-lighter); background: var(--color-background-surface); }
+.parent-course-shortcut.button { display: flex; flex-direction: column; gap: 2px; min-height: 44px; min-width: 44px; padding: 0; font-size: 11px; line-height: 16px; color: var(--color-text); }
+.parent-course-shortcut.is-favorite { color: var(--color-text-brand); }
+.parent-course-shortcut .badge { background: var(--color-background-warning-bold); color: var(--color-mobile-action-foreground); }
+.parent-course-buy.button { height: 40px; min-width: 0; padding-inline: 12px; }
+.parent-course-page.with-preview-chrome:not(:has(.preview-history)) { --parent-course-bottom-inset: max(34px, env(safe-area-inset-bottom)); }
+.parent-course-page.with-preview-chrome:not(:has(.preview-history)):not(:has(.product-tabbar)) .product-scroll > .parent-course-cover:first-child { padding-bottom: 0; }
+.parent-bundle-sheet.sheet { height: calc(100dvh - var(--preview-overlay-top, 0px) - var(--preview-overlay-bottom, 0px) - 16px); max-height: calc(100dvh - var(--preview-overlay-top, 0px) - var(--preview-overlay-bottom, 0px) - 16px); }
+.parent-selection-course { margin: 0 0 4px; font-size: 16px; line-height: 24px; font-weight: 500; }
+.parent-class-section { margin-top: 24px; }
+.parent-class-section h3 { margin: 0 0 12px; font-size: 14px; line-height: 22px; font-weight: 500; }
+.parent-class-section h3 > span { color: var(--color-text-subtlest); font-weight: 400; font-size: 12px; }
+.parent-class-card { margin-top: 12px; border: 1px solid transparent; border-radius: 8px; background: var(--color-background-neutral-subtle); overflow: hidden; }
+.parent-class-card.is-selected { border-color: var(--color-border-brand-subtle); background: var(--color-background-brand-subtle); }
+.parent-class-choice.button { display: flex; flex-direction: column; align-items: stretch; justify-content: center; gap: 4px; width: 100%; min-height: 64px; padding: 10px 12px; text-align: left; white-space: normal; color: var(--color-text); }
+.parent-class-choice.button::after { content: none; }
+.parent-class-choice > span { display: flex; gap: 8px; flex-wrap: wrap; font-size: 12px; line-height: 18px; color: var(--color-text-subtle); }
+.parent-class-choice strong { font-size: 14px; line-height: 22px; font-weight: 500; color: var(--color-text); }
+.parent-class-choice em { color: var(--color-text-danger); font-style: normal; }
+.parent-class-choice.button:disabled { opacity: .5; }
+.parent-class-seat { display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 12px; background: var(--color-background-surface); color: var(--color-text-subtle); font-size: 14px; }
+.parent-class-choice > .parent-class-heading { flex-wrap: nowrap; align-items: baseline; justify-content: space-between; }
+.parent-class-name { display: flex; align-items: baseline; gap: 8px; min-width: 0; flex-wrap: wrap; }
+.parent-class-quota { flex-shrink: 0; white-space: nowrap; color: var(--color-text-warning); }
+.parent-class-seat-placeholder { color: var(--color-text-placeholder); }
+.parent-class-seat-value { color: var(--color-text); }
+.parent-class-seat .button { min-height: 36px; height: 36px; padding: 6px 12px; font-size: 14px; line-height: 22px; }
+.parent-seat-content { display: flex; flex-direction: column; min-height: 100%; }
+.parent-seat-room { margin: 0 0 20px; color: var(--color-text-subtle); font-size: 14px; }
+.parent-seat-stage { width: 140px; margin: 0 auto 36px; padding: 8px; border-radius: 4px; background: var(--color-background-neutral-subtle); color: var(--color-text-subtle); text-align: center; font-size: 14px; }
+.parent-seat-map { flex: 1; width: 100%; min-width: 0; min-height: 0; overflow: auto; overscroll-behavior: contain; touch-action: none; }
+.parent-seat-canvas { width: 100%; padding-inline: 4px; }
+.parent-seat-grid { display: grid; gap: 24px; }
+.parent-seat-row { display: grid; grid-template-columns: 16px repeat(5, minmax(0, 1fr)); gap: 8px; align-items: center; }
+.parent-seat-row-number { display: flex; align-items: center; width: 24px; height: 40px; position: sticky; left: 0; z-index: 2; background: var(--color-background-surface); color: var(--color-text-subtlest); font-size: 12px; }
+.parent-seat.button { position: relative; min-width: 0; min-height: 40px; padding: 0; height: 40px; background: transparent; color: var(--color-icon-brand); opacity: .3; }
+.parent-seat.button[aria-pressed=true] { background: transparent; color: var(--color-icon-brand); opacity: 1; }
+.parent-seat.button:disabled:not([data-loading]) { background: transparent; color: var(--color-icon-disabled); opacity: .35; }
+.parent-seat-legend { display: flex; justify-content: space-between; gap: 8px; margin-top: auto; padding-top: 24px; font-size: 12px; color: var(--color-text-subtle); }
+.parent-seat-legend > span { display: flex; align-items: center; gap: 4px; }
+.parent-seat-legend svg { color: var(--color-icon-brand); opacity: .3; }
+.parent-seat-legend .is-selected { opacity: 1; }
+.parent-seat-legend .is-unavailable { color: var(--color-icon-disabled); opacity: .35; }
+.parent-specification-header { display: grid; grid-template-columns: 96px minmax(0, 1fr) 40px; gap: 12px; padding: 12px 16px 16px; align-items: start; flex-shrink: 0; }
+.parent-specification-image { width: 96px; aspect-ratio: 4 / 3; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; overflow: hidden; border-radius: 8px; background: var(--color-background-neutral-subtle); color: var(--color-text-subtlest); font-size: 10px; line-height: 14px; }
+.parent-specification-image > img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.parent-specification-heading { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.parent-specification-heading h3 { margin: 0; color: var(--color-text); font-size: 16px; line-height: 24px; font-weight: 500; overflow-wrap: anywhere; }
+.parent-specification-heading p { margin: 0; color: var(--color-text-subtlest); font-size: 14px; line-height: 22px; font-family: var(--typography-font-family-numeric); }
+.parent-specification-close.button { display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; color: var(--color-icon-subtle); }
+.parent-specification-close.button::after { content: none; }
+.parent-purchase-status { margin: 0 4px 12px; color: var(--color-text-subtle); font-size: 12px; line-height: 18px; }
+.parent-goods-section { margin-top: 24px; }
+
+.parent-bundle-sheet .sheet-choice-grid { display: flex; flex-wrap: wrap; align-items: flex-start; }
+.parent-bundle-sheet .sheet-choice-grid .sheet-choice-option { flex: 0 0 auto; max-width: 100%; padding-inline: 12px; }
+
+.parent-course-shortcut.button svg { width: 20px; height: 20px; }
+
+.parent-class-seat-entry { margin-top: 24px; }
+
+.parent-seat.button::after { content: none; }
+.parent-seat.button > svg { width: 32px; height: 32px; }
+.parent-seat-number { position: absolute; z-index: 1; bottom: calc(100% + 4px); left: 50%; transform: translateX(-50%); min-width: 48px; padding: 2px 8px; border: 1px solid var(--color-border-lighter); border-radius: 4px; background: var(--color-background-surface); box-shadow: var(--elevation-shadow-sm); color: var(--color-text); font-size: 14px; line-height: 18px; white-space: nowrap; pointer-events: none; }
+
+.parent-bundle-sheet--seating .sheet-content { display: flex; overflow: hidden; }
+.parent-bundle-sheet--seating .parent-seat-content { flex: 1; min-height: 0; min-width: 0; }
+.parent-bundle-sheet--seating .parent-selection-course,
+.parent-bundle-sheet--seating .parent-seat-room,
+.parent-bundle-sheet--seating .parent-seat-legend { flex-shrink: 0; }
+
+.parent-class-card.is-selected .parent-class-choice strong { color: var(--color-text-brand); }

@@ -1,5 +1,7 @@
+import { useCustomerStickyHeader } from './useCustomerStickyHeader';
+import { Tabs } from '../../../components/ui/Tabs';
 import { useCommunicationNavigation } from './useCommunicationNavigation';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { BottomSheet } from '../../../components/ui/BottomSheet';
 import { Cell, CellGroup } from '../../../components/ui/Cell';
 import { CustomerHistoryFilters } from './CustomerHistoryFilters';
@@ -34,34 +36,10 @@ export function CustomerInfoPage() {
   const pending = state.records.filter(record => record.customerId === customer?.id && pendingRecord(record, actor));
   const communications = state.communications.filter(item => item.customerId === customer?.id && matchesHistory(item, historyFilter));
   const samples = createCommunicationSamples(customer?.id ?? '').filter(item => matchesHistory(item, historyFilter));
-  const tabsSentinel = useRef<HTMLDivElement>(null);
-  const [tabsStuck, setTabsStuck] = useState(false);
-  const [actionsRevealed, setActionsRevealed] = useState(false);
   const forbidden = params.get('state') === 'forbidden';
+  const { headerRef, markerRef, pinned: tabsStuck } = useCustomerStickyHeader(!!customer && !forbidden, customer?.id);
   const scenario = params.get('scenario') ?? '';
   useEffect(() => { if (customer && !forbidden) seedScenario(customer.id, customer.name, actor, scenario); }, [customer?.id, customer?.name, actor, scenario, forbidden]); // eslint-disable-line react-hooks/exhaustive-deps
-  useEffect(() => {
-    const marker = tabsSentinel.current;
-    const root = marker?.closest('.product-scroll');
-    if (!marker || !root) return;
-    const observer = new IntersectionObserver(([entry]) => {
-      setTabsStuck(!entry.isIntersecting && entry.boundingClientRect.top < (entry.rootBounds?.top ?? 0));
-    }, { root, threshold: 0 });
-    observer.observe(marker);
-    let previousScroll = root.scrollTop;
-    function onScroll() {
-      if (!root || !marker) return;
-      const current = Math.max(0, root.scrollTop);
-      const delta = current - previousScroll;
-      if (current === 0) { setActionsRevealed(false); previousScroll = 0; return; }
-      if (Math.abs(delta) < 4) return;
-      const markerTop = marker.getBoundingClientRect().top - root.getBoundingClientRect().top + current;
-      setActionsRevealed(delta < 0 && current > markerTop - 72);
-      previousScroll = current;
-    }
-    root.addEventListener('scroll', onScroll, { passive: true });
-    return () => { observer.disconnect(); root.removeEventListener('scroll', onScroll); };
-  }, [customer?.id, forbidden]);
   function openRecorder() {
     if (active) {
       if (currentRecording) go('ai-recording', { customer: currentRecording.customerId, record: currentRecording.id });
@@ -76,16 +54,17 @@ export function CustomerInfoPage() {
     if (!record) { setStartError('本地存储不可用，未开始记录，请检查可用空间'); return; }
     setStartOpen(false); go('ai-recording', { record: record.id });
   }
-  return <MobilePage title={(tabsStuck || actionsRevealed) && customer && !forbidden ? customer.name : "意向客户信息"} className={`ai-page ai-customer-page${actionsRevealed ? ' is-actions-revealed' : ''}`} previewChrome={params.get('chrome') === 'wechat'} footer={customer && !forbidden ? <footer className="ai-entry-footer">
+  return <MobilePage title={tabsStuck && customer && !forbidden ? customer.name : "意向客户信息"} className="ai-page ai-customer-page" previewChrome={params.get('chrome') === 'wechat'} footer={customer && !forbidden ? <footer className="ai-entry-footer">
     <Button className="ai-start-button" variant="soft" shape="round" aria-label={recordingLabel} onClick={openRecorder}><span><Icon name="voice" size="base" /> {recordingLabel}<small>{currentRecording ? '点击可以进入录制页面' : '记录与家长的沟通过程'}</small></span></Button>
     <Button shape="round" onClick={() => go('communication-form', { record: null, communication: null })}>添加沟通记录</Button>
   </footer> : undefined}>
     <PageTitle title="意向客户信息" />
     {!customer || forbidden ? <div className="ai-empty"><Icon name="info-circle" size="lg" /><h2>{forbidden ? '暂无客户查看权限' : '未找到客户'}</h2><p>请从意向客户管理进入</p></div> : <>
       <button className="ai-customer-card ai-customer-profile" onClick={() => setInfoOpen(true)} aria-label="查看客户资料"><span className="ai-avatar">{customer.avatar ? <img src={customer.avatar} alt="" /> : customer.name[0]}</span><div><h2>{customer.name} {customer.gender && <span className={`ai-gender ai-gender--${customer.gender}`} aria-label={customer.gender === 'male' ? '男' : '女'}><Icon name={customer.gender === 'male' ? 'man' : 'woman'} size="xs" /></span>}</h2><p>录入时间：{customer.inputDate}</p></div><Icon name="right" size="base" /></button>
-      <div className="ai-actions-slot"><div className="ai-customer-actions" aria-label="客户业务操作">{([['转正式学员', 'zhuanzhengshixueyuan'], ['转试听学员', 'zhuanshitingxueyuan'], ['取消转化', 'quxiaozhuanhua']] as const).map(([label, icon]) => <Button key={label} variant="text" size="sm" icon={icon} onClick={() => showToast({ message: `${label}请在现有业务系统中办理` })}>{label}</Button>)}</div></div>
-      <div ref={tabsSentinel} className="ai-tabs-sentinel" aria-hidden="true" />
-      <div className="ai-customer-tabs" data-stuck={tabsStuck || undefined} role="tablist" aria-label="客户详情分类">{['沟通记录', '试听记录', '优惠券', '意向课程'].map((label, index, tabs) => <button key={label} id={`customer-tab-${index}`} role="tab" aria-selected={tab === label} tabIndex={tab === label ? 0 : -1} aria-controls="customer-history-panel" onClick={() => setTab(label)} onKeyDown={event => { if (['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) { event.preventDefault(); const next = event.key === 'Home' ? 0 : event.key === 'End' ? 3 : (index + (event.key === 'ArrowRight' ? 1 : -1) + tabs.length) % tabs.length; setTab(tabs[next]); document.getElementById(`customer-tab-${next}`)?.focus(); } }}>{label}</button>)}</div>
+      <div ref={markerRef} className="ai-tabs-sentinel" aria-hidden="true" />
+      <div ref={headerRef} className="ai-customer-navigation"><div className="ai-customer-actions" aria-label="客户业务操作">{([['转正式学员', 'zhuanzhengshixueyuan'], ['转试听学员', 'zhuanshitingxueyuan'], ['取消转化', 'quxiaozhuanhua']] as const).map(([label, icon]) => <Button key={label} variant="text" size="sm" icon={icon} onClick={() => showToast({ message: `${label}请在现有业务系统中办理` })}>{label}</Button>)}</div>
+      <Tabs className="ai-customer-tabs" data-stuck={tabsStuck || undefined} label="客户详情分类" value={tab} onValueChange={setTab} items={['沟通记录', '试听记录', '优惠券', '意向课程'].map((label, index) => ({ value: label, label, id: `customer-tab-${index}`, panelId: 'customer-history-panel' }))} />
+      </div>
       <div id="customer-history-panel" role="tabpanel" aria-labelledby={`customer-tab-${['沟通记录', '试听记录', '优惠券', '意向课程'].indexOf(tab)}`}>
       {tab === '沟通记录' ? <div className="ai-customer-content">
         <CustomerHistoryFilters value={historyFilter} onChange={setHistoryFilter} />
