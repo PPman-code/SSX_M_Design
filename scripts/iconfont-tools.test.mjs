@@ -4,12 +4,12 @@ import { iconfontArchiveName } from './generate-iconfont.mjs';
 import { buildSprite, readIconfontArchive, buildIconNameModule } from './iconfont-tools.mjs';
 
 const archive = new URL(`../${iconfontArchiveName}`, import.meta.url);
-test('uploaded SSX archive imports all 193 symbols and normalizes uppercase names', () => {
+test('uploaded SSX archive imports all 208 symbols and normalizes uppercase names', () => {
   const { metadata, symbolSource } = readIconfontArchive(archive);
-  assert.equal(metadata.glyphs.length, 193);
-  for (const name of ['export', 'launch', 'fire', 'qrcode-line', 'money-collect-filled', 'chat-1-line', 'xuanban1', 'xuanke1', 'zujiangouxuan', 'zhuanzhengshixueyuan', 'zhuanshitingxueyuan', 'quxiaozhuanhua', 'gouwuche', 'xuexishangcheng', 'shoucang', 'shoucangxuanzhong', 'mic-ai-fill', 'frame']) assert.ok(metadata.glyphs.some((g) => g.font_class === name));
+  assert.equal(metadata.glyphs.length, 208);
+  for (const name of ['export', 'launch', 'fire', 'qrcode-line', 'money-collect-filled', 'chat-1-line', 'xuanban1', 'xuanke1', 'zujiangouxuan', 'zhuanzhengshixueyuan', 'zhuanshitingxueyuan', 'quxiaozhuanhua', 'gouwuche', 'xuexishangcheng', 'shoucang', 'shoucangxuanzhong', 'mic-ai-fill', 'frame', 'play-large-fill', 'pause-mini-fill', 'stop-fill']) assert.ok(metadata.glyphs.some((g) => g.font_class === name));
   const sprite = buildSprite(symbolSource, metadata);
-  assert.equal([...sprite.matchAll(/<symbol\b/g)].length, 193);
+  assert.equal([...sprite.matchAll(/<symbol\b/g)].length, 208);
   assert.ok(sprite.includes('id="SSX-export"'));
   assert.ok(sprite.includes('fill="currentColor"'));
   assert.ok(!sprite.includes('#4E5969'));

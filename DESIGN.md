@@ -21,15 +21,17 @@ PC 规范按 2026-10-12 快照继承，不自动跟随 PC 更新；没有在本�
 | 人员管理列表的新建、审查或统一 | list-pages.md（含已确认规则、候选基线及迁移记录）、两个现有列表样本；涉及抽取再读 component-registry.md / components.md |
 | 列表结尾 / 已加载完毕 | components.md 的 ListEnd；非空且全部加载完成时复用，不替代空状态或加载更多 |
 | 加载 / 下拉刷新 | components.md 的 Loading / PullToRefresh、interaction.md、page-patterns.md、实际滚动容器及全部 MobilePage 调用点；先明确模拟回调或真实请求 |
-| 上拉层 / 多层编辑 / 选择与编辑混合 | sheet-interactions.md（含编辑内单选左上返回、独立选择取消用语）（已确认执行基线、积分流程与待迁移分开）、interaction.md、components.md 的 BottomSheet |
-| 修改组件 | components.md（BottomSheet selection/editor 模式试行及关闭委托；Button 默认 16px/24px，筛选与日期快捷项统一36px视觉高、14px/22px文字、10px间距、至少40px热区；PopoverMenu 含 20px 图标/16px 文字与带箭头优先规则；Search 含弹层首行留白规则；Cell / Toast 含 TDesign 候选扩展及迁移状态）、interaction.md、accessibility.md、相关 token、组件实现与调用点 |
+| 上拉层 / 多层编辑 / 选择与编辑混合 | sheet-interactions.md（含整页表单一级选择右上关闭、编辑底部弹层子选择左上返回、独立选择取消用语）（已确认执行基线、积分流程与待迁移分开）、interaction.md、components.md 的 BottomSheet |
+| 修改组件 | components.md（BottomSheet selection/editor 模式试行及关闭委托；Button 默认 16px/24px，筛选与日期快捷项统一36px视觉高、14px/22px文字、10px间距、至少40px热区；PopoverMenu 含不透明深色表面、20px 图标/16px 文字与带箭头优先规则；Search 含弹层首行留白规则；Cell / Toast 含 TDesign 候选扩展及迁移状态）、interaction.md、accessibility.md、相关 token、组件实现与调用点 |
 | 学员加减积分原型 | docs/requirements/student-info.md、components.md 的 BottomSheet / Input / Cell / SheetChoiceGroup / SheetSelectionList；按系统组件实现，弹层内不添加加减 Tab |
-| 表单输入 / 日期区间选择 | components.md 的 DateRangeFields（候选共享字段，重置由场景决定）、Input（候选 API 与迁移记录）及 Input/选择型 Cell 混排审查（基础单行与折叠标题统一 56px）、accessibility.md；搜索使用 Search，不混用页面顶部层级高度 |
+| 表单输入 / 日期区间选择 | 单日期日历另读 components.md 的 Calendar（候选，含跟进待定按钮）；components.md 的 DateRangeFields（候选共享字段，重置由场景决定）、Input（候选 API 与迁移记录）及 Input/选择型 Cell 混排审查（基础单行与折叠标题统一 56px）、accessibility.md；搜索使用 Search，不混用页面顶部层级高度 |
 | AI 实时沟通记录原型 | docs/requirements/ai-communication.md；新页面/表单/弹层分别按本表已有路由读取；样式以本项目规范为准，需求图与原详情 Figma 仅作功能与结构参考 |
 | 字体 | typography.md、foundations.md、相关组件与 token |
 | 修改 token | token-sync.md、tokens.json；改物理色或角色时再读对应 JSON |
 | 图标 | iconography.md（含单元格装饰图形 18px 规则）、Icon 公共 API |
 | 版本 | page-versioning.md、目标页版本目录 |
+
+2026-10-28：Dialog 默认恢复基础文字按钮操作区（ios），取消常规文字、确认品牌文字、操作间细分隔线；独立实底按钮仅作为显式 buttons 变体保留。覆盖 2026-10-27 的默认独立按钮决定；相关 API 与迁移见 components.md 的 Dialog。
 
 ## 移动端底线
 

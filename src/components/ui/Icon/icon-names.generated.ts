@@ -1,6 +1,21 @@
 /* 此文件由 scripts/generate-iconfont.mjs 自动生成，请勿手工修改。 */
 export const iconSpritePrefix = "SSX-";
 export const iconNames = [
+  "a-delete-oneshanchu1",
+  "a-ailuyinzhuanxiesvg",
+  "wenjian1",
+  "shipin1",
+  "tupian1",
+  "excel",
+  "pdf",
+  "ppt",
+  "txt",
+  "word",
+  "yuyin",
+  "sparkling-2-fill",
+  "play-large-fill",
+  "stop-fill",
+  "pause-mini-fill",
   "frame",
   "gouwuche",
   "xuexishangcheng",

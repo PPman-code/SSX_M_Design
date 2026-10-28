@@ -1,4 +1,5 @@
 import { useSyncExternalStore } from 'react';
+import { createPendingSamples, pendingShowcaseKey } from './pending-samples';
 import { activeRecord, sampleSegments, sampleSummary, storageKey, type AIRecord, type Communication, type CommunicationState } from './model';
 
 // crypto.randomUUID is only available in secure contexts (https / localhost); plain http over a LAN IP has no access to it.
@@ -57,7 +58,7 @@ export function pauseRecord(id: string, creator: string, paused: boolean) {
   return update(id, record => record.creator === creator && activeRecord(record) ? { ...record, lastTick: Date.now(), status: paused ? 'paused' : 'recording' } : record);
 }
 export function processRecord(id: string, creator: string) {
-  return update(id, record => record.creator === creator && !record.communicationId ? { ...record, status: record.status === 'failed' ? record.failedStage ?? 'transcribing' : 'transcribing', processAt: Date.now() } : record);
+  return update(id, record => record.creator === creator && !record.communicationId ? { ...record, mockPreviewHold: false, status: record.status === 'failed' ? record.failedStage ?? 'transcribing' : 'transcribing', processAt: Date.now() } : record);
 }
 export function editRecord(id: string, creator: string, change: { title?: string; speaker?: string; name?: string }) {
   return update(id, record => record.creator !== creator ? record : { ...record,
@@ -77,7 +78,30 @@ export function submitCommunication(input: Omit<Communication, 'id' | 'createdAt
   const communication: Communication = { ...input, id: uuid(), createdAt: new Date().toISOString(), source: record ? 'ai' : 'manual', duration: record?.duration };
   return commit({ ...state, communications: [communication, ...state.communications], records: state.records.map(item => item.id === record?.id ? { ...item, communicationId: communication.id } : item) }) ? communication.id : undefined;
 }
+/** Promote a read-only design fixture on first open so the shared form can save it locally. */
+export function openCommunicationSample(sample: Communication) {
+  if (state.communications.some(item => item.id === sample.id)) return true;
+  return commit({ ...state, communications: [sample, ...state.communications] });
+}
+export function updateCommunication(id: string, creator: string, change: Pick<Communication, 'content' | 'result' | 'mode' | 'nextMode' | 'nextDate' | 'promisedVisit' | 'visitDate'>) {
+  const existing = state.communications.find(item => item.id === id && item.creator === creator);
+  if (!existing || !change.content.trim() || Array.from(change.content).length > 1000 || !change.result) return false;
+  return commit({ ...state, communications: state.communications.map(item => item.id === id ? { ...item, ...change } : item) });
+}
 export function seedScenario(customerId: string, customerName: string, creator: string, scenario: string) {
+  if (!scenario) {
+    const key = pendingShowcaseKey(customerId, creator);
+    if (state.seeded.includes(key)) return;
+    // One-time demo refresh: retire accumulated pending examples, retaining submitted records and live recordings.
+    const legacy = state.seeded.includes(`pending-showcase-v1:${customerId}:${creator}`);
+    const records = state.records.filter(record => {
+      if (record.customerId !== customerId || record.creator !== creator || record.communicationId || activeRecord(record)) return true;
+      if (legacy) return false;
+      return !['v2', 'v3', 'v4'].some(version => record.id.startsWith(`pending-showcase-${version}:${customerId}:${creator}:`));
+    });
+    commit({ ...state, records: [...records, ...createPendingSamples(customerId, customerName, creator)], seeded: [...state.seeded, key] });
+    return;
+  }
   if (!['multiple', 'error', 'empty', 'interrupted', 'single'].includes(scenario)) return;
   const key = `${customerId}-${creator}-${scenario}`;
   if (state.seeded.includes(key)) return;
@@ -120,10 +144,10 @@ const timer = window.setInterval(() => {
       const segments = online ? sampleSegments.slice(0, Math.min(4, Math.floor(duration / 3) + 1)) : record.segments;
       return { ...record, duration, segments, lastTick: (record.lastTick ?? Date.now()) + elapsed * 1000 };
     }
-    if ((record.status === 'transcribing' || record.status === 'summarizing') && Date.now() - (record.processAt ?? 0) >= 1800) {
+    if (!record.mockPreviewHold && (record.status === 'transcribing' || record.status === 'summarizing') && Date.now() - (record.processAt ?? 0) >= 1800) {
       changed = true;
       if (record.mockProcessError || !navigator.onLine) return { ...record, status: 'failed', failedStage: record.status, mockProcessError: false };
-      if (record.status === 'transcribing') return { ...record, status: 'summarizing', processAt: Date.now(), segments: [...sampleSegments] };
+      if (record.status === 'transcribing') return { ...record, status: 'summarizing', processAt: Date.now(), segments: record.mockEmptyResult ? [] : [...sampleSegments] };
       if (record.mockEmptyResult) return { ...record, status: 'empty', summary: '', segments: [] };
       return { ...record, status: 'ready', summary: sampleSummary };
     }

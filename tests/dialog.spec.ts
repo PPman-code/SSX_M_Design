@@ -13,6 +13,10 @@ test('dialog notice and confirmation share the local modal and restore focus', a
   await expect(trigger).toBeFocused();
   await page.getByRole('button', { name: '双按钮对话框', exact: true }).click();
   dialog = page.getByRole('dialog', { name: '确认操作', exact: true });
+  await expect(dialog).toHaveClass(/dialog--ios/);
+  await expect(dialog.getByRole('button', { name: '取消', exact: true })).toHaveClass(/button--text/);
+  await expect(dialog.getByRole('button', { name: '确认', exact: true })).toHaveClass(/button--text/);
+  await page.screenshot({ path: 'outputs/dialog-buttons-light.png' });
   await dialog.getByRole('button', { name: '取消', exact: true }).click();
   await expect(page.getByText('对话框结果：尚未操作', { exact: true })).toBeVisible();
   await page.getByRole('button', { name: '双按钮对话框', exact: true }).click();
@@ -36,6 +40,19 @@ test('dialog variants support stacked, android and custom actions', async ({ pag
   dialog = page.getByRole('dialog', { name: '确认修改', exact: true });
   await expect(dialog.getByRole('button', { name: '确认', exact: true })).toHaveCSS('border-radius', '999px');
   await dialog.getByRole('button', { name: '取消', exact: true }).click();
+});
+
+test('preferred dark confirmation and explicit iOS variant remain separate', async ({ page }) => {
+  await page.goto('/#/mobile?theme=dark');
+  await page.getByRole('button', { name: '双按钮对话框', exact: true }).click();
+  let dialog = page.getByRole('dialog', { name: '确认操作', exact: true });
+  await page.screenshot({ path: 'outputs/dialog-buttons-dark.png' });
+  await dialog.getByRole('button', { name: '取消', exact: true }).click();
+  await page.getByRole('button', { name: 'iOS 双按钮', exact: true }).click();
+  dialog = page.getByRole('dialog', { name: '确认操作', exact: true });
+  await expect(dialog).toHaveClass(/dialog--ios/);
+  await expect(dialog.getByRole('button', { name: '确认', exact: true })).toHaveClass(/button--text/);
+  await page.keyboard.press('Escape');
 });
 
 for (const width of [360, 375, 390, 430]) {

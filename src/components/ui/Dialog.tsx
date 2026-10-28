@@ -16,7 +16,7 @@ interface Props {
   onOpenChange: (open: boolean) => void;
   title: string;
   children: ReactNode;
-  variant?: 'ios' | 'android' | 'custom';
+  variant?: 'buttons' | 'ios' | 'android' | 'custom';
   actions?: readonly DialogAction[];
   actionLayout?: 'horizontal' | 'vertical';
   finalFocus?: RefObject<HTMLElement | null>;
@@ -28,7 +28,7 @@ export function Dialog({ open, onOpenChange, title, children, variant = 'ios', a
   const vertical = variant === 'custom' || actionLayout === 'vertical' || items.length > 2;
   return <InfoDialog stacked={stacked} open={open} onOpenChange={onOpenChange} title={title} finalFocus={finalFocus} className={`dialog dialog--${variant}`}
     footer={<div className={`dialog-actions ${vertical ? 'dialog-actions--vertical' : ''}`}>
-      {items.map((action, index) => <Button key={index} variant={variant === 'custom' && index === 0 ? 'primary' : 'text'} shape={variant === 'custom' ? 'round' : 'default'}
+      {items.map((action, index) => <Button key={index} variant={variant === 'buttons' ? index === items.length - 1 ? 'primary' : 'soft' : variant === 'custom' && index === 0 ? 'primary' : 'text'} shape={variant === 'custom' ? 'round' : 'default'}
         className={`dialog-action ${!action.danger && (variant === 'custom' ? index > 0 : index < items.length - 1) ? 'dialog-action--secondary' : ''}`} tone={action.danger ? 'danger' : 'brand'} disabled={action.disabled} loading={action.loading}
         onClick={() => { action.onSelect?.(); if (action.closeOnSelect !== false) onOpenChange(false); }}>{action.label}</Button>)}
     </div>}>

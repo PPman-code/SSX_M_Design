@@ -100,7 +100,7 @@
   --color-popover-dark-text: var(--role-neutral-100);
   --color-popover-light-surface: var(--role-neutral-100);
   --color-popover-light-text: var(--role-neutral-900);
-  --color-popover-menu-dark-surface: var(--role-overlay-alpha-90);
+  --color-popover-menu-dark-surface: var(--role-popover-menu-neutral-800);
   --color-popover-menu-shadow: var(--role-shadow-alpha-20);
   --color-search-placeholder: var(--role-neutral-alpha-25);
   --color-shadow: var(--role-shadow-alpha-8);
@@ -332,7 +332,7 @@
   --color-popover-dark-text: var(--role-neutral-100);
   --color-popover-light-surface: var(--role-neutral-100);
   --color-popover-light-text: var(--role-neutral-900);
-  --color-popover-menu-dark-surface: var(--role-overlay-alpha-90);
+  --color-popover-menu-dark-surface: var(--role-popover-menu-neutral-800);
   --color-popover-menu-shadow: var(--role-shadow-alpha-20);
   --color-search-placeholder: var(--role-neutral-alpha-30);
   --color-shadow: var(--role-shadow-alpha-8);

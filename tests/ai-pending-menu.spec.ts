@@ -1,0 +1,42 @@
+import { test, expect } from '@playwright/test';
+for (const width of [360, 375, 390, 430]) {
+  test(`compact pending cards and menu work at ${width}px`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 844 });
+    const theme = width === 390 ? 'dark' : 'light';
+    const url = `/#/pages/customer-info/v1?customer=customer-1&theme=${theme}&chrome=wechat`;
+    await page.goto(url);
+    await page.getByRole('button', { name: /AI 记录 · 7 条待处理/ }).click();
+    await expect(page.locator('.ai-list-count')).toHaveCSS('height', '48px');
+    const card = page.locator('.ai-pending-card').first();
+    const time = await card.locator('p > span').first().boundingBox();
+    const status = await card.locator('.ai-status').boundingBox();
+    const more = card.getByRole('button', { name: '更多：周末编程体验课咨询', exact: true });
+    const anchor = await more.boundingBox();
+    expect(Math.abs(time!.y + time!.height / 2 - status!.y - status!.height / 2)).toBeLessThan(1);
+    expect(status!.x).toBeGreaterThan(time!.x + time!.width);
+    expect(anchor!.y).toBeLessThan(status!.y);
+    expect((await card.boundingBox())!.height).toBeLessThanOrEqual(90);
+    expect(await page.locator('.product-scroll').evaluate(el => el.scrollWidth <= el.clientWidth)).toBe(true);
+    await more.click();
+    const menu = page.getByRole('menu', { name: '记录操作：周末编程体验课咨询', exact: true });
+    await expect(menu.getByRole('menuitem', { name: '删除', exact: true })).toBeVisible();
+    const deletion = menu.getByRole('menuitem', { name: '删除', exact: true });
+    await expect(deletion.locator('use')).toHaveAttribute('href', /#SSX-a-delete-oneshanchu1$/);
+    await expect(deletion.locator('.popover-menu-icon')).toHaveCSS('filter', 'none');
+    expect(await deletion.locator('svg').evaluate(el => getComputedStyle(el).color)).toBe(await deletion.evaluate(el => getComputedStyle(el).color));
+    if (width === 360 || width === 390) await page.screenshot({ path: `outputs/ai-pending-menu-${theme}.png` });
+    await menu.getByRole('menuitem', { name: '查看', exact: true }).click();
+    await expect(page).toHaveURL(/ai-record\/v1/);
+    await expect(page.getByRole('heading', { name: '周末编程体验课咨询', exact: true })).toBeVisible();
+    expect(await page.locator('.ai-title-edit').evaluate(el => getComputedStyle(el).color)).toBe(await page.locator('.ai-detail-meta').evaluate(el => getComputedStyle(el).color));
+    if (width === 360 || width === 390) await page.screenshot({ path: `outputs/ai-title-edit-${theme}.png` });
+    await page.goBack();
+    await more.click();
+    await page.getByRole('menuitem', { name: '删除', exact: true }).click();
+    const dialog = page.getByRole('dialog', { name: '删除 AI 记录？', exact: true });
+    await dialog.getByRole('button', { name: '取消', exact: true }).click();
+    await expect(card).toBeVisible();
+    await card.locator('.ai-pending-main').click();
+    await expect(page).toHaveURL(/ai-record\/v1/);
+  });
+}

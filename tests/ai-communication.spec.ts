@@ -1,13 +1,21 @@
 import { test, expect } from '@playwright/test';
 import { rangeForPreset } from '../src/lib/date-range';
 const base = '/#/pages/customer-info/v1?customer=customer-1';
+// These workflow tests use empty fixtures; default review examples have their own coverage.
+test.beforeEach(async ({ page }) => {
+  await page.addInitScript(() => {
+    const key = 'ssx-ai-communication-prototype-v1';
+    if (!localStorage.getItem(key)) localStorage.setItem(key, JSON.stringify({ records: [], communications: [], storageError: false,
+      seeded: ['customer-1', 'customer-2'].flatMap(id => ['刘亦菲', '王老师'].map(actor => `pending-showcase-${id === 'customer-1' ? 'v5' : id === 'customer-2' ? 'v3' : 'v4'}:${id}:${actor}`)) }));
+  });
+});
 async function start(page: import('@playwright/test').Page, query = '') {
   await page.goto(base + query);
   await page.getByRole('button', { name: 'AI 实时记录', exact: true }).click();
   await page.getByRole('button', { name: '开始记录', exact: true }).click();
 }
 async function finish(page: import('@playwright/test').Page) {
-  await page.getByRole('button', { name: '结束并生成总结', exact: true }).click();
+  await page.getByRole('button', { name: '结束录音', exact: true }).click();
   await page.getByRole('dialog').getByRole('button', { name: '结束记录', exact: true }).click();
   await expect(page.getByRole('button', { name: '生成沟通记录', exact: true })).toBeVisible({ timeout: 12000 });
 }
@@ -21,14 +29,16 @@ test('customer entry and recording pause, minimize, summary and idempotent submi
   await page.getByRole('button', { name: '暂停录音', exact: true }).click();
   await page.getByRole('button', { name: '收起', exact: true }).click();
   await expect(page.locator('.ai-pending-entry')).toHaveCount(0);
-  await page.getByRole('button', { name: 'AI 已暂停', exact: true }).click();
+  await expect(page.getByRole('button', { name: 'AI 记录暂停', exact: true }).locator('.ai-recording-wave')).toHaveCount(0);
+  await page.getByRole('button', { name: 'AI 记录暂停', exact: true }).click();
   await page.getByRole('button', { name: '继续录音', exact: true }).click();
   await finish(page);
   await page.getByRole('button', { name: '生成沟通记录', exact: true }).click();
   await expect(page.getByLabel('沟通内容', { exact: true })).toHaveValue(/核心摘要[\s\S]*沟通过程[\s\S]*待跟进事项/);
   await page.getByRole('button', { name: '提交', exact: true }).click();
   await expect(page.getByText('来源：AI 实时记录', { exact: true })).toBeVisible();
-  await page.getByRole('button', { name: '查看 AI 记录', exact: true }).click();
+  await expect(page).toHaveTitle('修改沟通记录');
+  await page.getByRole('button', { name: /^查看 AI 原始记录：/ }).click();
   await expect(page.getByRole('button', { name: '查看沟通记录', exact: true })).toBeVisible();
   await expect(page.getByRole('button', { name: '生成沟通记录', exact: true })).toHaveCount(0);
 });
@@ -41,13 +51,14 @@ test('discarded AI form regenerates original and deletion preserves submitted co
   await page.getByRole('button', { name: '生成沟通记录', exact: true }).click();
   await expect(page.getByLabel('沟通内容', { exact: true })).not.toHaveValue('不应保存的草稿');
   await page.getByRole('button', { name: '提交', exact: true }).click();
-  await page.getByRole('button', { name: '查看 AI 记录', exact: true }).click();
+  await expect(page).toHaveTitle('修改沟通记录');
+  await page.getByRole('button', { name: /^查看 AI 原始记录：/ }).click();
   await page.getByRole('button', { name: 'AI 记录操作', exact: true }).click();
   await page.getByRole('menuitem', { name: '删除 AI 记录', exact: true }).click();
   await expect(page.getByRole('dialog')).toContainText('已提交的沟通记录将保留');
   await page.getByRole('dialog').getByRole('button', { name: '删除', exact: true }).click();
   await expect(page.getByText('来源：AI 实时记录', { exact: true })).toBeVisible();
-  await expect(page.getByRole('button', { name: '查看 AI 记录', exact: true })).toHaveCount(0);
+  await expect(page.getByRole('button', { name: /^查看 AI 原始记录：/ })).toHaveCount(0);
 });
 
 test('offline and microphone denial create no empty record', async ({ page }) => {
@@ -104,7 +115,8 @@ test('recording survives minimize, blocks second customer and recovers interrupt
   await page.getByRole('button', { name: '收起', exact: true }).click();
   await page.goBack();
   await page.getByRole('button', { name: '王五五客户主页', exact: true }).click();
-  await page.getByRole('button', { name: 'AI 已暂停', exact: true }).click();
+  await expect(page.getByRole('button', { name: 'AI 记录暂停', exact: true }).locator('.ai-recording-wave')).toHaveCount(0);
+  await page.getByRole('button', { name: 'AI 记录暂停', exact: true }).click();
   await expect(page).toHaveURL(/customer=customer-1/);
   await expect(page.getByRole('dialog')).toHaveCount(0);
   await expect(page.getByRole('button', { name: '继续录音', exact: true })).toBeVisible();
@@ -115,7 +127,7 @@ test('recording survives minimize, blocks second customer and recovers interrupt
 
 test('processing failure retries failed phase and submission failure preserves input', async ({ page }) => {
   await start(page, '&process=error&save=error');
-  await page.getByRole('button', { name: '结束并生成总结', exact: true }).click();
+  await page.getByRole('button', { name: '结束录音', exact: true }).click();
   await page.getByRole('button', { name: '结束记录', exact: true }).click();
   await expect(page.getByRole('button', { name: '重新处理', exact: true })).toBeVisible({ timeout: 10000 });
   await page.getByRole('button', { name: '重新处理', exact: true }).click();
@@ -126,13 +138,16 @@ test('processing failure retries failed phase and submission failure preserves i
   await expect(page.getByRole('alert')).toContainText('提交失败');
   await expect(page.getByLabel('沟通内容', { exact: true })).toHaveValue('老师确认后的沟通内容');
   await page.getByRole('button', { name: '提交', exact: true }).click();
-  await expect(page).toHaveURL(/communication-detail/);
-  await expect(page.getByText('老师确认后的沟通内容', { exact: true })).toBeVisible();
+  await expect(page).toHaveTitle('修改沟通记录');
+  await expect(page).toHaveURL(/communication-form/);
+  await expect(page.getByLabel('沟通内容', { exact: true })).toHaveValue('老师确认后的沟通内容');
   await page.goBack();
   await expect(page.getByRole('button', { name: '查看沟通记录', exact: true })).toBeVisible();
   await page.goBack();
   await expect(page.locator('.ai-pending-entry')).toHaveCount(0);
-  await expect(page.getByText('来源：AI 实时记录', { exact: true })).toHaveCount(1);
+  const savedCard = page.locator('.ai-communication-card').filter({ hasText: '老师确认后的沟通内容' });
+  await expect(savedCard.locator('.ai-card-followup')).toContainText('下次跟进：待定');
+  await expect(savedCard.getByRole('button', { name: '查看 AI 原始录音与转写', exact: true })).toBeVisible();
 });
 
 test('manual source remains manual and overlength input is never truncated', async ({ page }) => {
@@ -146,34 +161,37 @@ test('manual source remains manual and overlength input is never truncated', asy
   await expect(page.getByLabel('沟通内容', { exact: true })).toHaveValue('长'.repeat(1001));
   await page.getByLabel('沟通内容', { exact: true }).fill('核心摘要：手工粘贴的 AI 文字');
   await page.getByRole('button', { name: '提交', exact: true }).click();
-  await expect(page.getByText('来源：手动添加', { exact: true })).toBeVisible();
-  await expect(page.getByRole('button', { name: '查看 AI 记录', exact: true })).toHaveCount(0);
+  await expect(page).toHaveTitle('修改沟通记录');
+  await expect(page.getByRole('button', { name: '保存', exact: true })).toBeVisible();
+  await expect(page.getByRole('button', { name: /^查看 AI 原始记录：/ })).toHaveCount(0);
 });
 
 test('offline finish retains recording and empty content cannot generate communication', async ({ page, context }) => {
   await start(page);
   await page.getByRole('button', { name: '暂停录音', exact: true }).click();
   await context.setOffline(true);
-  await page.getByRole('button', { name: '结束并生成总结', exact: true }).click();
+  await page.getByRole('button', { name: '结束录音', exact: true }).click();
   await expect(page.getByRole('button', { name: '继续录音', exact: true })).toBeVisible();
   await expect(page.getByRole('dialog')).toHaveCount(0);
   await context.setOffline(false);
   await page.getByRole('button', { name: '收起', exact: true }).click();
+  // Reload the owning document first; a fresh navigation creates a different tab owner.
+  await page.reload();
   await page.goto(base + '&scenario=empty');
   await page.reload();
   await page.getByRole('button', { name: /AI 记录 · 2 条待处理/ }).click();
   await page.locator('.ai-pending-main').filter({ hasText: '无有效沟通内容' }).click();
   await expect(page.getByRole('button', { name: '生成沟通记录', exact: true })).toHaveCount(0);
-  await expect(page.getByText('未识别到有效沟通内容，无法生成沟通记录')).toBeVisible();
+  await expect(page.getByText('未识别到有效内容，无法生成沟通记录。')).toBeVisible();
 });
 
 for (const width of [360, 375, 390, 430]) {
   test(`AI detail fits ${width}px and preview overlays stay in product viewport`, async ({ page }) => {
     await page.setViewportSize({ width, height: 844 });
     await page.goto(base + '&scenario=single&chrome=wechat');
-    await expect(page.locator('.ai-entry-footer')).toHaveCSS('height', await page.locator('.preview-history').count() ? '56px' : '90px');
-    await expect(page.getByRole('button', { name: 'AI 实时记录', exact: true })).toHaveCSS('height', '40px');
-    expect((await page.locator('.ai-entry-footer').boundingBox())!.y + 48).toBeLessThanOrEqual((await page.locator('.preview-home-indicator').boundingBox())!.y);
+    await expect(page.locator('.ai-entry-footer')).toHaveCSS('height', await page.locator('.preview-history').count() ? '64px' : '98px');
+    await expect(page.getByRole('button', { name: 'AI 实时记录', exact: true })).toHaveCSS('height', '48px');
+    expect((await page.locator('.ai-entry-footer').boundingBox())!.y + 56).toBeLessThanOrEqual((await page.locator('.preview-home-indicator').boundingBox())!.y);
     if (width === 390) await page.screenshot({ path: 'outputs/ai-communication-customer.png' });
     await page.getByRole('button', { name: /AI 记录 · 1 条待处理/ }).click();
     expect(await page.locator('.product-scroll').evaluate(el => el.scrollWidth <= el.clientWidth)).toBeTruthy();
@@ -208,7 +226,8 @@ test('submitted AI record is read-only for another teacher and pending count sta
   const recordUrl = page.url();
   await page.getByRole('button', { name: '生成沟通记录', exact: true }).click();
   await page.getByRole('button', { name: '提交', exact: true }).click();
-  await expect(page).toHaveURL(/communication-detail/);
+  await expect(page).toHaveTitle('修改沟通记录');
+  await expect(page).toHaveURL(/communication-form/);
   await page.goto(recordUrl + '&teacher=other');
   await expect(page.getByRole('button', { name: '查看沟通记录', exact: true })).toBeVisible();
   await expect(page.getByRole('button', { name: '修改记录标题', exact: true })).toHaveCount(0);
@@ -236,6 +255,8 @@ test('original customer tabs and filtering remain available beside AI entry', as
   await expect(page.locator('.ai-communication-card').first()).toContainText('上课表现');
   await expect(page.getByRole('button', { name: 'AI 实时记录', exact: true })).toBeVisible();
   await page.getByRole('tab', { name: '意向课程', exact: true }).click();
+  await expect(page.locator('.ai-entry-footer')).toHaveCount(0);
+  await page.getByRole('tab', { name: '沟通记录', exact: true }).click();
   await expect(page.getByRole('button', { name: 'AI 实时记录', exact: true })).toBeVisible();
   await expect(page.getByRole('button', { name: '添加沟通记录', exact: true })).toBeVisible();
   await expect(page.locator('.ai-entry-footer')).toHaveCSS('background-color', 'rgba(0, 0, 0, 0)');
@@ -251,7 +272,7 @@ test('forbidden state blocks direct AI record, recording and submission routes',
   await page.goto(recordUrl.replace('/ai-record/', '/communication-form/') + '&state=forbidden');
   await expect(page.getByRole('button', { name: '提交', exact: true })).toHaveCount(0);
   await page.goto(recordUrl.replace('/ai-record/', '/ai-recording/') + '&state=forbidden');
-  await expect(page.getByRole('button', { name: '结束并生成总结', exact: true })).toHaveCount(0);
+  await expect(page.getByRole('button', { name: '结束录音', exact: true })).toHaveCount(0);
 });
 
 test('same browser tabs share one elapsed-time checkpoint', async ({ page, context }) => {
@@ -270,7 +291,7 @@ test('same browser tabs share one elapsed-time checkpoint', async ({ page, conte
 
 test('network loss during processing preserves record and requires retry', async ({ page, context }) => {
   await start(page);
-  await page.getByRole('button', { name: '结束并生成总结', exact: true }).click();
+  await page.getByRole('button', { name: '结束录音', exact: true }).click();
   await page.getByRole('button', { name: '结束记录', exact: true }).click();
   await expect(page.getByRole('heading', { name: '正在整理这次沟通', exact: true })).toBeVisible();
   await context.setOffline(true);
@@ -294,7 +315,7 @@ test('recording storage failure stays interrupted after capacity is restored', a
   await expect(page.getByRole('heading', { name: '录音已中断', exact: true })).toBeVisible({ timeout: 5000 });
   await page.waitForTimeout(3000);
   await expect(page.getByRole('heading', { name: '录音已中断', exact: true })).toBeVisible();
-  await expect(page.getByRole('button', { name: '结束并生成总结', exact: true })).toHaveCount(0);
+  await expect(page.getByRole('button', { name: '结束录音', exact: true })).toHaveCount(0);
 });
 
 test('opening a same-origin tab with copied session does not interrupt the owner', async ({ page }) => {
@@ -302,7 +323,7 @@ test('opening a same-origin tab with copied session does not interrupt the owner
   const popupEvent = page.waitForEvent('popup');
   await page.evaluate(url => window.open(url, '_blank'), base);
   const copied = await popupEvent;
-  await expect(copied.getByRole('button', { name: 'AI 正在记录', exact: true })).toBeVisible();
+  await expect(copied.getByRole('button', { name: 'AI 记录中', exact: true })).toBeVisible();
   await expect(page.getByRole('button', { name: '暂停录音', exact: true })).toBeVisible();
   await copied.close();
 });
@@ -310,7 +331,7 @@ test('opening a same-origin tab with copied session does not interrupt the owner
 test('all six H5 pages rely on WeChat navigation without a duplicate page bar', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   for (const chrome of ['', '&chrome=wechat']) {
-    for (const [route, title] of [['customer-info', '意向客户信息'], ['ai-recording', 'AI 实时记录'], ['ai-pending', '待处理 AI 记录'], ['ai-record', 'AI 记录详情'], ['communication-form', '添加沟通记录'], ['communication-detail', '沟通记录详情']]) {
+    for (const [route, title] of [['customer-info', '意向客户信息'], ['ai-recording', 'AI 实时记录'], ['ai-pending', '待处理 AI 记录'], ['ai-record', 'AI 记录详情'], ['communication-form', '添加沟通记录'], ['communication-detail', '添加沟通记录']]) {
       await page.goto(`/#/pages/${route}/v1?customer=customer-1${chrome}`);
       await expect(page).toHaveTitle(title);
       await expect(page.locator('.ai-page-heading')).toHaveCount(0);
@@ -359,7 +380,7 @@ for (const width of [360, 375, 390, 430]) {
 }
 
 for (const theme of ['light', 'dark']) {
-  test(`customer actions remain below all tabs without a white panel in ${theme}`, async ({ page }) => {
+  test(`communication footer appears only under communication tab without a white panel in ${theme}`, async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto(base + `&theme=${theme}&chrome=wechat&scenario=single`);
     await expect(page.locator('.ai-customer-tabs')).toHaveCSS('background-color', 'rgba(0, 0, 0, 0)');
@@ -368,6 +389,12 @@ for (const theme of ['light', 'dark']) {
     const footer = page.locator('.ai-entry-footer');
     for (const name of ['沟通记录', '试听记录', '优惠券', '意向课程']) {
       await page.getByRole('tab', { name, exact: true }).click();
+      if (name !== '沟通记录') {
+        await expect(footer).toHaveCount(0);
+        await expect(page.getByRole('button', { name: 'AI 实时记录', exact: true })).toHaveCount(0);
+        await expect(page.getByRole('button', { name: '添加沟通记录', exact: true })).toHaveCount(0);
+        continue;
+      }
       await expect(page.getByRole('button', { name: 'AI 实时记录', exact: true })).toBeVisible();
       await expect(page.getByRole('button', { name: '添加沟通记录', exact: true })).toBeVisible();
       await expect(footer).toHaveCSS('background-color', 'rgba(0, 0, 0, 0)');
@@ -384,26 +411,37 @@ for (const theme of ['light', 'dark']) {
   });
 }
 
-test('minimized recorder shares the AI action across tabs and returns to the same recording', async ({ page }) => {
+test('minimized recorder preserves state while its entry is hidden on other tabs', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await start(page, '&chrome=wechat');
   const recordingUrl = page.url();
   await page.getByRole('button', { name: '收起', exact: true }).click();
-  const action = page.getByRole('button', { name: 'AI 正在记录', exact: true });
+  const action = page.getByRole('button', { name: 'AI 记录中', exact: true });
   await expect(action).toBeVisible();
   await expect(action).toContainText('点击可以进入录制页面');
+  await expect(action.locator('.ai-recording-wave i')).toHaveCount(3);
+  await expect(action.locator('.ai-recording-wave i').first()).toHaveCSS('animation-name', 'ai-entry-wave');
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await expect(action.locator('.ai-recording-wave i').first()).toHaveCSS('animation-name', 'none');
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
   await expect(page.locator('.ai-active-entry')).toHaveCount(0);
   await expect(page.getByRole('button', { name: 'AI 实时记录', exact: true })).toHaveCount(0);
   for (const name of ['试听记录', '优惠券', '意向课程', '沟通记录']) {
     await page.getByRole('tab', { name, exact: true }).click();
-    await expect(action).toBeVisible();
+    if (name === '沟通记录') await expect(action).toBeVisible();
+    else {
+      await expect(action).toHaveCount(0);
+      await expect(page.locator('.ai-entry-footer')).toHaveCount(0);
+      if (name === '试听记录') await page.screenshot({ path: 'outputs/ai-other-tab-no-footer.png' });
+    }
   }
   await page.screenshot({ path: 'outputs/ai-communication-active-button.png' });
   await action.click();
   await expect(page).toHaveURL(recordingUrl);
   await page.getByRole('button', { name: '暂停录音', exact: true }).click();
   await page.getByRole('button', { name: '收起', exact: true }).click();
-  await page.getByRole('button', { name: 'AI 已暂停', exact: true }).click();
+  await expect(page.getByRole('button', { name: 'AI 记录暂停', exact: true }).locator('.ai-recording-wave')).toHaveCount(0);
+  await page.getByRole('button', { name: 'AI 记录暂停', exact: true }).click();
   await expect(page).toHaveURL(recordingUrl);
   await expect(page.getByRole('button', { name: '继续录音', exact: true })).toBeVisible();
   await page.getByRole('button', { name: '继续录音', exact: true }).click();
@@ -562,3 +600,81 @@ test('progressive header holds an active gesture and returns continuously to its
   await expect(page.locator('.preview-web-title strong')).toHaveText('意向客户信息');
   expect((await navigation.boundingBox())!.y).toBeGreaterThan((await scroll.boundingBox())!.y);
 });
+
+
+for (const width of [360, 390, 430]) {
+  test(`pending AI entry stays attached below sticky tabs at ${width}px`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 844 });
+    await page.goto(base + `&chrome=wechat&scenario=multiple&theme=${width === 390 ? 'dark' : 'light'}`);
+    const tabs = page.getByRole('tablist', { name: '客户详情分类', exact: true });
+    const pending = page.locator('.ai-pending-entry');
+    const scroll = page.locator('.product-scroll');
+    await expect(pending).toBeVisible();
+    await expect(pending).toHaveCSS('border-radius', '0px');
+    expect((await pending.boundingBox())!.width).toBeCloseTo((await scroll.boundingBox())!.width, 0);
+    await scroll.evaluate(el => { el.scrollTop = 420; });
+    await expect(tabs).toHaveAttribute('data-stuck', 'true');
+    await expect.poll(async () => Math.abs((await pending.boundingBox())!.y - ((await tabs.boundingBox())!.y + 48))).toBeLessThanOrEqual(1);
+    await expect.poll(async () => Math.abs((await tabs.boundingBox())!.y - (await scroll.boundingBox())!.y)).toBeLessThanOrEqual(1);
+    await scroll.evaluate(el => { el.scrollTop = 320; });
+    await expect(page.locator('.ai-customer-navigation')).toHaveAttribute('data-reveal', '48');
+    await expect.poll(async () => Math.abs((await pending.boundingBox())!.y - ((await tabs.boundingBox())!.y + 48))).toBeLessThanOrEqual(1);
+    await page.screenshot({ path: `outputs/ai-pending-sticky-${width}.png` });
+    await page.getByRole('tab', { name: '试听记录', exact: true }).click();
+    await expect(pending).toHaveCount(0);
+    await page.getByRole('tab', { name: '沟通记录', exact: true }).click();
+    await expect(pending).toBeVisible();
+    await pending.click();
+    await expect(page).toHaveURL(/ai-pending/);
+  });
+}
+
+test('page-level communication field sheets close directly and preserve the form', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/#/pages/communication-form/v1?customer=customer-2&chrome=wechat&theme=light');
+  await page.getByRole('textbox', { name: '沟通内容', exact: true }).fill('家长希望周末安排体验课。');
+  for (const label of ['沟通情况', '沟通类型', '下次跟进类型']) {
+    await page.getByRole('button', { name: new RegExp(label) }).click();
+    const sheet = page.getByRole('dialog', { name: label, exact: true });
+    await expect(sheet.getByRole('button', { name: '返回', exact: true })).toHaveCount(0);
+    await expect(sheet.getByRole('button', { name: '关闭弹层', exact: true })).toBeVisible();
+    if (label === '沟通情况') {
+      await expect.poll(() => sheet.evaluate(el => getComputedStyle(el).transform)).toBe('matrix(1, 0, 0, 1, 0, 0)');
+      await page.screenshot({ path: 'outputs/communication-field-first-sheet.png' });
+    }
+    await sheet.getByRole('button', { name: '关闭弹层', exact: true }).click();
+    await expect(page.getByRole('textbox', { name: '沟通内容', exact: true })).toHaveValue('家长希望周末安排体验课。');
+    await page.getByRole('button', { name: new RegExp(label) }).click();
+    await sheet.getByRole('radio', { name: label === '沟通情况' ? '无效沟通' : '微信', exact: true }).click();
+    await expect(sheet).toBeHidden();
+    await expect(page.getByRole('button', { name: new RegExp(label) })).toContainText(label === '沟通情况' ? '无效沟通' : '微信');
+  }
+});
+
+for (const paused of [false, true]) {
+  test(`another student's recording asks before returning, paused=${paused}`, async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await start(page, '&theme=light&chrome=wechat');
+    if (paused) await page.getByRole('button', { name: '暂停录音', exact: true }).click();
+    const originalUrl = page.url();
+    await page.getByRole('button', { name: '收起', exact: true }).click();
+    await page.evaluate(() => { location.hash = '/pages/customer-info/v1?customer=customer-2&theme=light&chrome=wechat'; });
+    const entry = page.getByRole('button', { name: 'AI 实时记录', exact: true });
+    await entry.click();
+    const dialog = page.getByRole('dialog', { name: '已有录音未结束', exact: true });
+    await expect(dialog).toContainText('廖小龙');
+    await expect(dialog).toContainText(paused ? '录音已暂停' : '录音中');
+    await expect(dialog).toContainText('开启新记录前，请先结束这条录音。');
+    await page.screenshot({ path: `outputs/ai-cross-student-${paused ? 'paused' : 'recording'}.png` });
+    await dialog.getByRole('button', { name: '取消', exact: true }).click();
+    await expect(page).toHaveURL(/customer=customer-2/);
+    await entry.click();
+    await dialog.getByRole('button', { name: paused ? '返回录音' : '继续录音', exact: true }).click();
+    await expect(page).toHaveURL(originalUrl);
+    await expect(page.getByRole('button', { name: paused ? '继续录音' : '暂停录音', exact: true })).toBeVisible();
+    const records = await page.evaluate(() => JSON.parse(localStorage.getItem('ssx-ai-communication-prototype-v1')!).records);
+    expect(records).toHaveLength(1);
+    expect(records[0].customerId).toBe('customer-1');
+    expect(records[0].status).toBe(paused ? 'paused' : 'recording');
+  });
+}

@@ -17,6 +17,11 @@
       "$light": "blackAlpha",
       "$dark": "blackAlpha"
     },
+    "popoverMenuNeutral": {
+      "$label": "操作菜单固定深色表面",
+      "$light": "darkNeutral",
+      "$dark": "darkNeutral"
+    },
     "overlayAlpha": {
       "$label": "覆盖层透明色",
       "$light": "blackAlpha",

@@ -5,8 +5,8 @@
 图标以用户在 Iconfont 的 ssx-design 项目上传并审核通过的最新内容为准。每次更新按该项目下载包同步；历史归档仅供追溯，不参与运行时，也不覆盖最新版本。
 
 - 图标库：ssx-design；Iconfont 项目 ID：5242145。
-- 最新包：用户提供 download.zip；更新日期：2026-10-26；共 193 个图标（本次新增座位 frame，原192枚保持不变）。
-- 当前原始归档：design-assets/iconfont/ssx-design-5242145-2026-10-26-193.zip；旧归档保留供追溯。
+- 最新包：用户提供 download.zip；更新日期：2026-10-28；共 208 个图标（新增删除、AI录音转写文件图标，无删除或改名）。
+- 当前原始归档：design-assets/iconfont/ssx-design-5242145-2026-10-28-208.zip；旧归档保留供追溯。
 - 运行时：public/iconfont/ssx-design.symbol.svg 与 iconfont.json。
 - 页面入口：src/components/ui/Icon/index.ts。
 
@@ -55,3 +55,9 @@ Icon loading 覆盖为用户提供的 loading-blue.svg / loading-white.svg 渐�
 2026-10-26 更新迁移（V/D）：192枚包保留的187枚图形与上一版一致，新增gouwuche/xuexishangcheng/shoucang/shoucangxuanzhong/mic-ai-fill，移除heart/heart-fill。家长端底栏改用新增商城/购物车/收藏；客户列表意向级别改用shoucangxuanzhong，其他图标调用不变。原189枚包保留归档，当前运行及下载仅使用192枚包。
 
 2026-10-26 座位图标更新：用户download (1).zip增加frame（座位），193枚无删除/改名/既有图形变化。网格座位使用32px图形、至少40px按钮，图例16px；选中图标上方显示座位号，颜色采用本项目语义状态。仅选座图场景，不改变普通单元格18px规范。
+
+2026-10-28 播放图标更新（V）：新增 play-large-fill、pause-mini-fill、stop-fill；AI 记录详情回放使用前两枚替换 caret-right/stop，保留40px按钮及原播放状态逻辑。停止图标仅入库，不扩大页面替换范围。
+
+2026-10-28 文件缩略图更新：206枚包新增wenjian1/shipin1/tupian1/excel/pdf/ppt/txt/word/yuyin/sparkling-2-fill；原196枚名称全部保留。沟通表单按类型使用对应彩色文件图标，未知格式统一wenjian1，图片仍直接预览，不扩大其他业务替换范围。
+
+2026-10-28 V：208枚包新增a-delete-oneshanchu1、a-ailuyinzhuanxiesvg，无删除或改名。AI待处理及详情删除菜单采用垃圾桶；共用沟通表单AI原始记录卡采用专用文件图标。

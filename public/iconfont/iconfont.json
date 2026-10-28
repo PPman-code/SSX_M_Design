@@ -6,6 +6,111 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "45407549",
+      "name": "删除",
+      "font_class": "a-delete-oneshanchu1",
+      "unicode": "e858",
+      "unicode_decimal": 59480
+    },
+    {
+      "icon_id": "48788335",
+      "name": "ai 录音转写.svg",
+      "font_class": "a-ailuyinzhuanxiesvg",
+      "unicode": "edb4",
+      "unicode_decimal": 60852
+    },
+    {
+      "icon_id": "14740365",
+      "name": "文件",
+      "font_class": "wenjian1",
+      "unicode": "e842",
+      "unicode_decimal": 59458
+    },
+    {
+      "icon_id": "15022842",
+      "name": "视频",
+      "font_class": "shipin1",
+      "unicode": "e83a",
+      "unicode_decimal": 59450
+    },
+    {
+      "icon_id": "15022843",
+      "name": "图片",
+      "font_class": "tupian1",
+      "unicode": "e83b",
+      "unicode_decimal": 59451
+    },
+    {
+      "icon_id": "15022844",
+      "name": "excel",
+      "font_class": "excel",
+      "unicode": "e83c",
+      "unicode_decimal": 59452
+    },
+    {
+      "icon_id": "15022845",
+      "name": "pdf",
+      "font_class": "pdf",
+      "unicode": "e83d",
+      "unicode_decimal": 59453
+    },
+    {
+      "icon_id": "15022846",
+      "name": "ppt",
+      "font_class": "ppt",
+      "unicode": "e83e",
+      "unicode_decimal": 59454
+    },
+    {
+      "icon_id": "15022847",
+      "name": "txt",
+      "font_class": "txt",
+      "unicode": "e83f",
+      "unicode_decimal": 59455
+    },
+    {
+      "icon_id": "15022848",
+      "name": "word",
+      "font_class": "word",
+      "unicode": "e840",
+      "unicode_decimal": 59456
+    },
+    {
+      "icon_id": "15289776",
+      "name": "语音",
+      "font_class": "yuyin",
+      "unicode": "e841",
+      "unicode_decimal": 59457
+    },
+    {
+      "icon_id": "48787374",
+      "name": "sparkling-2-fill",
+      "font_class": "sparkling-2-fill",
+      "unicode": "edb3",
+      "unicode_decimal": 60851
+    },
+    {
+      "icon_id": "48786188",
+      "name": "play-large-fill",
+      "font_class": "play-large-fill",
+      "unicode": "ed81",
+      "unicode_decimal": 60801
+    },
+    {
+      "icon_id": "48786187",
+      "name": "stop-fill",
+      "font_class": "stop-fill",
+      "unicode": "edb2",
+      "unicode_decimal": 60850
+    },
+    {
+      "icon_id": "48785521",
+      "name": "pause-mini-fill",
+      "font_class": "pause-mini-fill",
+      "unicode": "ed7e",
+      "unicode_decimal": 60798
+    },
+    {
       "icon_id": "44355170",
       "name": "座位",
       "font_class": "frame",

@@ -22,10 +22,11 @@ Recommended 表示推荐复用的工程 API；移动端视觉基线仍需业务�
 | PopoverMenu | 带箭头的深/浅色操作菜单，图标与红点 | Recommended | src/components/ui/PopoverMenu.tsx |
 | Popover | 锚定式轻量提示与操作 | Recommended | src/components/ui/Popover.tsx |
 | SheetSelectionList / SheetChoiceGroup / SheetActions | 上拉浮层的选择列表、分组选择与操作栏 | Recommended | src/components/ui/SheetContent.tsx |
+| Calendar | 纵向月份列表、星期吸顶、单日期草稿与确认；可选待定操作 | Candidate | src/components/ui/Calendar.tsx |
 | Picker | 顶部取消/标题/确认的经典滚轮弹窗 | Recommended | src/components/ui/Picker.tsx |
 | WheelPicker | 单列、多列滚轮；禁用项与受控联动 | Recommended | src/components/ui/WheelPicker.tsx |
 | BottomSheet | 底部选择与信息弹层 | Recommended | src/components/ui/BottomSheet.tsx |
-| Dialog | 通用提示、确认、多操作与平台外观 | Recommended | src/components/ui/Dialog.tsx |
+| Dialog | 默认文字按钮的提示/确认；可显式选择其他外观 | Recommended | src/components/ui/Dialog.tsx |
 | InfoDialog | 居中使用说明与单按钮确认 | Recommended | src/components/ui/InfoDialog.tsx |
 | ActionSheet | 底部动作选项与取消 | Recommended | src/components/ui/ActionSheet.tsx |
 | WechatPreviewHeader / WechatPreviewHistory | 桌面项目预览中的微信顶部与浏览历史外壳 | Recommended | src/components/ui/WechatPreviewChrome.tsx |

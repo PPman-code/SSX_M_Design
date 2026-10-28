@@ -19,7 +19,7 @@ interface Props {
 export function Picker({ open, onOpenChange, title, columns, value, onChange, onConfirm, confirmDisabled, finalFocus }: Props) {
   return <BottomSheet open={open} onOpenChange={onOpenChange} title={title} className="picker-sheet" finalFocus={finalFocus}
     header={<div className="picker-toolbar">
-      <Button variant="text" onClick={() => onOpenChange(false)}>取消</Button>
+      <Button variant="text" className="picker-cancel" onClick={() => onOpenChange(false)}>取消</Button>
       <span className="picker-title" aria-hidden="true">{title}</span>
       <Button variant="text" disabled={confirmDisabled} onClick={() => { onConfirm(); onOpenChange(false); }}>确认</Button>
     </div>}>

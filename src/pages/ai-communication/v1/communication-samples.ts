@@ -1,6 +1,6 @@
 import type { Communication } from './model';
 
-/** Read-only fixtures for the design preview; never written to the communication store. */
+/** Default preview histories; opened samples are stored by stable ID for editing. */
 export function createCommunicationSamples(customerId: string): Communication[] {
   const examples = [
     { daysAgo: 0, hour: 8, minute: 30, creator: '刘亦菲', mode: '电话', result: '有效沟通', content: '与家长初步沟通了课程安排，家长希望先了解适合孩子的课程，后续继续跟进。' },
@@ -12,6 +12,6 @@ export function createCommunicationSamples(customerId: string): Communication[] 
   ];
   return examples.map((example, index) => {
     const date = new Date(); date.setDate(date.getDate() - example.daysAgo); date.setHours(example.hour, example.minute, 0, 0);
-    return { id: `sample-${customerId}-${index}`, customerId, creator: example.creator, createdAt: date.toISOString(), content: example.content, result: example.result, mode: example.mode, nextMode: '', nextDate: '', source: 'manual', stage: index === 1 || index === 4 ? '售后' : '售前', outbound: index === 0 || index === 3 };
+    return { id: `sample-${customerId}-${index}`, customerId, attachments: index === 0 ? [{ name: '体验课安排.pdf', type: 'pdf' }] : index === 1 ? [{ name: '课程介绍.png', image: 'mock/courses/vocal-course.png' }, { name: '课后练习说明.docx', type: 'word' }] : undefined, creator: example.creator, createdAt: date.toISOString(), content: example.content, result: example.result, mode: example.mode, nextMode: index === 1 ? '微信' : index === 2 ? '电话' : '', nextDate: index === 1 || index === 2 ? new Date(Date.now() + (index + 1) * 86400000).toLocaleDateString('en-CA') : '', source: 'manual', stage: index === 1 || index === 4 ? '售后' : '售前', outbound: index === 0 || index === 3 };
   });
 }

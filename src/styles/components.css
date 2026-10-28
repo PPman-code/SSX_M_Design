@@ -268,12 +268,13 @@ html:has(.mobile-page)::-webkit-scrollbar { display: none; }
 .dialog--custom .dialog-actions { gap: 8px; padding: 0 16px 20px; border: 0; }
 .dialog--custom .dialog-action { flex: auto; border: 0; border-radius: var(--radius-full); font-size: var(--typography-font-size-regular); line-height: 21px; padding: 8px 16px; }
 .dialog--custom .dialog-action + .dialog-action { border: 0; }
-.dialog .dialog-action--secondary:not(:disabled) { color: var(--color-text); }
+.dialog:not(.dialog--buttons) .dialog-action--secondary:not(:disabled) { color: var(--color-text); }
 
 .wheel-picker-window::after { content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 3; background: linear-gradient(180deg, var(--color-background-surface) 0%, color-mix(in srgb, var(--color-background-surface) 65%, transparent) 39.557%, transparent 39.838%, transparent 60.039%, color-mix(in srgb, var(--color-background-surface) 65%, transparent) 60.252%, var(--color-background-surface) 100%); }
 .sheet.picker-sheet { border-radius: 16px 16px 0 0; }
 .picker-sheet .sheet-content { flex: 0 1 auto; padding: 0 0 env(safe-area-inset-bottom); }
 .picker-toolbar { display: grid; grid-template-columns: minmax(44px, auto) minmax(0, 1fr) minmax(44px, auto); gap: 8px; align-items: center; flex-shrink: 0; padding: 4px 8px; }
+.picker-toolbar .picker-cancel { --button-tone-text: var(--color-text-subtle); --button-tone-pressed: var(--color-text-subtle); }
 .picker-toolbar .button { padding: 0 8px; min-height: 44px; font-size: var(--typography-font-size-regular); font-weight: var(--typography-font-weight-regular); }
 .picker-title { text-align: center; color: var(--color-text); font-size: var(--typography-font-size-body); line-height: var(--typography-line-height-body); font-weight: var(--typography-font-weight-regular); overflow-wrap: anywhere; }
 
@@ -299,7 +300,7 @@ html:has(.mobile-page)::-webkit-scrollbar { display: none; }
 .popover-menu-arrow[data-side='top'] { bottom: -6px; }
 .popover-menu--light .popover-menu-dot img { top: 1px; left: 1px; }
 
-.popover-menu--dark .popover-menu-icon { filter: brightness(0) invert(1); }
+.popover-menu--dark .popover-menu-item:not([data-danger="true"]) .popover-menu-icon { filter: brightness(0) invert(1); }
 
 /* A confirmation above a sheet needs its backdrop above the parent modal plane. */
 .info-dialog-backdrop--stacked { z-index: var(--z-index-modal); }
@@ -314,3 +315,23 @@ html:has(.mobile-page)::-webkit-scrollbar { display: none; }
 
 .sheet-heading.sheet-heading--back { grid-template-columns: 72px minmax(0, 1fr) 72px; min-height: 56px; padding-block: 8px; }
 .sheet-heading--back > .sheet-nav-back { grid-column: 1; justify-self: start; }
+
+/* Preferred Dialog actions: inset local buttons; platform variants keep their dedicated layouts. */
+.dialog--buttons .dialog-actions { gap: 12px; padding: 8px 20px 20px; border-top: 0; }
+.dialog--buttons .dialog-action { min-height: 40px; padding: 7px 12px; border: 1px solid transparent; border-radius: var(--component-button-radius); font-size: var(--component-button-font-size); line-height: 24px; }
+.dialog--buttons .dialog-action + .dialog-action { border-left: 1px solid transparent; }
+.dialog--buttons .dialog-actions--vertical .dialog-action + .dialog-action { border-top: 1px solid transparent; }
+
+/* Calendar: TDesign month-list structure, using local sheet and semantic tokens. */
+.calendar-sheet { height: min(668px, 86dvh); }
+.calendar-sheet .sheet-content { padding: 0 16px 16px; }
+.calendar-weekdays { position: sticky; top: 0; z-index: 1; display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px; padding: 12px 0; background: var(--color-background-surface); color: var(--color-text-subtle); font-size: 14px; line-height: 22px; text-align: center; }
+.calendar-month { margin: 16px 0; }
+.calendar-month h3 { margin: 0 0 8px; font-size: 14px; line-height: 22px; font-weight: 500; color: var(--color-text); }
+.calendar-days { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 8px 4px; }
+.calendar-day { display: flex; align-items: center; justify-content: center; width: 100%; height: 60px; padding: 4px 0; border: 0; border-radius: 6px; background: transparent; color: var(--color-text); font: inherit; font-size: 16px; line-height: 24px; }
+.calendar-day[aria-current="date"] { color: var(--color-text-brand); }
+.calendar-day[aria-pressed="true"] { color: var(--color-mobile-action-foreground); background: var(--color-background-brand-bold); }
+.calendar-day:disabled { color: var(--color-text-disabled); }
+.calendar-day:focus-visible { outline: 2px solid var(--color-border-focused); outline-offset: -2px; }
+.calendar-load { width: 100%; margin-block: 8px; }

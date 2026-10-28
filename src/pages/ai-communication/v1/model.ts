@@ -3,11 +3,13 @@ export type Segment = { speaker: string; at: number; text: string };
 export type AIRecord = {
   id: string; customerId: string; customerName: string; creator: string; createdAt: string;
   title: string; status: RecordStatus; duration: number; segments: Segment[]; speakers: Record<string, string>;
-  summary: string; ownerId?: string; lastTick?: number; mockProcessError?: boolean; mockEmptyResult?: boolean; mockOffline?: boolean; processAt?: number; failedStage?: 'transcribing' | 'summarizing'; communicationId?: string;
+  summary: string; ownerId?: string; lastTick?: number; mockPreviewHold?: boolean; mockProcessError?: boolean; mockEmptyResult?: boolean; mockOffline?: boolean; processAt?: number; failedStage?: 'transcribing' | 'summarizing'; communicationId?: string;
 };
+export type CommunicationAttachment = { name: string; type?: 'pdf' | 'word' | 'file'; image?: string };
 export type Communication = {
+  attachments?: CommunicationAttachment[];
   id: string; customerId: string; creator: string; createdAt: string; content: string;
-  result: string; mode: string; nextMode: string; nextDate: string; source: 'ai' | 'manual'; stage?: '售前' | '售后'; outbound?: boolean; aiId?: string; duration?: number;
+  result: string; mode: string; nextMode: string; nextDate: string; source: 'ai' | 'manual'; promisedVisit?: boolean; visitDate?: string; stage?: '售前' | '售后'; outbound?: boolean; aiId?: string; duration?: number;
 };
 export type CommunicationState = { records: AIRecord[]; communications: Communication[]; seeded: string[]; storageError: boolean };
 export const storageKey = 'ssx-ai-communication-prototype-v1';

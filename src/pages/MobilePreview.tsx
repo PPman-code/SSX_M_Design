@@ -20,6 +20,7 @@ import { RadioExamples } from '../components/RadioExamples';
 import { LoadingExamples } from '../components/LoadingExamples';
 import { ToastExamples } from '../components/ToastExamples';
 import { BottomSheetExamples } from '../components/BottomSheetExamples';
+import { CalendarExamples } from '../components/CalendarExamples';
 import { WheelPickerExamples } from '../components/WheelPickerExamples';
 import { ActionSheetExamples } from '../components/ActionSheetExamples';
 import { DialogExamples } from '../components/DialogExamples';
@@ -97,6 +98,7 @@ export function MobilePreview() {
         <PopoverMenuExamples />
         <BottomSheetExamples />
         <WheelPickerExamples />
+        <CalendarExamples />
         <ActionSheetExamples />
         <DialogExamples />
         <LoadingExamples />

@@ -91,6 +91,7 @@ export function useCustomerStickyHeader(enabled: boolean, customerId?: string) {
     header.addEventListener('focusin', onFocus);
     const observer = new ResizeObserver(onResize);
     observer.observe(root);
+    observer.observe(header);
     const profile = root.querySelector('.ai-customer-profile');
     if (profile) observer.observe(profile);
     frame = requestAnimationFrame(update);

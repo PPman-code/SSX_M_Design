@@ -407,6 +407,12 @@ export const roleCatalog = [
     darkFamily: 'blackAlpha',
   },
   {
+    name: 'popoverMenuNeutral',
+    label: '操作菜单固定深色表面',
+    lightFamily: 'darkNeutral',
+    darkFamily: 'darkNeutral',
+  },
+  {
     name: 'profileAccent',
     label: '我的页装饰蓝色',
     lightFamily: 'azure',
@@ -1351,11 +1357,11 @@ export const semanticColorCatalog = [
   {
     name: 'color.popoverMenu.dark.surface',
     cssVariable: '--color-popover-menu-dark-surface',
-    description: 'Ant 气泡菜单深色背景（90% 黑）',
-    lightReference: '{role.overlayAlpha.90}',
-    darkReference: '{role.overlayAlpha.90}',
-    lightResolved: '#000000E5',
-    darkResolved: '#000000E5',
+    description: '操作菜单不透明深色背景，避免底层内容透入',
+    lightReference: '{role.popoverMenuNeutral.800}',
+    darkReference: '{role.popoverMenuNeutral.800}',
+    lightResolved: '#141414',
+    darkResolved: '#141414',
   },
   {
     name: 'color.popoverMenu.shadow',

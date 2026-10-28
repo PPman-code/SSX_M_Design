@@ -172,9 +172,9 @@ WheelPicker 本体不包含按钮，只更新传入的受控值；内联使用�
 
 参考 [Arco Mobile Dialog 120:11252](https://www.figma.com/design/507mHwo2qlL72kbftlM9Qi/?node-id=120-11252)。`src/components/ui/Dialog.tsx` 组合现有 InfoDialog 和 Button，不新增第二套 Portal/遮罩/焦点逻辑；原有 InfoDialog 和收费管家自定义外观保持兼容。
 
-Props：open、onOpenChange、title、children、variant?（ios 默认 / android / custom）、actions?、actionLayout?（horizontal / vertical）、finalFocus?。不传 actions 默认“知道了”，建议 1–3 项；多于两项自动纵向，自定义外观始终纵向。DialogAction 为 label、onSelect?、closeOnSelect?（默认 true）、disabled?、loading?、danger?。取消项不放业务回调，确认项显式放回调；选中执行回调后关闭，closeOnSelect=false 可保留弹窗，异步状态由调用方通过 loading 控制。组件不内置接口或删除操作。
+Props：open、onOpenChange、title、children、variant?（ios 默认 / buttons / android / custom）、actions?、actionLayout?（horizontal / vertical）、finalFocus?。不传 actions 默认“知道了”，建议 1–3 项；多于两项自动纵向，自定义外观始终纵向。DialogAction 为 label、onSelect?、closeOnSelect?（默认 true）、disabled?、loading?、danger?。取消项不放业务回调，确认项显式放回调；选中执行回调后关闭，closeOnSelect=false 可保留弹窗，异步状态由调用方通过 loading 控制。组件不内置接口或删除操作。
 
-视觉：270px 宽并受容器约束；iOS 顶角 8px，内容 20px×16px，17px/500/1.4 标题、15px/400/1.4 居中正文、4px 标题正文间距，底部 16px 操作文字及细线。Android 4px 顶角、24px 水平内边距、17px Regular 标题与正文左对齐，按钮靠右。custom 8px 顶角、圆角实心主按钮和可选弱按钮。颜色使用本项目语义变量，不采用 Arco 品牌蓝。按钮触控至少 40px，因此 Android 文本按钮和 custom 按钮高度遵循项目移动端底线，未缩成旧稿的纯文字行高。
+视觉：270px 宽并受容器约束；默认 ios 使用底部文字按钮与细分隔线，取消常规文字、确认品牌文字。显式 buttons 操作区为左右20px、底部20px、上方8px内边距与12px按钮间距，取消Button soft、最后一项确认Button primary，40px最小高、8px圆角、16px/24px；无贴边分隔线，单按钮全宽，双按钮等宽，三项及以上纵向。danger保留危险色，disabled/loading仍由Button处理。iOS 顶角 8px，内容 20px×16px，17px/500/1.4 标题、15px/400/1.4 居中正文、4px 标题正文间距，底部 16px 操作文字及细线。Android 4px 顶角、24px 水平内边距、17px Regular 标题与正文左对齐，按钮靠右。custom 8px 顶角、圆角实心主按钮和可选弱按钮。颜色使用本项目语义变量，不采用 Arco 品牌蓝。按钮触控至少 40px，因此 Android 文本按钮和 custom 按钮高度遵循项目移动端底线，未缩成旧稿的纯文字行高。
 
 长正文独立滚动，按钮固定；支持 Escape、遮罩关闭、焦点限制/恢复，微信预览沿用应用区域裁切。无 hover。组件预览提供稿中七种按钮/外观组合及长内容示例；状态仅在内存。真机软键盘与屏幕阅读器另行验收。
 
@@ -186,7 +186,7 @@ Props：open、onOpenChange、title、children、variant?（ios 默认 / android
 
 ## PopoverMenu · 气泡菜单
 
-来源：[Ant Design Mobile 气泡菜单页 4:99](https://www.figma.com/design/oYpPxX1OgLSbDfjaucWhBU/Ant-Design-Mobile?node-id=4-99)，具体黑/白状态节点 233:12394、233:12530。原稿为双倍尺寸，映射为最小宽 145px、8px 圆角、最小 51px 操作行、16px/24px 普通文字、20px 图标与 8px 图文间距（2026-10-22 用户更新），分隔线从文字起点开始。深色背景 90% 黑，浅色沿用白气泡语义表面；按下态、边线与阴影使用语义色及混色。图标使用本项目 Icon；稿内灰色方块是图标占位，不作为图标资源。深色图标归一为单色，避免原矢量固定灰色在深背景上不可读。
+来源：[Ant Design Mobile 气泡菜单页 4:99](https://www.figma.com/design/oYpPxX1OgLSbDfjaucWhBU/Ant-Design-Mobile?node-id=4-99)，具体黑/白状态节点 233:12394、233:12530。原稿为双倍尺寸，映射为最小宽 145px、8px 圆角、最小 51px 操作行、16px/24px 普通文字、20px 图标与 8px 图文间距（2026-10-22 用户更新），分隔线从文字起点开始。深色背景采用不透明的专用语义表面（2026-10-28 修复底层内容透入，替代原 90% 黑），浅色沿用白气泡语义表面；按下态、边线与阴影使用语义色及混色。图标使用本项目 Icon；稿内灰色方块是图标占位，不作为图标资源。深色图标归一为单色，避免原矢量固定灰色在深背景上不可读。
 
 公开入口 `src/components/ui/PopoverMenu.tsx`，封装已安装的 Base UI Menu，区别于说明型 Popover。Props：label（菜单可访问名）、trigger（本地按钮）、actions、appearance?（dark 默认 / light）、placement?（默认 bottom-end，支持 top/top-start/top-end/bottom/bottom-start/bottom-end）、open?、onOpenChange?。每项含唯一 key、label、icon?（IconName）、dot?、disabled?、onSelect?。动作触发回调后关闭，不表示持久选中状态。红点附带“有新消息”可访问名称。
 
@@ -351,3 +351,21 @@ Search 36px 迁移（2026-10-21）：已通过共享组件同步组件预览、�
 
 
 2026-10-26 已确认：BottomSheet selection 下滑关闭只从顶部横杠/标题区域起手。公共封装的正文、描述、底栏统一标记 swipe-ignore，正文滚到顶部也不触发关闭。editor 仍整层禁用；自定义 header 属于顶部区，内部交互控件继续遵循组件本身的手势保护。
+
+## Dialog 独立按钮优先（2026-10-27 用户确认 · D/V）
+
+- 共同项：提示、确认、删除、放弃修改均沿用本地InfoDialog模态基础、标题/正文及原回调。默认取消浅底、确认实底，不使用全圆角；调用方需把主动作放在最后一项。
+- 差异：危险动作仍使用danger；单项全宽、多项纵向；显式ios/android/custom保持平台文字行或原自定义组合，不强制合并成默认样式。InfoDialog单独使用的说明页、收费管家自定义footer均不属于本次迁移。
+- 已核对并随默认值迁移：CustomerPage批量操作/删除/放弃，PointsAdjustment放弃修改，AI客户录音冲突、结束确认、待处理删除、记录删除/放弃编辑，以及组件库默认单/双/多项示例。均未显式指定variant；旧默认iOS贴边动作与最新优先规则不一致，现已由buttons默认解决。
+- 保留：组件示例显式展示ios、android、custom兼容外观。不存在本次声明已迁移的InfoDialog页面；新业务Dialog优先使用默认buttons，平台variant仅在明确需要时显式指定。
+- 以上是用户确认的共享默认规则，局部AI紫色不会升级成Dialog全局品牌色；历史2026-10-22次要动作正文色规则仅继续约束显式平台外观。
+
+2026-10-28 用户更新：Dialog 默认恢复 ios 基础文字操作区，替代 2026-10-27 默认 buttons 决定。所有省略 variant 的调用同步生效；显式 android/custom 及原 InfoDialog 保持原外观，buttons 仅保留显式可选 API。仅调整默认视觉，不变更关闭、回焦、确认、危险与加载行为。
+
+2026-10-28 V：PopoverMenu危险项的单色图标跟随文字危险色，深色菜单不再对危险项施加白色滤镜。核对组件示例、学员信息、意向客户与AI记录调用；普通项白色图标、菜单交互不变。
+
+2026-10-28 · Picker 增加可选 beforeWheel 内容插槽，默认不渲染；沟通记录的下次跟进日期用其放置“待定”入口，到访日期和组件示例不增加该入口。业务空日期含义由调用方维护。
+
+2026-10-28 用户确认（V）：Picker 工具栏左侧取消使用二级文字色 color-text-subtle，右侧确认保留主色；适用于日期选择及公共滚轮示例。
+
+2026-10-28（V/I）：增加 Calendar 候选单日期组件，参考 TDesign node 25775:14153 的星期栏、纵向月份和 60px 日期块；沿用本地 BottomSheet、SheetActions 与语义色。受控 value/onChange、minDate/maxDate、today、onConfirm、可选 onPending；月份按需扩展，默认范围为最早日期所在年至其后100年。已用于沟通表单跟进/到访日期及组件预览；未迁移日期区间等其他选择器。跟进日期底部左侧待定（soft）与右侧确定（primary），到访仅确定，关闭不提交草稿。此前 Picker beforeWheel 插槽与顶部待定入口撤回；经典滚轮保留。

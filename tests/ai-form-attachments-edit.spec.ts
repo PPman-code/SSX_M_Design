@@ -1,0 +1,104 @@
+import { test, expect } from '@playwright/test';
+import { readFileSync } from 'node:fs';
+const customer = '/#/pages/customer-info/v1?customer=customer-1&theme=light&chrome=wechat&scenario=single';
+test('local image and file previews precede add controls; AI original attachment cannot be removed and opens its record', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto(customer);
+  await page.getByRole('button', { name: /AI 记录 · 1 条待处理/ }).click();
+  const recordUrl = page.url();
+  await page.getByRole('button', { name: '生成沟通记录', exact: true }).click();
+  const original = page.getByRole('button', { name: /^查看 AI 原始记录：/ });
+  await expect(original).toBeVisible();
+  await expect(original.getByRole('button')).toHaveCount(0);
+  const imageChooser = page.waitForEvent('filechooser');
+  await page.getByRole('button', { name: '添加附件', exact: true }).click();
+  await (await imageChooser).setFiles('public/brand/wone-logo.png');
+  const fileChooser = page.waitForEvent('filechooser');
+  await page.getByRole('button', { name: '添加附件', exact: true }).click();
+  await (await fileChooser).setFiles([{ name: 'attachment-image.png', mimeType: 'image/png', buffer: readFileSync('public/brand/wone-logo.png') }, { name: '试听课安排.pdf', mimeType: 'application/pdf', buffer: Buffer.from('local preview fixture') }]);
+  await expect(page.locator('.ai-content-preview')).toHaveCount(3);
+  await expect(page.locator('.ai-content-preview img')).toHaveCount(2);
+  await expect(page.getByRole('progressbar').first()).toBeVisible();
+  await page.screenshot({ path: 'outputs/communication-attachment-progress.png' });
+  const remove = page.locator('.ai-content-remove').first();
+  await expect(remove.locator('use')).toHaveAttribute('href', /#SSX-close-circle-fill$/);
+  expect(await remove.evaluate(el => getComputedStyle(el).color)).toBe(await remove.evaluate(el => { const probe = document.createElement('span'); probe.style.color = 'var(--color-icon-danger)'; el.appendChild(probe); const color = getComputedStyle(probe).color; probe.remove(); return color; }));
+  const previewBox = await page.locator('.ai-content-preview').first().boundingBox();
+  const removeBox = await remove.boundingBox();
+  expect(removeBox!.x + removeBox!.width).toBe(previewBox!.x + previewBox!.width); expect(removeBox!.y).toBe(previewBox!.y);
+  await expect(page.getByRole('progressbar')).toHaveCount(0);
+  for (const tile of await page.locator('.ai-content-preview, .ai-content-add').all()) {
+    const box = (await tile.boundingBox())!;
+    expect(box.width).toBe(88); expect(box.height).toBe(80);
+  }
+  expect(await page.locator('.ai-content-attachments > *').first().getAttribute('class')).toContain('ai-content-preview');
+  await original.scrollIntoViewIfNeeded();
+  await page.screenshot({ path: 'outputs/ai-original-attachment-and-previews.png' });
+  await page.getByRole('button', { name: '移除wone-logo.png', exact: true }).click();
+  await expect(page.locator('.ai-content-preview')).toHaveCount(2);
+  await expect(original).toBeVisible();
+  await original.click();
+  await expect(page).toHaveURL(recordUrl);
+  await expect(page.getByRole('tab', { name: 'AI 总结', exact: true })).toHaveAttribute('aria-selected', 'true');
+});
+
+test('saved communication opens the shared form, updates the same record and preserves source and ownership', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/#/pages/communication-form/v1?customer=customer-1&theme=light&chrome=wechat');
+  await expect(page.getByRole('button', { name: /^查看 AI 原始记录：/ })).toHaveCount(0);
+  await page.getByLabel('沟通内容', { exact: true }).fill('家长确认周六到访。');
+  const visit = page.getByRole('button', { name: /^到访日期/ });
+  await expect(visit).toHaveCount(0);
+  await page.getByRole('switch', { name: '承诺到访', exact: true }).check();
+  await expect(visit).toBeVisible();
+  await visit.click();
+  await page.getByRole('dialog', { name: '到访日期', exact: true }).getByRole('button', { name: '确定', exact: true }).click();
+  await expect(visit).not.toContainText('请选择');
+  const visitLabel = (await visit.textContent())!;
+  await page.getByRole('switch', { name: '承诺到访', exact: true }).uncheck();
+  await expect(visit).toHaveCount(0);
+  await page.getByRole('switch', { name: '承诺到访', exact: true }).check();
+  await expect(visit).toHaveText(visitLabel);
+  await page.screenshot({ path: 'outputs/communication-visit-toggle.png' });
+  await page.getByRole('button', { name: /沟通类型/ }).first().click();
+  await page.getByRole('dialog').getByRole('radio', { name: '微信', exact: true }).click();
+  await page.getByRole('button', { name: '提交', exact: true }).click();
+  await expect(page).toHaveTitle('修改沟通记录');
+  const savedUrl = page.url();
+  await page.goto('/#/pages/customer-info/v1?customer=customer-1&theme=light&chrome=wechat');
+  const edit = page.locator('.ai-communication-edit').first();
+  await expect(edit).toHaveText('修改');
+  await expect(edit).toHaveCSS('font-size', '14px');
+  await expect(edit.locator('use')).toHaveAttribute('href', /#SSX-right$/);
+  await edit.click();
+  await expect(page).toHaveURL(savedUrl);
+  await expect(page.getByLabel('沟通内容', { exact: true })).toHaveValue('家长确认周六到访。');
+  await expect(page.getByRole('switch', { name: '承诺到访', exact: true })).toBeChecked();
+  await expect(visit).toHaveText(visitLabel);
+  await expect(page.getByRole('button', { name: /沟通类型/ }).first()).toContainText('微信');
+  await page.getByLabel('沟通内容', { exact: true }).fill('已调整为周日下午到访。');
+  await page.getByRole('button', { name: '保存', exact: true }).click();
+  await expect(page).toHaveURL(/customer-info/);
+  await expect(page.getByText('已调整为周日下午到访。', { exact: true })).toBeVisible();
+  const saved = await page.evaluate(() => JSON.parse(localStorage.getItem('ssx-ai-communication-prototype-v1')!).communications);
+  expect(saved).toHaveLength(1); expect(saved[0].source).toBe('manual'); expect(saved[0].creator).toBe('刘亦菲');
+  await page.screenshot({ path: 'outputs/communication-edit-action.png' });
+  await page.goto(savedUrl + '&teacher=other');
+  await expect(page.getByLabel('沟通内容', { exact: true })).toHaveAttribute('readonly', '');
+  await expect(page.getByRole('button', { name: '保存', exact: true })).toHaveCount(0);
+});
+
+test('attachment file types use supplied thumbnails with a generic fallback', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/#/pages/communication-form/v1?customer=customer-1&theme=light&chrome=wechat');
+  const names = ['安排.docx', '名单.xlsx', '介绍.pptx', '说明.pdf', '备注.txt', '视频.mp4', '录音.mp3', '其他.zip'];
+  const icons = ['word', 'excel', 'ppt', 'pdf', 'txt', 'shipin1', 'yuyin', 'wenjian1'];
+  await page.getByLabel('选择附件文件', { exact: true }).setInputFiles(names.map(name => ({ name, mimeType: 'application/octet-stream', buffer: Buffer.from('preview') })));
+  await expect(page.locator('.ai-content-preview')).toHaveCount(8);
+  for (let index = 0; index < names.length; index++) {
+    await expect(page.locator('.ai-content-preview').nth(index).locator('svg').first().locator('use')).toHaveAttribute('href', new RegExp(`#SSX-${icons[index]}$`));
+  }
+  await expect(page.getByRole('progressbar')).toHaveCount(0);
+  await page.locator('.ai-content-attachments').scrollIntoViewIfNeeded();
+  await page.screenshot({ path: 'outputs/communication-file-type-thumbnails.png' });
+});
