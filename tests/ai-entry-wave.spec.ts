@@ -1,0 +1,50 @@
+import { test, expect } from '@playwright/test';
+
+for (const theme of ['light', 'dark']) {
+  test(`AI entry uses an animated background with a blinking red indicator in ${theme}`, async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto(`/#/pages/customer-info/v1?customer=customer-1&theme=${theme}&chrome=wechat`);
+    const idle = page.getByRole('button', { name: 'AI 实时记录', exact: true });
+    await expect(idle.locator('svg')).toHaveCount(1);
+    await expect(idle.locator('small')).toHaveText('记录与家长的沟通过程');
+    await expect(idle.locator('canvas')).toHaveCount(0);
+    await idle.screenshot({ path: `outputs/ai-entry-idle-${theme}.png` });
+    await idle.click();
+    await page.getByRole('button', { name: '开始记录', exact: true }).click();
+    await page.getByRole('button', { name: '收起', exact: true }).click();
+    const entry = page.getByRole('button', { name: 'AI 记录中', exact: true });
+    const wave = entry.locator('canvas');
+    await expect(wave).toBeVisible();
+    await expect(entry).toHaveCSS('height', '48px');
+    await expect(entry.locator('svg')).toHaveCount(0);
+    await expect(entry.locator('.ai-entry-dot')).toHaveCSS('animation-name', 'ai-entry-recording-blink');
+    await expect(entry).toContainText('查看');
+    const initial = await wave.evaluate(el => (el as HTMLCanvasElement).toDataURL());
+    await expect.poll(() => wave.evaluate(el => (el as HTMLCanvasElement).toDataURL())).not.toBe(initial);
+    const dotBox = await entry.locator('.ai-entry-dot').boundingBox();
+    expect(dotBox!.width).toBe(12);
+    expect(dotBox!.height).toBe(12);
+    const buttonBox = await entry.boundingBox();
+    expect(dotBox!.x - buttonBox!.x).toBeCloseTo(18, 0);
+    const waveBox = await wave.boundingBox();
+    expect(Math.abs(waveBox!.width - buttonBox!.width)).toBeLessThanOrEqual(2);
+    expect(Math.abs(waveBox!.height - buttonBox!.height)).toBeLessThanOrEqual(2);
+    await entry.screenshot({ path: `outputs/ai-entry-wave-${theme}.png`, animations: 'allow' });
+    await page.screenshot({ path: `outputs/ai-entry-wave-page-${theme}.png`, animations: 'allow' });
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await expect(entry.locator('.ai-entry-dot')).toHaveCSS('animation-name', 'none');
+    const stable = await wave.evaluate(async el => { await new Promise<void>(resolve => requestAnimationFrame(() => requestAnimationFrame(() => resolve()))); return (el as HTMLCanvasElement).toDataURL(); });
+    await expect.poll(() => wave.evaluate(el => (el as HTMLCanvasElement).toDataURL())).toBe(stable);
+    await entry.click();
+    await page.getByRole('button', { name: '暂停录音', exact: true }).click();
+    await page.getByRole('button', { name: '收起', exact: true }).click();
+    const paused = page.getByRole('button', { name: 'AI 记录暂停', exact: true });
+    await expect(paused.locator('canvas')).toHaveCount(0);
+    await expect(paused).toContainText('暂停中');
+    await expect(paused.locator('.ai-entry-dot')).toHaveCSS('animation-name', 'none');
+    await paused.screenshot({ path: `outputs/ai-entry-paused-${theme}.png` });
+    await expect(paused.locator('svg')).toHaveCount(0);
+    await paused.click();
+    await expect(page.getByRole('button', { name: '继续录音', exact: true })).toBeVisible();
+  });
+}

@@ -29,7 +29,7 @@ test('customer entry and recording pause, minimize, summary and idempotent submi
   await page.getByRole('button', { name: '暂停录音', exact: true }).click();
   await page.getByRole('button', { name: '收起', exact: true }).click();
   await expect(page.locator('.ai-pending-entry')).toHaveCount(0);
-  await expect(page.getByRole('button', { name: 'AI 记录暂停', exact: true }).locator('.ai-recording-wave')).toHaveCount(0);
+  await expect(page.getByRole('button', { name: 'AI 记录暂停', exact: true }).locator('.ai-recording-signal')).toHaveCount(0);
   await page.getByRole('button', { name: 'AI 记录暂停', exact: true }).click();
   await page.getByRole('button', { name: '继续录音', exact: true }).click();
   await finish(page);
@@ -115,8 +115,10 @@ test('recording survives minimize, blocks second customer and recovers interrupt
   await page.getByRole('button', { name: '收起', exact: true }).click();
   await page.goBack();
   await page.getByRole('button', { name: '王五五客户主页', exact: true }).click();
-  await expect(page.getByRole('button', { name: 'AI 记录暂停', exact: true }).locator('.ai-recording-wave')).toHaveCount(0);
-  await page.getByRole('button', { name: 'AI 记录暂停', exact: true }).click();
+  await expect(page.getByRole('button', { name: 'AI 实时记录', exact: true }).locator('.ai-recording-signal')).toHaveCount(0);
+  await page.getByRole('button', { name: 'AI 实时记录', exact: true }).click();
+  await expect(page.getByRole('dialog')).toContainText('已有录音未结束');
+  await page.getByRole('dialog').getByRole('button', { name: '返回录音', exact: true }).click();
   await expect(page).toHaveURL(/customer=customer-1/);
   await expect(page.getByRole('dialog')).toHaveCount(0);
   await expect(page.getByRole('button', { name: '继续录音', exact: true })).toBeVisible();
@@ -418,11 +420,12 @@ test('minimized recorder preserves state while its entry is hidden on other tabs
   await page.getByRole('button', { name: '收起', exact: true }).click();
   const action = page.getByRole('button', { name: 'AI 记录中', exact: true });
   await expect(action).toBeVisible();
-  await expect(action).toContainText('点击可以进入录制页面');
-  await expect(action.locator('.ai-recording-wave i')).toHaveCount(3);
-  await expect(action.locator('.ai-recording-wave i').first()).toHaveCSS('animation-name', 'ai-entry-wave');
+  await expect(action).toContainText('查看');
+  const signal = action.locator('canvas.ai-recording-signal--button');
+  await expect(signal).toHaveCount(1);
+  await expect(action.locator('.icon')).toHaveCount(0);
   await page.emulateMedia({ reducedMotion: 'reduce' });
-  await expect(action.locator('.ai-recording-wave i').first()).toHaveCSS('animation-name', 'none');
+  await expect(signal).toBeVisible();
   await page.emulateMedia({ reducedMotion: 'no-preference' });
   await expect(page.locator('.ai-active-entry')).toHaveCount(0);
   await expect(page.getByRole('button', { name: 'AI 实时记录', exact: true })).toHaveCount(0);
@@ -440,7 +443,7 @@ test('minimized recorder preserves state while its entry is hidden on other tabs
   await expect(page).toHaveURL(recordingUrl);
   await page.getByRole('button', { name: '暂停录音', exact: true }).click();
   await page.getByRole('button', { name: '收起', exact: true }).click();
-  await expect(page.getByRole('button', { name: 'AI 记录暂停', exact: true }).locator('.ai-recording-wave')).toHaveCount(0);
+  await expect(page.getByRole('button', { name: 'AI 记录暂停', exact: true }).locator('.ai-recording-signal')).toHaveCount(0);
   await page.getByRole('button', { name: 'AI 记录暂停', exact: true }).click();
   await expect(page).toHaveURL(recordingUrl);
   await expect(page.getByRole('button', { name: '继续录音', exact: true })).toBeVisible();
@@ -669,7 +672,7 @@ for (const paused of [false, true]) {
     await dialog.getByRole('button', { name: '取消', exact: true }).click();
     await expect(page).toHaveURL(/customer=customer-2/);
     await entry.click();
-    await dialog.getByRole('button', { name: paused ? '返回录音' : '继续录音', exact: true }).click();
+    await dialog.getByRole('button', { name: '返回录音', exact: true }).click();
     await expect(page).toHaveURL(originalUrl);
     await expect(page.getByRole('button', { name: paused ? '继续录音' : '暂停录音', exact: true })).toBeVisible();
     const records = await page.evaluate(() => JSON.parse(localStorage.getItem('ssx-ai-communication-prototype-v1')!).records);

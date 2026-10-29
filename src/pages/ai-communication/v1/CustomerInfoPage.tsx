@@ -4,6 +4,7 @@ import { Tabs } from '../../../components/ui/Tabs';
 import { useCommunicationNavigation } from './useCommunicationNavigation';
 import { useEffect, useState } from 'react';
 import { BottomSheet } from '../../../components/ui/BottomSheet';
+import { RecordingWaveform } from './RecordingWaveform';
 import { RecordingScenarios } from './RecordingScenarios';
 import { SheetActions } from '../../../components/ui/SheetContent';
 import { Cell, CellGroup } from '../../../components/ui/Cell';
@@ -59,7 +60,7 @@ export function CustomerInfoPage() {
     setStartOpen(false); go('ai-recording', { customer: record.customerId, record: record.id });
   }
   return <MobilePage title={tabsStuck && customer && !forbidden ? customer.name : "意向客户信息"} className="ai-page ai-customer-page" previewChrome={params.get('chrome') === 'wechat'} footer={customer && !forbidden && tab === '沟通记录' ? <footer className="ai-entry-footer">
-    <Button className="ai-start-button" data-recording={currentRecording?.status === 'recording' || undefined} variant="soft" shape="round" aria-label={recordingLabel} onClick={openRecorder}><span>{currentRecording?.status === 'recording' ? <span className="ai-recording-wave" aria-hidden="true"><i /><i /><i /></span> : <Icon name="mic-ai-fill" size="base" />} {recordingLabel}<small>{currentRecording ? '点击可以进入录制页面' : '记录与家长的沟通过程'}</small></span></Button>
+    <Button className="ai-start-button" data-state={currentRecording?.status ?? 'idle'} data-recording={currentRecording?.status === 'recording' || undefined} variant="soft" shape="round" aria-label={recordingLabel} onClick={openRecorder}>{currentRecording ? <>{currentRecording.status === 'recording' && <RecordingWaveform appearance="button" paused={false} />}<span className="ai-entry-status"><span className="ai-entry-dot" aria-hidden="true" /><span className="ai-entry-state-text">{currentRecording.status === 'paused' ? '暂停中' : 'AI 记录中…'}</span></span><span className="ai-entry-view">查看</span></> : <span className="ai-entry-label"><span className="ai-entry-idle-title"><Icon name="mic-ai-fill" size="base" />AI 实时记录</span><small>记录与家长的沟通过程</small></span>}</Button>
     <Button shape="round" onClick={() => go('communication-form', { record: null, communication: null })}>添加沟通记录</Button>
   </footer> : undefined}>
     <PageTitle title="意向客户信息" />
@@ -86,7 +87,7 @@ export function CustomerInfoPage() {
       <RecordingScenarios />
       <ol className="ai-start-reminder"><li>开始前请告知对方并取得同意。</li><li>手机尽量靠近双方，确保收音清晰。</li><li>同一手机通话时无法保证完整收音。</li></ol>
     </BottomSheet>
-    <Dialog open={conflictOpen} onOpenChange={setConflictOpen} title={active?.creator === actor ? '已有录音未结束' : '设备正在录音'} actions={active?.creator === actor ? [{ label: '取消' }, { label: active.status === 'paused' ? '返回录音' : '继续录音', onSelect: () => go('ai-recording', { customer: active.customerId, record: active.id }) }] : [{ label: '知道了' }]}>
+    <Dialog open={conflictOpen} onOpenChange={setConflictOpen} title={active?.creator === actor ? '已有录音未结束' : '设备正在录音'} actions={active?.creator === actor ? [{ label: '取消' }, { label: '返回录音', onSelect: () => go('ai-recording', { customer: active.customerId, record: active.id }) }] : [{ label: '知道了' }]}>
       <p>{active?.creator === actor ? `${active.customerName} · ${active.status === 'paused' ? '录音已暂停' : '录音中'}` : `${active?.creator ?? '其他老师'}正在为${active?.customerName ?? '其他学员'}录音`}</p>
       <p>{active?.creator === actor ? '开启新记录前，请先结束这条录音。' : '请由原记录人结束后再试。'}</p>
     </Dialog>
