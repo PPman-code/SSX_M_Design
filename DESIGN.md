@@ -69,3 +69,7 @@ PC 规范按 2026-10-12 快照继承，不自动跟随 PC 更新；没有在本�
 ## 预览项目范围（2026-10-26）
 
 工作区分教师端与家长端两个项目入口，共用组件库与语义规范。教师端保留已有页面；家长端从parent-course-detail课程详情开始，按用户截图搭建；封面使用用户图片并保持4:3，缺少图标占位，首页/课程列表及购买流程待补。详情边界见docs/requirements/parent-course-detail.md。项目入口登记于page-registry.ts的previewProjects，家长页面单列parentBusinessPages。
+
+2026-11-02 学员管理筛选任务补充读取 docs/requirements/student-filters.md；列表/意向客户共同规范仍按 list-pages.md 路由，不将截图物理样式升级为规范。
+
+2026-11-02 筛选排版按 list-pages.md 已确认规则：字段标题16px，平铺选项与右侧摘要默认14px；必须完整显示的长右侧摘要可局部12px，不全局缩字。

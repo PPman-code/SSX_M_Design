@@ -34,11 +34,8 @@
 .student-empty { display: grid; justify-items: center; gap: 12px; padding: 56px 16px; color: var(--color-text-subtlest); text-align: center; }
 .student-empty h2 { font-size: var(--typography-font-size-body); font-weight: var(--typography-font-weight-regular); }
 /* Sort rows geometry lives in styles/product.css (shared with the prospective-students page). */
-.student-filter-content { padding: 16px; }
-.student-filter-content .sheet-choice-section + .sheet-choice-section { margin-top: 24px; }
 [data-color-mode='dark'] .student-page img, [data-color-mode='dark'] .student-sort-options img { filter: invert(.8); }
 
-.student-filter-content .sheet-choice-section h3 { font-size: var(--typography-font-size-secondary); font-weight: var(--typography-font-weight-regular); }
 
 /* The arrow expands to the card heading; sibling actions stay above its hit area. */
 .student-card-heading { position: relative; }

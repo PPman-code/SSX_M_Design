@@ -1,0 +1,26 @@
+.student-filter-group { padding: 16px; border-bottom: 6px solid var(--color-background-page); }
+.student-filter-group > h3 { color: var(--color-text-subtlest); font-size: var(--typography-font-size-caption); font-weight: var(--typography-font-weight-regular); margin-bottom: 12px; }
+.student-filter-group .sheet-choice-section { margin-block: 16px; }
+.student-filter-group .sheet-choice-section h3 { color: var(--color-text); font-size: var(--typography-font-size-body); line-height: var(--typography-line-height-body); font-weight: var(--typography-font-weight-regular); }
+.student-filter-group .sheet-choice-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.student-filter-group:first-child .sheet-choice-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.student-filter-cells { margin-inline: -16px; }
+.student-filter-selector .search { position: sticky; top: 0; z-index: 1; }
+.student-filter-error { color: var(--color-text-danger); font-size: var(--typography-font-size-caption); padding: 0 16px 8px; }
+.student-filter-empty { padding: 16px; color: var(--color-text-subtlest); font-size: var(--typography-font-size-secondary); }
+.student-filter-number { border: 0; min-width: 0; padding: 0; margin: 0 0 20px; }
+.student-filter-number:last-child { margin-bottom: 0; }
+.student-filter-number legend { font-size: var(--typography-font-size-body); line-height: var(--typography-line-height-body); margin-bottom: 12px; }
+.student-filter-number-fields { display: grid; grid-template-columns: minmax(0, 1fr) 16px minmax(0, 1fr); gap: 8px; align-items: center; }
+.student-filter-number-fields .ssx-input { min-width: 0; }
+.student-filter-number-fields .ssx-input:nth-child(2) { grid-column: 3; grid-row: 1; }
+.student-filter-number-fields > span { grid-column: 2; grid-row: 1; text-align: center; color: var(--color-text-subtlest); }
+.student-filter-number-fields .ssx-input-body { height: 44px; padding-inline: 8px; background: var(--color-background-neutral-subtle); }
+.student-filter-date-summary { font-size: var(--typography-font-size-caption); line-height: 18px; font-variant-numeric: tabular-nums; }
+.student-filter-cells .base-cell-value:has(.student-filter-date-summary) { max-width: 64%; flex-shrink: 0; white-space: nowrap; }
+
+.student-birthday-selector .sheet-content { padding-top: 4px; }
+.student-filter-hint { margin: 0 0 12px; padding: 0; color: var(--color-text-subtlest); font-size: var(--typography-font-size-caption); line-height: 18px; }
+
+/* Local preview baseline: give sparse date fields breathing room above the footer. */
+.student-filter-date-selector { min-height: min(320px, var(--component-sheet-max-height), calc(100dvh - var(--preview-overlay-top, 0px) - var(--preview-overlay-bottom, 0px) - var(--drawer-keyboard-inset, 0px) - 16px)); }

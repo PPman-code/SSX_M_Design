@@ -48,8 +48,8 @@ for (const theme of ['light', 'dark']) {
 test('workspace follows student info and preserves identity in direct preview', async ({ page }) => {
   await page.goto('/#/?page=students&theme=dark');
   const frame = page.frameLocator('iframe');
-  await frame.getByRole('button', { name: '欧阳丽丽学员详情', exact: true }).click();
-  await expect(frame.getByRole('heading', { name: '欧阳丽丽的学员信息', exact: true })).toBeAttached();
+  await frame.getByRole('button', { name: '欧阳晨宇学员详情', exact: true }).click();
+  await expect(frame.getByRole('heading', { name: '欧阳晨宇的学员信息', exact: true })).toBeAttached();
   await expect(page.getByRole('region', { name: '页面配置', exact: true })).toContainText('学员信息');
   await expect(page.getByRole('link', { name: '独立打开', exact: true })).toHaveAttribute('href', /student=s2/);
 });

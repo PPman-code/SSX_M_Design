@@ -76,9 +76,8 @@ export function CustomerInfoPage({ formal }: { formal?: { student: Student; poin
       {formal ? <div className="ai-customer-card ai-customer-profile student-detail-profile">
         <span className="ai-avatar">{person.avatar ? <img src={person.avatar} alt="" /> : person.name[0]}</span>
         <div><h2><span className="student-detail-name" title={`${person.name}（${formal.student.studentNumber}）`}>{person.name}（{formal.student.studentNumber}）</span>
-          {person.gender && <span className={`ai-gender ai-gender--${person.gender}`} role="img" aria-label={person.gender === 'male' ? '男' : '女'}><Icon name={person.gender === 'male' ? 'man' : 'woman'} size="xs" /></span>}
           <Button className="student-detail-copy" variant="text" iconOnly icon="file-copy-line" aria-label="复制学员姓名" onClick={async () => { const copied = await copyText(person.name); showToast({ message: copied ? `已复制：${person.name}（${formal.student.studentNumber}）` : '复制失败，请长按姓名复制', ...(copied ? {} : { type: 'error' as const }) }); }} />
-          <Tag size="sm" className="student-status-colors" data-status={formal.student.status}>{formal.student.status}</Tag></h2>
+        </h2><div className="student-detail-meta"><Tag size="sm" className="student-status-colors" data-status={formal.student.status}>{formal.student.status}</Tag>{person.gender && <Tag size="sm" tone={person.gender === 'male' ? 'brand' : 'danger'} className="student-detail-gender" role="img" aria-label={person.gender === 'male' ? '男' : '女'}><Icon name={person.gender === 'male' ? 'man' : 'woman'} size="xs" /></Tag>}</div>
           <p>在班组数量：{formal.student.groupCount}</p>
         </div>
         <button type="button" className="student-detail-open" aria-label="查看学员资料" onClick={() => setInfoOpen(true)}><span className="sr-only">{person.name}</span><Icon name="right" size="base" /></button>

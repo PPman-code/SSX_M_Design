@@ -15,8 +15,8 @@ test('business document titles match navigation without product suffixes', async
     await expect(page).toHaveTitle(title);
   }
   await page.goto('/#/pages/student-info/v1?student=s2&chrome=wechat');
-  await expect(page).toHaveTitle('欧阳丽丽');
-  await expect(page.locator('.preview-web-title strong')).toHaveText('欧阳丽丽');
+  await expect(page).toHaveTitle('欧阳晨宇');
+  await expect(page.locator('.preview-web-title strong')).toHaveText('欧阳晨宇');
 });
 
 for (const chrome of [false, true]) {

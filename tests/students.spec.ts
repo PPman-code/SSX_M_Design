@@ -13,7 +13,7 @@ for (const width of [360, 375, 390, 430]) {
   test(`student reference layout fits ${width}px with phone beside number`, async ({ page }) => {
     await page.setViewportSize({ width, height: 940 });
     await page.goto('/#/pages/students/v1?theme=light');
-    await expect(page.getByRole('listitem')).toHaveCount(5);
+    await expect(page.getByRole('listitem')).toHaveCount(8);
     await expect(page.locator('.student-count')).toHaveCSS('height', '40px');
     const activeTab = page.getByRole('tab', { name: '全部', exact: true });
     const brandColors = { text: await activeTab.evaluate(element => getComputedStyle(element).color), underline: await page.locator('.student-tabs .ssx-tabs-indicator').evaluate(element => getComputedStyle(element).backgroundColor) };
@@ -32,7 +32,7 @@ for (const width of [360, 375, 390, 430]) {
     for (const image of await page.locator('.student-page img').all()) {
       await expect.poll(() => image.evaluate((element: HTMLImageElement) => element.complete && element.naturalWidth > 0)).toBe(true);
     }
-    await expect(page.getByRole('listitem').filter({ hasText: '欧阳丽丽' }).locator('.student-negative')).toHaveText(['-¥3,782.00', '-17']);
+    await expect(page.getByRole('listitem').filter({ hasText: '欧阳晨宇' }).locator('.student-negative')).toHaveText(['-¥3,782.00', '-17']);
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     await page.screenshot({ path: `test-results/students-${width}.png` });
   });
@@ -58,9 +58,9 @@ test('student categories, keyboard navigation and searches update counts', async
   await expect(page.getByRole('listitem')).toHaveCount(2);
   await page.getByRole('tab', { name: '欠费 (2)', exact: true }).click();
   await expect(page.getByRole('listitem')).toHaveCount(2);
-  await page.getByRole('textbox', { name: '搜索学员' }).fill('金妮');
+  await page.getByRole('textbox', { name: '搜索学员' }).fill('金子');
   await expect(page.getByRole('listitem')).toHaveCount(1);
-  await expect(page.getByRole('listitem')).toContainText('金妮妮');
+  await expect(page.getByRole('listitem')).toContainText('金子轩');
   await page.getByRole('button', { name: '清除学员搜索' }).click();
   await page.getByRole('tab', { name: '生日 (2)', exact: true }).click();
   await expect(page.getByRole('listitem')).toHaveCount(2);
@@ -72,16 +72,16 @@ test('student filters discard drafts, apply intersections and keep reset pending
   await page.getByRole('button', { name: '筛选学员', exact: true }).click();
   const dialog = page.getByRole('dialog', { name: '筛选学员', exact: true });
   const bounds = await dialog.boundingBox(); expect(bounds!.x + bounds!.width).toBeCloseTo(390, 0);
-  await dialog.getByRole('button', { name: '退学', exact: true }).click();
+  await dialog.getByRole('group', { name: '学员状态', exact: true }).getByRole('button', { name: '退学', exact: true }).click();
   await page.keyboard.press('Escape');
-  await expect(page.getByRole('listitem')).toHaveCount(5);
+  await expect(page.getByRole('listitem')).toHaveCount(8);
   await page.getByRole('button', { name: '筛选学员', exact: true }).click();
-  await dialog.getByRole('button', { name: '退学', exact: true }).click();
-  await dialog.getByRole('button', { name: '小于 0', exact: true }).click();
+  await dialog.getByRole('group', { name: '学员状态', exact: true }).getByRole('button', { name: '退学', exact: true }).click();
+  await dialog.getByRole('textbox', { name: '剩余学费（元）最高值', exact: true }).fill('-1');
   await page.screenshot({ path: 'test-results/students-filter-dark.png' });
   await dialog.getByRole('button', { name: '确定', exact: true }).click();
   await expect(page.getByRole('listitem')).toHaveCount(1);
-  await expect(page.getByRole('listitem')).toContainText('欧阳丽丽');
+  await expect(page.getByRole('listitem')).toContainText('欧阳晨宇');
   await page.getByRole('button', { name: '筛选学员', exact: true }).click();
   await dialog.getByRole('button', { name: '重置', exact: true }).click();
   await page.keyboard.press('Escape');
@@ -98,7 +98,7 @@ test('student sorting changes values and toggles its selected direction', async 
   await page.getByRole('button', { name: '学员排序' }).click();
   await page.getByRole('button', { name: '按剩余学费排序' }).click();
   await expect(toast).toHaveText('已按升序排列');
-  await expect(page.getByRole('listitem').first()).toContainText('欧阳丽丽');
+  await expect(page.getByRole('listitem').first()).toContainText('欧阳晨宇');
 });
 
 test('student preview includes loading, empty, failure, restricted and masked states', async ({ page }) => {
@@ -107,10 +107,10 @@ test('student preview includes loading, empty, failure, restricted and masked st
   await page.goto('/#/pages/students/v1?state=empty');
   await expect(page.getByText('暂无符合条件的学员')).toBeVisible();
   await page.getByRole('button', { name: '清除条件' }).click();
-  await expect(page.getByRole('listitem')).toHaveCount(5);
+  await expect(page.getByRole('listitem')).toHaveCount(8);
   await page.goto('/#/pages/students/v1?state=error');
   await page.getByRole('button', { name: '重试' }).click();
-  await expect(page.getByRole('listitem')).toHaveCount(5);
+  await expect(page.getByRole('listitem')).toHaveCount(8);
   await page.goto('/#/pages/students/v1?state=forbidden');
   await expect(page.getByText('暂无学员查看权限')).toBeVisible();
   await expect(page.getByRole('listitem')).toHaveCount(0);

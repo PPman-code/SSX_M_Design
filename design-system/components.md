@@ -387,3 +387,5 @@ Search 36px 迁移（2026-10-21）：已通过共享组件同步组件预览、�
 2026-10-28 用户确认（V）：Picker 工具栏左侧取消使用二级文字色 color-text-subtle，右侧确认保留主色；适用于日期选择及公共滚轮示例。
 
 2026-10-28（V/I）：增加 Calendar 候选单日期组件，参考 TDesign node 25775:14153 的星期栏、纵向月份和 60px 日期块；沿用本地 BottomSheet、SheetActions 与语义色。受控 value/onChange、minDate/maxDate、today、onConfirm、可选 onPending；月份按需扩展，默认范围为最早日期所在年至其后100年。已用于沟通表单跟进/到访日期及组件预览；未迁移日期区间等其他选择器。跟进日期底部左侧待定（soft）与右侧确定（primary），到访仅确定，关闭不提交草稿。此前 Picker beforeWheel 插槽与顶部待定入口撤回；经典滚轮保留。
+
+2026-11-02 D/V/I：DateRangeFields增加可选precision（date默认 / month-day），默认调用保留年月日与快捷项；month-day不显示年份及快捷项，起止按钮与可访问名称仅显示月日，WheelPicker只传月/日两列，支持2月29日并在切换月份时截断无效日。值接口仍为ISO DateRange，月日模式以2000闰年作内部锚点，调用方按月日比较；不自动判断跨年是否合法。仅学员生日筛选使用，出生日期、客户日期、出勤率和AI沟通仍用date。已检索全部调用点，无公共颜色/尺寸变化，Candidate级别不变。

@@ -22,7 +22,7 @@ for (const theme of ['light', 'dark']) {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto(`/#/pages/student-info/v1?student=s4&theme=${theme}&chrome=wechat`);
     const profile = page.locator('.student-detail-profile');
-    await expect(profile.locator('.ssx-tag')).toHaveCount(1);
+    await expect(profile.locator('.ssx-tag')).toHaveCount(2);
     for (const tag of await profile.locator('.ssx-tag').all()) {
       await expect(tag).toHaveCSS('height', '18px');
       await expect(tag).toHaveCSS('font-size', '12px');

@@ -107,7 +107,7 @@
 .prospect-custom-input .ssx-input-label { font-size: var(--typography-font-size-body); }
 .prospect-filter-select-row { margin-inline: -16px; }
 .prospect-scope-choice .sheet-choice-section { margin-top: 0; }
-.prospect-scope-choice .sheet-choice-section h3 { color: var(--color-text-subtlest); font-size: var(--typography-font-size-caption); }
+.prospect-scope-choice .sheet-choice-section h3 { color: var(--color-text-subtlest); font-size: var(--typography-font-size-body); }
 /* Custom filter inputs follow the existing filled filter fields. */
 .prospect-custom-input .ssx-input-label { padding-left: 0; }
 .prospect-custom-input .ssx-input-body { height: 44px; padding-inline: 8px; background: var(--color-background-neutral-subtle); border-color: var(--color-border-lighter); }
