@@ -16,7 +16,7 @@ for (const theme of ['light', 'dark']) {
   for (const width of [360, 390, 430]) {
     test(`add points follows nested drafts and confirms once at ${width} ${theme}`, async ({ page }) => {
       await page.setViewportSize({ width, height: 844 });
-      await page.goto(`/#/pages/student-info/v1?student=s1&theme=${theme}&chrome=wechat`);
+      await page.goto(`/#/pages/student-info/v1?student=s1&detailTab=points&theme=${theme}&chrome=wechat`);
       let main = await openAdd(page);
       await expect(main.locator('.points-student-summary')).toContainText('金灿灿');
       await expect(main).toContainText(/金灿灿：\s*128 积分/);
@@ -64,7 +64,7 @@ for (const theme of ['light', 'dark']) {
   }
   test(`create rules, search, validate unlimited amounts and remove in ${theme}`, async ({ page }) => {
     await page.setViewportSize({ width: 360, height: 844 });
-    await page.goto(`/#/pages/student-info/v1?student=s1&theme=${theme}`);
+    await page.goto(`/#/pages/student-info/v1?student=s1&detailTab=points&theme=${theme}`);
     const main = await openAdd(page);
     await main.getByRole('button', { name: '选择积分项', exact: true }).click();
     const selector = page.getByRole('dialog', { name: '选择加分项', exact: true });
@@ -101,7 +101,7 @@ for (const theme of ['light', 'dark']) {
 }
 
 test('fixed rule validation and keyboard cancellation preserve the balance', async ({ page }) => {
-  await page.goto('/#/pages/student-info/v1?student=s1');
+  await page.goto('/#/pages/student-info/v1?student=s1&detailTab=points');
   const main = await openAdd(page);
   await main.getByRole('button', { name: '选择积分项', exact: true }).click();
   const selector = page.getByRole('dialog', { name: '选择加分项', exact: true });

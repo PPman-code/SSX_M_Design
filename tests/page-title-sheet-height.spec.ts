@@ -3,7 +3,7 @@ import { test, expect } from '@playwright/test';
 
 test('business document titles match navigation without product suffixes', async ({ page }) => {
   for (const [route, title] of [
-    ['student-info/v1?student=s1', '金灿灿'],
+    ['student-info/v1?student=s1&detailTab=points', '金灿灿'],
     ['students/v1', '学员管理'],
     ['prospective-students/v1', '意向客户管理'],
     ['my/v1', '我的'],
@@ -22,7 +22,7 @@ test('business document titles match navigation without product suffixes', async
 for (const chrome of [false, true]) {
   test(`points editor grows to usable top before content scrolls, preview=${chrome}`, async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 740 });
-    await page.goto(`/#/pages/student-info/v1?student=s1${chrome ? '&chrome=wechat' : ''}`);
+    await page.goto(`/#/pages/student-info/v1?student=s1&detailTab=points${chrome ? '&chrome=wechat' : ''}`);
     await page.getByRole('button', { name: '加减积分', exact: true }).click();
     await page.getByRole('menuitem', { name: '加分', exact: true }).click();
     const main = await enterEmptyPointsEditor(page);

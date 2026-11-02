@@ -1,0 +1,7 @@
+.tag-example + .tag-example { margin-top: 12px; }
+.tag-example h3 { margin: 0 0 12px; font-size: var(--typography-font-size-secondary); font-weight: var(--typography-font-weight-medium); color: var(--color-text); }
+.tag-example-row { display: grid; grid-template-columns: 70px minmax(0, 1fr); gap: 8px; align-items: center; }
+.tag-example-row + .tag-example-row { margin-top: 12px; }
+.tag-example-row > span { color: var(--color-text-subtle); font-size: var(--typography-font-size-caption); }
+.tag-example-shapes { display: flex; flex-wrap: wrap; gap: 12px 20px; }
+.tag-example-colors { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }

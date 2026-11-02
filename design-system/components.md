@@ -52,6 +52,24 @@ Toggle 自带 .touch-target，绝对定位透明伪元素将热区扩至至少 4
 
 disabled 不可切换；readOnly 保留焦点但不可切换。loading 保留当前 checked、显示滑块内加载图标、aria-busy=true，暂时只读防重复；由调用方结束加载或提交结果，不自行模拟后端成功。支持 Space、焦点可见和减少动效；无 hover。组件预览展示三种尺寸、基础/文字/图标、开关两态、禁用、只读和可结束的内存加载示例。
 
+## Tag · 文字标签（2026-11-02，Candidate）
+
+来源：[Arco Mobile Tag 46:21008](https://www.figma.com/design/507mHwo2qlL72kbftlM9Qi/?node-id=46-21008)。核对节点小46:21007、中46:21075、大46:21135、圆角大46:22002；原参考截图保留在design-assets/tag/arco-tag-46-21008.png。不使用参考截图作为运行时素材，不引入Arco运行库。
+
+| size | 高度（含描边） | 字号 / 字重 | 左右内边距 | round左右内边距 |
+| --- | --- | --- | --- | --- |
+| sm | 18px | 12px / Regular 400 | 4px | 8px |
+| md（默认） | 20px | 12px / Regular 400 | 4px | 8px |
+| lg | 24px | 12px / Regular 400 | 6px | 12px |
+
+本地入口src/components/ui/Tag.tsx。Props：children、size=sm/md/lg、tone=neutral/brand/success/warning/danger、variant=soft/solid/outline/dashed、round及普通span展示属性。静态文字标签不等同于Badge未读数或Tabs内容分类；不提供点击/关闭等专用交互API，不能把18px标签直接当作独立触控按钮。
+
+参考文本行高1.4、常规圆角2px、round为胶囊100px；使用inline-flex、明确高度/字号/字重/行高，不继承标题26px行高。描边在盒内绘制，不增加总高度。颜色全部映射项目--color-*；基础/实心/实线/虚线分别对应soft/solid/outline/dashed，保留既有品牌和语义色，不照搬参考图物理色。参考中的图标和关闭属性均未开启，本轮实现文本标签，不扩展可关闭或可选择标签行为。
+
+已迁移：学员详情状态标签（brand）与身份标签（neutral），均使用sm，替代原30px/20px不一致的手写span。保持原文案和业务状态映射。/mobile组件预览展示三尺寸×四外观×五语义色×两种形状。
+
+待迁移：学员列表、意向客户列表、客户/AI状态等旧文字标签保留现状，不因组件新增就视为全部完成。旧人员列表18px高/10px文字与新Tag小号18px高/12px文字不同，后续迁移必须显式核对，不自动替换。仅两个详情展示用途和组件预览得到核验，API暂注册Candidate，不因重复出现提升Recommended；原型“试听仍标正式学员”是独立业务文案问题，本轮未改。
+
 ## Badge
 count?: number（默认 0）、max?: number（默认 99）、dot?: boolean、bordered?: boolean、showZero?: boolean、label?: string、children?: ReactNode。红点 8px，数字高 16px、12px/500 字号，胶囊圆角；描边为 1px 白色，增加到 10px/18px。超过 max 显示 max+，默认 0 隐藏，showZero 可显示 0。负数按 0、非有限数字按 0、小数向下取整。传 children 时叠放在右上角；徽标不拦截点击，外层按钮负责交互与触控区。默认无障碍标签保留完整未读数量，可用 label 指定业务含义。
 参考 [Arco Mobile Badge 35:5980](https://www.figma.com/design/507mHwo2qlL72kbftlM9Qi/?node-id=35-5980)，复用本项目危险色与主题语义变量，不引入 Arco 运行时。

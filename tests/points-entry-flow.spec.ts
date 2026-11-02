@@ -3,7 +3,7 @@ import { test, expect } from '@playwright/test';
 for (const subtract of [false, true]) {
   test(`points selection switches from independent close to editor back: subtract=${subtract}`, async ({ page }) => {
     const verb = subtract ? '减' : '加';
-    await page.goto('/#/pages/student-info/v1?student=s1');
+    await page.goto('/#/pages/student-info/v1?student=s1&detailTab=points');
     const trigger = page.getByRole('button', { name: '加减积分', exact: true });
     async function start() {
       await trigger.click();

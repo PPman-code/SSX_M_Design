@@ -1,12 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 
-const ACTION_HEIGHT = 48;
 const OPEN_THRESHOLD = 24;
 const CLOSE_THRESHOLD = 12;
 const clamp = (value: number, max: number) => Math.min(max, Math.max(0, value));
 
 /** Page-local native scrolling: only the unified header's transform is animated. */
-export function useCustomerStickyHeader(enabled: boolean, customerId?: string) {
+export function useCustomerStickyHeader(enabled: boolean, customerId?: string, actionHeight = 48) {
   const headerRef = useRef<HTMLDivElement>(null);
   const markerRef = useRef<HTMLDivElement>(null);
   const [pinned, setPinned] = useState(false);
@@ -25,7 +24,7 @@ export function useCustomerStickyHeader(enabled: boolean, customerId?: string) {
     const geometry = () => {
       const y = clamp(root.scrollTop, Math.max(0, root.scrollHeight - root.clientHeight));
       const start = marker.getBoundingClientRect().top - root.getBoundingClientRect().top + root.scrollTop;
-      return { y, start, available: clamp(y - start, ACTION_HEIGHT) };
+      return { y, start, available: clamp(y - start, actionHeight) };
     };
     function paint() {
       if (!header) return;
@@ -33,7 +32,7 @@ export function useCustomerStickyHeader(enabled: boolean, customerId?: string) {
       reveal = clamp(reveal, available);
       header.style.setProperty('--ai-header-reveal', `${reveal}px`);
       header.dataset.reveal = String(reveal);
-      const isPinned = y >= start + ACTION_HEIGHT || (reveal > 0 && y >= start);
+      const isPinned = y >= start + actionHeight || (reveal > 0 && y >= start);
       header.toggleAttribute('data-pinned', isPinned);
       setPinned(isPinned);
     }
@@ -71,7 +70,7 @@ export function useCustomerStickyHeader(enabled: boolean, customerId?: string) {
         const previous = Math.max(0, distance - threshold);
         distance += Math.abs(delta);
         const change = Math.max(0, distance - threshold) - previous;
-        reveal = clamp(reveal + (direction < 0 ? change : -change), ACTION_HEIGHT);
+        reveal = clamp(reveal + (direction < 0 ? change : -change), actionHeight);
       }
       paint();
       if (!touchActive) settleTimer = window.setTimeout(settle, 160);
@@ -103,6 +102,6 @@ export function useCustomerStickyHeader(enabled: boolean, customerId?: string) {
       header.style.removeProperty('--ai-header-reveal');
       header.removeAttribute('data-reveal'); header.removeAttribute('data-pinned'); header.removeAttribute('data-settling');
     };
-  }, [enabled, customerId]);
+  }, [enabled, customerId, actionHeight]);
   return { headerRef, markerRef, pinned };
 }

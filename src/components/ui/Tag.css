@@ -1,0 +1,36 @@
+.ssx-tag {
+  --tag-text: var(--color-text-subtle);
+  --tag-soft: var(--color-background-neutral-subtle);
+  --tag-solid: var(--color-background-neutral-bold);
+  position: relative;
+  display: inline-flex;
+  box-sizing: border-box;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+  height: 20px;
+  padding: 0 4px;
+  border: 0;
+  border-radius: 2px;
+  background: var(--tag-soft);
+  color: var(--tag-text);
+  font-family: inherit;
+  font-size: var(--typography-font-size-caption);
+  font-weight: var(--typography-font-weight-regular);
+  line-height: 1.4;
+  letter-spacing: 0;
+  white-space: nowrap;
+}
+.ssx-tag[data-size='sm'] { height: 18px; }
+.ssx-tag[data-size='lg'] { height: 24px; padding-inline: 6px; }
+.ssx-tag[data-round='true'] { border-radius: 100px; padding-inline: 8px; }
+.ssx-tag[data-round='true'][data-size='lg'] { padding-inline: 12px; }
+.ssx-tag[data-tone='brand'] { --tag-text: var(--color-text-brand-accessible); --tag-soft: var(--color-background-brand-subtle); --tag-solid: var(--color-background-brand-bold); }
+.ssx-tag[data-tone='success'] { --tag-text: var(--color-text-success); --tag-soft: var(--color-background-success-subtle); --tag-solid: var(--color-background-success-bold); }
+.ssx-tag[data-tone='warning'] { --tag-text: var(--color-text-warning); --tag-soft: var(--color-background-warning-subtle); --tag-solid: var(--color-background-warning-bold); }
+.ssx-tag[data-tone='danger'] { --tag-text: var(--color-text-danger); --tag-soft: var(--color-background-danger-subtle); --tag-solid: var(--color-background-danger-bold); }
+.ssx-tag[data-variant='solid'] { background: var(--tag-solid); color: var(--color-mobile-action-foreground); }
+.ssx-tag[data-variant='outline'], .ssx-tag[data-variant='dashed'] { background: transparent; }
+.ssx-tag[data-variant='outline']::after, .ssx-tag[data-variant='dashed']::after { content: ''; position: absolute; inset: 0; border: 1px solid currentColor; border-radius: inherit; pointer-events: none; }
+.ssx-tag[data-variant='dashed']::after { border-style: dashed; }

@@ -16,7 +16,7 @@ for (const theme of ['light', 'dark']) {
   for (const subtract of [false, true]) {
     test(`${theme} ${subtract ? 'subtract' : 'add'} dirty main close confirms and preserves draft`, async ({ page }) => {
       await page.setViewportSize({ width: 390, height: 844 });
-      await page.goto(`/#/pages/student-info/v1?student=s1&theme=${theme}`);
+      await page.goto(`/#/pages/student-info/v1?student=s1&detailTab=points&theme=${theme}`);
       let main = await open(page, subtract);
       await expect(main.locator('.sheet-handle')).toHaveCount(0);
       await expect(main.locator('.sheet-heading')).toHaveCSS('height', '56px');
@@ -57,7 +57,7 @@ for (const theme of ['light', 'dark']) {
     });
   }
   test(`${theme} rule editor protects unsaved fields and returns to selector`, async ({ page }) => {
-    await page.goto(`/#/pages/student-info/v1?student=s1&theme=${theme}`);
+    await page.goto(`/#/pages/student-info/v1?student=s1&detailTab=points&theme=${theme}`);
     const main = await open(page);
     await main.getByRole('button', { name: '选择积分项', exact: true }).click();
     const select = page.getByRole('dialog', { name: '选择加分项', exact: true });
@@ -94,7 +94,7 @@ for (const theme of ['light', 'dark']) {
 }
 test('editor ignores down-swipes while the selection sheet remains swipe-dismissible', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
-  await page.goto('/#/pages/student-info/v1?student=s1');
+  await page.goto('/#/pages/student-info/v1?student=s1&detailTab=points');
   const main = await open(page);
   await expect(main).toHaveCSS('transform', 'matrix(1, 0, 0, 1, 0, 0)');
   let header = (await main.locator('.sheet-heading').boundingBox())!;

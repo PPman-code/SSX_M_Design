@@ -66,7 +66,7 @@
 /* Segmented toggle for rule kind on the right side of the Cell */
 .points-kind-toggle { display: inline-flex; align-items: center; background: var(--color-background-neutral-subtle); border-radius: 6px; padding: 2px; gap: 2px; }
 .points-kind-btn { border: 0; border-radius: 4px; padding: 5px 12px; font-size: var(--typography-font-size-secondary); line-height: 20px; color: var(--color-text-subtle); background: transparent; cursor: pointer; transition: background-color var(--motion-duration-fast), color var(--motion-duration-fast); }
-.points-kind-btn--active { background: var(--color-background-surface); color: var(--color-text-brand); font-weight: 500; box-shadow: var(--elevation-shadow-sm); }
+.points-kind-btn--active { background: var(--color-background-surface); color: var(--color-text-brand); font-weight: var(--typography-font-weight-medium); box-shadow: var(--elevation-shadow-sm); }
 
 /* Expand the main editor before scrolling, leaving 16px above usable space. */
 .sheet.points-adjustment { max-height: calc(100dvh - var(--preview-overlay-top, 0px) - var(--preview-overlay-bottom, 0px) - var(--drawer-keyboard-inset, 0px) - max(16px, env(safe-area-inset-top))); }

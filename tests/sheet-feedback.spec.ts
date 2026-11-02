@@ -3,7 +3,7 @@ import { test, expect } from '@playwright/test';
 for (const theme of ['light', 'dark']) {
   test(`points submit explains missing work and nested sheets hide only parent shell in ${theme}`, async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
-    await page.goto(`/#/pages/student-info/v1?student=s1&theme=${theme}`);
+    await page.goto(`/#/pages/student-info/v1?student=s1&detailTab=points&theme=${theme}`);
     await page.getByRole('button', { name: '加减积分', exact: true }).click();
     await page.getByRole('menuitem', { name: '加分', exact: true }).click();
     const main = await enterEmptyPointsEditor(page);

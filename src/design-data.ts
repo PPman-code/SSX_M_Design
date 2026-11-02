@@ -13,6 +13,7 @@ export const componentCatalog = [
   { name: 'Radio / RadioGroup', label: '单选', detail: '圆点确认 / 列表勾选即时生效；禁用与键盘切换' },
   { name: 'Checkbox / CheckboxGroup', label: '多选', detail: '20px 标记；全选半选 / 左右 / 横向 / 卡片 / 禁用' },
   { name: 'Toggle', label: '开关', detail: 'Base UI 行为，独立触控区域' },
+  { name: 'Tag', label: '标签', detail: '18/20/24px三档，基本/实心/实线/虚线，基础圆角/胶囊；候选组件' },
   { name: 'Badge', label: '徽标', detail: '红点 / 数字 / 99+；支持描边与右上角叠放' },
   { name: 'Cell / CellGroup', label: '基础单元格', detail: '基础 / 必填 / 徽标 / 图文 / 独立控件 / 通栏与卡片' },
   { name: 'Loading / PullToRefresh', label: '加载与下拉刷新', detail: '环形 / 三点 / 文字 / 失败重试 / 页面顶部刷新；Candidate' },

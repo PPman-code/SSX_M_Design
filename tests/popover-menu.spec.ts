@@ -62,7 +62,7 @@ for (const theme of ['light', 'dark']) {
   test(`menu arrows point outward and share panel color in ${theme}`, async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     for (const [route, triggerName, menuName] of [
-      ['pages/student-info/v1?student=s1', '加减积分', '积分操作'],
+      ['pages/student-info/v1?student=s1&detailTab=points', '加减积分', '积分操作'],
       ['mobile?', '带图标菜单', '图标操作菜单'],
     ]) {
       await page.goto(`/#/${route}&theme=${theme}`);

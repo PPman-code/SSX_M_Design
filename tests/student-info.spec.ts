@@ -11,10 +11,11 @@ for (const theme of ['light', 'dark']) {
       await expect(page).toHaveURL(new RegExp(`theme=${theme}`));
       await expect(page.locator('.preview-wechat-nav')).toContainText('金灿灿');
       await expect(page.getByRole('heading', { name: '金灿灿的学员信息', exact: true })).toBeAttached();
-      await expect(page.locator('.student-info-footer')).toHaveCSS('height', '56px');
+      await page.getByRole('tab', { name: '积分', exact: true }).click();
+      await expect(page.locator('.student-info-footer')).toHaveCSS('height', '64px');
       expect(await page.locator('.student-info-page').evaluate(el => getComputedStyle(el).backgroundColor)).toBe(await page.locator('.student-info-footer').evaluate(el => getComputedStyle(el).backgroundColor));
       const trigger = page.getByRole('button', { name: '加减积分', exact: true });
-      await expect(trigger).toHaveCSS('height', '40px');
+      await expect(trigger).toHaveCSS('height', '48px');
       await trigger.click();
       const menu = page.getByRole('menu', { name: '积分操作', exact: true });
       await expect(menu.getByRole('menuitem')).toHaveText(['加分', '减分', '积分清零']);
@@ -54,19 +55,19 @@ test('workspace follows student info and preserves identity in direct preview', 
 });
 
 test('standalone info omits simulated navigation and invalid student cannot perform points actions', async ({ page }) => {
-  await page.goto('/#/pages/student-info/v1?student=s1');
+  await page.goto('/#/pages/student-info/v1?student=s1&detailTab=points');
   await expect(page.locator('.preview-chrome, .preview-history')).toHaveCount(0);
   await expect(page.getByRole('button', { name: '加减积分', exact: true })).toBeVisible();
   await page.reload();
   await expect(page.getByRole('button', { name: '加减积分', exact: true })).toBeVisible();
   await page.goto('/#/pages/student-info/v1?student=missing');
-  await expect(page.getByRole('button', { name: '加减积分', exact: true })).toBeDisabled();
+  await expect(page.getByRole('button', { name: '加减积分', exact: true })).toHaveCount(0);
   await expect(page.getByRole('status')).toContainText('未找到学员');
 });
 
 test('direct WeChat preview keeps the points button above the simulated home indicator', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
-  await page.goto('/#/pages/student-info/v1?student=s1&chrome=wechat');
+  await page.goto('/#/pages/student-info/v1?student=s1&detailTab=points&chrome=wechat');
   const button = (await page.getByRole('button', { name: '加减积分', exact: true }).boundingBox())!;
   const home = (await page.locator('.preview-home-indicator').boundingBox())!;
   expect(button.y + button.height).toBeLessThanOrEqual(home.y);

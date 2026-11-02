@@ -6,6 +6,20 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "48805984",
+      "name": "file-copy-line",
+      "font_class": "file-copy-line",
+      "unicode": "edb6",
+      "unicode_decimal": 60854
+    },
+    {
+      "icon_id": "48805906",
+      "name": "上下拉",
+      "font_class": "shangxiala",
+      "unicode": "edb5",
+      "unicode_decimal": 60853
+    },
+    {
       "icon_id": "45407549",
       "name": "删除",
       "font_class": "a-delete-oneshanchu1",

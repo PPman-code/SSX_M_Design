@@ -1,4 +1,28 @@
 .product-page.student-info-page { background: var(--color-background-page); }
-.student-info-footer { display: flex; flex-shrink: 0; align-items: center; justify-content: center; min-height: 56px; padding: 8px 16px calc(8px + env(safe-area-inset-bottom, 0px)); background: var(--color-background-page); }
+.student-info-footer { display: flex; flex-shrink: 0; align-items: center; justify-content: center; min-height: 64px; padding: 8px 16px calc(8px + env(safe-area-inset-bottom, 0px)); background: var(--color-background-page); }
 .student-info-page.with-preview-chrome:not(:has(.preview-history)) .student-info-footer { padding-bottom: calc(8px + max(34px, env(safe-area-inset-bottom, 0px))); }
 .student-info-unavailable { display: grid; justify-items: center; gap: 16px; padding: 48px 16px; color: var(--color-text-subtlest); text-align: center; }
+
+/* Local formal-student variant; shared communication controls retain their APIs. */
+.student-detail-profile { position: relative; isolation: isolate; }
+.student-detail-profile h2 { display: flex; align-items: center; flex-wrap: nowrap; gap: 8px; }
+.student-detail-name { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.student-detail-profile .student-detail-copy { position: relative; z-index: 2; flex: 0 0 24px; min-width: 24px; width: 24px; height: 24px; min-height: 24px; padding: 0; }
+.student-detail-open { flex: 0 0 40px; width: 40px; height: 40px; display: grid; place-items: center; border: 0; padding: 0; background: transparent; color: var(--color-icon-subtle); }
+.student-detail-open::after { content: ''; position: absolute; inset: 0; z-index: 1; border-radius: 8px; }
+.student-detail-open:focus-visible::after { outline: 2px solid var(--color-border-brand); }
+.student-info-page .student-detail-actions { grid-template-columns: repeat(4, minmax(0, 1fr)); height: auto; margin: 0; padding: 8px 4px 0; border-radius: 8px 8px 0 0; }
+.student-info-page .ai-customer-tabs { gap: 24px; overflow-x: auto; scrollbar-width: none; }
+.student-info-page .ai-customer-tabs::-webkit-scrollbar { display: none; }
+.student-info-page .ai-customer-tabs .ssx-tab { flex: 0 0 auto; min-width: 56px; }
+.student-detail-actions .button { height: 72px; flex-direction: column; gap: 6px; padding: 4px 0; font-size: var(--typography-font-size-caption); line-height: 20px; }
+.student-detail-actions .button img { width: 24px; height: 24px; object-fit: contain; }
+.student-detail-action-group { margin: 0 12px; border-radius: 8px; background: var(--color-background-surface); }
+.student-detail-action-group .student-detail-expand { display: flex; width: 100%; height: 24px; min-height: 24px; padding: 0; color: var(--color-border-strong); }
+
+.student-info-footer .button { height: 48px; }
+
+.student-detail-expand .student-detail-expand-icon { width: 24px; height: 8px; transform: rotate(180deg); }
+.student-detail-expand[aria-expanded="true"] .student-detail-expand-icon { transform: rotate(0deg); }
+
+.student-detail-action-group .student-detail-expand::after { height: 100%; }

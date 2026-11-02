@@ -7,7 +7,7 @@ for (const operation of ['add', 'subtract']) {
     const fixedName = operation === 'add' ? '课堂表现积极' : '迟到';
     const fixedValue = operation === 'add' ? '3' : '1';
     await page.setViewportSize({ width: 360, height: 844 });
-    await page.goto('/#/pages/student-info/v1?student=s1');
+    await page.goto('/#/pages/student-info/v1?student=s1&detailTab=points');
     await page.getByRole('button', { name: '加减积分', exact: true }).click();
     await page.getByRole('menuitem', { name: `${verb}分`, exact: true }).click();
     const selector = page.getByRole('dialog', { name: `选择${verb}分项`, exact: true });

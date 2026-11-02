@@ -9,7 +9,7 @@ for (const theme of ['light', 'dark']) {
   for (const width of [360, 390, 430]) {
     test(`subtract points uses system controls and confirms signed amounts at ${width} ${theme}`, async ({ page }) => {
       await page.setViewportSize({ width, height: 844 });
-      await page.goto(`/#/pages/student-info/v1?student=s1&theme=${theme}&chrome=wechat`);
+      await page.goto(`/#/pages/student-info/v1?student=s1&detailTab=points&theme=${theme}&chrome=wechat`);
       let main = await open(page);
       await expect(main.getByRole('button', { name: '确认减分', exact: true })).toBeEnabled();
       await expect(main.getByRole('button', { name: '减积分', exact: true })).toHaveCount(0);
@@ -56,7 +56,7 @@ for (const theme of ['light', 'dark']) {
   }
   test(`new subtract rules are isolated, selected and removable in ${theme}`, async ({ page }) => {
     await page.setViewportSize({ width: 360, height: 844 });
-    await page.goto(`/#/pages/student-info/v1?student=s1&theme=${theme}`);
+    await page.goto(`/#/pages/student-info/v1?student=s1&detailTab=points&theme=${theme}`);
     const main = await open(page);
     await main.getByRole('button', { name: '选择积分项', exact: true }).click();
     const selector = page.getByRole('dialog', { name: '选择减分项', exact: true });

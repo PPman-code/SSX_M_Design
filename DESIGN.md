@@ -27,6 +27,7 @@ PC 规范按 2026-10-12 快照继承，不自动跟随 PC 更新；没有在本�
 | 表单输入 / 日期区间选择 | 单日期日历另读 components.md 的 Calendar（候选，含跟进待定按钮）；components.md 的 DateRangeFields（候选共享字段，重置由场景决定）、Input（候选 API 与迁移记录）及 Input/选择型 Cell 混排审查（基础单行与折叠标题统一 56px）、accessibility.md；搜索使用 Search，不混用页面顶部层级高度 |
 | AI 实时沟通记录原型 | docs/requirements/ai-communication.md；新页面/表单/弹层分别按本表已有路由读取；样式以本项目规范为准，需求图与原详情 Figma 仅作功能与结构参考 |
 | 字体 | typography.md、foundations.md、相关组件与 token |
+| 文字标签 / Tag | components.md 的 Tag（18/20/24px三档）、component-registry.md、typography.md；区分静态Tag、未读Badge及分类Tabs；先核对全部调用点，不批量迁移旧标签 |
 | 修改 token | token-sync.md、tokens.json；改物理色或角色时再读对应 JSON |
 | 图标 | iconography.md（含单元格装饰图形 18px 规则）、Icon 公共 API |
 | 版本 | page-versioning.md、目标页版本目录 |

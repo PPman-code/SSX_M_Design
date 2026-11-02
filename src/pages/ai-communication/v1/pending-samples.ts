@@ -13,7 +13,7 @@ export function createPendingSamples(customerId: string, customerName: string, c
     { key: 'interrupted', title: '试听课安排确认', status: 'interrupted', duration: 74, fragments: 2 },
   ];
   // The first student remains the complete state review sample; other students have their own small histories.
-  const studentIndex = Number(customerId.replace('customer-', '')) || 1;
+  const studentIndex = Number(customerId.replace(/^(customer-|s)/, '')) || 1;
   const choices = studentIndex === 1 ? cases : studentIndex === 2 ? [cases[0], cases[1]] : [];
   const course = studentIndex % 2 ? '编程' : '美术';
   const titles: Record<string, string> = { ready: `${customerName}的${course}体验课回访`, transcribing: `${customerName}家长到校时间确认`, summarizing: `${customerName}的学习计划沟通`, 'summary-failed': `${customerName}家长课程反馈`, empty: `${customerName}家长未接通回访`, interrupted: `${customerName}试听安排沟通` };

@@ -1,3 +1,4 @@
+import { communicationPerson } from './communication-person';
 import { useCommunicationNavigation } from './useCommunicationNavigation';
 import { useRef, useState } from 'react';
 import { Button } from '../../../components/ui/Button';
@@ -8,7 +9,7 @@ import { CommunicationContentField } from './CommunicationContentField';
 import { CommunicationDatePicker } from './CommunicationDatePicker';
 import { MobilePage } from '../../../components/ui/MobilePage';
 import { SheetSelectionList } from '../../../components/ui/SheetContent';
-import { createCustomers, localDay } from '../../prospective-students/v1/model';
+import { localDay } from '../../prospective-students/v1/model';
 import { PageTitle } from './common';
 import { submitCommunication, updateCommunication, useCommunications } from './store';
 import './ai-communication.css';
@@ -20,7 +21,7 @@ export function CommunicationForm() {
   const editing = params.has('communication');
   const readOnly = !!existing && existing.creator !== actor;
   const record = records.find(item => item.id === (existing?.aiId ?? params.get('record')) && (item.creator === actor || !!existing) && item.status === 'ready');
-  const customer = createCustomers().find(item => item.id === (existing?.customerId ?? record?.customerId ?? params.get('customer')));
+  const customer = communicationPerson(existing?.customerId ?? record?.customerId ?? params.get('customer') ?? params.get('student'));
   const ai = !editing && params.has('record');
   const allowed = params.get('state') !== 'forbidden' && !!customer && (editing ? !!existing && existing.customerId === customer.id : !ai || !!record && !record.communicationId);
   const title = existing ? readOnly ? '查看沟通记录' : '修改沟通记录' : '添加沟通记录';
@@ -57,7 +58,7 @@ export function CommunicationForm() {
       if (!updateCommunication(existing.id, actor, { content, result, mode, nextMode, nextDate, promisedVisit, visitDate: promisedVisit ? visitDate : '' })) {
         busy.current = false; setSaving(false); setError('保存失败，请检查本地存储后重试'); return;
       }
-      go('customer-info', { communication: null, record: null }, { replace: true }); return;
+      go('customer-info', { customer: customer.id, communication: null, record: null }, { replace: true }); return;
     }
     const id = submitCommunication({ customerId: customer.id, creator: actor, content, result, mode, nextMode, nextDate, promisedVisit, visitDate: promisedVisit ? visitDate : '', source: record ? 'ai' : 'manual', aiId: record?.id });
     if (!id) { busy.current = false; setSaving(false); setError('提交失败，请检查本地存储后重试'); return; }

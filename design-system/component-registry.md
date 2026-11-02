@@ -13,6 +13,7 @@ Recommended 表示推荐复用的工程 API；移动端视觉基线仍需业务�
 | Radio / RadioGroup | 单项选择、圆点或对勾标记 | Recommended | src/components/ui/Radio.tsx |
 | Checkbox / CheckboxGroup | 多项选择、全选半选、列表与卡片 | Recommended | src/components/ui/Checkbox.tsx |
 | Toggle | 开关选择 | Recommended | src/components/ui/Toggle.tsx |
+| Tag | 静态文字标签：sm/md/lg三档、四种外观与胶囊 | Candidate | src/components/ui/Tag.tsx |
 | Badge | 红点、未读数量与角标 | Recommended | src/components/ui/Badge.tsx |
 | Cell / CellGroup | 基础列表行与分组；required/media/block 为候选扩展 | Recommended | src/components/ui/Cell.tsx |
 | Loading | 环形、三点、文字与重试状态 | Candidate | src/components/ui/Loading.tsx |

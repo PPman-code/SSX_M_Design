@@ -9,7 +9,7 @@ import { Loading } from '../../../components/ui/Loading';
 import { MobilePage } from '../../../components/ui/MobilePage';
 import { useToast } from '../../../components/ui/useToast';
 import { clockTime, statusLabels } from './model';
-import { createCustomers } from '../../prospective-students/v1/model';
+import { communicationPerson } from './communication-person';
 import { pauseRecord, processRecord, useCommunications } from './store';
 import { PageTitle } from './common';
 import './ai-communication.css';
@@ -19,7 +19,7 @@ export function RecordingPage() {
   const { showToast } = useToast();
   const { records, storageError } = useCommunications();
   const record = records.find(item => params.get('state') !== 'forbidden' && item.id === params.get('record') && item.creator === actor);
-  const customer = createCustomers().find(item => item.id === record?.customerId);
+  const customer = communicationPerson(record?.customerId);
   const [confirmEnd, setConfirmEnd] = useState(false);
   const [online, setOnline] = useState(navigator.onLine && params.get('network') !== 'offline');
   useEffect(() => {
@@ -40,7 +40,7 @@ export function RecordingPage() {
     <PageTitle title={processing ? "正在整理沟通" : "AI 实时记录"} />
     {!record ? <div className="ai-empty"><h2>记录不存在或暂无查看权限</h2></div> : <>
       {working ? <>
-        <div className="ai-record-identity"><span className="ai-avatar">{customer?.avatar ? <img src={customer.avatar} alt="" /> : record.customerName[0]}</span><div><h2>关联学员：{record.customerName}</h2><p>记录人：{record.creator}</p></div><Button variant="text" className="ai-record-minimize" onClick={backToCustomer}>收起<Icon name="down" size="sm" /></Button></div>
+        <div className="ai-record-identity"><span className="ai-avatar">{customer?.avatar ? <img src={customer.avatar} alt="" /> : record.customerName[0]}</span><div><h2>关联学员：{record.customerName}</h2><p>记录人：{record.creator}</p></div><Button variant="text" className="ai-record-minimize" onClick={() => backToCustomer(record.customerId)}>收起<Icon name="down" size="sm" /></Button></div>
         {!online && <p role="alert" className="ai-warning">网络已断开，继续录音，实时转写暂停。恢复网络后请手动结束。</p>}
         <section className="ai-live-content"><h2>实时转写<span>Ai 识别可能存在偏差</span></h2>{!record.segments.length && <p className="ai-muted">正在聆听，沟通内容将在这里呈现…</p>}{record.segments.map((segment, index) => <div className="ai-live-segment" key={index}><p><b>{record.speakers[segment.speaker]}</b><span>{clockTime(segment.at)}</span></p><div>{segment.text}</div></div>)}</section>
       </> : <div className="ai-processing"><div className="ai-processing-art"><Icon name="mic-ai-fill" size="lg" /></div><h2>{record.status === 'failed' ? '处理失败，请重试' : record.status === 'interrupted' ? '录音已中断' : '正在整理这次沟通'}</h2><p>{clockTime(record.duration)}</p>{processing && <div className="ai-process-steps"><p><span className="ai-step-icon"><Icon name="check" size="md" /></span>已关联学员：{record.customerName}</p><p data-current={record.status === 'transcribing'}><span className="ai-step-icon">{record.status === 'transcribing' ? <Loading tone="inherit" /> : <Icon name="check" size="md" />}</span>{record.status === 'transcribing' ? '正在完成转写' : '录音与转写已保留'}</p><p data-current={record.status === 'summarizing'}><span className="ai-step-icon">{record.status === 'summarizing' ? <Loading tone="inherit" /> : <span className="ai-step-dot" />}</span>{record.status === 'summarizing' ? '正在生成沟通总结…' : '等待生成沟通总结'}</p></div>}

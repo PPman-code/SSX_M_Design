@@ -33,3 +33,16 @@
 - JingBeiNumber-Bold.ttf 随项目存放 public/fonts/numeric/，fonts.css 用独立 family SSX JingBei Number 从同源URL加载，不使用 local()。源为用户电脑 /Users/zee/Library/Fonts/JingBeiNumber-Bold.ttf，原文件保留。
 - 仅替换既有 --typography-font-family-numeric 的专用展示场景，不扩大使用范围；正文/日期/时间/课时/座位号等继续原系统字体。字体文件是Bold单字重，不伪称具有Regular/Medium字重。字符范围只覆盖数字及相关标点货币符号。
 - 现有消费点包括课程主价格与弹窗价格、首页待办指标、出勤统计及组件示例中的专用数字。普通价格明细、原价、徽标不新增专用字体。
+
+## 2026-11-02 学员模块字体变量迁移（D/V）
+
+- 范围：students/v1/students.css、student-info/v1/student-info.css、student-info/v1/points-adjustment.css、ai-communication/v1/ai-communication.css；共用沟通样式的意向客户、沟通表单、AI录音/详情/待处理调用同步生效。
+- 将95处有既有对应项的字号、23处400/500字重替换为--typography-*变量；逐项核对变量解析值与迁移前相同，其他CSS声明逐字保持。不调整颜色、混色比例、间距、尺寸、交互或业务。
+- 16px→body、14px→secondary、12px→caption、11px→badge、15px→regular、18px→title、20px→title-lg、32px→display；Regular/Medium对应regular/medium字重变量。本次是既有数值到已有变量的迁移，不重新定义场景字号，不将所有语义相似文本统一成一个新字号。
+- 4处10px字体仍为明确保留项：学员列表状态标签、AI按钮辅助说明、AI播放器说明、沟通附件缩略名称（AI辅助说明可能有后续覆盖，保留现有层叠）。当前没有10px全局变量，不擅自改11px或新增全局规格。
+- 原有行高均保留，包括沟通正文25px、辅助信息18/20/22px等；用户确认的24px收起区域、48px详情按钮及页面几何不变。
+- 本轮仅完成上述文件的字号/字重变量迁移；其他模块、行高/间距变量化与先前审查的7项整改不在本轮，不声明已完成迁移。
+
+### 跨平台字重说明的适用范围核对
+
+2026-11-02 用户提醒后复核：WOne_PC_Design/design-system/foundations.md的2026-09-24字重规则写的是Mac/Windows：400常规、600必须加粗、500极少用、混排英文强调700。本项目foundations.md明确移动端优先采用本字体表的Regular400/Medium500，旧PC规则不再优先。tokens.json中的medium/semibold描述仍带PC平台说明，属于继承描述与移动规范的口径差异；本次不据此将移动500改600，也未新增iOS/Android检测或字重映射。不同手机字体的真实呈现仍需设备验收。

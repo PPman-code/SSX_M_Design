@@ -1,0 +1,5 @@
+.student-status-colors[data-status] { background: var(--color-background-success-subtle); color: var(--color-text-success); }
+.student-status-colors[data-status='退学'] { background: var(--color-background-danger-subtle); color: var(--color-text-danger); }
+.student-status-colors[data-status='停课'] { background: var(--color-background-warning-subtle); color: var(--color-text-warning); }
+.student-status-colors[data-status='试听'] { background: var(--color-tag-category-violet-background); color: var(--color-tag-category-violet-text); }
+.student-status-colors[data-status='休学'] { background: var(--color-background-brand-subtle); color: var(--color-text-brand-accessible); }

@@ -5,8 +5,8 @@
 图标以用户在 Iconfont 的 ssx-design 项目上传并审核通过的最新内容为准。每次更新按该项目下载包同步；历史归档仅供追溯，不参与运行时，也不覆盖最新版本。
 
 - 图标库：ssx-design；Iconfont 项目 ID：5242145。
-- 最新包：用户提供 download.zip；更新日期：2026-10-28；共 208 个图标（新增删除、AI录音转写文件图标，无删除或改名）。
-- 当前原始归档：design-assets/iconfont/ssx-design-5242145-2026-10-28-208.zip；旧归档保留供追溯。
+- 最新包：用户提供 download.zip；更新日期：2026-11-02；共 210 个图标（本次新增 file-copy-line，无删除、改名或既有图形变化）。
+- 当前原始归档：design-assets/iconfont/ssx-design-5242145-2026-11-02-210.zip；旧归档保留供追溯。
 - 运行时：public/iconfont/ssx-design.symbol.svg 与 iconfont.json。
 - 页面入口：src/components/ui/Icon/index.ts。
 
@@ -61,3 +61,5 @@ Icon loading 覆盖为用户提供的 loading-blue.svg / loading-white.svg 渐�
 2026-10-28 文件缩略图更新：206枚包新增wenjian1/shipin1/tupian1/excel/pdf/ppt/txt/word/yuyin/sparkling-2-fill；原196枚名称全部保留。沟通表单按类型使用对应彩色文件图标，未知格式统一wenjian1，图片仍直接预览，不扩大其他业务替换范围。
 
 2026-10-28 V：208枚包新增a-delete-oneshanchu1、a-ailuyinzhuanxiesvg，无删除或改名。AI待处理及详情删除菜单采用垃圾桶；共用沟通表单AI原始记录卡采用专用文件图标。
+
+2026-11-02 V/D：正式学员功能区展开/收起使用新增shangxiala，保留原3072×1024比例，局部宽24px/高8px，翻转表示方向；颜色复用BottomSheet横杠的--color-border-strong，展开/收起区域按用户追加要求为24px高（本场景例外），不向相邻功能或Tab扩展热区。未修改共享Icon默认尺寸、其他调用图形或BottomSheet样式。

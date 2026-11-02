@@ -1,3 +1,4 @@
+import { CustomerInfoPage } from '../../ai-communication/v1/CustomerInfoPage';
 import { useRef, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Button } from '../../../components/ui/Button';
@@ -33,18 +34,14 @@ export function StudentInfoPage() {
     const next = new URLSearchParams(params); next.delete('student');
     navigate(`/pages/students/v1?${next}`);
   }
-  return <MobilePage title={student?.name || '学员信息'} previewChrome={params.get('chrome') === 'wechat'} className="student-info-page"
-    footer={<footer className="student-info-footer" aria-label="学员积分操作">
+  if (!student) return <MobilePage title="学员信息" previewChrome={params.get('chrome') === 'wechat'} className="student-info-page"><div className="student-info-unavailable" role="status"><p>{params.has('student') ? '未找到学员' : '请先从学员管理选择学员'}</p><Button variant="soft" onClick={returnToStudents}>返回学员管理</Button></div></MobilePage>;
+  return <CustomerInfoPage key={student.id} formal={{ student,
+    pointsFooter: <footer className="student-info-footer" aria-label="学员积分操作">
       <PopoverMenu label="积分操作" placement="top" actions={actions}
         trigger={<Button ref={pointsTrigger} shape="round" disabled={!student}>加减积分</Button>} />
-    </footer>}>
-    <h1 className="sr-only">{student ? `${student.name}的学员信息` : '学员信息'}</h1>
-    {!student && <div className="student-info-unavailable" role="status">
-      <p>{params.has('student') ? '未找到学员' : '请先从学员管理选择学员'}</p>
-      <Button variant="soft" onClick={returnToStudents}>返回学员管理</Button>
-    </div>}
-    {student && <PointsAdjustment key={`${student.id}-${session}`} operation={operation} open={adjustmentOpen} onOpenChange={setAdjustmentOpen} student={student} balance={balance} rules={rules[operation]} finalFocus={pointsTrigger}
+    </footer>,
+    adjustment: <PointsAdjustment key={`${student.id}-${session}`} operation={operation} open={adjustmentOpen} onOpenChange={setAdjustmentOpen} student={student} balance={balance} rules={rules[operation]} finalFocus={pointsTrigger}
       onCreateRule={rule => setRules(current => ({ ...current, [operation]: [...current[operation], rule] }))}
-      onConfirm={cents => { setBalances(current => ({ ...current, [student.id]: balance + cents })); showToast({ message: `${operation === 'add' ? '加分成功' : '减分成功'}\n本次 ${cents < 0 ? '−' : '+'}${formatPoints(Math.abs(cents))} 分`, type: 'success' }); }} />}
-  </MobilePage>;
+      onConfirm={cents => { setBalances(current => ({ ...current, [student.id]: balance + cents })); showToast({ message: `${operation === 'add' ? '加分成功' : '减分成功'}\n本次 ${cents < 0 ? '−' : '+'}${formatPoints(Math.abs(cents))} 分`, type: 'success' }); }} />,
+  }} />;
 }

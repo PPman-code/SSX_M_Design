@@ -1,3 +1,4 @@
+import { TagExamples } from '../components/TagExamples';
 import { TabsExamples } from '../components/TabsExamples';
 import { useRef, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
@@ -57,6 +58,8 @@ export function MobilePreview() {
         </div>
 
         <TabsExamples />
+
+        <TagExamples />
 
         <ButtonExamples />
 

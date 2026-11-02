@@ -4,23 +4,19 @@
 .student-tabs { --tabs-text: var(--color-text); --tabs-item-padding: 0 4px; --tabs-indicator-radius: 0px; position: sticky; top: 0; z-index: 1; background: var(--color-background-surface); border-bottom: 1px solid var(--color-border-lighter); }
 .student-tabs button > span { font-size: var(--typography-font-size-caption); }
 .student-count { height: 40px; padding: 10px 12px; margin: 0; color: var(--color-text-subtlest); font-size: var(--typography-font-size-caption); line-height: 20px; }
-.student-count b { font-weight: 400; color: var(--color-text-subtle); }
+.student-count b { font-weight: var(--typography-font-weight-regular); color: var(--color-text-subtle); }
 .student-list { display: grid; gap: 12px; padding: 0 12px; }
 .student-card { isolation: isolate; padding: 12px 12px 0; border-radius: 8px; background: var(--color-background-surface); }
 .student-card-heading { display: grid; grid-template-columns: 42px minmax(0, 1fr) auto; column-gap: 10px; min-height: 55px; border-bottom: .5px solid var(--color-border-lighter); }
-.student-avatar { width: 42px; height: 42px; display: grid; place-items: center; border-radius: 6px; background: var(--color-background-success-bold); color: var(--color-mobile-action-foreground); font-size: var(--typography-font-size-regular); font-weight: 500; }
+.student-avatar { width: 42px; height: 42px; display: grid; place-items: center; border-radius: 6px; background: var(--color-background-success-bold); color: var(--color-mobile-action-foreground); font-size: var(--typography-font-size-regular); font-weight: var(--typography-font-weight-medium); }
 .student-status-退学 .student-avatar { background: var(--color-tag-category-cyan-text); }
 .student-status-停课 .student-avatar { background: var(--color-background-warning-bold); }
 .student-status-试听 .student-avatar { background: var(--color-tag-category-violet-text); }
 .student-status-休学 .student-avatar { background: var(--color-background-danger-bold); }
 .student-person { min-width: 0; }
 .student-name { display: flex; gap: 4px; align-items: center; min-height: 22px; }
-.student-name strong { font-size: var(--typography-font-size-body); line-height: 22px; font-weight: 500; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
-.student-status { padding: 1px 4px; border-radius: 3px; line-height: 16px; font-size: 10px; background: var(--color-background-success-subtle); color: var(--color-text-success); flex-shrink: 0; }
-.student-status-退学 .student-status { background: var(--color-background-danger-subtle); color: var(--color-text-danger); }
-.student-status-停课 .student-status { background: var(--color-background-warning-subtle); color: var(--color-text-warning); }
-.student-status-试听 .student-status { background: var(--color-tag-category-violet-background); color: var(--color-tag-category-violet-text); }
-.student-status-休学 .student-status { background: var(--color-background-brand-subtle); color: var(--color-text-brand-accessible); }
+.student-name strong { font-size: var(--typography-font-size-body); line-height: 22px; font-weight: var(--typography-font-weight-medium); overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.student-status { padding: 1px 4px; border-radius: 3px; line-height: 16px; font-size: 10px; flex-shrink: 0; }
 .student-phone-row { display: flex; align-items: center; gap: 4px; min-height: 20px; margin-top: 4px; color: var(--color-text-subtlest); font-size: var(--typography-font-size-caption); line-height: 20px; white-space: nowrap; }
 .student-phone { display: inline-flex; flex-shrink: 0; align-items: center; justify-content: center; width: 20px; height: 20px; padding: 0; border: 0; background: transparent; }
 .student-phone:active { opacity: 0.6; }
@@ -31,18 +27,18 @@
 .student-detail-action:active { opacity: 0.6; }
 .student-metrics { display: grid; grid-template-columns: minmax(0, 93fr) minmax(0, 84fr) minmax(0, 84fr) minmax(0, 68fr); gap: 0; margin: 0; padding: 12px 0 14px; }
 .student-metrics > div { min-width: 0; }
-.student-metrics dt { font-size: var(--typography-font-size-caption); font-weight: 400; line-height: 16px; color: var(--color-text-subtlest); margin: 0 0 2px; }
-.student-metrics dd { margin: 0; font-size: var(--typography-font-size-caption); line-height: 16px; font-weight: 400; white-space: nowrap; }
+.student-metrics dt { font-size: var(--typography-font-size-caption); font-weight: var(--typography-font-weight-regular); line-height: 16px; color: var(--color-text-subtlest); margin: 0 0 2px; }
+.student-metrics dd { margin: 0; font-size: var(--typography-font-size-caption); line-height: 16px; font-weight: var(--typography-font-weight-regular); white-space: nowrap; }
 .student-negative { color: var(--color-text-danger); }
 .student-list-end { padding-bottom: max(32px, env(safe-area-inset-bottom)); }
 .student-empty { display: grid; justify-items: center; gap: 12px; padding: 56px 16px; color: var(--color-text-subtlest); text-align: center; }
-.student-empty h2 { font-size: var(--typography-font-size-body); font-weight: 400; }
+.student-empty h2 { font-size: var(--typography-font-size-body); font-weight: var(--typography-font-weight-regular); }
 /* Sort rows geometry lives in styles/product.css (shared with the prospective-students page). */
 .student-filter-content { padding: 16px; }
 .student-filter-content .sheet-choice-section + .sheet-choice-section { margin-top: 24px; }
 [data-color-mode='dark'] .student-page img, [data-color-mode='dark'] .student-sort-options img { filter: invert(.8); }
 
-.student-filter-content .sheet-choice-section h3 { font-size: 14px; font-weight: 400; }
+.student-filter-content .sheet-choice-section h3 { font-size: var(--typography-font-size-secondary); font-weight: var(--typography-font-weight-regular); }
 
 /* The arrow expands to the card heading; sibling actions stay above its hit area. */
 .student-card-heading { position: relative; }
