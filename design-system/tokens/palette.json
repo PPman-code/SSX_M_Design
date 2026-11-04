@@ -1,6 +1,6 @@
 {
   "$schema": "wone.palette.v1",
-  "$description": "WOne PC 正式物理色阶；来源值见 tokens/sources。",
+  "$description": "WOne PC 物理色阶与用户确认的移动端扩展色；来源见 tokens/sources 和变更记录。",
   "families": {
     "neutral": {
       "$label": "中性色",
@@ -317,6 +317,54 @@
       "$label": "金黄色（首页占位色）",
       "values": {
         "600": "#FFC600"
+      }
+    },
+    "apricot": {
+      "$label": "杏橙色",
+      "values": {
+        "500": "#FFA54D"
+      }
+    },
+    "lime": {
+      "$label": "青柠色",
+      "values": {
+        "500": "#8ED915"
+      }
+    },
+    "saffron": {
+      "$label": "番红花黄色",
+      "values": {
+        "500": "#F3C11B"
+      }
+    },
+    "rose": {
+      "$label": "玫粉色",
+      "values": {
+        "500": "#FF78AA"
+      }
+    },
+    "slateSky": {
+      "$label": "胜蓝雾蓝色",
+      "values": {
+        "500": "#76A3D1"
+      }
+    },
+    "mistViolet": {
+      "$label": "香芋雾紫色",
+      "values": {
+        "500": "#8C88CE"
+      }
+    },
+    "slateNavy": {
+      "$label": "苍蓝灰蓝色",
+      "values": {
+        "500": "#9099BD"
+      }
+    },
+    "seaGreen": {
+      "$label": "薄荷雾海青",
+      "values": {
+        "500": "#84C6B8"
       }
     }
   }

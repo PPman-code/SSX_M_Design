@@ -17,9 +17,6 @@
 .prospect-card-select::after { content: none; }
 .prospect-card-heading { display: flex; align-items: flex-start; gap: 10px; min-height: 55px; padding-bottom: 9px; }
 .prospect-avatar { width: 42px; height: 42px; flex-shrink: 0; display: grid; place-items: center; border-radius: 6px; background: var(--color-background-brand-bold); color: var(--color-mobile-action-foreground); font-size: var(--typography-font-size-regular); font-weight: 500; }
-.prospect-avatar-1 .prospect-avatar { background: var(--color-background-warning-bold); }
-.prospect-avatar-2 .prospect-avatar { background: var(--color-background-success-bold); }
-.prospect-avatar-3 .prospect-avatar { background: var(--color-background-information-bold); }
 .prospect-avatar img { width: 42px; height: 42px; border-radius: inherit; object-fit: cover; }
 .prospect-person { min-width: 0; flex: 1; }
 .prospect-person-title { display: flex; gap: 4px; align-items: center; min-width: 0; min-height: 22px; line-height: 22px; }

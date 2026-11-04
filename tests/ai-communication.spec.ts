@@ -386,7 +386,9 @@ for (const theme of ['light', 'dark']) {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto(base + `&theme=${theme}&chrome=wechat&scenario=single`);
     await expect(page.locator('.ai-customer-tabs')).toHaveCSS('background-color', 'rgba(0, 0, 0, 0)');
-    await expect(page.locator('.product-scroll')).toHaveCSS('background-attachment', 'local');
+    // 26ac0ae 移除了 .product-scroll 的本地渐变试验（原断言 background-attachment: local 已失效），
+    // 断言语义改为「没有背景面板」。
+    await expect(page.locator('.product-scroll')).toHaveCSS('background-image', 'none');
     await verifyAITextContrast(page);
     const footer = page.locator('.ai-entry-footer');
     for (const name of ['沟通记录', '试听记录', '优惠券', '意向课程']) {

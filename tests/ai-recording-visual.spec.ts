@@ -6,7 +6,7 @@ for (const width of [360, 375, 390, 430]) {
     const theme = width === 430 ? 'dark' : 'light';
     await page.goto(`/#/pages/customer-info/v1?customer=customer-1&chrome=wechat&theme=${theme}`);
     await page.getByRole('button', { name: 'AI 实时记录', exact: true }).click();
-    const startSheet = page.getByRole('dialog', { name: '开启 AI 沟通记录', exact: true });
+    const startSheet = page.getByRole('dialog', { name: 'AI 实时记录', exact: true });
     await expect(startSheet.getByRole('heading', { name: '适用场景' })).toBeVisible();
     await expect(startSheet.getByText('廖小龙', { exact: true })).toBeVisible();
     await expect(startSheet.getByRole('button', { name: '开始记录', exact: true })).toBeVisible();

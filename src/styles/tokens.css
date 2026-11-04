@@ -1,6 +1,16 @@
 :root {
   --color-attendance-hero-surface: var(--role-brand-600);
   --color-attendance-hero-text: var(--role-neutral-100);
+  --color-avatar-student-foreground: var(--role-neutral-100);
+  --color-avatar-student-gold: var(--role-avatar-student-gold-500);
+  --color-avatar-student-lime: var(--role-avatar-student-lime-500);
+  --color-avatar-student-orange: var(--role-avatar-student-orange-500);
+  --color-avatar-student-pink: var(--role-avatar-student-pink-500);
+  --color-avatar-teacher-blue: var(--role-avatar-teacher-blue-500);
+  --color-avatar-teacher-foreground: var(--role-neutral-100);
+  --color-avatar-teacher-green: var(--role-avatar-teacher-green-500);
+  --color-avatar-teacher-sky: var(--role-avatar-teacher-sky-500);
+  --color-avatar-teacher-violet: var(--role-avatar-teacher-violet-500);
   --color-background-brand-bold: var(--role-brand-600);
   --color-background-brand-bold-hovered: var(--role-brand-400);
   --color-background-brand-bold-pressed: var(--role-brand-700);
@@ -233,6 +243,16 @@
 :root[data-color-mode="dark"] {
   --color-attendance-hero-surface: var(--role-brand-500);
   --color-attendance-hero-text: var(--role-neutral-100);
+  --color-avatar-student-foreground: var(--role-neutral-100);
+  --color-avatar-student-gold: var(--role-avatar-student-gold-500);
+  --color-avatar-student-lime: var(--role-avatar-student-lime-500);
+  --color-avatar-student-orange: var(--role-avatar-student-orange-500);
+  --color-avatar-student-pink: var(--role-avatar-student-pink-500);
+  --color-avatar-teacher-blue: var(--role-avatar-teacher-blue-500);
+  --color-avatar-teacher-foreground: var(--role-neutral-100);
+  --color-avatar-teacher-green: var(--role-avatar-teacher-green-500);
+  --color-avatar-teacher-sky: var(--role-avatar-teacher-sky-500);
+  --color-avatar-teacher-violet: var(--role-avatar-teacher-violet-500);
   --color-background-brand-bold: var(--role-brand-200);
   --color-background-brand-bold-hovered: var(--role-brand-100);
   --color-background-brand-bold-pressed: var(--role-brand-300);

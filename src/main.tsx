@@ -13,4 +13,5 @@ import './styles/components.css';
 import './styles/workspace.css';
 import './styles/mobile.css';
 import './styles/product.css';
+import './styles/avatar-colors.css';
 createRoot(document.getElementById('root')!).render(<StrictMode><HashRouter><PreviewHistoryProvider><ToastProvider><App /></ToastProvider></PreviewHistoryProvider></HashRouter></StrictMode>);

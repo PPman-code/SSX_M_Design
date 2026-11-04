@@ -16,3 +16,5 @@ PC 色板、roles 完整复制；通用颜色、字体、间距、圆角、动�
 移动端可读性调整：主按钮背景直接复用 color.background.brand.bold 及其 pressed 状态；继承的 hovered token 仅保留在来源数据中，移动端组件不消费，不维护独立移动端按钮蓝；Dark 主操作保留深色文字；状态文字选用既有较深色阶，警告用深色文字和橙色标记。2026-10-20 根据移动端设计稿纠偏：最低强调辅助文字（`color.text.subtlest`）恢复至 `neutral.700`，占位文字（`color.text.placeholder`）恢复至 `neutral.650`，恢复移动端指标与弱文字的真实层次。物理色板保持来源快照不变。
 
 2026-10-21 用户更新 layout.touchTarget=40px，替代原 44px 最低值；只改源 tokens.json 并重新生成 CSS 和 token catalog。显式组件布局高度独立维护，不能全局替换所有 44px。
+
+2026-11-03 用户确认扩展八个固定头像物理色；以独立物理色名family加入色板，Role区分学员/老师用途，color.avatar.*消费角色，Light/Dark保持原值。老师浅底首字增加固定深色语义角色；现有通用品牌/警告/紫色/中性色均未改值。

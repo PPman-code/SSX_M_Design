@@ -58,7 +58,11 @@ test('attendance report expands a group and drills into lesson details', async (
   await expect(page.getByText('补课后出勤率', { exact: true }).first()).toBeVisible();
   await page.getByRole('button', { name: '查看课次明细' }).click();
   await expect(page).toHaveTitle('上课明细');
-  await expect(page.locator('.att-lesson')).toHaveCount(6);
+  // 课次按「今天」相对生成，月初时组内落在默认日期范围内的课次会少于首页 6 条。
+  const summary = (await page.locator('.att-detail-summary').textContent())!;
+  const total = Number(summary.match(/共(\d+)条/)?.[1] ?? 0);
+  expect(total).toBeGreaterThan(0);
+  await expect(page.locator('.att-lesson')).toHaveCount(Math.min(total, 6));
   await expect(page.locator('.att-lesson').first()).toContainText(name);
   await page.screenshot({ path: 'test-results/attendance-detail.png', fullPage: true });
   await page.goBack();

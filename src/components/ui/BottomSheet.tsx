@@ -10,6 +10,8 @@ interface Props {
   open: boolean;
   onOpenChange: (value: boolean) => void;
   title: string;
+  /** Node rendered after the title text, e.g. a promotional badge. Kept out of the accessible name by callers when decorative. */
+  titleAddon?: ReactNode;
   description?: ReactNode;
   children: ReactNode;
   footer?: ReactNode;
@@ -17,7 +19,7 @@ interface Props {
   className?: string;
   finalFocus?: RefObject<HTMLElement | null>;
 }
-export function BottomSheet({ open, onOpenChange, title, description, children, footer, header, className = '', finalFocus, mode = 'selection', onCloseRequest, onBack }: Props) {
+export function BottomSheet({ open, onOpenChange, title, titleAddon, description, children, footer, header, className = '', finalFocus, mode = 'selection', onCloseRequest, onBack }: Props) {
   return (
     <Drawer.Root open={open} onOpenChange={(next, details) => {
       if (!next && mode === 'editor' && details.reason === 'swipe') { details.cancel(); return; }
@@ -36,7 +38,7 @@ export function BottomSheet({ open, onOpenChange, title, description, children, 
                 {mode === 'selection' && <div className="sheet-handle" aria-hidden="true" />}
                 <div className={`sheet-heading ${onBack ? 'sheet-heading--back' : ''}`}>
                   {onBack && <Button className="sheet-nav-back" variant="text" icon="left" onClick={onBack}>返回</Button>}
-                  <Drawer.Title>{title}</Drawer.Title>
+                  <Drawer.Title>{title}{titleAddon && <span className="sheet-title-addon">{titleAddon}</span>}</Drawer.Title>
                   {onBack ? <span aria-hidden="true" /> : <Drawer.Close className="icon-button" aria-label="关闭弹层"><Icon name="close" size="md" className="sheet-close-icon" /></Drawer.Close>}
                 </div>
               </>}

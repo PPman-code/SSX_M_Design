@@ -1,3 +1,4 @@
+import { avatarAttributes } from '../../../lib/avatar-colors';
 import { useEffect, useId, useRef, useState } from 'react';
 import { Button } from '../../../components/ui/Button';
 import { Icon } from '../../../components/ui/Icon';
@@ -18,7 +19,7 @@ export function CommunicationCard({ item, onEdit, onViewAI }: { item: Communicat
     return () => observer.disconnect();
   }, [item.content]);
   return <article className="ai-communication-card">
-    <div className="ai-card-author"><span className="ai-author-avatar">{item.creator[0]}</span><div className="ai-card-person"><b>{item.creator}</b><p>{[dateTime(item.createdAt), item.mode, item.result].filter(Boolean).join(' · ')}</p></div>{onEdit && <Button className="ai-communication-edit" variant="text" onClick={onEdit}>修改<Icon name="right" size="sm" /></Button>}</div>
+    <div className="ai-card-author"><span className="ai-author-avatar" {...avatarAttributes('teacher', item.creator)}>{item.creator[0]}</span><div className="ai-card-person"><b>{item.creator}</b><p>{[dateTime(item.createdAt), item.mode, item.result].filter(Boolean).join(' · ')}</p></div>{onEdit && <Button className="ai-communication-edit" variant="text" onClick={onEdit}>修改<Icon name="right" size="sm" /></Button>}</div>
     <p id={contentId} ref={content} className={`ai-content-text ai-card-description ${expanded ? 'is-expanded' : ''}`}>{item.content}</p>
     {(!!item.attachments?.length || onViewAI) && <div className="ai-card-attachments" aria-label="沟通附件">
       {onViewAI && <Button className="ai-card-attachment ai-card-original" variant="text" onClick={onViewAI} aria-label="查看 AI 原始录音与转写"><Icon name="a-ailuyinzhuanxiesvg" size="lg" /><span title="AI 原始录音与转写">AI 录音转写</span></Button>}

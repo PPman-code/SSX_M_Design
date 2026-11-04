@@ -48,7 +48,8 @@ for (const theme of ['light', 'dark']) {
         await expect(dialog.getByRole('checkbox', { name: '包含责任人下属的客户', exact: true })).toHaveCount(0);
         await expect(dialog.getByRole('button', { name: '所有人', exact: true })).toHaveAttribute('aria-pressed', 'true');
       }
-      const first = route === 'prospective-students' ? dialog.getByRole('button', { name: '1心', exact: true }) : chips.first();
+      // 学员页首个 chip 属于单选「查看学员范围」，点已选中项不会翻转；改用多选「学员状态」里的项验证切换。
+      const first = route === 'prospective-students' ? dialog.getByRole('button', { name: '1心', exact: true }) : dialog.getByRole('button', { name: '在读', exact: true });
       const before = await first.getAttribute('aria-pressed');
       await first.click();
       await expect(first).toHaveAttribute('aria-pressed', before === 'true' ? 'false' : 'true');

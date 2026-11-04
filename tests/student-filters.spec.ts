@@ -29,7 +29,8 @@ for (const theme of ['light', 'dark']) {
     for (const title of await filter.locator('.sheet-choice-section h3, .student-filter-number legend, .base-cell-label').all()) await expect(title).toHaveCSS('font-size', '16px');
     for (const option of await filter.locator('.sheet-choice-option, .base-cell-value').all()) await expect(option).toHaveCSS('font-size', '14px');
     const statuses = filter.getByRole('group', { name: '学员状态', exact: true });
-    await expect(statuses.getByRole('button')).toHaveCount(6);
+    await expect(statuses.getByRole('button')).toHaveText(['不限', '在读', '试听', '休学', '退学']);
+    await expect(filter.getByRole('button', { name: '停课', exact: true })).toHaveCount(0);
     await statuses.getByRole('button', { name: '在读', exact: true }).click();
     await statuses.getByRole('button', { name: '试听', exact: true }).click();
     await expect(statuses.getByRole('button', { name: '在读', exact: true })).toHaveAttribute('aria-pressed', 'true');
@@ -135,9 +136,11 @@ for (const width of [360, 375, 390, 430]) {
     await filter.getByRole('button', { name: '出生日期 不限', exact: true }).click();
     const birthDate = page.getByRole('dialog', { name: '出生日期', exact: true });
     await expect(birthDate).toHaveCSS('min-height', '320px');
-    const fieldsBox = (await birthDate.locator('.date-range-fields').boundingBox())!;
-    const footerBox = (await birthDate.locator('.sheet-footer').boundingBox())!;
-    expect(footerBox.y - fieldsBox.y - fieldsBox.height).toBeGreaterThanOrEqual(60);
+    await expect.poll(async () => {
+      const fieldsBox = (await birthDate.locator('.date-range-fields').boundingBox())!;
+      const footerBox = (await birthDate.locator('.sheet-footer').boundingBox())!;
+      return footerBox.y - fieldsBox.y - fieldsBox.height;
+    }).toBeGreaterThanOrEqual(60);
     await birthDate.screenshot({ path: `/tmp/ssx-date-sheet-min-${width}.png` });
   });
 }

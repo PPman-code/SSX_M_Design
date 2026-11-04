@@ -86,6 +86,51 @@
       "$label": "首页黄色图标占位",
       "$light": "gold",
       "$dark": "gold"
+    },
+    "avatarNeutral": {
+      "$label": "浅色头像上的固定深色文字",
+      "$light": "neutral",
+      "$dark": "neutral"
+    },
+    "avatarStudentOrange": {
+      "$label": "student 无照片头像杏橙色",
+      "$light": "apricot",
+      "$dark": "apricot"
+    },
+    "avatarStudentLime": {
+      "$label": "student 无照片头像青柠色",
+      "$light": "lime",
+      "$dark": "lime"
+    },
+    "avatarStudentGold": {
+      "$label": "student 无照片头像番红花黄色",
+      "$light": "saffron",
+      "$dark": "saffron"
+    },
+    "avatarStudentPink": {
+      "$label": "student 无照片头像玫粉色",
+      "$light": "rose",
+      "$dark": "rose"
+    },
+    "avatarTeacherSky": {
+      "$label": "teacher 无照片头像胜蓝色",
+      "$light": "slateSky",
+      "$dark": "slateSky"
+    },
+    "avatarTeacherViolet": {
+      "$label": "teacher 无照片头像香芋雾紫色",
+      "$light": "mistViolet",
+      "$dark": "mistViolet"
+    },
+    "avatarTeacherBlue": {
+      "$label": "teacher 无照片头像苍蓝灰蓝色",
+      "$light": "slateNavy",
+      "$dark": "slateNavy"
+    },
+    "avatarTeacherGreen": {
+      "$label": "teacher 无照片头像薄荷雾海青",
+      "$light": "seaGreen",
+      "$dark": "seaGreen"
     }
   }
 }

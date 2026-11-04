@@ -7,7 +7,7 @@ import { Search } from '../../../components/ui/Search';
 import { Input } from '../../../components/ui/Input';
 import { DateRangeFields } from '../../../components/ui/DateRangeFields';
 import { dateRangeLabel, periodForRange, type DateRange, type DateRangePeriod } from '../../../lib/date-range';
-import { defaultFilters, type StudentFilters as FilterValue } from './model';
+import { defaultFilters, studentStatuses, type StudentFilters as FilterValue } from './model';
 import { studentFilterOptions } from './student-filter-data';
 import './student-filters.css';
 
@@ -83,7 +83,7 @@ export function StudentFilters({ value, onApply, open, onOpenChange, finalFocus 
     </section>
     <section className="student-filter-group"><h3>学员信息</h3>
       <SheetChoiceGroup label="学员性别" options={[{ value: '', label: '不限' }, { value: 'male', label: '男' }, { value: 'female', label: '女' }]} value={[draft.gender]} onToggle={gender => setDraft(previous => ({ ...previous, gender: gender as FilterValue['gender'] }))} />
-      <SheetChoiceGroup label="学员状态" options={['不限', '在读', '退学', '停课', '试听', '休学'].map(value => ({ value, label: value }))} value={draft.statuses.length ? draft.statuses : ['不限']} onToggle={value => setDraft(previous => ({ ...previous, statuses: value === '不限' ? [] : previous.statuses.includes(value) ? previous.statuses.filter(item => item !== value) : [...previous.statuses, value] }))} />
+      <SheetChoiceGroup label="学员状态" options={['不限', ...studentStatuses].map(value => ({ value, label: value }))} value={draft.statuses.length ? draft.statuses : ['不限']} onToggle={value => setDraft(previous => ({ ...previous, statuses: value === '不限' ? [] : previous.statuses.includes(value) ? previous.statuses.filter(item => item !== value) : [...previous.statuses, value] }))} />
     </section>
     <section className="student-filter-group"><h3>数量与学费</h3>{numbers.map(([key, label]) => <fieldset className="student-filter-number" key={key}><legend>{label}</legend><div className="student-filter-number-fields">{(['最低值', '最高值'] as const).map((part, index) => <Input key={part} id={`student-filter-${key}-${index ? 'max' : 'min'}`} label={`${label}${part}`} hideLabel layout="external" inputMode="decimal" placeholder={part} value={draft[key][index]} status={invalidNumber === key ? 'error' : 'default'} onValueChange={value => { setDraft(previous => { const range: [string, string] = [...previous[key]]; range[index] = value; return { ...previous, [key]: range }; }); setError(''); setInvalidNumber(''); }} />)}<span aria-hidden="true">—</span></div></fieldset>)}</section>
     <section className="student-filter-group"><h3>课程条件</h3>{([['periods', '期段'], ['courseTypes', '类型']] as const).map(([key, label]) => <SheetChoiceGroup key={key} label={label} options={['不限', ...studentFilterOptions[key]].map(value => ({ value, label: value }))} value={draft[key].length ? draft[key] : ['不限']} onToggle={value => setDraft(previous => ({ ...previous, [key]: value === '不限' ? [] : previous[key].includes(value) ? previous[key].filter(item => item !== value) : [...previous[key], value] }))} />)}</section>

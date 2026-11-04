@@ -5,7 +5,7 @@ for (const width of [360, 375, 390, 430]) {
     await page.setViewportSize({ width, height: 844 });
     await page.goto('/#/pages/customer-info/v1?customer=customer-1&theme=light&chrome=wechat&scenario=single');
     await page.getByRole('button', { name: 'AI 实时记录', exact: true }).click();
-    const sheet = page.getByRole('dialog', { name: '开启 AI 沟通记录', exact: true });
+    const sheet = page.getByRole('dialog', { name: 'AI 实时记录', exact: true });
     await expect(sheet.locator('.ai-scenario-grid figure')).toHaveCount(2);
     await expect.poll(() => sheet.evaluate(el => getComputedStyle(el).transform)).toBe('matrix(1, 0, 0, 1, 0, 0)');
     const student = await sheet.locator('.sheet-footer .ai-start-student').boundingBox();

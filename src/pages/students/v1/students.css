@@ -9,10 +9,6 @@
 .student-card { isolation: isolate; padding: 12px 12px 0; border-radius: 8px; background: var(--color-background-surface); }
 .student-card-heading { display: grid; grid-template-columns: 42px minmax(0, 1fr) auto; column-gap: 10px; min-height: 55px; border-bottom: .5px solid var(--color-border-lighter); }
 .student-avatar { width: 42px; height: 42px; display: grid; place-items: center; border-radius: 6px; background: var(--color-background-success-bold); color: var(--color-mobile-action-foreground); font-size: var(--typography-font-size-regular); font-weight: var(--typography-font-weight-medium); }
-.student-status-退学 .student-avatar { background: var(--color-tag-category-cyan-text); }
-.student-status-停课 .student-avatar { background: var(--color-background-warning-bold); }
-.student-status-试听 .student-avatar { background: var(--color-tag-category-violet-text); }
-.student-status-休学 .student-avatar { background: var(--color-background-danger-bold); }
 .student-person { min-width: 0; }
 .student-name { display: flex; gap: 4px; align-items: center; min-height: 22px; }
 .student-name strong { font-size: var(--typography-font-size-body); line-height: 22px; font-weight: var(--typography-font-weight-medium); overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
