@@ -22,6 +22,7 @@ PC 规范按 2026-10-12 快照继承，不自动跟随 PC 更新；没有在本�
 | 列表结尾 / 已加载完毕 | components.md 的 ListEnd；非空且全部加载完成时复用，不替代空状态或加载更多 |
 | 加载 / 下拉刷新 | components.md 的 Loading / PullToRefresh、interaction.md、page-patterns.md、实际滚动容器及全部 MobilePage 调用点；先明确模拟回调或真实请求 |
 | 上拉层 / 多层编辑 / 选择与编辑混合 | sheet-interactions.md（含整页表单一级选择右上关闭、编辑底部弹层子选择左上返回、独立选择取消用语）（已确认执行基线、积分流程与待迁移分开）、interaction.md、components.md 的 BottomSheet |
+| 不可更改选项的反馈 | interaction.md 的不可更改项反馈、实际业务限制及相关组件 API |
 | 修改组件 | components.md（BottomSheet selection/editor 模式试行及关闭委托；Button 默认 16px/24px，筛选与日期快捷项统一36px视觉高、14px/22px文字、10px间距、至少40px热区；PopoverMenu 含不透明深色表面、20px 图标/16px 文字与带箭头优先规则；Search 含弹层首行留白规则；Cell / Toast 含 TDesign 候选扩展及迁移状态）、interaction.md、accessibility.md、相关 token、组件实现与调用点 |
 | 学员加减积分原型 | docs/requirements/student-info.md、components.md 的 BottomSheet / Input / Cell / SheetChoiceGroup / SheetSelectionList；按系统组件实现，弹层内不添加加减 Tab |
 | 表单输入 / 日期区间选择 | 单日期日历另读 components.md 的 Calendar（候选，含跟进待定按钮）；components.md 的 DateRangeFields（候选共享字段，重置由场景决定）、Input（候选 API 与迁移记录）及 Input/选择型 Cell 混排审查（基础单行与折叠标题统一 56px）、accessibility.md；搜索使用 Search，不混用页面顶部层级高度 |
@@ -68,7 +69,7 @@ PC 规范按 2026-10-12 快照继承，不自动跟随 PC 更新；没有在本�
 
 ## 预览项目范围（2026-10-26）
 
-工作区分教师端与家长端两个项目入口，共用组件库与语义规范。教师端保留已有页面；家长端从parent-course-detail课程详情开始，按用户截图搭建；封面使用用户图片并保持4:3，缺少图标占位，首页/课程列表及购买流程待补。详情边界见docs/requirements/parent-course-detail.md。项目入口登记于page-registry.ts的previewProjects，家长页面单列parentBusinessPages。
+工作区分教师端与家长端两个项目入口，共用组件库与语义规范。家长端从 parent-course-detail 课程详情开始，封面使用用户图片并保持 4:3。2026-11-10 已接入「填写订单」结算原型，首页、课程列表及真实支付待补。详情边界见 docs/requirements/parent-course-detail.md。项目入口登记于 page-registry.ts 的 previewProjects，家长页面单列 parentBusinessPages。
 
 2026-11-02 学员管理筛选任务补充读取 docs/requirements/student-filters.md；列表/意向客户共同规范仍按 list-pages.md 路由，不将截图物理样式升级为规范。
 

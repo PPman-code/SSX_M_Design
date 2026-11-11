@@ -162,6 +162,7 @@ BottomSheet 继续统一外壳、微信视口边界、动画、焦点恢复和�
 `src/components/ui/SheetContent.tsx` 提供以下组合，不维护业务草稿或主动关闭：
 - SheetSelectionList：label、options（value/label/disabled）、value。单选使用 onChange、可选 onReselect（再次点击当前项）；indicator=list 为右侧勾的即时单选，indicator=dot 为需确认单选。multiple=true 时 value 为 string[]，使用 onToggle，由调用者处理全部、互斥和至少一项等规则。选项行最小 48px（2026-10-21 用户确认，取代 44px；弹层单选/多选列表单元格统一 48px，与排序弹层一致；chip 网格 SheetChoiceGroup 为 40px（2026-10-21 用户更新））、15px / 24px，长名称自然换行，无 hover；多选选中无底色块，使用强调文字和右勾，单选 list 只显示右勾。
 - SheetChoiceGroup：label、options、value:string[]、onToggle、hint/error；选项文字统一 14px/22px（2026-10-23 用户确认），与 DateRangeFields 快捷项共用 .sheet-choice-option 样式，36px 单行视觉高度、至少40px热区；未选中可用项背景使用 --color-background-neutral-subtle（2026-10-21 用户要求较原 subtlest 加深一阶），选中保留品牌浅底/边框，禁用保留 subtlest/disabled 文字；两列选择块，自动关联组标题和说明，错误播报；校验保留在页面。
+  - `onUnavailablePress(value)` 可让不可更改项接收点按和键盘激活，用于解释原因。该入口关联 `hint`，只调用说明回调，选择状态由原值决定。未提供说明回调时，禁用项沿用原生禁用。
 - SheetActions：primary 必填、secondary 可选，每项含 label/onClick/disabled；一个按钮全宽，两个按钮等宽排列。通过 BottomSheet.footer 传入。
 
 四种实例分别为即时单选、确认多选、分组筛选、日期表单；日期字段和快捷时段仍由业务页组合。无底部按钮的即时单选点击提交并关闭；其他模式关闭不提交。组件预览补齐即时单选、多选和分组筛选示例，确认单选继续使用圆点。

@@ -33,11 +33,12 @@ export function SheetSelectionList(props: SelectionProps) {
   </RadioGroup>;
 }
 
-export function SheetChoiceGroup({ label, options, value, onToggle, hint, error }: {
+export function SheetChoiceGroup({ label, options, value, onToggle, onUnavailablePress, hint, error }: {
   label: string;
   options: Option[];
   value: string[];
   onToggle: (value: string) => void;
+  onUnavailablePress?: (value: string) => void;
   hint?: string;
   error?: string;
 }) {
@@ -45,7 +46,18 @@ export function SheetChoiceGroup({ label, options, value, onToggle, hint, error 
   return <section className="sheet-choice-section" aria-labelledby={`${id}-title`}>
     <h3 id={`${id}-title`}>{label}</h3>
     <div className="sheet-choice-grid" role="group" aria-label={label} aria-describedby={[hint ? `${id}-hint` : '', error ? `${id}-error` : ''].filter(Boolean).join(' ') || undefined}>
-      {options.map(option => <button className="sheet-choice-option" type="button" key={option.value} disabled={option.disabled} aria-pressed={value.includes(option.value)} onClick={() => onToggle(option.value)}>{option.label}</button>)}
+      {options.map(option => {
+        const explain = option.disabled ? onUnavailablePress : undefined;
+        return <button
+          className="sheet-choice-option"
+          type="button"
+          key={option.value}
+          disabled={option.disabled && !explain}
+          aria-pressed={value.includes(option.value)}
+          aria-describedby={explain && hint ? `${id}-hint` : undefined}
+          onClick={() => (explain ?? onToggle)(option.value)}
+        >{option.label}</button>;
+      })}
     </div>
     {hint && <p className="sheet-choice-hint" id={`${id}-hint`}>{hint}</p>}
     {error && <p className="sheet-choice-error" id={`${id}-error`} role="alert">{error}</p>}

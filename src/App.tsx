@@ -37,7 +37,7 @@ export function App() {
       }
       if (event.data?.type !== 'ssx-preview-config') return;
       const { key, value } = event.data;
-      if (!['payment', 'classMultiple', 'remainingSeats'].includes(key)) return;
+      if (!['payment', 'classMultiple', 'remainingSeats', 'prefillSpecs'].includes(key)) return;
       if (key !== 'payment' && location.pathname !== '/pages/parent-course-detail/v1') return;
       if (typeof value !== 'string' || !(key === 'remainingSeats' ? ['', 'hidden'] : ['', 'enabled']).includes(value)) return;
       setParams((previous) => {

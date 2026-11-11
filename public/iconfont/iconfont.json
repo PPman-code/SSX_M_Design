@@ -6,6 +6,20 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "48810520",
+      "name": "学员管理",
+      "font_class": "xueyuanguanli",
+      "unicode": "edb7",
+      "unicode_decimal": 60855
+    },
+    {
+      "icon_id": "48810521",
+      "name": "意向客户",
+      "font_class": "yixiangkehu",
+      "unicode": "edb8",
+      "unicode_decimal": 60856
+    },
+    {
       "icon_id": "48805984",
       "name": "file-copy-line",
       "font_class": "file-copy-line",

@@ -53,7 +53,7 @@ export function HomePage() {
   function grid(title: string, items: readonly [string, Tone][], more = false) {
     return <section className="home-card" aria-label={title}>
       <div className="home-card-heading"><h2>{title}</h2>{more && <button className="home-more touch-target" aria-label={`更多${title}`} onClick={() => open(title)}><Icon name="right" size="sm" /></button>}</div>
-      <div className="home-grid">{items.map(([label, tone]) => <button type="button" key={label} className="home-entry" onClick={() => open(label)}>{label === '出勤率' ? <img className="home-feature-icon" src={`${import.meta.env.BASE_URL}pages/home/v1/attendance.png`} width="32" height="32" alt="" /> : <Placeholder tone={tone} />}<span>{label}</span></button>)}</div>
+      <div className="home-grid">{items.map(([label, tone]) => <button type="button" key={label} className="home-entry" onClick={() => open(label)}>{label === '出勤率' ? <img className="home-feature-icon" src={`${import.meta.env.BASE_URL}pages/home/v1/attendance.png`} width="32" height="32" alt="" /> : label === '学员管理' ? <Icon name="xueyuanguanli" className="home-feature-icon" style={{ fontSize: 32 }} /> : label === '意向学员' ? <Icon name="yixiangkehu" className="home-feature-icon" style={{ fontSize: 32 }} /> : <Placeholder tone={tone} />}<span>{label}</span></button>)}</div>
     </section>;
   }
   return <MobilePage onRefresh={simulateRefresh} refreshSuccessText="模拟刷新完成" title="黄老师-校管家" previewChrome={previewChrome} previewHistory={false} className="home-page" footer={<ProductTabBar active="home" />}>

@@ -2,10 +2,11 @@
   --color-attendance-hero-surface: var(--role-brand-600);
   --color-attendance-hero-text: var(--role-neutral-100);
   --color-avatar-student-foreground: var(--role-neutral-100);
-  --color-avatar-student-gold: var(--role-avatar-student-gold-500);
-  --color-avatar-student-lime: var(--role-avatar-student-lime-500);
+  --color-avatar-student-green: var(--role-avatar-student-green-500);
   --color-avatar-student-orange: var(--role-avatar-student-orange-500);
   --color-avatar-student-pink: var(--role-avatar-student-pink-500);
+  --color-avatar-student-purple: var(--role-avatar-student-purple-500);
+  --color-avatar-student-sky: var(--role-avatar-student-sky-500);
   --color-avatar-teacher-blue: var(--role-avatar-teacher-blue-500);
   --color-avatar-teacher-foreground: var(--role-neutral-100);
   --color-avatar-teacher-green: var(--role-avatar-teacher-green-500);
@@ -244,10 +245,11 @@
   --color-attendance-hero-surface: var(--role-brand-500);
   --color-attendance-hero-text: var(--role-neutral-100);
   --color-avatar-student-foreground: var(--role-neutral-100);
-  --color-avatar-student-gold: var(--role-avatar-student-gold-500);
-  --color-avatar-student-lime: var(--role-avatar-student-lime-500);
+  --color-avatar-student-green: var(--role-avatar-student-green-500);
   --color-avatar-student-orange: var(--role-avatar-student-orange-500);
   --color-avatar-student-pink: var(--role-avatar-student-pink-500);
+  --color-avatar-student-purple: var(--role-avatar-student-purple-500);
+  --color-avatar-student-sky: var(--role-avatar-student-sky-500);
   --color-avatar-teacher-blue: var(--role-avatar-teacher-blue-500);
   --color-avatar-teacher-foreground: var(--role-neutral-100);
   --color-avatar-teacher-green: var(--role-avatar-teacher-green-500);

@@ -1,8 +1,9 @@
 [data-avatar-kind='student'][data-avatar-color] { color: var(--color-avatar-student-foreground); }
-[data-avatar-kind='student'][data-avatar-color='0'] { background: var(--color-avatar-student-orange); }
-[data-avatar-kind='student'][data-avatar-color='1'] { background: var(--color-avatar-student-lime); }
-[data-avatar-kind='student'][data-avatar-color='2'] { background: var(--color-avatar-student-gold); }
-[data-avatar-kind='student'][data-avatar-color='3'] { background: var(--color-avatar-student-pink); }
+[data-avatar-kind='student'][data-avatar-color='0'] { background: var(--color-avatar-student-purple); }
+[data-avatar-kind='student'][data-avatar-color='1'] { background: var(--color-avatar-student-orange); }
+[data-avatar-kind='student'][data-avatar-color='2'] { background: var(--color-avatar-student-sky); }
+[data-avatar-kind='student'][data-avatar-color='3'] { background: var(--color-avatar-student-green); }
+[data-avatar-kind='student'][data-avatar-color='4'] { background: var(--color-avatar-student-pink); }
 [data-avatar-kind='teacher'][data-avatar-color] { color: var(--color-avatar-teacher-foreground); font-weight: 500; }
 [data-avatar-kind='teacher'][data-avatar-color='0'] { background: var(--color-avatar-teacher-sky); }
 [data-avatar-kind='teacher'][data-avatar-color='1'] { background: var(--color-avatar-teacher-violet); }

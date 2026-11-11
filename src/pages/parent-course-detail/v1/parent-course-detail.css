@@ -84,7 +84,6 @@
 .parent-specification-heading p { margin: 0; color: var(--color-text-subtlest); font-size: 14px; line-height: 22px; font-family: var(--typography-font-family-numeric); }
 .parent-specification-close.button { display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; color: var(--color-icon-subtle); }
 .parent-specification-close.button::after { content: none; }
-.parent-purchase-status { margin: 0 4px 12px; color: var(--color-text-subtle); font-size: 12px; line-height: 18px; }
 .parent-goods-section { margin-top: 24px; }
 
 .parent-bundle-sheet .sheet-choice-grid { display: flex; flex-wrap: wrap; align-items: flex-start; }

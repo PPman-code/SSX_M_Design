@@ -31,7 +31,7 @@ const teacherBusinessPages = [{
 /** Parent-facing work starts directly at course detail; preceding flows are intentionally absent. */
 export const parentBusinessPages = [{
   id: 'parent-course-detail', name: '课程详情', version: 'v1', status: '设计草稿', route: '/pages/parent-course-detail/v1',
-  audience: '家长', description: '基于用户截图的课程套餐详情，含4:3封面占位、套餐项目与底部操作；收藏为本地状态，购买及前置页面待补充。', figmaUrl: '',
+  audience: '家长', description: '课程套餐详情、规格与选座，全部确认后进入填写订单。结算、收藏及支付反馈为本地模拟。', figmaUrl: '',
 }] as const;
 export const businessPages = [...teacherBusinessPages, ...parentBusinessPages] as const;
 export const previewProjects = [

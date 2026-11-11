@@ -18,6 +18,10 @@ export function Workspace({ mode, onToggleTheme }: { mode: 'light' | 'dark'; onT
   const paymentEnabled = params.get('payment') === 'enabled';
   const role = params.get('role') ?? '';
   const courseParams = ['classMultiple', 'remainingSeats'].map(key => params.has(key) ? `${key}=${encodeURIComponent(params.get(key)!)}` : '').filter(Boolean);
+  if (selectedPage?.id === 'parent-course-detail') {
+    if (params.get('view') === 'checkout') courseParams.push('view=checkout');
+    if (params.get('prefillSpecs') === 'enabled') courseParams.push('prefillSpecs=enabled');
+  }
   const pageParams = [...courseParams, paymentEnabled ? 'payment=enabled' : '', role ? `role=${encodeURIComponent(role)}` : ''].filter(Boolean).join('&');
   const directRoute = selectedPage ? `${selectedPage.route}?theme=${mode}${pageParams ? `&${pageParams}` : ''}` : `/mobile?theme=${mode}`;
   const iframeRoute = `${directRoute}${selectedPage ? '&chrome=wechat' : '&chrome=status'}`;
@@ -27,14 +31,15 @@ export function Workspace({ mode, onToggleTheme }: { mode: 'light' | 'dark'; onT
   const matchesProject = !!selectedPage && !!previewPage && projectForPage(previewPage.id) === selectedProject;
   const currentPage = matchesProject ? previewPage : selectedPage;
   const currentParams = matchesProject && previewLocation ? new URLSearchParams(previewLocation.search) : params;
-  const currentPageName = currentPage?.id.startsWith('attendance') && currentParams.get('view') === 'detail' ? '上课明细' : currentPage?.name;
+  const checkoutPreview = currentPage?.id === 'parent-course-detail' && currentParams.get('view') === 'checkout';
+  const currentPageName = checkoutPreview ? '填写订单' : currentPage?.id.startsWith('attendance') && currentParams.get('view') === 'detail' ? '上课明细' : currentPage?.name;
   const directParams = new URLSearchParams(previewLocation?.search);
   directParams.delete('chrome');
   const activeDirectRoute = matchesProject && currentPage && previewLocation ? `${currentPage.route}?${directParams}` : directRoute;
   function changePreviewVersion(route: string) {
     document.querySelector('iframe')?.contentWindow?.postMessage({ type: 'ssx-preview-version', route }, window.location.origin);
   }
-  function updatePreviewConfig(key: 'payment' | 'classMultiple' | 'remainingSeats', value: string) {
+  function updatePreviewConfig(key: 'payment' | 'classMultiple' | 'remainingSeats' | 'prefillSpecs', value: string) {
     if (key === 'payment' && currentPage?.id === selectedPage?.id && !currentParams.has('view') && !currentParams.has('from')) {
       setParams((previous) => { const next = new URLSearchParams(previous); if (value) next.set(key, value); else next.delete(key); return next; });
     } else {
@@ -73,10 +78,23 @@ export function Workspace({ mode, onToggleTheme }: { mode: 'light' | 'dark'; onT
             <div className="preview-toolbar"><PreviewSettings width={width} onWidthChange={setWidth} /><div className="preview-links">{selectedPage?.figmaUrl ? <a className="text-link" href={selectedPage.figmaUrl} target="_blank" rel="noreferrer">Figma 原稿 <Icon name="launch" /></a> : null}<a href={`#${activeDirectRoute}`} target="_blank" rel="noreferrer" className="text-link">独立打开 <Icon name="launch" /></a><Button variant="text" size="sm" onClick={() => setPhoneOpen(true)}>手机预览 <Icon name="launch" /></Button></div></div>
             <div className="preview-stage">
               <div className="device-scroll"><DevicePreview key={selectedProject ?? 'components'} title={selectedPage ? `移动端${selectedPage.name}页面预览` : '移动端组件预览'} src={`./#${iframeRoute}`} width={width} height={selectedPage ? 858 : 700} shell={true} /></div>
-              <p className="preview-caption">{selectedProject === 'parent' ? '家长端 · 课程详情原型' : '真实页面 · 可点击交互 · 支持手机访问'}</p>
+              <p className="preview-caption">{selectedProject === 'parent' ? `家长端 · ${currentPageName}原型` : '真实页面 · 可点击交互 · 支持手机访问'}</p>
             </div>
           </section>
-          {selectedPage && currentPage && <aside className="page-config-panel" aria-label="当前页面配置"><WorkspaceConfig key={currentPage.id} pageId={currentPage.id} pageName={currentPage.id.startsWith('attendance') ? currentPageName : `${currentPageName} · ${currentPage.version}`} onVersionChange={changePreviewVersion} classMultiple={currentParams.get('classMultiple') === 'enabled'} showRemainingSeats={currentParams.get('remainingSeats') !== 'hidden'} onClassMultipleChange={enabled => updatePreviewConfig('classMultiple', enabled ? 'enabled' : '')} onShowRemainingSeatsChange={enabled => updatePreviewConfig('remainingSeats', enabled ? '' : 'hidden')} paymentEnabled={currentParams.get('payment') === 'enabled'} onPaymentChange={(enabled) => updatePreviewConfig('payment', enabled ? 'enabled' : '')} /></aside>}
+          {selectedPage && currentPage && <aside className="page-config-panel" aria-label="当前页面配置"><WorkspaceConfig
+            key={currentPage.id}
+            pageId={checkoutPreview ? undefined : currentPage.id}
+            pageName={currentPage.id.startsWith('attendance') ? currentPageName : `${currentPageName} · ${currentPage.version}`}
+            onVersionChange={changePreviewVersion}
+            classMultiple={currentParams.get('classMultiple') === 'enabled'}
+            showRemainingSeats={currentParams.get('remainingSeats') !== 'hidden'}
+            prefillSpecs={currentParams.get('prefillSpecs') === 'enabled'}
+            onClassMultipleChange={enabled => updatePreviewConfig('classMultiple', enabled ? 'enabled' : '')}
+            onShowRemainingSeatsChange={enabled => updatePreviewConfig('remainingSeats', enabled ? '' : 'hidden')}
+            onPrefillSpecsChange={enabled => updatePreviewConfig('prefillSpecs', enabled ? 'enabled' : '')}
+            paymentEnabled={currentParams.get('payment') === 'enabled'}
+            onPaymentChange={enabled => updatePreviewConfig('payment', enabled ? 'enabled' : '')}
+          /></aside>}
         </div>
       </main>
       {handoff && <Handoff mode={mode} />}

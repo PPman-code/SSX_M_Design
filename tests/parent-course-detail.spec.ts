@@ -5,8 +5,8 @@ for (const width of [360, 375, 390, 430]) {
     await page.setViewportSize({ width, height: 844 });
     await page.goto('/#/pages/parent-course-detail/v1?theme=light&chrome=wechat');
     await expect(page.getByRole('heading', { name: '2026秋季·少儿艺术成长套餐', exact: true })).toBeVisible();
-    await expect(page.locator('.parent-course-price')).toHaveText('¥3,199.01');
-    await expect(page.locator('.parent-course-original del')).toHaveText('¥ 13,199');
+    await expect(page.locator('.parent-course-price')).toHaveText('¥4,198.01 起');
+    await expect(page.locator('.parent-course-original del')).toHaveText('¥ 15,298');
     const cover = (await page.locator('.parent-course-cover').boundingBox())!;
     expect(cover.width / cover.height).toBeCloseTo(4 / 3, 2);
     const coverImage = page.locator('.parent-course-cover > img');
@@ -177,17 +177,17 @@ test('class items open seats directly and only confirm saves a seat', async ({ p
   await seats.getByRole('button', { name: '确定', exact: true }).click();
   await expect(row.locator('.parent-bundle-details')).toContainText('3-3');
   await expect(row.locator('.parent-bundle-select')).toHaveText('修改');
-  await expect(row.locator('.parent-bundle-price')).toHaveCount(0);
+  await expect(row.locator('.parent-bundle-price')).toHaveText('¥0.01');
   await row.click();
   await seats.getByRole('button', { name: '1排1座', exact: true }).click();
   await page.keyboard.press('Escape');
   await expect(row.locator('.parent-bundle-details')).toContainText('3-3');
   await expect(row.locator('.parent-bundle-select')).toHaveText('修改');
-  await expect(row.locator('.parent-bundle-price')).toHaveCount(0);
+  await expect(row.locator('.parent-bundle-price')).toHaveText('¥0.01');
 });
 
 
-test('buy package validates every committed item before allowing the purchase placeholder', async ({ page }) => {
+test('buy package validates every committed item before showing the confirmed selections at checkout', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/#/pages/parent-course-detail/v1?theme=light&chrome=wechat');
   const buy = page.getByRole('button', { name: '立即购买', exact: true });
@@ -213,11 +213,14 @@ test('buy package validates every committed item before allowing the purchase pl
   await expect(page.getByText('请先为“少儿声乐启蒙课”选规格', { exact: true })).toBeVisible();
   await page.screenshot({ path: 'outputs/parent-package-purchase-validation.png' });
   await specs.getByRole('button', { name: '20课时', exact: true }).click();
+  await expect(specs.locator('.parent-specification-heading p')).toHaveText('¥ 2,000');
+  await specs.getByRole('button', { name: '30课时', exact: true }).click();
+  await expect(specs.locator('.parent-specification-heading p')).toHaveText('¥ 3,000');
   await specs.getByRole('button', { name: '关闭弹层', exact: true }).click();
   await buy.click();
   await expect(specs).toContainText('少儿声乐启蒙课');
   await expect(specs.getByRole('button', { name: '20课时', exact: true })).toHaveAttribute('aria-pressed', 'false');
-  await finishCourse('20课时', '声乐启蒙·周六基础班');
+  await finishCourse('30课时', '声乐启蒙·周六基础班');
   await buy.click();
   await expect(seats).toContainText('小小歌唱家·周末合唱班');
   await expect(page.getByText('购买流程待补充，当前为本地演示', { exact: true })).toHaveCount(0);
@@ -232,23 +235,97 @@ test('buy package validates every committed item before allowing the purchase pl
   await specs.getByRole('button', { name: '确定', exact: true }).click();
   await buy.click();
   await expect(specs).toContainText('音乐律动与舞台表现课（含练习道具）');
-  await finishCourse('10课时', '舞台表现·周六基础班', false);
+  await finishCourse('20课时', '舞台表现·周六基础班', false);
   await buy.click();
   await expect(specs).toContainText('童声合唱·舞台实践班（含演出用品）');
   await expect(specs.getByRole('button', { name: '16课时', exact: true })).toHaveAttribute('aria-pressed', 'true');
   await specs.locator('.parent-class-seat-entry button').click();
   await seats.getByRole('button', { name: '2排3座', exact: true }).click();
   await seats.getByRole('button', { name: '确定', exact: true }).click();
-  await specs.getByRole('button', { name: /合唱谱夹/ }).click();
   await specs.getByRole('button', { name: '确定', exact: true }).click();
   await expect(page.locator('.parent-bundle-select.is-selected')).toHaveCount(5);
+  await expect(page.locator('.parent-bundle-price')).toHaveText(['¥3,000', '¥0.01', '¥599', '¥1,939', '¥799']);
+  await expect(page.locator('.parent-course-price')).toHaveText('¥6,337.01');
+  await expect(page.locator('.parent-course-original del')).toHaveText('¥ 19,937');
   await expect(page.getByRole('dialog')).toHaveCount(0);
   await buy.click();
   await expect(page.getByRole('dialog')).toHaveCount(0);
-  await expect(page.getByText('购买流程待补充，当前为本地演示', { exact: true })).toBeVisible();
-  await page.screenshot({ path: 'outputs/parent-package-all-selected.png' });
+  await expect(page).toHaveTitle('填写订单');
+  const items = page.getByRole('list', { name: '套餐明细' });
+  await expect(items.getByRole('listitem')).toHaveCount(5);
+  await expect(items.locator('.parent-checkout-item-heading .parent-checkout-item-price')).toHaveText(['¥3,000.00', '¥0.01', '¥599.00', '¥1,939.00', '¥799.00']);
+  await expect(page.locator('.parent-checkout-package-meta strong')).toHaveText('¥6,337.01');
+  await expect(page.locator('.parent-checkout-package-meta del')).toHaveText('¥19,937.00');
+  await expect(page.getByRole('region', { name: '费用明细' })).toContainText('¥6,337.01');
+  await expect(page.getByRole('region', { name: '订单支付' })).toContainText('¥5,137.01');
+  await expect(items.getByRole('img', { name: '课程', exact: true })).toHaveCount(2);
+  await expect(items.getByRole('img', { name: '班级', exact: true })).toHaveCount(3);
+  await expect(items.getByRole('img', { name: '物品', exact: true })).toHaveCount(0);
+  await expect(items).toContainText('声乐启蒙·周六基础班');
+  await expect(items).toContainText('1排1座');
+  await expect(items).toContainText('节奏练习沙锤 ¥100、舞台表演丝巾 ¥39');
+  await expect(items).toContainText('合唱谱夹、演出领巾、视唱练耳练习册');
+  await page.getByRole('button', { name: '微信后退', exact: true }).click();
+  await expect(page).toHaveTitle('课程详情');
+  await expect(page.locator('.parent-bundle-select.is-selected')).toHaveCount(5);
 });
 
+test('checkout sample explains the amount due and keeps address edits in a draft until saved', async ({ page }) => {
+  await page.setViewportSize({ width: 360, height: 780 });
+  await page.goto('/#/pages/parent-course-detail/v1?view=checkout&theme=light&chrome=wechat');
+  await expect(page.getByText('示例订单', { exact: true })).toBeVisible();
+  const amounts = page.getByRole('region', { name: '费用明细', exact: true });
+  await expect(amounts).toContainText('¥4,537.01');
+  await expect(amounts).toContainText('−¥1,200.00');
+  const footer = page.getByRole('region', { name: '订单支付', exact: true });
+  await expect(footer).toContainText('¥3,337.01');
+  const delivery = page.getByRole('region', { name: '收货地址', exact: true });
+  const edit = delivery.getByRole('button', { name: '编辑地址', exact: true });
+  const sheet = page.getByRole('dialog', { name: '编辑收货地址', exact: true });
+  await edit.click();
+  const street = sheet.getByRole('textbox', { name: '详细地址' });
+  await street.fill('未保存的地址');
+  await sheet.getByRole('button', { name: '关闭弹层', exact: true }).click();
+  await page.getByRole('button', { name: '放弃修改', exact: true }).click();
+  await expect(sheet).not.toBeVisible();
+  await expect(page.getByText('未保存的地址', { exact: true })).toHaveCount(0);
+  await edit.click();
+  const phone = sheet.getByRole('textbox', { name: '联系电话' });
+  await street.fill('青禾路 18 号');
+  const singleLine = (await street.boundingBox())!;
+  expect(singleLine.x).toBe((await phone.boundingBox())!.x);
+  expect(singleLine.height).toBe((await phone.boundingBox())!.height);
+  const longAddress = '星光市青禾路 18 号星光花园东门旁第二栋三单元 301 室';
+  await street.fill(longAddress);
+  await expect.poll(async () => (await street.boundingBox())!.height).toBeGreaterThan(singleLine.height);
+  await street.press('End');
+  await street.press('Enter');
+  await street.press('a');
+  await expect(street).toHaveValue(`${longAddress}\na`);
+  await sheet.getByRole('button', { name: '保存', exact: true }).click();
+  await expect(sheet).not.toBeVisible();
+  await expect(delivery.getByText(`${longAddress} a`, { exact: true })).toBeVisible();
+  await page.getByRole('textbox', { name: '备注（选填）' }).fill('周六领取');
+  await expect(page.locator('.product-scroll').evaluate(el => el.scrollWidth <= el.clientWidth)).resolves.toBe(true);
+  await footer.getByRole('button', { name: '立即支付', exact: true }).click();
+  await expect(page.getByText('当前为结算预览，未发起支付', { exact: true })).toBeVisible();
+});
+
+
+test('checkout opens the coupon list even when no coupons can be used', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/#/pages/parent-course-detail/v1?view=checkout&theme=light&chrome=wechat');
+  const trigger = page.getByRole('button', { name: '优惠券，暂无可用', exact: true });
+  await trigger.click({ timeout: 3000 });
+  const sheet = page.getByRole('dialog', { name: '优惠券', exact: true });
+  await expect(sheet.getByText('仅限新城校区使用')).toBeVisible();
+  await expect(sheet.getByText('仅适用于单课购买')).toBeVisible();
+  await expect(sheet.getByRole('button', { name: '选择优惠券' })).toHaveCount(0);
+  await sheet.getByRole('button', { name: '关闭弹层' }).click();
+  await expect(sheet).toBeHidden();
+  await expect(trigger).toBeFocused();
+  await expect(page.getByRole('region', { name: '订单支付' })).toContainText('¥3,337.01');
+});
 
 for (const goodsTheme of ['light', 'dark']) {
 test(`course with goods selects a class without seats and preserves multiple goods on confirm only in ${goodsTheme}`, async ({ page }) => {
@@ -257,7 +334,7 @@ test(`course with goods selects a class without seats and preserves multiple goo
   const row = page.getByRole('button', { name: '选择音乐律动与舞台表现课（含练习道具）规格参数', exact: true });
   await row.click();
   const specs = page.getByRole('dialog', { name: '选择规格参数', exact: true });
-  await expect(specs.getByRole('button', { name: '10课时', exact: true })).toHaveAttribute('aria-pressed', 'true');
+  await specs.getByRole('button', { name: '10课时', exact: true }).click();
   await expect(specs.getByRole('button', { name: /舞台表现·周六基础班/ })).toBeEnabled();
   await specs.getByRole('button', { name: /舞台表现·周六基础班/ }).click();
   const selectedText = await specs.getByRole('button', { name: '10课时', exact: true }).evaluate(el => getComputedStyle(el).color);
@@ -267,6 +344,12 @@ test(`course with goods selects a class without seats and preserves multiple goo
   const shaker = specs.getByRole('button', { name: /节奏练习沙锤/ });
   const scarf = specs.getByRole('button', { name: /舞台表演丝巾/ });
   await shaker.click(); await scarf.click();
+  const price = specs.locator('.parent-specification-heading p');
+  await expect(price).toHaveText('¥ 1,139');
+  const workbook = specs.getByRole('button', { name: /音乐律动练习册/ });
+  await workbook.click();
+  await expect(price).toHaveText('¥ 1,168.9');
+  await workbook.click();
   await expect(shaker).toHaveAttribute('aria-pressed', 'true'); await expect(scarf).toHaveAttribute('aria-pressed', 'true');
   expect((await shaker.boundingBox())!.width).toBeLessThan(250);
   await specs.getByRole('group', { name: '物品（可多选）', exact: true }).scrollIntoViewIfNeeded();
@@ -287,6 +370,7 @@ test(`course with goods selects a class without seats and preserves multiple goo
   await specs.getByRole('button', { name: '确定', exact: true }).click();
   await expect(row).not.toContainText('节奏练习沙锤');
   await expect(row).toContainText('舞台表演丝巾');
+  await expect(row.locator('.parent-bundle-price')).toHaveText('¥1,039');
 });
 
 }
@@ -411,7 +495,7 @@ test('seat viewport pinches independently and nested seat sheet cannot swipe clo
 });
 
 
-test('single specification class with goods keeps seat and multiple goods in one draft', async ({ page }) => {
+test('single specification class includes all goods without separate prices and requires seat confirmation', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/#/pages/parent-course-detail/v1?theme=light&chrome=wechat');
   const row = page.getByRole('button', { name: '选择童声合唱·舞台实践班（含演出用品）规格参数', exact: true });
@@ -419,26 +503,39 @@ test('single specification class with goods keeps seat and multiple goods in one
   await row.click();
   const specs = page.getByRole('dialog', { name: '选择规格参数', exact: true });
   const seats = page.getByRole('dialog', { name: '选择座位', exact: true });
-  const folder = specs.getByRole('button', { name: /合唱谱夹/ });
-  const scarf = specs.getByRole('button', { name: /演出领巾/ });
+  const goods = specs.getByRole('group', { name: '物品（已包含）', exact: true });
+  const reason = '默认包含的物品不可取消';
+  await expect(specs.getByText(reason, { exact: true })).toBeVisible();
   await expect(specs.getByRole('button', { name: '16课时', exact: true })).toHaveAttribute('aria-pressed', 'true');
-  await folder.click(); await scarf.click();
+  for (const name of ['合唱谱夹', '演出领巾', '视唱练耳练习册']) {
+    const good = goods.getByRole('button', { name, exact: true });
+    await expect(good).toHaveAttribute('aria-pressed', 'true');
+    await expect(good).toHaveAccessibleDescription(reason);
+  }
+  const folder = goods.getByRole('button', { name: '合唱谱夹', exact: true });
+  const toast = page.locator('.toast-message');
+  await folder.click();
+  await expect(toast).toHaveText('已包含，不可取消');
+  await expect(goods.getByRole('button', { pressed: true })).toHaveCount(3);
   await specs.getByRole('button', { name: '确定', exact: true }).click();
-  await expect(page.locator('.toast-message')).toHaveText('请选择座位');
+  await expect(toast).toHaveText('请选择座位');
+  await folder.press('Space');
+  await expect(toast).toHaveText('已包含，不可取消');
+  await expect(goods.getByRole('button', { pressed: true })).toHaveCount(3);
   await specs.locator('.parent-class-seat-entry button').click();
   await expect(seats).toContainText('星光校区·202合唱教室');
   await seats.getByRole('button', { name: '1排2座', exact: true }).click();
   await seats.getByRole('button', { name: '确定', exact: true }).click();
   await expect(specs).toBeVisible();
-  await expect(folder).toHaveAttribute('aria-pressed', 'true');
-  await expect(scarf).toHaveAttribute('aria-pressed', 'true');
+  await expect(goods.getByRole('button', { pressed: true })).toHaveCount(3);
   await expect(row.locator('.parent-bundle-details')).toHaveCount(0);
   await page.screenshot({ path: 'outputs/parent-class-goods-draft.png' });
   await specs.getByRole('button', { name: '确定', exact: true }).click();
   await expect(row).toContainText('16课时'); await expect(row).toContainText('1-2');
-  await expect(row).toContainText('合唱谱夹 ¥35'); await expect(row).toContainText('演出领巾 ¥29');
-  await row.click(); await scarf.click();
-  await specs.getByRole('button', { name: '关闭弹层', exact: true }).click();
-  await row.click(); await expect(scarf).toHaveAttribute('aria-pressed', 'true');
+  const summary = row.locator('.parent-bundle-goods-summary');
+  await expect(summary).toContainText('合唱谱夹、演出领巾、视唱练耳练习册');
+  await expect(summary).not.toContainText('¥');
+  await row.click();
+  await expect(goods.getByRole('button', { pressed: true })).toHaveCount(3);
   await expect(specs.locator('.parent-class-seat-entry')).toContainText('1排2座');
 });

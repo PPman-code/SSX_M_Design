@@ -4,7 +4,7 @@ import { fileURLToPath } from 'node:url';
 import { buildIconNameModule, buildSprite, readIconfontArchive } from './iconfont-tools.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
-export const iconfontArchiveName = 'design-assets/iconfont/ssx-design-5242145-2026-11-02-210.zip';
+export const iconfontArchiveName = 'design-assets/iconfont/ssx-design-5242145-2026-11-04-212.zip';
 
 export function createIconfontOutputs() {
   const archive = resolve(root, iconfontArchiveName);

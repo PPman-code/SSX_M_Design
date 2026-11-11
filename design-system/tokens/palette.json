@@ -319,28 +319,34 @@
         "600": "#FFC600"
       }
     },
-    "apricot": {
-      "$label": "杏橙色",
+    "pastelPurple": {
+      "$label": "浅雾紫色",
       "values": {
-        "500": "#FFA54D"
+        "500": "#D7C9FF"
       }
     },
-    "lime": {
-      "$label": "青柠色",
+    "pastelOrange": {
+      "$label": "浅杏橙色",
       "values": {
-        "500": "#8ED915"
+        "500": "#FFD0B1"
       }
     },
-    "saffron": {
-      "$label": "番红花黄色",
+    "pastelSky": {
+      "$label": "浅天蓝色",
       "values": {
-        "500": "#F3C11B"
+        "500": "#9DDDFF"
       }
     },
-    "rose": {
-      "$label": "玫粉色",
+    "pastelGreen": {
+      "$label": "浅薄荷绿",
       "values": {
-        "500": "#FF78AA"
+        "500": "#A8E7AF"
+      }
+    },
+    "pastelPink": {
+      "$label": "浅玫粉色",
+      "values": {
+        "500": "#FFC3E5"
       }
     },
     "slateSky": {

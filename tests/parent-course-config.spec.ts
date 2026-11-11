@@ -1,5 +1,39 @@
 import { test, expect } from '@playwright/test';
 
+test('prefill switch adds complete demo selections without replacing manual choices', async ({ page }) => {
+  await page.goto('/#/?page=parent-course-detail&theme=light');
+  const prefill = page.getByRole('switch', { name: '预填全部规格', exact: true });
+  const frame = page.frameLocator('iframe');
+  const rows = frame.locator('.parent-bundle-select.is-selected');
+  const choir = frame.getByRole('button', { name: '选择小小歌唱家·周末合唱班座位', exact: true });
+  await expect(prefill).not.toBeChecked();
+  await expect(rows).toHaveCount(0);
+  await choir.click();
+  const seats = frame.getByRole('dialog', { name: '选择座位', exact: true });
+  await seats.getByRole('button', { name: '1排2座', exact: true }).click();
+  await seats.getByRole('button', { name: '确定', exact: true }).click();
+  await expect(rows).toHaveCount(1);
+
+  await prefill.click();
+  await expect(prefill).toBeChecked();
+  await expect(rows).toHaveCount(5);
+  await expect(choir).toContainText('1-2');
+  const direct = page.getByRole('link', { name: '独立打开' });
+  await expect(direct).toHaveAttribute('href', /[?&]prefillSpecs=enabled/);
+  const directHref = await direct.getAttribute('href');
+  await frame.getByRole('button', { name: '立即购买', exact: true }).click();
+  await expect(frame.getByRole('list', { name: '套餐明细' }).getByRole('listitem')).toHaveCount(5);
+  await frame.getByRole('button', { name: '微信后退', exact: true }).click();
+  await expect(prefill).toBeChecked();
+  await prefill.click();
+  await expect(prefill).not.toBeChecked();
+  await expect(rows).toHaveCount(1);
+  await expect(choir).toContainText('1-2');
+
+  await page.goto('/' + directHref);
+  await expect(page.locator('.parent-bundle-select.is-selected')).toHaveCount(5);
+});
+
 test('course preview toggles remaining seats and supports separate seats for multiple classes', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 1100 });
   await page.goto('/#/?page=parent-course-detail&theme=light');
@@ -60,6 +94,7 @@ test('direct course URL supports multiple classes without seats and hidden remai
   await row.click();
   const specs = page.getByRole('dialog', { name: '选择规格参数', exact: true });
   await expect(specs.locator('.parent-class-quota')).toHaveCount(0);
+  await specs.getByRole('button', { name: '10课时', exact: true }).click();
   await specs.getByRole('button', { name: /舞台表现·周六基础班/ }).click();
   await specs.getByRole('button', { name: /舞台表现·周六提高班/ }).click();
   await specs.getByRole('button', { name: /节奏练习沙锤/ }).click();

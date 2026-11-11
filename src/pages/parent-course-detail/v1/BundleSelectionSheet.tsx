@@ -5,10 +5,9 @@ import { Button } from '../../../components/ui/Button';
 import { Icon } from '../../../components/ui/Icon';
 import { SheetActions, SheetChoiceGroup } from '../../../components/ui/SheetContent';
 import { useToast } from '../../../components/ui/useToast';
-import { formatCourseAmount, hasDirectSeatEntry, compactSeatLayout, type BundleItem } from './course-data';
+import { formatCourseAmount, formatBundleGood, getSelectedBundleGoods, getBundleItemPrices, hasDirectSeatEntry, compactSeatLayout, type BundleItem, type BundleSelection } from './course-data';
 
-export type SelectedBundleClass = { classId: string; className: string; seat: string };
-export type BundleSelection = { classes?: SelectedBundleClass[]; specification: string; classId: string; className: string; seat: string; goods?: string[]; price?: number };
+const includedGoodsHint = '默认包含的物品不可取消';
 
 /** Local demonstration only: no real timetable, stock or seat reservation. */
 export function BundleSelectionSheet({ item, initial, onClose, onConfirm, multipleClasses = false, showRemainingSeats = true }: {
@@ -18,7 +17,7 @@ export function BundleSelectionSheet({ item, initial, onClose, onConfirm, multip
   const { showToast } = useToast();
   const classItem = item.kinds.includes('class');
   const directSeat = hasDirectSeatEntry(item);
-  const options = item.specifications;
+  const options = item.specifications.map(option => option.label);
   const classes: { id: string; name: string; time: string; information?: string[]; remaining?: number; full: boolean }[] = [
     { id: 'class-1', name: item.id === 'football' ? '舞台表现·周六基础班' : '声乐启蒙·周六基础班', time: '11.07 起 · 每周六 09:00–10:00', information: ['刘老师'], remaining: 8, full: false },
     { id: 'class-2', name: item.id === 'football' ? '舞台表现·周日上午班' : '声乐启蒙·周日上午班', time: '11.08 起 · 每周日 10:00–11:00', remaining: 0, full: true },
@@ -30,7 +29,9 @@ export function BundleSelectionSheet({ item, initial, onClose, onConfirm, multip
   const [classIds, setClassIds] = useState<string[]>(initial?.classes?.map(value => value.classId) ?? (initial?.classId ? [initial.classId] : []));
   const [classSeats, setClassSeats] = useState<Record<string, string>>(Object.fromEntries(initial?.classes?.map(value => [value.classId, value.seat]) ?? (initial?.classId ? [[initial.classId, initial.seat]] : [])));
   const selectedIds = multipleClasses ? classIds : classIds.slice(0, 1);
-  const [goods, setGoods] = useState<string[]>(initial?.goods ?? []);
+  const [optionalGoods, setOptionalGoods] = useState<string[]>(initial?.goods ?? []);
+  const goods = item.includesGoods ? getSelectedBundleGoods(item).map(option => option.id) : optionalGoods;
+  const { saleCents } = getBundleItemPrices(item, specification, goods);
   const [seat, setSeat] = useState(initial?.seat ?? '');
   const [seatDraft, setSeatDraft] = useState(initial?.seat ?? '');
   const [step, setStep] = useState<'specification' | 'seat'>(directSeat ? 'seat' : 'specification');
@@ -58,14 +59,14 @@ export function BundleSelectionSheet({ item, initial, onClose, onConfirm, multip
   function commitSeat() {
     if (!seatDraft) { invalid('seat'); return; }
 
-    if (directSeat) onConfirm({ specification, classId: item.id, className: item.name, seat: seatDraft, price: item.price });
+    if (directSeat) onConfirm({ specification, classId: item.id, className: item.name, seat: seatDraft });
     else { if (classItem) setSeat(seatDraft); else setClassSeats(current => ({ ...current, [classId]: seatDraft })); setStep('specification'); }
   }
   function confirm() {
     if (!specification) { invalid('specification'); return; }
     if (classItem) {
       if (!seat) { invalid('seat'); return; }
-      onConfirm({ specification, classId: item.id, className: item.name, seat, goods, price: item.price });
+      onConfirm({ specification, classId: item.id, className: item.name, seat, goods });
       return;
     }
     const selectedClasses = selectedIds.map(id => classes.find(value => value.id === id)).filter(value => value != null);
@@ -77,7 +78,7 @@ export function BundleSelectionSheet({ item, initial, onClose, onConfirm, multip
       return;
     }
     const choices = selectedClasses.map(value => ({ classId: value.id, className: value.name, seat: item.requiresSeat ? classSeats[value.id] : '' }));
-    onConfirm({ specification, ...choices[0], ...(multipleClasses ? { classes: choices } : {}), goods, price: item.price });
+    onConfirm({ specification, ...choices[0], ...(multipleClasses ? { classes: choices } : {}), goods });
   }
   const seating = step === 'seat';
   return <BottomSheet className={`parent-bundle-sheet${seating ? ' parent-bundle-sheet--seating' : ''}`} mode={seating ? 'editor' : 'selection'} title={seating ? '选择座位' : '选择规格参数'} open
@@ -87,7 +88,7 @@ export function BundleSelectionSheet({ item, initial, onClose, onConfirm, multip
         <div className="parent-specification-image" role="img" aria-label={item.coverUrl ? `${item.name}课程图片` : `${item.name}课程图片，4比3，待提供`}>
           {item.coverUrl ? <img src={item.coverUrl} alt="" /> : <><Icon name="image" size="lg" /><span>图片待提供</span></>}
         </div>
-        <div className="parent-specification-heading"><h3>{item.name}</h3>{item.price != null && <p>¥ {formatCourseAmount(item.price)}</p>}</div>
+        <div className="parent-specification-heading"><h3>{item.name}</h3><p aria-live="polite">¥ {formatCourseAmount(saleCents / 100)}{!specification && ' 起'}</p></div>
         <Button variant="text" iconOnly icon="close" className="parent-specification-close" aria-label="关闭弹层" onClick={onClose} />
       </div>
     </> : undefined}
@@ -137,7 +138,14 @@ export function BundleSelectionSheet({ item, initial, onClose, onConfirm, multip
         </div>)}
       </section>}
       {item.goodsOptions && <section className="parent-goods-section">
-        <SheetChoiceGroup label="物品（可多选）" options={item.goodsOptions.map(option => ({ value: option.id, label: `${option.name} ¥${formatCourseAmount(option.price)}` }))} value={goods} onToggle={value => setGoods(current => current.includes(value) ? current.filter(id => id !== value) : [...current, value])} />
+        <SheetChoiceGroup
+          label={item.includesGoods ? '物品（已包含）' : '物品（可多选）'}
+          options={item.goodsOptions.map(option => ({ value: option.id, label: formatBundleGood(option), disabled: item.includesGoods }))}
+          value={goods}
+          hint={item.includesGoods ? includedGoodsHint : undefined}
+          onUnavailablePress={item.includesGoods ? () => showToast({ message: '已包含，不可取消' }) : undefined}
+          onToggle={value => setOptionalGoods(current => current.includes(value) ? current.filter(id => id !== value) : [...current, value])}
+        />
       </section>}
     </>}
   </BottomSheet>;

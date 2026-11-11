@@ -92,25 +92,30 @@
       "$light": "neutral",
       "$dark": "neutral"
     },
+    "avatarStudentPurple": {
+      "$label": "student 无照片头像浅雾紫色",
+      "$light": "pastelPurple",
+      "$dark": "pastelPurple"
+    },
     "avatarStudentOrange": {
-      "$label": "student 无照片头像杏橙色",
-      "$light": "apricot",
-      "$dark": "apricot"
+      "$label": "student 无照片头像浅杏橙色",
+      "$light": "pastelOrange",
+      "$dark": "pastelOrange"
     },
-    "avatarStudentLime": {
-      "$label": "student 无照片头像青柠色",
-      "$light": "lime",
-      "$dark": "lime"
+    "avatarStudentSky": {
+      "$label": "student 无照片头像浅天蓝色",
+      "$light": "pastelSky",
+      "$dark": "pastelSky"
     },
-    "avatarStudentGold": {
-      "$label": "student 无照片头像番红花黄色",
-      "$light": "saffron",
-      "$dark": "saffron"
+    "avatarStudentGreen": {
+      "$label": "student 无照片头像浅薄荷绿",
+      "$light": "pastelGreen",
+      "$dark": "pastelGreen"
     },
     "avatarStudentPink": {
-      "$label": "student 无照片头像玫粉色",
-      "$light": "rose",
-      "$dark": "rose"
+      "$label": "student 无照片头像浅玫粉色",
+      "$light": "pastelPink",
+      "$dark": "pastelPink"
     },
     "avatarTeacherSky": {
       "$label": "teacher 无照片头像胜蓝色",

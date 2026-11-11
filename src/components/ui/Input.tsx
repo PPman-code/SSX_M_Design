@@ -11,6 +11,7 @@ export interface InputProps extends Omit<ComponentPropsWithoutRef<'input'>, 'siz
   value: string;
   onValueChange: (value: string) => void;
   layout?: 'horizontal' | 'vertical' | 'external';
+  multiline?: boolean;
   hideLabel?: boolean;
   optional?: boolean;
   description?: string;
@@ -25,22 +26,29 @@ const statusIcons: Record<Exclude<InputStatus, 'default'>, IconName> = {
 };
 
 /** A controlled text field. Selection, verification and business validation belong to callers. */
-export function Input({ label, value, onValueChange, layout = 'horizontal', hideLabel = false, optional = false, description, status = 'default', clearable = false, leadingIcon, prefix, suffix, type = 'text', disabled = false, readOnly = false, required = false, id, className = '', 'aria-describedby': describedBy, 'aria-invalid': invalid, ...props }: InputProps) {
+export function Input({ label, value, onValueChange, layout = 'horizontal', multiline = false, hideLabel = false, optional = false, description, status = 'default', clearable = false, leadingIcon, prefix, suffix, type = 'text', disabled = false, readOnly = false, required = false, id, className = '', 'aria-describedby': describedBy, 'aria-invalid': invalid, ...props }: InputProps) {
   const generatedId = useId();
   const inputId = id ?? generatedId;
   const descriptionId = `${inputId}-description`;
-  const inputRef = useRef<HTMLInputElement>(null);
+  const inputRef = useRef<HTMLElement>(null);
   const [visible, setVisible] = useState(false);
   const editable = !disabled && !readOnly;
-  const password = type === 'password';
-  return <div className={`ssx-input ${layout !== 'external' ? 'field-divider' : ''} ssx-input--${layout} ssx-input--${status} ${className}`} data-disabled={disabled || undefined} data-readonly={readOnly || undefined}>
+  const password = !multiline && type === 'password';
+  const control = <BaseInput {...props} ref={inputRef} id={inputId} className="ssx-input-native"
+    render={multiline ? <textarea rows={1} /> : undefined}
+    value={value} onValueChange={next => { if (editable) onValueChange(next); }}
+    type={multiline ? undefined : password && visible ? 'text' : type}
+    disabled={disabled} readOnly={readOnly} required={required}
+    aria-invalid={status === 'error' ? true : invalid}
+    aria-describedby={[describedBy, description ? descriptionId : undefined].filter(Boolean).join(' ') || undefined} />;
+  return <div className={`ssx-input ${layout !== 'external' ? 'field-divider' : ''} ssx-input--${layout} ssx-input--${status} ${multiline ? 'ssx-input--multiline' : ''} ${className}`} data-disabled={disabled || undefined} data-readonly={readOnly || undefined}>
     <div className="ssx-input-main">
       <label htmlFor={inputId} className={`ssx-input-label ${hideLabel ? 'ssx-input-label--hidden' : ''}`}>
         {leadingIcon && <span className="ssx-input-label-icon" aria-hidden="true"><Icon name={leadingIcon} size="md" /></span>}{label}{required && <span className="ssx-input-required" aria-hidden="true">*</span>}{optional && !required && <span className="ssx-input-optional">（选填）</span>}
       </label>
       <div className="ssx-input-body">
         {prefix && <span className="ssx-input-prefix">{prefix}</span>}
-        <BaseInput {...props} ref={inputRef} id={inputId} className="ssx-input-native" value={value} onValueChange={next => { if (editable) onValueChange(next); }} type={password && visible ? 'text' : type} disabled={disabled} readOnly={readOnly} required={required} aria-invalid={status === 'error' ? true : invalid} aria-describedby={[describedBy, description ? descriptionId : undefined].filter(Boolean).join(' ') || undefined} />
+        {multiline ? <div className="ssx-input-autosize" data-value={value}>{control}</div> : control}
         {clearable && value && editable && <button type="button" className="ssx-input-icon ssx-input-clear touch-target" aria-label={`清除${label}`} onPointerDown={event => event.preventDefault()} onClick={() => { onValueChange(''); inputRef.current?.focus(); }}><Icon name="close-circle-fill" size="md" /></button>}
         {password && <button type="button" className="ssx-input-icon touch-target" aria-label={visible ? '隐藏密码' : '显示密码'} aria-pressed={visible} disabled={disabled} onPointerDown={event => event.preventDefault()} onClick={() => setVisible(current => !current)}><Icon name={visible ? 'eye' : 'eye-invisible'} size="md" /></button>}
         {status !== 'default' && <Icon name={statusIcons[status]} size="md" className="ssx-input-status" />}

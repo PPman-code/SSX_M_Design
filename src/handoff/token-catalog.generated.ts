@@ -1,12 +1,5 @@
 export const paletteCatalog = [
   {
-    name: 'apricot',
-    label: '杏橙色',
-    swatches: [
-      { step: '500', cssVariable: '--palette-apricot-500', value: '#FFA54D' },
-    ],
-  },
-  {
     name: 'azure',
     label: '我的页蓝色色阶',
     swatches: [
@@ -223,13 +216,6 @@ export const paletteCatalog = [
     ],
   },
   {
-    name: 'lime',
-    label: '青柠色',
-    swatches: [
-      { step: '500', cssVariable: '--palette-lime-500', value: '#8ED915' },
-    ],
-  },
-  {
     name: 'mist',
     label: '我的页浅灰色阶',
     swatches: [
@@ -292,6 +278,41 @@ export const paletteCatalog = [
     ],
   },
   {
+    name: 'pastelGreen',
+    label: '浅薄荷绿',
+    swatches: [
+      { step: '500', cssVariable: '--palette-pastel-green-500', value: '#A8E7AF' },
+    ],
+  },
+  {
+    name: 'pastelOrange',
+    label: '浅杏橙色',
+    swatches: [
+      { step: '500', cssVariable: '--palette-pastel-orange-500', value: '#FFD0B1' },
+    ],
+  },
+  {
+    name: 'pastelPink',
+    label: '浅玫粉色',
+    swatches: [
+      { step: '500', cssVariable: '--palette-pastel-pink-500', value: '#FFC3E5' },
+    ],
+  },
+  {
+    name: 'pastelPurple',
+    label: '浅雾紫色',
+    swatches: [
+      { step: '500', cssVariable: '--palette-pastel-purple-500', value: '#D7C9FF' },
+    ],
+  },
+  {
+    name: 'pastelSky',
+    label: '浅天蓝色',
+    swatches: [
+      { step: '500', cssVariable: '--palette-pastel-sky-500', value: '#9DDDFF' },
+    ],
+  },
+  {
     name: 'red',
     label: '红色',
     swatches: [
@@ -302,20 +323,6 @@ export const paletteCatalog = [
       { step: '500', cssVariable: '--palette-red-500', value: '#F87979' },
       { step: '600', cssVariable: '--palette-red-600', value: '#F53F3F' },
       { step: '700', cssVariable: '--palette-red-700', value: '#C43232' },
-    ],
-  },
-  {
-    name: 'rose',
-    label: '玫粉色',
-    swatches: [
-      { step: '500', cssVariable: '--palette-rose-500', value: '#FF78AA' },
-    ],
-  },
-  {
-    name: 'saffron',
-    label: '番红花黄色',
-    swatches: [
-      { step: '500', cssVariable: '--palette-saffron-500', value: '#F3C11B' },
     ],
   },
   {
@@ -409,28 +416,34 @@ export const roleCatalog = [
     darkFamily: 'neutral',
   },
   {
-    name: 'avatarStudentGold',
-    label: 'student 无照片头像番红花黄色',
-    lightFamily: 'saffron',
-    darkFamily: 'saffron',
-  },
-  {
-    name: 'avatarStudentLime',
-    label: 'student 无照片头像青柠色',
-    lightFamily: 'lime',
-    darkFamily: 'lime',
+    name: 'avatarStudentGreen',
+    label: 'student 无照片头像浅薄荷绿',
+    lightFamily: 'pastelGreen',
+    darkFamily: 'pastelGreen',
   },
   {
     name: 'avatarStudentOrange',
-    label: 'student 无照片头像杏橙色',
-    lightFamily: 'apricot',
-    darkFamily: 'apricot',
+    label: 'student 无照片头像浅杏橙色',
+    lightFamily: 'pastelOrange',
+    darkFamily: 'pastelOrange',
   },
   {
     name: 'avatarStudentPink',
-    label: 'student 无照片头像玫粉色',
-    lightFamily: 'rose',
-    darkFamily: 'rose',
+    label: 'student 无照片头像浅玫粉色',
+    lightFamily: 'pastelPink',
+    darkFamily: 'pastelPink',
+  },
+  {
+    name: 'avatarStudentPurple',
+    label: 'student 无照片头像浅雾紫色',
+    lightFamily: 'pastelPurple',
+    darkFamily: 'pastelPurple',
+  },
+  {
+    name: 'avatarStudentSky',
+    label: 'student 无照片头像浅天蓝色',
+    lightFamily: 'pastelSky',
+    darkFamily: 'pastelSky',
   },
   {
     name: 'avatarTeacherBlue',
@@ -583,22 +596,13 @@ export const semanticColorCatalog = [
     darkResolved: '#FFFFFF',
   },
   {
-    name: 'color.avatar.student.gold',
-    cssVariable: '--color-avatar-student-gold',
-    description: 'student 无照片头像底色 gold，固定配色按身份分配',
-    lightReference: '{role.avatarStudentGold.500}',
-    darkReference: '{role.avatarStudentGold.500}',
-    lightResolved: '#F3C11B',
-    darkResolved: '#F3C11B',
-  },
-  {
-    name: 'color.avatar.student.lime',
-    cssVariable: '--color-avatar-student-lime',
-    description: 'student 无照片头像底色 lime，固定配色按身份分配',
-    lightReference: '{role.avatarStudentLime.500}',
-    darkReference: '{role.avatarStudentLime.500}',
-    lightResolved: '#8ED915',
-    darkResolved: '#8ED915',
+    name: 'color.avatar.student.green',
+    cssVariable: '--color-avatar-student-green',
+    description: 'student 无照片头像底色 green，固定配色按身份分配',
+    lightReference: '{role.avatarStudentGreen.500}',
+    darkReference: '{role.avatarStudentGreen.500}',
+    lightResolved: '#A8E7AF',
+    darkResolved: '#A8E7AF',
   },
   {
     name: 'color.avatar.student.orange',
@@ -606,8 +610,8 @@ export const semanticColorCatalog = [
     description: 'student 无照片头像底色 orange，固定配色按身份分配',
     lightReference: '{role.avatarStudentOrange.500}',
     darkReference: '{role.avatarStudentOrange.500}',
-    lightResolved: '#FFA54D',
-    darkResolved: '#FFA54D',
+    lightResolved: '#FFD0B1',
+    darkResolved: '#FFD0B1',
   },
   {
     name: 'color.avatar.student.pink',
@@ -615,8 +619,26 @@ export const semanticColorCatalog = [
     description: 'student 无照片头像底色 pink，固定配色按身份分配',
     lightReference: '{role.avatarStudentPink.500}',
     darkReference: '{role.avatarStudentPink.500}',
-    lightResolved: '#FF78AA',
-    darkResolved: '#FF78AA',
+    lightResolved: '#FFC3E5',
+    darkResolved: '#FFC3E5',
+  },
+  {
+    name: 'color.avatar.student.purple',
+    cssVariable: '--color-avatar-student-purple',
+    description: 'student 无照片头像底色 purple，固定配色按身份分配',
+    lightReference: '{role.avatarStudentPurple.500}',
+    darkReference: '{role.avatarStudentPurple.500}',
+    lightResolved: '#D7C9FF',
+    darkResolved: '#D7C9FF',
+  },
+  {
+    name: 'color.avatar.student.sky',
+    cssVariable: '--color-avatar-student-sky',
+    description: 'student 无照片头像底色 sky，固定配色按身份分配',
+    lightReference: '{role.avatarStudentSky.500}',
+    darkReference: '{role.avatarStudentSky.500}',
+    lightResolved: '#9DDDFF',
+    darkResolved: '#9DDDFF',
   },
   {
     name: 'color.avatar.teacher.blue',

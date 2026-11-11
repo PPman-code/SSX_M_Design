@@ -1,5 +1,15 @@
 # 变更记录
 
+## 2026-11-10 · D/I 不可更改项反馈
+
+- 记录移动端固定选项的常驻说明与点按反馈规则。家长端默认包含物品已接入提示，其他页面的固定选项随对应流程审查逐项核对。
+
+## 2026-11-04 · V/D 学员无照片头像五色调整
+
+- 用户指定学员无照片头像替换为五种新候选底色：`#D7C9FF`（浅雾紫）、`#FFD0B1`（浅杏橙）、`#9DDDFF`（浅天蓝）、`#A8E7AF`（浅薄荷绿）、`#FFC3E5`（浅玫粉）。
+- 更新 `palette.json` 物理色与 `roles.json` 角色，更新 `tokens.json` 并通过生成工具产出 token 与 catalog；在 `src/styles/avatar-colors.css` 中消费 `--color-avatar-student-*` 语义变量；首字保持白色，老师四色保持不变。
+- `src/lib/avatar-colors.ts` 稳定哈希模数按学员类别分配 5 色槽位；同步更新 `design-system/avatars.md` 与 `tests/person-colors.spec.ts`。
+
 ## 2026-11-02 · V/D 详情Tab渐变定位修复
 
 - 修复正式学员功能区增加后，页面固定128px渐变与Tab错位的问题；改为导航区背景，终点始终位于Tab底边。

@@ -2,7 +2,13 @@ import { test, expect } from '@playwright/test';
 import { avatarAttributes } from '../src/lib/avatar-colors';
 import { studentStatuses, students } from '../src/pages/students/v1/model';
 
-const studentColors = ['rgb(255, 165, 77)', 'rgb(142, 217, 21)', 'rgb(243, 193, 27)', 'rgb(255, 120, 170)'];
+const studentColors = [
+  'rgb(215, 201, 255)',
+  'rgb(255, 208, 177)',
+  'rgb(157, 221, 255)',
+  'rgb(168, 231, 175)',
+  'rgb(255, 195, 229)',
+];
 const teacherColors = ['rgb(118, 163, 209)', 'rgb(140, 136, 206)', 'rgb(144, 153, 189)', 'rgb(132, 198, 184)'];
 
 test('student states are restricted to the four confirmed choices and avatar allocation is stable', () => {
@@ -12,18 +18,25 @@ test('student states are restricted to the four confirmed choices and avatar all
   for (const status of ['试听', '休学', '退学']) expect(students.filter(student => student.status === status)).toHaveLength(1);
   const first = avatarAttributes('student', 's6');
   expect(first).toEqual(avatarAttributes('student', 's6'));
-  expect(first['data-avatar-color']).toMatch(/^[0-3]$/);
+  expect(first['data-avatar-color']).toMatch(/^[0-4]$/);
 });
 
 for (const theme of ['light', 'dark']) {
   test(`person colors use confirmed palettes and stay consistent across pages in ${theme}`, async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto(`/#/pages/students/v1?theme=${theme}`);
-    const resolved = await page.evaluate(() => (['student', 'teacher'] as const).map(kind => Array.from({ length: 4 }, (_, slot) => {
-      const el = document.createElement('span');
-      el.dataset.avatarKind = kind; el.dataset.avatarColor = String(slot); document.body.append(el);
-      const color = getComputedStyle(el).backgroundColor; el.remove(); return color;
-    })));
+    const resolved = await page.evaluate(() => [
+      Array.from({ length: 5 }, (_, slot) => {
+        const el = document.createElement('span');
+        el.dataset.avatarKind = 'student'; el.dataset.avatarColor = String(slot); document.body.append(el);
+        const color = getComputedStyle(el).backgroundColor; el.remove(); return color;
+      }),
+      Array.from({ length: 4 }, (_, slot) => {
+        const el = document.createElement('span');
+        el.dataset.avatarKind = 'teacher'; el.dataset.avatarColor = String(slot); document.body.append(el);
+        const color = getComputedStyle(el).backgroundColor; el.remove(); return color;
+      }),
+    ]);
     expect(resolved).toEqual([studentColors, teacherColors]);
     const roles: Record<string, [string, string]> = {
       在读: ['--color-background-brand-subtle', '--color-text-brand-accessible'],

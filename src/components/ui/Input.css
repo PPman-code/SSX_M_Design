@@ -30,6 +30,22 @@
 .ssx-input[data-disabled] .ssx-input-native, .ssx-input[data-disabled] .ssx-input-native::placeholder, .ssx-input-icon:disabled { color: var(--color-text-disabled); -webkit-text-fill-color: var(--color-text-disabled); opacity: 1; cursor: not-allowed; }
 .ssx-input[data-readonly] .ssx-input-native { color: var(--color-text-subtle); }
 
+.ssx-input--multiline .ssx-input-body { height: auto; align-items: flex-start; }
+.ssx-input--multiline.ssx-input--external .ssx-input-body { min-height: 48px; padding-block: 11px; }
+.ssx-input-autosize { position: relative; flex: 1; min-width: 0; }
+.ssx-input-autosize::after,
+.ssx-input-autosize .ssx-input-native {
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+}
+/* Mirror the text to size the row, including an empty line after a trailing newline. */
+.ssx-input-autosize::after { display: block; visibility: hidden; content: attr(data-value) ' '; }
+.ssx-input-autosize .ssx-input-native { position: absolute; inset: 0; height: 100%; resize: none; }
+
 .ssx-input-clear { color: var(--color-icon-placeholder); }
 
 .ssx-input-label-icon { display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 24px; margin-inline-end: 8px; vertical-align: top; color: var(--color-icon-subtle); }
