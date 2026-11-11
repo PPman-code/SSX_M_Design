@@ -191,9 +191,26 @@ for (const width of [360, 375, 390, 430]) {
   test(`AI detail fits ${width}px and preview overlays stay in product viewport`, async ({ page }) => {
     await page.setViewportSize({ width, height: 844 });
     await page.goto(base + '&scenario=single&chrome=wechat');
-    await expect(page.locator('.ai-entry-footer')).toHaveCSS('height', await page.locator('.preview-history').count() ? '64px' : '98px');
-    await expect(page.getByRole('button', { name: 'AI 实时记录', exact: true })).toHaveCSS('height', '48px');
-    expect((await page.locator('.ai-entry-footer').boundingBox())!.y + 56).toBeLessThanOrEqual((await page.locator('.preview-home-indicator').boundingBox())!.y);
+    const footer = page.locator('.ai-entry-footer');
+    const hasHistory = await page.locator('.preview-history').count() > 0;
+    await expect(footer).toHaveCSS('height', hasHistory ? '56px' : '90px');
+    const footerBox = (await footer.boundingBox())!;
+    const buttonBoxes = [];
+    for (const name of ['AI 实时记录', '添加沟通记录']) {
+      const button = page.getByRole('button', { name, exact: true });
+      await expect(button).toHaveCSS('height', '40px');
+      await expect(button).toHaveCSS('padding-inline-start', '16px');
+      await expect(button).toHaveCSS('padding-inline-end', '16px');
+      const buttonBox = (await button.boundingBox())!;
+      buttonBoxes.push(buttonBox);
+      expect(footerBox.y + footerBox.height - buttonBox.y - buttonBox.height).toBeCloseTo(hasHistory ? 8 : 42, 1);
+    }
+    const [firstButton, lastButton] = buttonBoxes;
+    const leftSpace = firstButton.x - footerBox.x;
+    const rightSpace = footerBox.x + footerBox.width - lastButton.x - lastButton.width;
+    expect(leftSpace).toBeGreaterThan(12);
+    expect(leftSpace).toBeCloseTo(rightSpace, 1);
+    expect(footerBox.y + 56).toBeLessThanOrEqual((await page.locator('.preview-home-indicator').boundingBox())!.y);
     if (width === 390) await page.screenshot({ path: 'outputs/ai-communication-customer.png' });
     await page.getByRole('button', { name: /AI 记录 · 1 条待处理/ }).click();
     expect(await page.locator('.product-scroll').evaluate(el => el.scrollWidth <= el.clientWidth)).toBeTruthy();

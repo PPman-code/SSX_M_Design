@@ -6,7 +6,7 @@ for (const theme of ['light', 'dark']) {
     await page.goto(`/#/pages/customer-info/v1?customer=customer-1&theme=${theme}&chrome=wechat`);
     const idle = page.getByRole('button', { name: 'AI 实时记录', exact: true });
     await expect(idle.locator('svg')).toHaveCount(1);
-    await expect(idle.locator('small')).toHaveText('记录与家长的沟通过程');
+    await expect(idle).not.toContainText('记录与家长的沟通过程');
     await expect(idle.locator('canvas')).toHaveCount(0);
     await idle.screenshot({ path: `outputs/ai-entry-idle-${theme}.png` });
     await idle.click();
@@ -15,7 +15,7 @@ for (const theme of ['light', 'dark']) {
     const entry = page.getByRole('button', { name: 'AI 记录中', exact: true });
     const wave = entry.locator('canvas');
     await expect(wave).toBeVisible();
-    await expect(entry).toHaveCSS('height', '48px');
+    await expect(entry).toHaveCSS('height', '40px');
     await expect(entry.locator('svg')).toHaveCount(0);
     await expect(entry.locator('.ai-entry-dot')).toHaveCSS('animation-name', 'ai-entry-recording-blink');
     await expect(entry).toContainText('查看');
@@ -25,7 +25,7 @@ for (const theme of ['light', 'dark']) {
     expect(dotBox!.width).toBe(12);
     expect(dotBox!.height).toBe(12);
     const buttonBox = await entry.boundingBox();
-    expect(dotBox!.x - buttonBox!.x).toBeCloseTo(18, 0);
+    expect(dotBox!.x - buttonBox!.x).toBeCloseTo(16, 0);
     const waveBox = await wave.boundingBox();
     expect(Math.abs(waveBox!.width - buttonBox!.width)).toBeLessThanOrEqual(2);
     expect(Math.abs(waveBox!.height - buttonBox!.height)).toBeLessThanOrEqual(2);

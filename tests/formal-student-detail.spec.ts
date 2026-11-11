@@ -65,7 +65,7 @@ for (const [width, theme] of [[360, 'light'], [375, 'light'], [390, 'light'], [4
       await expect.poll(() => image.evaluate(el => (el as HTMLImageElement).naturalWidth)).toBeGreaterThan(0);
     }
     const add = page.getByRole('button', { name: '添加沟通记录', exact: true });
-    await expect(add).toHaveCSS('height', '48px');
+    await expect(add).toHaveCSS('height', '40px');
     const card = await page.getByRole('button', { name: '查看学员资料', exact: true }).boundingBox();
     expect(card!.x).toBeGreaterThanOrEqual(0);
     expect(card!.x + card!.width).toBeLessThanOrEqual(width);
