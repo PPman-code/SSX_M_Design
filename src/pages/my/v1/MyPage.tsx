@@ -65,7 +65,7 @@ export function MyPageContent({ children, iosDialogs = false, onUnavailableEntry
         <span className="my-identity"><span className="my-name">用户名称</span><span className="my-role">班主任</span></span>
         <Icon name="right" size="sm" />
       </button>}
-      <section className="payment-card" aria-label="报名与收款">
+      {!app && <section className="payment-card" aria-label="报名与收款">
         <div className="payment-inner">
           <div className="registration-group"><h2>正式报名</h2>{payment('收费报名', 'money-collect-filled')}</div>
           <div className="payment-divider" aria-hidden="true" />
@@ -73,7 +73,7 @@ export function MyPageContent({ children, iosDialogs = false, onUnavailableEntry
             <div className="collection-actions">{payment('收款码', 'qr-code-fill')}{payment('扫码收款', 'qr-scan-2-line')}</div>
           </div>
         </div>
-      </section>
+      </section>}
       {(app ? appGroups : groups).map((group, index) => <section className="my-menu" aria-label={index === 0 ? '常用功能' : '服务与帮助'} key={index}>{group.map((item) => item.label === '设置' && app ? <button key={item.label} ref={app.settingsRef} type="button" className="menu-cell" onClick={app.onSettings}><Icon name={item.icon} size="lg" /><span>{item.label}</span><span className="menu-cell-arrow"><Icon name="right" size="base" /></span></button> : <MenuCell key={item.label} {...item} onClick={() => openEntry(item.label)} />)}</section>)}
       {children}
     </div>
