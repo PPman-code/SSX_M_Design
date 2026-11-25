@@ -1,0 +1,526 @@
+{
+  "schema_version": "ues-evidence-index/0.1",
+  "run_id": "LOGIN-UES-01",
+  "version": 3,
+  "generated_at": "2026-11-19T02:16:44.325456+00:00",
+  "input_snapshot_id": "LOGIN-INPUT-01",
+  "evidence": [
+    {
+      "id": "E-001",
+      "kind": "other",
+      "origin": "supplied",
+      "ref": "http://172.18.13.214:5178/#/pages/teacher-app/v1?theme=light",
+      "recorded_at": "2026-11-19T02:16:44.325456+00:00",
+      "subjects": {
+        "page_ids": [
+          "P-LOGIN"
+        ],
+        "state_ids": [],
+        "task_ids": [
+          "T-LOGIN"
+        ],
+        "run_ids": []
+      },
+      "locator": "当前应用内网页",
+      "observable_fact": "浏览器上下文提供教师端 App 登录地址",
+      "authorization_scope": "原型走查",
+      "sensitivity": "internal",
+      "derivative_of": null,
+      "supersedes": null
+    },
+    {
+      "id": "E-002",
+      "kind": "screenshot",
+      "origin": "captured",
+      "ref": "evidence/entry.png",
+      "sha256": "bf0998390bd240d33b40ea8a9ed6bff2e8dbe6100e2e845890672f87432adb39",
+      "recorded_at": "2026-11-19T02:26:41.731532+00:00",
+      "subjects": {
+        "page_ids": [
+          "P-LOGIN"
+        ],
+        "state_ids": [
+          "E-002"
+        ],
+        "task_ids": [
+          "T-LOGIN"
+        ],
+        "run_ids": []
+      },
+      "locator": "Chrome 移动视口 390×844",
+      "observable_fact": "教师登录首屏有手机号和账号密码两种入口，顶栏有返回箭头。",
+      "authorization_scope": "仅模拟登录与内存绑定",
+      "sensitivity": "internal",
+      "derivative_of": null,
+      "supersedes": null
+    },
+    {
+      "id": "E-003",
+      "kind": "screenshot",
+      "origin": "captured",
+      "ref": "evidence/invalid-code.png",
+      "sha256": "8428f7e0cce21932bca979813532ad49f2640a0b834a82d58092321795ba1ce9",
+      "recorded_at": "2026-11-19T02:26:41.731532+00:00",
+      "subjects": {
+        "page_ids": [
+          "P-LOGIN"
+        ],
+        "state_ids": [
+          "E-003"
+        ],
+        "task_ids": [
+          "T-LOGIN"
+        ],
+        "run_ids": []
+      },
+      "locator": "Chrome 移动视口 390×844",
+      "observable_fact": "输入错误验证码后，字段下显示可重试提示。",
+      "authorization_scope": "仅模拟登录与内存绑定",
+      "sensitivity": "internal",
+      "derivative_of": null,
+      "supersedes": null
+    },
+    {
+      "id": "E-004",
+      "kind": "screenshot",
+      "origin": "captured",
+      "ref": "evidence/schools.png",
+      "sha256": "0a6ff81a17d1f011110ca50453b791b348a7a4c67f5c55874cf506bd72f0d946",
+      "recorded_at": "2026-11-19T02:26:41.731532+00:00",
+      "subjects": {
+        "page_ids": [
+          "P-LOGIN"
+        ],
+        "state_ids": [
+          "E-004"
+        ],
+        "task_ids": [
+          "T-LOGIN"
+        ],
+        "run_ids": []
+      },
+      "locator": "Chrome 移动视口 390×844",
+      "observable_fact": "选择学校页显示已验证手机号和两个仅含名称的单选项。",
+      "authorization_scope": "仅模拟登录与内存绑定",
+      "sensitivity": "internal",
+      "derivative_of": null,
+      "supersedes": null
+    },
+    {
+      "id": "E-005",
+      "kind": "screenshot",
+      "origin": "captured",
+      "ref": "evidence/school-success.png",
+      "sha256": "1f3adf940dc4d386c8a33e7950d7773ad05d5b650d0a156dc4e82c9464e28920",
+      "recorded_at": "2026-11-19T02:26:41.731532+00:00",
+      "subjects": {
+        "page_ids": [
+          "P-LOGIN"
+        ],
+        "state_ids": [
+          "E-005"
+        ],
+        "task_ids": [
+          "T-LOGIN"
+        ],
+        "run_ids": []
+      },
+      "locator": "Chrome 移动视口 390×844",
+      "observable_fact": "选中星禾艺术学校并确认后，成功页显示该学校、账号及掩码手机号。",
+      "authorization_scope": "仅模拟登录与内存绑定",
+      "sensitivity": "internal",
+      "derivative_of": null,
+      "supersedes": null
+    },
+    {
+      "id": "E-006",
+      "kind": "screenshot",
+      "origin": "captured",
+      "ref": "evidence/repeat-success.png",
+      "sha256": "1f3adf940dc4d386c8a33e7950d7773ad05d5b650d0a156dc4e82c9464e28920",
+      "recorded_at": "2026-11-19T02:26:41.731532+00:00",
+      "subjects": {
+        "page_ids": [
+          "P-LOGIN"
+        ],
+        "state_ids": [
+          "E-006"
+        ],
+        "task_ids": [
+          "T-LOGIN"
+        ],
+        "run_ids": []
+      },
+      "locator": "Chrome 移动视口 390×844",
+      "observable_fact": "退出后用同一模拟手机号重登，直接到登录成功，显示原来绑定的学校。",
+      "authorization_scope": "仅模拟登录与内存绑定",
+      "sensitivity": "internal",
+      "derivative_of": null,
+      "supersedes": null
+    },
+    {
+      "id": "E-007",
+      "kind": "screenshot",
+      "origin": "captured",
+      "ref": "evidence/account-form.png",
+      "sha256": "301c9dbb9ccd9e3a16bc1fb6a675dc6c382f01f024e4d6a049b458928462ae06",
+      "recorded_at": "2026-11-19T02:26:41.731532+00:00",
+      "subjects": {
+        "page_ids": [
+          "P-LOGIN"
+        ],
+        "state_ids": [
+          "E-007"
+        ],
+        "task_ids": [
+          "T-LOGIN"
+        ],
+        "run_ids": []
+      },
+      "locator": "Chrome 移动视口 390×844",
+      "observable_fact": "账号入口显示工作账号、密码、显示密码与登录按钮。",
+      "authorization_scope": "仅模拟登录与内存绑定",
+      "sensitivity": "internal",
+      "derivative_of": null,
+      "supersedes": null
+    },
+    {
+      "id": "E-008",
+      "kind": "screenshot",
+      "origin": "captured",
+      "ref": "evidence/bind-optional.png",
+      "sha256": "057c63ff1b017ef1fb466033e9d4f2db9e328adc2ef995dc62ff7ae2dd2a5db9",
+      "recorded_at": "2026-11-19T02:26:41.731532+00:00",
+      "subjects": {
+        "page_ids": [
+          "P-LOGIN"
+        ],
+        "state_ids": [
+          "E-008"
+        ],
+        "task_ids": [
+          "T-LOGIN"
+        ],
+        "run_ids": []
+      },
+      "locator": "Chrome 移动视口 390×844",
+      "observable_fact": "账号验证后显示绑定手机号、绑定收益与暂不绑定操作。",
+      "authorization_scope": "仅模拟登录与内存绑定",
+      "sensitivity": "internal",
+      "derivative_of": null,
+      "supersedes": null
+    },
+    {
+      "id": "E-009",
+      "kind": "screenshot",
+      "origin": "captured",
+      "ref": "evidence/account-success.png",
+      "sha256": "b4ce4e3aace31612f1da4cfb6b03e6891e94b88ac28db90962398776d45ea49d",
+      "recorded_at": "2026-11-19T02:26:41.731532+00:00",
+      "subjects": {
+        "page_ids": [
+          "P-LOGIN"
+        ],
+        "state_ids": [
+          "E-009"
+        ],
+        "task_ids": [
+          "T-LOGIN"
+        ],
+        "run_ids": []
+      },
+      "locator": "Chrome 移动视口 390×844",
+      "observable_fact": "跳过绑定后，成功页显示账号和手机号尚未绑定，未出现学校字段。",
+      "authorization_scope": "仅模拟登录与内存绑定",
+      "sensitivity": "internal",
+      "derivative_of": null,
+      "supersedes": null
+    },
+    {
+      "id": "E-010",
+      "kind": "screenshot",
+      "origin": "captured",
+      "ref": "evidence/later-binding.png",
+      "sha256": "edea66ef14b60eccbd08ea24b86cd507d4c2eccb1e9113349d8a0f00d80c8290",
+      "recorded_at": "2026-11-19T02:26:41.731532+00:00",
+      "subjects": {
+        "page_ids": [
+          "P-LOGIN"
+        ],
+        "state_ids": [
+          "E-010"
+        ],
+        "task_ids": [
+          "T-LOGIN"
+        ],
+        "run_ids": []
+      },
+      "locator": "Chrome 移动视口 390×844",
+      "observable_fact": "事后绑定手机号完成后，结果显示掩码号码，未出现学校字段。",
+      "authorization_scope": "仅模拟登录与内存绑定",
+      "sensitivity": "internal",
+      "derivative_of": null,
+      "supersedes": null
+    },
+    {
+      "id": "E-011",
+      "kind": "screenshot",
+      "origin": "captured",
+      "ref": "evidence/binding-conflict.png",
+      "sha256": "d372819dab62a44caa198a033dbe7f022ffa3c4d4f1324ba487174147c405936",
+      "recorded_at": "2026-11-19T02:26:41.731532+00:00",
+      "subjects": {
+        "page_ids": [
+          "P-LOGIN"
+        ],
+        "state_ids": [
+          "E-011"
+        ],
+        "task_ids": [
+          "T-LOGIN"
+        ],
+        "run_ids": []
+      },
+      "locator": "Chrome 移动视口 390×844",
+      "observable_fact": "用不同号码绑定同一账号时，字段下提示账号已绑定其他手机号。",
+      "authorization_scope": "仅模拟登录与内存绑定",
+      "sensitivity": "internal",
+      "derivative_of": null,
+      "supersedes": null
+    },
+    {
+      "id": "E-012",
+      "kind": "screenshot",
+      "origin": "captured",
+      "ref": "evidence/fallback.png",
+      "sha256": "8924f7fab35b0430ca730c1fd431b3873aa7737678451e7d37eb8f63648b257c",
+      "recorded_at": "2026-11-19T02:26:41.731532+00:00",
+      "subjects": {
+        "page_ids": [
+          "P-LOGIN"
+        ],
+        "state_ids": [
+          "E-012"
+        ],
+        "task_ids": [
+          "T-LOGIN"
+        ],
+        "run_ids": []
+      },
+      "locator": "Chrome 移动视口 390×844",
+      "observable_fact": "未登记手机号验证后进入绑定工作账号，已验证号码以掩码显示。",
+      "authorization_scope": "仅模拟登录与内存绑定",
+      "sensitivity": "internal",
+      "derivative_of": null,
+      "supersedes": null
+    },
+    {
+      "id": "E-013",
+      "kind": "screenshot",
+      "origin": "captured",
+      "ref": "evidence/fallback-success.png",
+      "sha256": "edea66ef14b60eccbd08ea24b86cd507d4c2eccb1e9113349d8a0f00d80c8290",
+      "recorded_at": "2026-11-19T02:26:41.731532+00:00",
+      "subjects": {
+        "page_ids": [
+          "P-LOGIN"
+        ],
+        "state_ids": [
+          "E-013"
+        ],
+        "task_ids": [
+          "T-LOGIN"
+        ],
+        "run_ids": []
+      },
+      "locator": "Chrome 移动视口 390×844",
+      "observable_fact": "手机号验证并绑定工作账号后，结果显示账号和手机号，未出现学校字段。",
+      "authorization_scope": "仅模拟登录与内存绑定",
+      "sensitivity": "internal",
+      "derivative_of": null,
+      "supersedes": null
+    },
+    {
+      "id": "E-014",
+      "kind": "screenshot",
+      "origin": "captured",
+      "ref": "evidence/narrow.png",
+      "sha256": "2b7dac17eab061dcae572bbf853e8de2848bd4da0746ee64edff4f2b4cc36f7c",
+      "recorded_at": "2026-11-19T02:26:41.731532+00:00",
+      "subjects": {
+        "page_ids": [
+          "P-LOGIN"
+        ],
+        "state_ids": [
+          "E-014"
+        ],
+        "task_ids": [
+          "T-LOGIN"
+        ],
+        "run_ids": []
+      },
+      "locator": "Chrome 移动视口 320×640",
+      "observable_fact": "320px 视口首屏内可见登录主按钮。",
+      "authorization_scope": "仅模拟登录与内存绑定",
+      "sensitivity": "internal",
+      "derivative_of": null,
+      "supersedes": null
+    },
+    {
+      "id": "E-015",
+      "kind": "interaction",
+      "origin": "captured",
+      "ref": "evidence/walkthrough.json",
+      "sha256": "fad236322082d7367d0cacf6d0c7fab6e29766fc1fc1ea5411162ed0f9f47eed",
+      "recorded_at": "2026-11-19T02:26:41.731532+00:00",
+      "subjects": {
+        "page_ids": [
+          "P-LOGIN"
+        ],
+        "state_ids": [
+          "E-015"
+        ],
+        "task_ids": [
+          "T-LOGIN"
+        ],
+        "run_ids": []
+      },
+      "locator": "selectionTransitionFocus、schoolTabOrder、submitFocus、successFocus、methodFocus、errorAttributes、reflow",
+      "observable_fact": "记录登录、验证码校验、选校、重登、跳过和补绑的页面树及焦点。",
+      "authorization_scope": "仅模拟登录与内存绑定",
+      "sensitivity": "internal",
+      "derivative_of": null,
+      "supersedes": null
+    },
+    {
+      "id": "EV-A01",
+      "kind": "screenshot",
+      "origin": "generated_annotation",
+      "ref": "evidence/I01-marked.png",
+      "sha256": "f41d9024f3ea051e159601f961b7371b3871578108a62e70558033532b3a967c",
+      "recorded_at": "2026-11-19T02:26:41.731532+00:00",
+      "subjects": {
+        "page_ids": [
+          "P-LOGIN"
+        ],
+        "state_ids": [
+          "EV-A01"
+        ],
+        "task_ids": [
+          "T-LOGIN"
+        ],
+        "run_ids": []
+      },
+      "locator": "红框 I01",
+      "observable_fact": "原图上的定位标注",
+      "authorization_scope": "仅模拟登录与内存绑定",
+      "sensitivity": "internal",
+      "derivative_of": "E-004",
+      "supersedes": null
+    },
+    {
+      "id": "EV-A02",
+      "kind": "screenshot",
+      "origin": "generated_annotation",
+      "ref": "evidence/I02-marked.png",
+      "sha256": "410f2329e91442ae4a9c6ecc499bfd0f9dad584c287c206ed4ec97bdd3da360a",
+      "recorded_at": "2026-11-19T02:26:41.731532+00:00",
+      "subjects": {
+        "page_ids": [
+          "P-LOGIN"
+        ],
+        "state_ids": [
+          "EV-A02"
+        ],
+        "task_ids": [
+          "T-LOGIN"
+        ],
+        "run_ids": []
+      },
+      "locator": "红框 I02",
+      "observable_fact": "原图上的定位标注",
+      "authorization_scope": "仅模拟登录与内存绑定",
+      "sensitivity": "internal",
+      "derivative_of": "E-009",
+      "supersedes": null
+    },
+    {
+      "id": "EV-A03",
+      "kind": "screenshot",
+      "origin": "generated_annotation",
+      "ref": "evidence/I03-marked.png",
+      "sha256": "529d3f68f4ca94c22fb4f93734b419074d4d0c398bd1fe895b24d4532e836907",
+      "recorded_at": "2026-11-19T02:26:41.731532+00:00",
+      "subjects": {
+        "page_ids": [
+          "P-LOGIN"
+        ],
+        "state_ids": [
+          "EV-A03"
+        ],
+        "task_ids": [
+          "T-LOGIN"
+        ],
+        "run_ids": []
+      },
+      "locator": "红框 I03",
+      "observable_fact": "原图上的定位标注",
+      "authorization_scope": "仅模拟登录与内存绑定",
+      "sensitivity": "internal",
+      "derivative_of": "E-004",
+      "supersedes": null
+    },
+    {
+      "id": "EV-A04",
+      "kind": "screenshot",
+      "origin": "generated_annotation",
+      "ref": "evidence/I04-marked.png",
+      "sha256": "8416277eb4643799ac354167b79723881f5770f942a051a6817801e3f14c30d2",
+      "recorded_at": "2026-11-19T02:26:41.731532+00:00",
+      "subjects": {
+        "page_ids": [
+          "P-LOGIN"
+        ],
+        "state_ids": [
+          "EV-A04"
+        ],
+        "task_ids": [
+          "T-LOGIN"
+        ],
+        "run_ids": []
+      },
+      "locator": "红框 I04",
+      "observable_fact": "原图上的定位标注",
+      "authorization_scope": "仅模拟登录与内存绑定",
+      "sensitivity": "internal",
+      "derivative_of": "E-002",
+      "supersedes": null
+    },
+    {
+      "id": "EV-A05",
+      "kind": "screenshot",
+      "origin": "generated_annotation",
+      "ref": "evidence/I05-marked.png",
+      "sha256": "86a1dd376b77458da70edcb5d44bdaf84b78e4b42acae9dfe2d7039a103f3a71",
+      "recorded_at": "2026-11-19T02:26:41.731532+00:00",
+      "subjects": {
+        "page_ids": [
+          "P-LOGIN"
+        ],
+        "state_ids": [
+          "EV-A05"
+        ],
+        "task_ids": [
+          "T-LOGIN"
+        ],
+        "run_ids": []
+      },
+      "locator": "红框 I05",
+      "observable_fact": "原图上的定位标注",
+      "authorization_scope": "仅模拟登录与内存绑定",
+      "sensitivity": "internal",
+      "derivative_of": "E-002",
+      "supersedes": null
+    }
+  ]
+}

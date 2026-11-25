@@ -21,11 +21,11 @@ for (const theme of ['light', 'dark']) {
       const header = page.locator('.ai-customer-navigation');
       const root = page.locator('.product-scroll');
       await expect.poll(() => gradientGap(page)).toBeLessThan(1);
-      await expect.poll(() => page.locator('.student-detail-actions img').evaluateAll(es => es.every(el => (el as HTMLImageElement).naturalWidth > 0))).toBe(true);
+      await expect(page.locator('.student-detail-actions svg use')).toHaveCount(4);
       await page.screenshot({ path: `/tmp/ssx-detail-gradient-${width}-${theme}.png` });
       await page.getByRole('button', { name: '展开全部学员功能', exact: true }).click();
       await expect.poll(() => gradientGap(page)).toBeLessThan(1);
-      await expect.poll(() => page.locator('.student-detail-actions img').evaluateAll(es => es.every(el => (el as HTMLImageElement).naturalWidth > 0))).toBe(true);
+      await expect(page.locator('.student-detail-actions svg use')).toHaveCount(11);
       await page.screenshot({ path: `/tmp/ssx-detail-gradient-expanded-${width}-${theme}.png` });
       await root.evaluate(el => { el.scrollTop = 500; });
       await expect(header).toHaveAttribute('data-pinned');

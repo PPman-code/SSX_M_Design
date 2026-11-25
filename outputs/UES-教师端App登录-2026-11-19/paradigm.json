@@ -1,0 +1,28 @@
+{
+  "id": "login-ease-v1",
+  "frozen": true,
+  "product_type": "教师端 App 登录",
+  "paradigm_selection": {
+    "primary": {
+      "paradigm": "task_system",
+      "share": 1
+    },
+    "confirmation": {
+      "source": "user_reply",
+      "user_statement": "任务系统型 100%（推荐）"
+    }
+  },
+  "scenarios": [
+    {
+      "id": "S1",
+      "task_id": "T-LOGIN",
+      "goal": "首次验证身份并确认进入当前学校",
+      "basis": "用户指定的新入职老师登录任务",
+      "primary_task": "execute",
+      "secondary_tasks": [
+        "compare",
+        "decide"
+      ]
+    }
+  ]
+}

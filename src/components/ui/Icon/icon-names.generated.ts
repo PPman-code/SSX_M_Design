@@ -1,6 +1,20 @@
 /* 此文件由 scripts/generate-iconfont.mjs 自动生成，请勿手工修改。 */
 export const iconSpritePrefix = "SSX-";
 export const iconNames = [
+  "baomingshoufei",
+  "tiaoban",
+  "fayouhuiquan",
+  "paike1",
+  "tuifei",
+  "qingjiashenqing",
+  "genbanshiting",
+  "xinkaibanshiting",
+  "tiaoke1",
+  "tiaorudepaike",
+  "paike",
+  "tiaochudepaike",
+  "tiaokexueyuan",
+  "xiaoquyingshou",
   "xueyuanguanli",
   "yixiangkehu",
   "file-copy-line",

@@ -1,4 +1,5 @@
 :root {
+  --color-app-tab-selected: var(--role-app-tab-accent-600);
   --color-attendance-hero-surface: var(--role-brand-600);
   --color-attendance-hero-text: var(--role-neutral-100);
   --color-avatar-student-foreground: var(--role-neutral-100);
@@ -242,6 +243,7 @@
 }
 
 :root[data-color-mode="dark"] {
+  --color-app-tab-selected: var(--role-app-tab-accent-600);
   --color-attendance-hero-surface: var(--role-brand-500);
   --color-attendance-hero-text: var(--role-neutral-100);
   --color-avatar-student-foreground: var(--role-neutral-100);

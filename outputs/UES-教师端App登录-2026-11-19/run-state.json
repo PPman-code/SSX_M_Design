@@ -1,0 +1,203 @@
+{
+  "schema_version": "ues-run-state/0.3",
+  "run_id": "LOGIN-UES-01",
+  "created_at": "2026-11-19T02:16:44.325456+00:00",
+  "updated_at": "2026-11-19T02:26:42.376926+00:00",
+  "input_snapshot": {
+    "id": "LOGIN-INPUT-01",
+    "version": 1,
+    "artifacts": [
+      "http://172.18.13.214:5178/#/pages/teacher-app/v1?theme=light"
+    ]
+  },
+  "profile": {
+    "version": 1,
+    "status": "frozen",
+    "artifact_path": "product-profile.json"
+  },
+  "confirmations": {
+    "paradigm": {
+      "status": "confirmed",
+      "version": 1,
+      "artifact_path": "paradigm.json",
+      "basis": "用户确认任务系统型 100%（推荐）"
+    },
+    "task_contract": {
+      "status": "not_required",
+      "version": null,
+      "artifact_path": null,
+      "basis": "仅易用性"
+    }
+  },
+  "routing": {
+    "version": 1,
+    "status": "frozen",
+    "artifact_path": "routing-plan.json"
+  },
+  "evidence_index": {
+    "version": 3,
+    "path": "evidence-index.json",
+    "sha256": "1087fd34de801fb8897e7bc1aeef601a430fe51668ec210980a3378248e69724"
+  },
+  "diagnosis": {
+    "version": 1,
+    "status": "validated",
+    "artifact_path": "diagnosis.json"
+  },
+  "specialists": [
+    {
+      "name": "ues-baseline-gate",
+      "execution_status": "completed",
+      "result_status": "not_selected",
+      "artifact_paths": [],
+      "depends_on": {
+        "input_snapshot_id": "LOGIN-INPUT-01",
+        "profile_version": 1,
+        "routing_version": 1,
+        "evidence_index_version": 3,
+        "diagnosis_version": 1
+      },
+      "validation": {
+        "status": "not_required",
+        "artifact_path": null
+      },
+      "stale_reasons": []
+    },
+    {
+      "name": "ease-of-use-suite-47",
+      "execution_status": "validated",
+      "result_status": "executed",
+      "artifact_paths": [
+        "ease-assessment.json",
+        "score-result.json"
+      ],
+      "depends_on": {
+        "input_snapshot_id": "LOGIN-INPUT-01",
+        "profile_version": 1,
+        "routing_version": 1,
+        "evidence_index_version": 3,
+        "diagnosis_version": 1
+      },
+      "validation": {
+        "status": "valid",
+        "artifact_path": "validation.json"
+      },
+      "stale_reasons": []
+    },
+    {
+      "name": "consistency-suite-22",
+      "execution_status": "completed",
+      "result_status": "not_selected",
+      "artifact_paths": [],
+      "depends_on": {
+        "input_snapshot_id": "LOGIN-INPUT-01",
+        "profile_version": 1,
+        "routing_version": 1,
+        "evidence_index_version": 3,
+        "diagnosis_version": 1
+      },
+      "validation": {
+        "status": "not_required",
+        "artifact_path": null
+      },
+      "stale_reasons": []
+    },
+    {
+      "name": "task-experience-score",
+      "execution_status": "completed",
+      "result_status": "not_selected",
+      "artifact_paths": [],
+      "depends_on": {
+        "input_snapshot_id": "LOGIN-INPUT-01",
+        "profile_version": 1,
+        "routing_version": 1,
+        "evidence_index_version": 3,
+        "diagnosis_version": 1
+      },
+      "validation": {
+        "status": "not_required",
+        "artifact_path": null
+      },
+      "stale_reasons": []
+    },
+    {
+      "name": "page-performance-score",
+      "execution_status": "completed",
+      "result_status": "not_selected",
+      "artifact_paths": [],
+      "depends_on": {
+        "input_snapshot_id": "LOGIN-INPUT-01",
+        "profile_version": 1,
+        "routing_version": 1,
+        "evidence_index_version": 3,
+        "diagnosis_version": 1
+      },
+      "validation": {
+        "status": "not_required",
+        "artifact_path": null
+      },
+      "stale_reasons": []
+    },
+    {
+      "name": "virtual-user-walkthrough",
+      "execution_status": "completed",
+      "result_status": "not_selected",
+      "artifact_paths": [],
+      "depends_on": {
+        "input_snapshot_id": "LOGIN-INPUT-01",
+        "profile_version": 1,
+        "routing_version": 1,
+        "evidence_index_version": 3,
+        "diagnosis_version": 1
+      },
+      "validation": {
+        "status": "not_required",
+        "artifact_path": null
+      },
+      "stale_reasons": []
+    },
+    {
+      "name": "evaluate-visual-quality-v0-9",
+      "execution_status": "completed",
+      "result_status": "not_selected",
+      "artifact_paths": [],
+      "depends_on": {
+        "input_snapshot_id": "LOGIN-INPUT-01",
+        "profile_version": 1,
+        "routing_version": 1,
+        "evidence_index_version": 3,
+        "diagnosis_version": 1
+      },
+      "validation": {
+        "status": "not_required",
+        "artifact_path": null
+      },
+      "stale_reasons": []
+    }
+  ],
+  "report": {
+    "status": "current",
+    "artifact_paths": [
+      "report.html",
+      "report.md",
+      "assessment.json"
+    ],
+    "depends_on": {
+      "input_snapshot_id": "LOGIN-INPUT-01",
+      "profile_version": 1,
+      "routing_version": 1,
+      "evidence_index_version": 3,
+      "diagnosis_version": 1,
+      "specialist_validations": {
+        "ues-baseline-gate": "not_required",
+        "ease-of-use-suite-47": "valid",
+        "consistency-suite-22": "not_required",
+        "task-experience-score": "not_required",
+        "page-performance-score": "not_required",
+        "virtual-user-walkthrough": "not_required",
+        "evaluate-visual-quality-v0-9": "not_required"
+      }
+    },
+    "reason": "已校验当前证据、计分与呈现"
+  }
+}

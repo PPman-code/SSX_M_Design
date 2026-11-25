@@ -1,0 +1,282 @@
+{
+  "schema_version": "ues-expert-suite/0.6",
+  "generated_at": "2026-11-19T02:26:42.376926+00:00",
+  "run_id": "LOGIN-UES-01",
+  "run_state_path": "run-state.json",
+  "evidence_index_path": "evidence-index.json",
+  "diagnosis_path": "diagnosis.json",
+  "routing_plan_path": "routing-plan.json",
+  "product": {
+    "name": "校管家教师端 App 登录",
+    "version": "v1",
+    "platform": "mobile",
+    "product_type": [
+      "task_system"
+    ],
+    "development_stage": "interactive_prototype",
+    "stage_basis": "页面标记原型演示，使用虚构凭证与内存绑定",
+    "target_users": [
+      "首次使用系统的新入职老师"
+    ],
+    "core_tasks": [
+      {
+        "task_id": "T-LOGIN",
+        "goal": "登录并确认进入入职学校",
+        "success": "通过身份验证，必要时选择学校，终态可确认当前学校"
+      }
+    ]
+  },
+  "scope": {
+    "request_mode": "only",
+    "inputs": [
+      "局域网可交互原型",
+      "Chrome 截图与走查轨迹"
+    ],
+    "routes_or_screens": [
+      "/pages/teacher-app/v1",
+      "教师端-app 预览入口"
+    ],
+    "authorization_limits": [
+      "仅模拟账号、号码与内存绑定"
+    ],
+    "assumptions": [
+      "任务系统型100%，已获用户确认"
+    ],
+    "evidence_limitations": [
+      "浏览器运行的可交互原型，验证与绑定均为模拟。",
+      "原型未提供真实新旧任职关系状态、组织工作台或学校切换。",
+      "检查了 Chrome 键盘行为、无障碍树、390px 主视口与 320px 首屏。待补 VoiceOver、TalkBack、原生返回、短信自动填充与系统字体放大。",
+      "仅执行易用性专项，不生成无障碍合规结论或 UES 综合分。"
+    ]
+  },
+  "specialists": [
+    {
+      "name": "ues-baseline-gate",
+      "status": "not_selected",
+      "reason": "用户限定范围",
+      "evidence_level": "未执行",
+      "score": null,
+      "result": "用户限定范围",
+      "artifact_paths": []
+    },
+    {
+      "name": "ease-of-use-suite-47",
+      "status": "executed",
+      "reason": "用户指定",
+      "evidence_level": "Demo 完整易操作性实测",
+      "score": 7.7,
+      "result": "新老师能通过两种方式验证身份。当前最大的风险是学校归属：选校只有名称，部分登录成功页没有学校。",
+      "artifact_paths": [
+        "ease-assessment.json",
+        "score-result.json"
+      ]
+    },
+    {
+      "name": "consistency-suite-22",
+      "status": "not_selected",
+      "reason": "用户限定范围",
+      "evidence_level": "未执行",
+      "score": null,
+      "result": "用户限定范围",
+      "artifact_paths": []
+    },
+    {
+      "name": "task-experience-score",
+      "status": "not_selected",
+      "reason": "用户限定范围",
+      "evidence_level": "未执行",
+      "score": null,
+      "result": "用户限定范围",
+      "artifact_paths": []
+    },
+    {
+      "name": "page-performance-score",
+      "status": "not_selected",
+      "reason": "用户限定范围",
+      "evidence_level": "未执行",
+      "score": null,
+      "result": "用户限定范围",
+      "artifact_paths": []
+    },
+    {
+      "name": "virtual-user-walkthrough",
+      "status": "not_selected",
+      "reason": "用户限定范围",
+      "evidence_level": "未执行",
+      "score": null,
+      "result": "用户限定范围",
+      "artifact_paths": []
+    },
+    {
+      "name": "evaluate-visual-quality-v0-9",
+      "status": "not_selected",
+      "reason": "用户限定范围",
+      "evidence_level": "未执行",
+      "score": null,
+      "result": "用户限定范围",
+      "artifact_paths": []
+    }
+  ],
+  "basic_risk": {
+    "findings_status": "not_assessed",
+    "verification_status": "not_assessed",
+    "scope": "not_assessed",
+    "artifact_path": null
+  },
+  "release_gate": {
+    "status": "not_assessed",
+    "reason": "仅评估易用性，无发布门规则"
+  },
+  "ues_score": {
+    "status": "not_calculated",
+    "value": null,
+    "weights": {
+      "ease_of_use": 0.4,
+      "task": 0.3,
+      "consistency": 0.2,
+      "performance": 0.1
+    },
+    "reason": "仅易用性专项"
+  },
+  "visual_quality": {
+    "status": "not_assessed"
+  },
+  "issues": [
+    {
+      "issue_id": "UES-001",
+      "title": "选校只有校名，无法核对新旧任职关系",
+      "priority": "P1",
+      "source_specialists": [
+        "ease-of-use-suite-47"
+      ],
+      "source_issue_ids": [
+        "I01"
+      ],
+      "diagnosis_refs": [
+        "D-01"
+      ],
+      "evidence_refs": [
+        "E-004",
+        "EV-A01",
+        "E-015"
+      ],
+      "affected_users_tasks": [
+        "首次使用系统的新入职老师",
+        "登录并确认当前学校"
+      ],
+      "impact": "曾在多所学校任职的老师可能认不出这次应进入哪所学校。已确认的是信息不足，真实离职记录是否出现尚未验证。",
+      "recommendation": "学校选项显示机构全称、校区、岗位与任职状态；当前入职记录给出清晰标签。停用关系由服务端限制，并提供「没找到我的学校」。",
+      "acceptance": "给既有旧学校又有新学校的老师明确区分两条关系，并能在绑定前核对当前学校。"
+    },
+    {
+      "issue_id": "UES-002",
+      "title": "两条工作账号路径登录成功后缺少学校名称",
+      "priority": "P1",
+      "source_specialists": [
+        "ease-of-use-suite-47"
+      ],
+      "source_issue_ids": [
+        "I02"
+      ],
+      "diagnosis_refs": [
+        "D-02"
+      ],
+      "evidence_refs": [
+        "E-009",
+        "EV-A02",
+        "E-015",
+        "E-013",
+        "E-005"
+      ],
+      "affected_users_tasks": [
+        "首次使用系统的新入职老师",
+        "登录并确认当前学校"
+      ],
+      "impact": "老师能确认凭证验证成功，却无法确认当前是哪个学校。",
+      "recommendation": "工作账号验证后展示已识别的学校；若返回多个有效学校则引导选择；所有登录成功路径显示「当前学校」。",
+      "acceptance": "复测三条主路径，成功页均能确认当前学校；多学校账号在进入前可核对。"
+    },
+    {
+      "issue_id": "UES-003",
+      "title": "切换方式和提交后，键盘焦点回到页面根",
+      "priority": "P1",
+      "source_specialists": [
+        "ease-of-use-suite-47"
+      ],
+      "source_issue_ids": [
+        "I03"
+      ],
+      "diagnosis_refs": [
+        "D-03"
+      ],
+      "evidence_refs": [
+        "E-004",
+        "EV-A03",
+        "E-015"
+      ],
+      "affected_users_tasks": [
+        "首次使用系统的新入职老师",
+        "登录并确认当前学校"
+      ],
+      "impact": "键盘或读屏用户可能错过刚出现的标题与成功状态，需要重新定位下一步。",
+      "recommendation": "切换登录方式保留当前按钮焦点，状态页切换后将焦点放到新标题并提供可读状态反馈。",
+      "acceptance": "只用键盘从验证码进入选校并确认；每次切页后焦点在本页标题或首个任务控件，随后 Tab 顺序合理。"
+    },
+    {
+      "issue_id": "UES-004",
+      "title": "登录首屏的返回箭头没有对应去向",
+      "priority": "P2",
+      "source_specialists": [
+        "ease-of-use-suite-47"
+      ],
+      "source_issue_ids": [
+        "I04"
+      ],
+      "diagnosis_refs": [
+        "D-04"
+      ],
+      "evidence_refs": [
+        "E-002",
+        "EV-A04",
+        "E-015"
+      ],
+      "affected_users_tasks": [
+        "首次使用系统的新入职老师",
+        "登录并确认当前学校"
+      ],
+      "impact": "新老师可能以为可退回上一步，但该入口没有上一层。",
+      "recommendation": "首个登录页按原生导航实际层级呈现，无可返回路径就隐藏返回；绑定步骤的返回沿用真实上一步行为。",
+      "acceptance": "首次打开登录页不存在无去向的返回按钮，后续每步的返回目标可预测。"
+    },
+    {
+      "issue_id": "UES-005",
+      "title": "手机号格式在校验后才明确",
+      "priority": "P3",
+      "source_specialists": [
+        "ease-of-use-suite-47"
+      ],
+      "source_issue_ids": [
+        "I05"
+      ],
+      "diagnosis_refs": [
+        "D-05"
+      ],
+      "evidence_refs": [
+        "E-002",
+        "EV-A05",
+        "E-015"
+      ],
+      "affected_users_tasks": [
+        "首次使用系统的新入职老师",
+        "登录并确认当前学校"
+      ],
+      "impact": "新老师输入带国家区号的号码时，需要试错才能知道要求。",
+      "recommendation": "在字段附近标明「请输入 11 位手机号」；真实支持范围确定后再决定是否提供区号。",
+      "acceptance": "在提交前能从字段说明判断可输入格式，错误时提示仍与该字段关联。"
+    }
+  ],
+  "next_evidence": [
+    "补充旧学校停用、新学校在职、多校同时有效及没有匹配学校四类演示数据",
+    "使用 VoiceOver、TalkBack 真机复测选校及成功反馈"
+  ]
+}

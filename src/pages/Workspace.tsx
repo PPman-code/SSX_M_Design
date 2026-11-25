@@ -17,14 +17,14 @@ export function Workspace({ mode, onToggleTheme }: { mode: 'light' | 'dark'; onT
   const [width, setWidth] = useState(390);
   const paymentEnabled = params.get('payment') === 'enabled';
   const role = params.get('role') ?? '';
-  const courseParams = ['classMultiple', 'remainingSeats'].map(key => params.has(key) ? `${key}=${encodeURIComponent(params.get(key)!)}` : '').filter(Boolean);
+  const courseParams = ['classMultiple', 'remainingSeats', ...(selectedProject === 'teacher-app' ? ['appNav', 'appBack', 'appAction'] : [])].map(key => params.has(key) ? `${key}=${encodeURIComponent(params.get(key)!)}` : '').filter(Boolean);
   if (selectedPage?.id === 'parent-course-detail') {
     if (params.get('view') === 'checkout') courseParams.push('view=checkout');
     if (params.get('prefillSpecs') === 'enabled') courseParams.push('prefillSpecs=enabled');
   }
   const pageParams = [...courseParams, paymentEnabled ? 'payment=enabled' : '', role ? `role=${encodeURIComponent(role)}` : ''].filter(Boolean).join('&');
   const directRoute = selectedPage ? `${selectedPage.route}?theme=${mode}${pageParams ? `&${pageParams}` : ''}` : `/mobile?theme=${mode}`;
-  const iframeRoute = `${directRoute}${selectedPage ? '&chrome=wechat' : '&chrome=status'}`;
+  const iframeRoute = `${directRoute}${selectedProject === 'teacher-app' ? '&chrome=app' : selectedPage ? '&chrome=wechat' : '&chrome=status'}`;
   const [phoneOpen, setPhoneOpen] = useState(false);
   const [previewLocation, setPreviewLocation] = useState<{ pathname: string; search: string } | null>(null);
   const previewPage = previewLocation ? [...businessPages, ...archivedBusinessPages].find((page) => page.route === previewLocation.pathname) : undefined;
@@ -78,7 +78,7 @@ export function Workspace({ mode, onToggleTheme }: { mode: 'light' | 'dark'; onT
             <div className="preview-toolbar"><PreviewSettings width={width} onWidthChange={setWidth} /><div className="preview-links">{selectedPage?.figmaUrl ? <a className="text-link" href={selectedPage.figmaUrl} target="_blank" rel="noreferrer">Figma 原稿 <Icon name="launch" /></a> : null}<a href={`#${activeDirectRoute}`} target="_blank" rel="noreferrer" className="text-link">独立打开 <Icon name="launch" /></a><Button variant="text" size="sm" onClick={() => setPhoneOpen(true)}>手机预览 <Icon name="launch" /></Button></div></div>
             <div className="preview-stage">
               <div className="device-scroll"><DevicePreview key={selectedProject ?? 'components'} title={selectedPage ? `移动端${selectedPage.name}页面预览` : '移动端组件预览'} src={`./#${iframeRoute}`} width={width} height={selectedPage ? 858 : 700} shell={true} /></div>
-              <p className="preview-caption">{selectedProject === 'parent' ? `家长端 · ${currentPageName}原型` : '真实页面 · 可点击交互 · 支持手机访问'}</p>
+              <p className="preview-caption">{selectedProject === 'teacher-app' ? '教师端-app · 登录流程原型' : selectedProject === 'parent' ? `家长端 · ${currentPageName}原型` : '真实页面 · 可点击交互 · 支持手机访问'}</p>
             </div>
           </section>
           {selectedPage && currentPage && <aside className="page-config-panel" aria-label="当前页面配置"><WorkspaceConfig

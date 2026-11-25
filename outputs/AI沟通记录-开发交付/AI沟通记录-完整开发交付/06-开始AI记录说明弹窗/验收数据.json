@@ -1,0 +1,20 @@
+{
+  "personId": "fixture-person",
+  "actorId": "fixture-user",
+  "recordId": "fixture-record",
+  "scenarios": [
+    {
+      "network": "online",
+      "microphone": "granted"
+    },
+    {
+      "network": "offline"
+    },
+    {
+      "microphone": "denied"
+    },
+    {
+      "activeRecordId": "fixture-other-record"
+    }
+  ]
+}

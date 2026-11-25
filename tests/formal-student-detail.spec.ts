@@ -48,7 +48,7 @@ for (const [width, theme] of [[360, 'light'], [375, 'light'], [390, 'light'], [4
     await page.goto(url.replace('theme=light', `theme=${theme}`));
     await page.getByRole('button', { name: '展开全部学员功能', exact: true }).click();
     await expect(page.getByRole('button', { name: '收起学员功能', exact: true })).toHaveCSS('height', '24px');
-    await expect(page.locator('.student-detail-action-group')).toHaveCSS('height', '176px');
+    await expect(page.locator('.student-detail-action-group')).toHaveCSS('height', '248px');
     const expandIcon = page.locator('.student-detail-expand-icon');
     await expect(expandIcon).toHaveCSS('width', '24px');
     await expect(expandIcon).toHaveCSS('height', '8px');
@@ -58,11 +58,16 @@ for (const [width, theme] of [[360, 'light'], [375, 'light'], [390, 'light'], [4
     await dates.getByRole('button', { name: '关闭弹层', exact: true }).click();
     await expect(expandIcon).toHaveCSS('color', handleColor);
     const actions = page.getByLabel('学员业务操作', { exact: true });
-    await expect(actions.getByRole('button')).toHaveText(['报名收费', '请假申请', '上传附件', '发优惠券', '转校', '调班', '退费', '结转']);
-    for (const image of await actions.locator('img').all()) {
-      await expect(image).toHaveCSS('width', '24px');
-      await expect(image).toHaveCSS('height', '24px');
-      await expect.poll(() => image.evaluate(el => (el as HTMLImageElement).naturalWidth)).toBeGreaterThan(0);
+    await expect(actions.getByRole('button')).toHaveText(['报名收费', '请假申请', '上传附件', '发优惠券', '转校', '调班', '退费', '结转', '排课', '新开班试听', '跟班试听']);
+    await expect(actions.locator('img')).toHaveCount(0);
+    const icons = actions.locator('svg:has(use)');
+    await expect(icons).toHaveCount(11);
+    expect(await icons.locator('use').evaluateAll(nodes => nodes.map(node => node.getAttribute('href')?.split('#')[1]))).toEqual([
+      'SSX-baomingshoufei', 'SSX-qingjiashenqing', 'SSX-tiaochudepaike', 'SSX-fayouhuiquan', 'SSX-tiaokexueyuan', 'SSX-tiaoban', 'SSX-tuifei', 'SSX-tiaoke1', 'SSX-paike1', 'SSX-xinkaibanshiting', 'SSX-genbanshiting',
+    ]);
+    for (const icon of await icons.all()) {
+      await expect(icon).toHaveCSS('width', '24px');
+      await expect(icon).toHaveCSS('height', '24px');
     }
     const add = page.getByRole('button', { name: '添加沟通记录', exact: true });
     await expect(add).toHaveCSS('height', '40px');
@@ -70,6 +75,10 @@ for (const [width, theme] of [[360, 'light'], [375, 'light'], [390, 'light'], [4
     expect(card!.x).toBeGreaterThanOrEqual(0);
     expect(card!.x + card!.width).toBeLessThanOrEqual(width);
     await page.screenshot({ animations: 'disabled', path: `/tmp/formal-student-${width}-${theme}.png` });
+    for (const name of ['排课', '新开班试听', '跟班试听']) {
+      await actions.getByRole('button', { name, exact: true }).click();
+      await expect(page.getByText(`${name}请在现有业务系统中办理`, { exact: true })).toBeVisible();
+    }
     await page.getByRole('button', { name: '收起学员功能', exact: true }).click();
     await expect(page.getByRole('button', { name: '展开全部学员功能', exact: true })).toHaveCSS('height', '24px');
     await expect(page.locator('.student-detail-action-group')).toHaveCSS('height', '104px');

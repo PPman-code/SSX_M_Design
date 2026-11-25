@@ -18,3 +18,5 @@ PC 色板、roles 完整复制；通用颜色、字体、间距、圆角、动�
 2026-10-21 用户更新 layout.touchTarget=40px，替代原 44px 最低值；只改源 tokens.json 并重新生成 CSS 和 token catalog。显式组件布局高度独立维护，不能全局替换所有 44px。
 
 2026-11-03 用户确认扩展八个固定头像物理色；以独立物理色名family加入色板，Role区分学员/老师用途，color.avatar.*消费角色，Light/Dark保持原值。老师浅底首字增加固定深色语义角色；现有通用品牌/警告/紫色/中性色均未改值。
+
+2026-11-24 用户确认教师端App悬浮Tab选中亮蓝#1890FF；以appTabBlue物理family、appTabAccent用途Role及color.appTab.selected语义token加入，Light/Dark一致。仅导航选择态消费；全局品牌色及其余调用点不迁移。

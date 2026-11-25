@@ -1,12 +1,16 @@
 # 图标规范
 
-## 正式来源
+## 本地 SVG 与既有 Iconfont
 
-图标以用户在 Iconfont 的 ssx-design 项目上传并审核通过的最新内容为准。每次更新按该项目下载包同步；历史归档仅供追溯，不参与运行时，也不覆盖最新版本。
+2026-11-24 用户更新：后续新增 SVG 由 AI 按用途命名并直接保存本地，不再要求用户上传 Iconfont。优先复用已有图形；新增素材保留来源、原始 viewBox 和比例，仍通过本地 Icon 公开 API 调用，不引入新图标库。单色使用语义色 / currentColor，彩色保留原稿。
+
+已迁移：教师端 App 新增 `teacher-settings`（24×24）与 `school-chevron`（16×16），原稿在 `public/icons/teacher-app/`。设置保留原稿深灰外环、浅灰内环的双色填色，直接引用本地 SVG；学校下拉以 alpha 遮罩跟随语义文字颜色。既有 Iconfont 图标继续使用原运行资源；历史包、生成脚本与下载包不因此迁移或重新命名。本地文件新增不要求写入 Iconfont 生成物。
+
+### 既有 Iconfont 来源
 
 - 图标库：ssx-design；Iconfont 项目 ID：5242145。
-- 最新包：用户提供 download.zip；更新日期：2026-11-04；共 212 个图标，新增 xueyuanguanli、yixiangkehu。
-- 当前原始归档：design-assets/iconfont/ssx-design-5242145-2026-11-04-212.zip；旧归档保留供追溯。
+- 最新包：用户提供 download.zip；更新日期：2026-11-19；共 226 个图标。原 212 个图形保留，新增 14 个图标。
+- 当前原始归档：design-assets/iconfont/ssx-design-5242145-2026-11-19-226.zip；旧归档保留供追溯。
 - 运行时：public/iconfont/ssx-design.symbol.svg 与 iconfont.json。
 - 页面入口：src/components/ui/Icon/index.ts。
 
@@ -63,3 +67,24 @@ Icon loading 覆盖为用户提供的 loading-blue.svg / loading-white.svg 渐�
 2026-10-28 V：208枚包新增a-delete-oneshanchu1、a-ailuyinzhuanxiesvg，无删除或改名。AI待处理及详情删除菜单采用垃圾桶；共用沟通表单AI原始记录卡采用专用文件图标。
 
 2026-11-02 V/D：正式学员功能区展开/收起使用新增shangxiala，保留原3072×1024比例，局部宽24px/高8px，翻转表示方向；颜色复用BottomSheet横杠的--color-border-strong，展开/收起区域按用户追加要求为24px高（本场景例外），不向相邻功能或Tab扩展热区。未修改共享Icon默认尺寸、其他调用图形或BottomSheet样式。
+
+
+## 学员详情业务操作（2026-11-19）
+
+学员详情业务操作区改用 ssx-design 彩色图标，依旧以 24 × 24px 展示。折叠与展开顺序沿用当前页面，原 PNG 已删除。
+
+| 入口 | Icon 名称 |
+| --- | --- |
+| 报名收费 | baomingshoufei |
+| 请假申请 | qingjiashenqing |
+| 上传附件 | tiaochudepaike |
+| 发优惠券 | fayouhuiquan |
+| 转校 | tiaokexueyuan |
+| 调班 | tiaoban |
+| 退费 | tuifei |
+| 结转 | tiaoke1 |
+| 排课 | paike1（蓝色） |
+| 新开班试听 | xinkaibanshiting |
+| 跟班试听 | genbanshiting |
+
+2026-11-25 Loading兼容修正（V/I）：运行时去除SVG中的foreignObject HTML层，将原始ring-mask.svg的alpha遮罩与相同conic-gradient直接绘制在Icon SVG的CSS盒子上，使用border-box与50% 50%旋转中心。保留16px原始轮廓、currentColor、尺寸API及减少动效规则；按钮、开关、Toast与Loading/下拉刷新共同使用此修正，不改源素材和生成物。Safari真机仍需复测。

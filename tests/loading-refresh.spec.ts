@@ -19,7 +19,22 @@ for (const theme of ['light', 'dark']) {
       await expect(row.locator('.ssx-loading-spinner').first()).toHaveCSS('width', pixels);
       await expect(row.locator('.ssx-loading-spinner').first()).toHaveCSS('height', pixels);
       await expect(row.locator('.ssx-loading-spinner').first()).toHaveAttribute('data-icon', 'loading');
-      await expect(row.locator('.ssx-loading-spinner').first().locator('foreignObject > div')).toHaveCSS('mask-image', /icons\/loading\/ring-mask\.svg/);
+      await expect(row.locator('.ssx-loading-spinner').first()).toHaveCSS('mask-image', /icons\/loading\/ring-mask\.svg/);
+    }
+    const spinner = examples.locator('.ssx-loading-spinner').first();
+    // Every phase must rotate around the same layout centre at the final size.
+    const centres = await spinner.evaluate(el => {
+      const animation = el.getAnimations()[0];
+      animation.pause();
+      return [0, 100, 200, 400, 600].map(time => {
+        animation.currentTime = time;
+        const box = el.getBoundingClientRect();
+        return { x: box.x + box.width / 2, y: box.y + box.height / 2 };
+      });
+    });
+    for (const centre of centres) {
+      expect(centre.x).toBeCloseTo(centres[0].x, 1);
+      expect(centre.y).toBeCloseTo(centres[0].y, 1);
     }
     await expect(examples.locator('.ssx-loading-dots i')).toHaveCount(3);
     await page.emulateMedia({ reducedMotion: 'reduce' });

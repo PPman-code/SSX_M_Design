@@ -1,0 +1,36 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="Group 2085664089">
+<mask id="mask0_0_34" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="2" y="2" width="18" height="18">
+<g id="Star 1">
+<use xlink:href="#stroke0_0_34" fill="#0CCDFA"/>
+<use xlink:href="#stroke0_0_34" fill="url(#paint0_radial_0_34)"/>
+</g>
+</mask>
+<g mask="url(#mask0_0_34)">
+<path id="Star 2" d="M9.24529 3.20836C10.0039 1.82127 11.9961 1.82127 12.7547 3.20836L14.608 6.59697C14.7915 6.93255 15.0675 7.20846 15.403 7.392L18.7916 9.24529C20.1787 10.0039 20.1787 11.9961 18.7916 12.7547L15.403 14.608C15.0675 14.7915 14.7915 15.0675 14.608 15.403L12.7547 18.7916C11.9961 20.1787 10.0039 20.1787 9.24529 18.7916L7.392 15.403C7.20846 15.0675 6.93255 14.7915 6.59697 14.608L3.20836 12.7547C1.82127 11.9961 1.82127 10.0039 3.20836 9.24529L6.59697 7.392C6.93255 7.20846 7.20846 6.93255 7.392 6.59697L9.24529 3.20836Z" fill="#0CCDFA"/>
+<g id="Ellipse 2" filter="url(#filter0_f_0_34)">
+<circle cx="19" cy="19" r="11" fill="#FFE305"/>
+</g>
+<g id="Ellipse 3" filter="url(#filter1_f_0_34)">
+<circle cx="3" cy="24" r="11" fill="#FFE305"/>
+</g>
+</g>
+</g>
+<defs>
+<filter id="filter0_f_0_34" x="4" y="4" width="30" height="30" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feGaussianBlur stdDeviation="2" result="effect1_foregroundBlur_0_34"/>
+</filter>
+<filter id="filter1_f_0_34" x="-19" y="2" width="44" height="44" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feGaussianBlur stdDeviation="5.5" result="effect1_foregroundBlur_0_34"/>
+</filter>
+<radialGradient id="paint0_radial_0_34" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(15 15) rotate(-154.537) scale(11.6297 7.75192)">
+<stop stop-color="#FAE309"/>
+<stop offset="1" stop-color="#FAE309" stop-opacity="0"/>
+</radialGradient>
+<path id="stroke0_0_34" d="M9.24529 3.20836C10.0039 1.82127 11.9961 1.82127 12.7547 3.20836L14.608 6.59697C14.7915 6.93255 15.0675 7.20846 15.403 7.392L18.7916 9.24529C20.1787 10.0039 20.1787 11.9961 18.7916 12.7547L15.403 14.608C15.0675 14.7915 14.7915 15.0675 14.608 15.403L12.7547 18.7916C11.9961 20.1787 10.0039 20.1787 9.24529 18.7916L7.392 15.403C7.20846 15.0675 6.93255 14.7915 6.59697 14.608L3.20836 12.7547C1.82127 11.9961 1.82127 10.0039 3.20836 9.24529L6.59697 7.392C6.93255 7.20846 7.20846 6.93255 7.392 6.59697L9.24529 3.20836Z"/>
+</defs>
+</svg>

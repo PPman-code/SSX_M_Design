@@ -1,0 +1,163 @@
+/* 浅色计算样式摘录。按 Vue 2 目标 DOM 逐项映射；元素尺寸见视觉规格。 */
+/* 开始说明 */
+.handoff-06[data-preview="start"] .ai-start-sheet {
+  color: rgb(48, 49, 51);
+  background-color: rgb(255, 255, 255);
+  background-image: none;
+  border-top-width: 0px;
+  border-top-color: rgb(48, 49, 51);
+  border-radius: 16px 16px 0px 0px;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  padding: 0px;
+  margin: 0px;
+  gap: normal;
+  min-height: auto;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 24px 64px 0px;
+}
+.handoff-06[data-preview="start"] .ai-start-sheet .sheet-heading {
+  color: rgb(48, 49, 51);
+  background-color: rgba(0, 0, 0, 0);
+  background-image: none;
+  border-top-width: 0px;
+  border-top-color: rgb(48, 49, 51);
+  border-radius: 0px;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  padding: 12px 20px 0px;
+  margin: 0px;
+  gap: normal;
+  min-height: auto;
+  box-shadow: none;
+}
+.handoff-06[data-preview="start"] .ai-start-sheet .sheet-heading h2 {
+  color: rgb(48, 49, 51);
+  background-color: rgba(0, 0, 0, 0);
+  background-image: none;
+  border-top-width: 0px;
+  border-top-color: rgb(48, 49, 51);
+  border-radius: 0px;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 28px;
+  padding: 0px;
+  margin: 0px;
+  gap: normal;
+  min-height: auto;
+  box-shadow: none;
+}
+.handoff-06[data-preview="start"] .ai-start-sheet .sheet-description {
+  color: rgb(144, 147, 153);
+  background-color: rgba(0, 0, 0, 0);
+  background-image: none;
+  border-top-width: 0px;
+  border-top-color: rgb(144, 147, 153);
+  border-radius: 0px;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 22px;
+  padding: 0px 20px 12px;
+  margin: 0px;
+  gap: normal;
+  min-height: auto;
+  box-shadow: none;
+}
+.handoff-06[data-preview="start"] .ai-start-sheet .sheet-content {
+  color: rgb(48, 49, 51);
+  background-color: rgba(0, 0, 0, 0);
+  background-image: none;
+  border-top-width: 0px;
+  border-top-color: rgb(48, 49, 51);
+  border-radius: 0px;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  padding: 8px 20px 16px;
+  margin: 0px;
+  gap: normal;
+  min-height: 0px;
+  box-shadow: none;
+}
+.handoff-06[data-preview="start"] .ai-start-sheet .sheet-footer {
+  color: rgb(48, 49, 51);
+  background-color: rgb(255, 255, 255);
+  background-image: none;
+  border-top-width: 0px;
+  border-top-color: rgb(48, 49, 51);
+  border-radius: 0px;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  padding: 8px 20px;
+  margin: 0px;
+  gap: 8px;
+  min-height: 56px;
+  box-shadow: rgb(242, 245, 252) 0px 1px 0px 0px inset;
+}
+.handoff-06[data-preview="start"] .ai-start-sheet .ai-free-tag {
+  color: rgb(255, 75, 114);
+  background-color: #FFE9EE;
+  background-image: none;
+  border-top-width: 0px;
+  border-top-color: rgb(255, 75, 114);
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 20px;
+  padding: 0px 6px;
+  margin: 0px;
+  gap: normal;
+  min-height: auto;
+  box-shadow: none;
+}
+.handoff-06[data-preview="start"] .ai-scenario-drawing {
+  color: #6E40B4;
+  background-color: #F7F2FF;
+  background-image: none;
+  border-top-width: 0px;
+  border-top-color: #6E40B4;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  padding: 8px 4px;
+  margin: 0px;
+  gap: normal;
+  min-height: 0px;
+  box-shadow: none;
+}
+.handoff-06[data-preview="start"] .ai-start-sheet .button--primary {
+  color: rgb(255, 255, 255);
+  background-color: rgba(0, 0, 0, 0);
+  background-image: linear-gradient(110deg, #6B59F4, #934CFA);
+  border-top-width: 1px;
+  border-top-color: rgba(0, 0, 0, 0);
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  padding: 7px 18px;
+  margin: 0px;
+  gap: 8px;
+  min-height: 40px;
+  box-shadow: none;
+}
+/* 麦克风权限拒绝 */
+.handoff-06[data-preview="start-denied"] .ai-start-sheet .ai-error {
+  color: rgb(245, 63, 63);
+  background-color: rgba(0, 0, 0, 0);
+  background-image: none;
+  border-top-width: 0px;
+  border-top-color: rgb(245, 63, 63);
+  border-radius: 0px;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  padding: 0px;
+  margin: 0px;
+  gap: normal;
+  min-height: auto;
+  box-shadow: none;
+}

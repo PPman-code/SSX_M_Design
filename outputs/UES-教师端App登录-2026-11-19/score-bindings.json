@@ -1,0 +1,10 @@
+{
+  "specialists": [
+    {
+      "name": "ease-of-use-suite-47",
+      "score_file": "score-result.json",
+      "score_pointer": "/scoring/final_score",
+      "judgment_review": "reviewed"
+    }
+  ]
+}

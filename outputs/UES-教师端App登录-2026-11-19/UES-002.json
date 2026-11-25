@@ -1,0 +1,56 @@
+{
+  "issue_id": "UES-002",
+  "title": "两条工作账号路径登录成功后缺少学校名称",
+  "priority": "P1",
+  "source_specialists": [
+    "ease-of-use-suite-47"
+  ],
+  "source_issue_ids": [
+    "I02"
+  ],
+  "diagnosis_refs": [
+    "D-02"
+  ],
+  "evidence_refs": [
+    "E-009",
+    "EV-A02",
+    "E-015",
+    "E-013",
+    "E-005"
+  ],
+  "affected_users_tasks": [
+    "首次使用系统的新入职老师",
+    "登录并确认当前学校"
+  ],
+  "impact": "老师能确认凭证验证成功，却无法确认当前是哪个学校。",
+  "recommendation": "工作账号验证后展示已识别的学校；若返回多个有效学校则引导选择；所有登录成功路径显示「当前学校」。",
+  "acceptance": "复测三条主路径，成功页均能确认当前学校；多学校账号在进入前可核对。",
+  "specialist_detail": {
+    "id": "I02",
+    "title": "两条工作账号路径登录成功后缺少学校名称",
+    "primary_dimension": "易见",
+    "severity": "Major",
+    "criterion_ids": [
+      "A01.02"
+    ],
+    "scenario_links": [
+      {
+        "criterion_id": "A01.02",
+        "scenario_id": "S1"
+      }
+    ],
+    "evidence_refs": [
+      "E-009",
+      "EV-A02",
+      "E-015",
+      "E-013",
+      "E-005"
+    ],
+    "original": "evidence/account-success.png",
+    "annotated": "evidence/I02-marked.png",
+    "observation": "账号登录跳过绑手机，与未登记手机号绑定工作账号，两个成功页都未显示学校；选校登录的结果页有学校。",
+    "impact": "老师能确认凭证验证成功，却无法确认当前是哪个学校。",
+    "recommendation": "工作账号验证后展示已识别的学校；若返回多个有效学校则引导选择；所有登录成功路径显示「当前学校」。",
+    "acceptance": "复测三条主路径，成功页均能确认当前学校；多学校账号在进入前可核对。"
+  }
+}

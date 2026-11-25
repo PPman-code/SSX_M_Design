@@ -1,10 +1,11 @@
 import { simulateRefresh } from '../../../preview/simulateRefresh';
-import { useRef, useState } from 'react';
+import { useRef, useState, type ReactNode, type RefObject } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { MobilePage } from '../../../components/ui/MobilePage';
 import { MenuCell } from '../../../components/ui/MenuCell';
 import { ProductTabBar } from '../../../components/ProductTabBar';
 import { BottomSheet } from '../../../components/ui/BottomSheet';
+import { Dialog } from '../../../components/ui/Dialog';
 import { InfoDialog } from '../../../components/ui/InfoDialog';
 import { Icon, type IconName } from '../../../components/ui/Icon';
 import './my-page.css';
@@ -18,46 +19,70 @@ const groups: readonly (readonly { label: string; icon: IconName }[])[] = [
 
 export function MyPage() {
   const [params] = useSearchParams();
+  return <MobilePage onRefresh={simulateRefresh} refreshSuccessText="模拟刷新完成" title="我的" previewChrome={params.get('chrome') === 'wechat'} previewHistory={false} className="my-page" footer={<ProductTabBar active="my" />}>
+    <MyPageContent />
+  </MobilePage>;
+}
+
+export function MyPageContent({ children, iosDialogs = false, onUnavailableEntry, app }: { children?: ReactNode; iosDialogs?: boolean; onUnavailableEntry?: () => void; app?: { schoolName: string; onSettings: () => void; settingsRef: RefObject<HTMLButtonElement | null> } }) {
+  const [params] = useSearchParams();
   const [entry, setEntry] = useState('');
   const [collectionHelpOpen, setCollectionHelpOpen] = useState(false);
   const collectionHelpRef = useRef<HTMLButtonElement>(null);
   const [activationOpen, setActivationOpen] = useState(false);
   const paymentTriggerRef = useRef<HTMLButtonElement>(null);
   const paymentEnabled = params.get('payment') === 'enabled';
-  const previewChrome = params.get('chrome') === 'wechat';
   const assets = `${import.meta.env.BASE_URL}pages/my/v1/`;
-  function payment(label: string, icon: IconName) {
-    return <button type="button" className="payment-entry" aria-haspopup="dialog" onClick={(event) => { paymentTriggerRef.current = event.currentTarget; if (paymentEnabled) setEntry(label); else setActivationOpen(true); }}><span className="payment-icon"><Icon name={icon} size="lg" /></span><span>{label}</span></button>;
+  const HelpDialog = iosDialogs ? Dialog : InfoDialog;
+  const entryDialog = { open: Boolean(entry), onOpenChange: (open: boolean) => { if (!open) setEntry(''); }, title: entry || '功能入口' };
+  const entryNote = <p className="my-entry-note">{`“${entry}”的后续页面待提供。`}</p>;
+  function openEntry(label: string) {
+    if (onUnavailableEntry) onUnavailableEntry();
+    else setEntry(label);
   }
+  function payment(label: string, icon: IconName) {
+    return <button type="button" className="payment-entry" aria-haspopup={paymentEnabled && onUnavailableEntry ? undefined : 'dialog'} onClick={(event) => { paymentTriggerRef.current = event.currentTarget; if (paymentEnabled) openEntry(label); else setActivationOpen(true); }}><span className="payment-icon"><Icon name={icon} size="lg" /></span><span>{label}</span></button>;
+  }
+  const appGroups: typeof groups = [
+    [{ label: '自定义报表', icon: 'chart-pie-2-line' }, { label: '我的工资条', icon: 'bill-line' }],
+    [{ label: '帮助中心', icon: 'question-line' }, { label: '表扬与投诉建议', icon: 'chat-1-line' }, { label: '设置', icon: 'teacher-settings' }],
+  ];
   return <>
-    <MobilePage onRefresh={simulateRefresh} refreshSuccessText="模拟刷新完成" title="我的" previewChrome={previewChrome} previewHistory={false} className="my-page" footer={<ProductTabBar active="my" />}>
-      <div className="my-content">
-        <img className="my-decoration my-decoration-left" src={`${assets}decoration-left.svg`} width="244" height="150" alt="" />
-        <img className="my-decoration my-decoration-right" src={`${assets}decoration-right.svg`} width="160" height="109" alt="" />
-        <button type="button" className="my-profile" onClick={() => setEntry('个人信息')} aria-label="查看个人信息">
-          <img className="my-avatar" src={`${assets}avatar.png`} width="56" height="56" alt="用户头像" />
-          <span className="my-identity"><span className="my-name">用户名称</span><span className="my-role">班主任</span></span>
-          <Icon name="right" size="sm" />
+    <div className={`my-content ${app ? 'teacher-mine' : ''}`}>
+      {!app && <><img className="my-decoration my-decoration-left" src={`${assets}decoration-left.svg`} width="244" height="150" alt="" />
+      <img className="my-decoration my-decoration-right" src={`${assets}decoration-right.svg`} width="160" height="109" alt="" /></>}
+      {app ? <div className="my-profile teacher-mine-profile">
+        <button type="button" className="teacher-mine-profile-link" onClick={() => openEntry('个人信息')} aria-label="查看个人信息">
+          <span className="teacher-mine-avatar"><img src={`${import.meta.env.BASE_URL}icons/teacher-app/profile-avatar.png`} alt="用户头像" /></span>
+          <span className="my-identity"><span className="my-name">用户名称</span><span className="teacher-mine-school-space" /></span>
+          <Icon name="right" size="base" />
         </button>
-        <section className="payment-card" aria-label="报名与收款">
-          <div className="payment-inner">
-            <div className="registration-group"><h2>正式报名</h2>{payment('收费报名', 'money-collect-filled')}</div>
-            <div className="payment-divider" aria-hidden="true" />
-            <div className="collection-group"><div className="collection-heading"><h2>仅收款</h2><button ref={collectionHelpRef} type="button" className="collection-help touch-target" aria-label="仅收款说明" aria-haspopup="dialog" onClick={() => setCollectionHelpOpen(true)}><Icon name="question-circle" size="sm" /></button></div>
-              <div className="collection-actions">{payment('收款码', 'qr-code-fill')}{payment('扫码收款', 'qr-scan-2-line')}</div>
-            </div>
+        <button type="button" className="teacher-mine-school touch-target" aria-label={`当前学校：${app.schoolName}`} onClick={() => openEntry('切换学校')}>
+          <span>{app.schoolName}</span><Icon name="school-chevron" size="base" />
+        </button>
+      </div> : <button type="button" className="my-profile" onClick={() => openEntry('个人信息')} aria-label="查看个人信息">
+        <img className="my-avatar" src={`${assets}avatar.png`} width="56" height="56" alt="用户头像" />
+        <span className="my-identity"><span className="my-name">用户名称</span><span className="my-role">班主任</span></span>
+        <Icon name="right" size="sm" />
+      </button>}
+      <section className="payment-card" aria-label="报名与收款">
+        <div className="payment-inner">
+          <div className="registration-group"><h2>正式报名</h2>{payment('收费报名', 'money-collect-filled')}</div>
+          <div className="payment-divider" aria-hidden="true" />
+          <div className="collection-group"><div className="collection-heading"><h2>仅收款</h2><button ref={collectionHelpRef} type="button" className="collection-help touch-target" aria-label="仅收款说明" aria-haspopup="dialog" onClick={() => setCollectionHelpOpen(true)}><Icon name="question-circle" size="sm" /></button></div>
+            <div className="collection-actions">{payment('收款码', 'qr-code-fill')}{payment('扫码收款', 'qr-scan-2-line')}</div>
           </div>
-        </section>
-        {groups.map((group, index) => <section className="my-menu" aria-label={index === 0 ? '常用功能' : '服务与帮助'} key={index}>{group.map((item) => <MenuCell key={item.label} {...item} onClick={() => setEntry(item.label)} />)}</section>)}
-      </div>
-    </MobilePage>
-    <BottomSheet open={Boolean(entry)} onOpenChange={(open) => { if (!open) setEntry(''); }} title={entry || '功能入口'} description="当前为页面设计预览">
-      <p className="my-entry-note">{`“${entry}”的后续页面待提供。`}</p>
-    </BottomSheet>
-    <InfoDialog open={collectionHelpOpen} onOpenChange={setCollectionHelpOpen} title="使用说明" finalFocus={collectionHelpRef}>
+        </div>
+      </section>
+      {(app ? appGroups : groups).map((group, index) => <section className="my-menu" aria-label={index === 0 ? '常用功能' : '服务与帮助'} key={index}>{group.map((item) => item.label === '设置' && app ? <button key={item.label} ref={app.settingsRef} type="button" className="menu-cell" onClick={app.onSettings}><Icon name={item.icon} size="lg" /><span>{item.label}</span><span className="menu-cell-arrow"><Icon name="right" size="base" /></span></button> : <MenuCell key={item.label} {...item} onClick={() => openEntry(item.label)} />)}</section>)}
+      {children}
+    </div>
+    {iosDialogs ? <Dialog {...entryDialog}><p>当前为页面设计预览</p>{entryNote}</Dialog>
+      : <BottomSheet {...entryDialog} description="当前为页面设计预览">{entryNote}</BottomSheet>}
+    <HelpDialog open={collectionHelpOpen} onOpenChange={setCollectionHelpOpen} title="使用说明" finalFocus={collectionHelpRef}>
       <section className="collection-instructions"><h3>1、什么是“仅收款”：</h3><p>“仅收款”是快速收款方式，并不是学员正式的报名收费。</p><p>“正式收费”请使用校管家系统内的【报名收费】或【新学员报名】功能。</p></section>
       <section className="collection-instructions"><h3>2、“仅收款”后：</h3><p>· 可以在【收费管家-订单中心】对账，但该笔收款信息不会同步至校管家系统。</p><p>· 需通过【报名收费】或【新学员报名】完成报名流程后，才能进行上课、点名等后续操作。</p></section>
-    </InfoDialog>
-    <PaymentActivationDialog open={activationOpen} onOpenChange={setActivationOpen} finalFocus={paymentTriggerRef} />
+    </HelpDialog>
+    <PaymentActivationDialog open={activationOpen} onOpenChange={setActivationOpen} finalFocus={paymentTriggerRef} iosDialog={iosDialogs} />
   </>;
 }

@@ -1,5 +1,12 @@
 export const paletteCatalog = [
   {
+    name: 'appTabBlue',
+    label: '教师端App悬浮导航选中蓝（Figma 6418:11705）',
+    swatches: [
+      { step: '600', cssVariable: '--palette-app-tab-blue-600', value: '#1890FF' },
+    ],
+  },
+  {
     name: 'azure',
     label: '我的页蓝色色阶',
     swatches: [
@@ -410,6 +417,12 @@ export const roleCatalog = [
     darkFamily: 'orchid',
   },
   {
+    name: 'appTabAccent',
+    label: '教师端App悬浮导航选中强调色',
+    lightFamily: 'appTabBlue',
+    darkFamily: 'appTabBlue',
+  },
+  {
     name: 'avatarNeutral',
     label: '浅色头像上的固定深色文字',
     lightFamily: 'neutral',
@@ -568,6 +581,15 @@ export const roleCatalog = [
 ] as const;
 
 export const semanticColorCatalog = [
+  {
+    name: 'color.appTab.selected',
+    cssVariable: '--color-app-tab-selected',
+    description: '教师端App悬浮底部导航图标与文字选中态；用户确认按Figma亮蓝，不替换全局品牌色',
+    lightReference: '{role.appTabAccent.600}',
+    darkReference: '{role.appTabAccent.600}',
+    lightResolved: '#1890FF',
+    darkResolved: '#1890FF',
+  },
   {
     name: 'color.attendance.hero.surface',
     cssVariable: '--color-attendance-hero-surface',

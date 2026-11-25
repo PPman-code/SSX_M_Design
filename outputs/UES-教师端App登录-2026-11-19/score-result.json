@@ -1,0 +1,1375 @@
+{
+  "schema_version": "ues.usability-score.v2",
+  "assessment_name": "教师端 App 登录 Demo 易用性",
+  "assessment_type": "demo_runtime",
+  "scoring_mode": "dual",
+  "dimensions": [
+    {
+      "name": "易见",
+      "status": "scored",
+      "reason": null,
+      "score": 7.75,
+      "coverage": {
+        "pass": 12,
+        "partial_pass": 1,
+        "fail": 1,
+        "insufficient_evidence": 1,
+        "not_applicable": 3,
+        "judged": 14,
+        "total": 18,
+        "gap_rate": 0.06666666666666667
+      },
+      "weighted_gap_rate": 0.06666666666666667,
+      "deductions": [
+        {
+          "issue_id": "I02",
+          "severity": "Major",
+          "base_penalty": 1.5,
+          "multiplier": 1,
+          "deduction": 1.5
+        },
+        {
+          "issue_id": "I04",
+          "severity": "Minor",
+          "base_penalty": 0.75,
+          "multiplier": 1,
+          "deduction": 0.75
+        }
+      ]
+    },
+    {
+      "name": "易学",
+      "status": "scored",
+      "reason": null,
+      "score": 5.5,
+      "coverage": {
+        "pass": 14,
+        "partial_pass": 0,
+        "fail": 3,
+        "insufficient_evidence": 1,
+        "not_applicable": 3,
+        "judged": 17,
+        "total": 21,
+        "gap_rate": 0.05555555555555555
+      },
+      "weighted_gap_rate": 0.05555555555555555,
+      "deductions": [
+        {
+          "issue_id": "I01",
+          "severity": "High",
+          "base_penalty": 3,
+          "multiplier": 1,
+          "deduction": 3
+        },
+        {
+          "issue_id": "I03",
+          "severity": "Major",
+          "base_penalty": 1.5,
+          "multiplier": 1,
+          "deduction": 1.5
+        }
+      ]
+    },
+    {
+      "name": "易操作",
+      "status": "scored",
+      "reason": null,
+      "score": 9.75,
+      "coverage": {
+        "pass": 5,
+        "partial_pass": 1,
+        "fail": 0,
+        "insufficient_evidence": 2,
+        "not_applicable": 0,
+        "judged": 6,
+        "total": 8,
+        "gap_rate": 0.25
+      },
+      "weighted_gap_rate": 0.25,
+      "deductions": [
+        {
+          "issue_id": "I05",
+          "severity": "Advisory",
+          "base_penalty": 0.25,
+          "multiplier": 1,
+          "deduction": 0.25
+        }
+      ]
+    }
+  ],
+  "scoring": {
+    "status": "scored",
+    "raw_score": 7.7,
+    "final_score": 7.7,
+    "rating": "优",
+    "reason": null
+  },
+  "coverage": {
+    "page": {
+      "pass": 19,
+      "partial_pass": 2,
+      "fail": 3,
+      "insufficient_evidence": 1,
+      "not_applicable": 5,
+      "judged": 24,
+      "total": 30,
+      "gap_rate": 0.04
+    },
+    "flow": {
+      "pass": 12,
+      "partial_pass": 0,
+      "fail": 1,
+      "insufficient_evidence": 3,
+      "not_applicable": 1,
+      "judged": 13,
+      "total": 17,
+      "gap_rate": 0.1875
+    }
+  },
+  "scenario_profile": {
+    "schema_version": "ues.scenario-profile.v2",
+    "profile_id": "9b155c55f7902ef239c6f9a943c1cab146f641cb9a38c3eaf38f5f7bff1c3bea",
+    "suite": "ease-of-use-suite-47",
+    "policy_version": "ues.context-weight.v2-confirmed-framing",
+    "calibration": "experimental_not_calibrated",
+    "context": {
+      "id": "login-ease-v1",
+      "frozen": true,
+      "product_type": "教师端 App 登录",
+      "user_profile": null,
+      "input_capability": null,
+      "risk_capabilities": [],
+      "assumptions": [],
+      "paradigm_selection": {
+        "primary": {
+          "paradigm": "task_system",
+          "share": 1
+        },
+        "secondary": null,
+        "confirmation": {
+          "source": "user_reply",
+          "user_statement": "任务系统型 100%（推荐）"
+        },
+        "paradigm_mix": {
+          "narrative": 0,
+          "exploration": 0,
+          "task_system": 1
+        },
+        "close_split": false
+      },
+      "scenarios": [
+        {
+          "id": "S1",
+          "task_id": "T-LOGIN",
+          "goal": "首次验证身份并确认进入当前学校",
+          "basis": "用户指定的新入职老师登录任务",
+          "role": null,
+          "primary_task": "execute",
+          "secondary_tasks": [
+            "compare",
+            "decide"
+          ],
+          "paradigm_mix": {
+            "narrative": 0,
+            "exploration": 0,
+            "task_system": 1
+          },
+          "share": 1
+        }
+      ],
+      "task_shares": {
+        "T-LOGIN": 1
+      },
+      "criterion_scenarios": {}
+    },
+    "criteria": [
+      {
+        "id": "A01.01",
+        "importance": 3,
+        "level": "page",
+        "dimension": "易见",
+        "aggregate_multiplier": 1.15,
+        "scenarios": [
+          {
+            "scenario_id": "S1",
+            "task_id": "T-LOGIN",
+            "share": 1,
+            "multiplier": 1.15,
+            "paradigm_delta": 1,
+            "task_match": false,
+            "neutral_fallback": [],
+            "task_mapping_status": "universal"
+          }
+        ],
+        "tag_status": "completed"
+      },
+      {
+        "id": "A01.02",
+        "importance": 2,
+        "level": "page",
+        "dimension": "易见",
+        "aggregate_multiplier": 1.25,
+        "scenarios": [
+          {
+            "scenario_id": "S1",
+            "task_id": "T-LOGIN",
+            "share": 1,
+            "multiplier": 1.25,
+            "paradigm_delta": 1,
+            "task_match": true,
+            "neutral_fallback": [],
+            "task_mapping_status": "task_specific"
+          }
+        ],
+        "tag_status": "completed"
+      },
+      {
+        "id": "A01.03",
+        "importance": 2,
+        "level": "page",
+        "dimension": "易学",
+        "aggregate_multiplier": 1.15,
+        "scenarios": [
+          {
+            "scenario_id": "S1",
+            "task_id": "T-LOGIN",
+            "share": 1,
+            "multiplier": 1.15,
+            "paradigm_delta": 1,
+            "task_match": false,
+            "neutral_fallback": [],
+            "task_mapping_status": "universal"
+          }
+        ],
+        "tag_status": "completed"
+      },
+      {
+        "id": "A01.04",
+        "importance": 2,
+        "level": "page",
+        "dimension": "易学",
+        "aggregate_multiplier": 1.15,
+        "scenarios": [
+          {
+            "scenario_id": "S1",
+            "task_id": "T-LOGIN",
+            "share": 1,
+            "multiplier": 1.15,
+            "paradigm_delta": 1,
+            "task_match": false,
+            "neutral_fallback": [],
+            "task_mapping_status": "universal"
+          }
+        ],
+        "tag_status": "completed"
+      },
+      {
+        "id": "A01.05",
+        "importance": 3,
+        "level": "page",
+        "dimension": "易学",
+        "aggregate_multiplier": 1.15,
+        "scenarios": [
+          {
+            "scenario_id": "S1",
+            "task_id": "T-LOGIN",
+            "share": 1,
+            "multiplier": 1.15,
+            "paradigm_delta": 1,
+            "task_match": false,
+            "neutral_fallback": [],
+            "task_mapping_status": "universal"
+          }
+        ],
+        "tag_status": "completed"
+      },
+      {
+        "id": "A01.06",
+        "importance": 2,
+        "level": "page",
+        "dimension": "易学",
+        "aggregate_multiplier": 1,
+        "scenarios": [
+          {
+            "scenario_id": "S1",
+            "task_id": "T-LOGIN",
+            "share": 1,
+            "multiplier": 1,
+            "paradigm_delta": 0,
+            "task_match": false,
+            "neutral_fallback": [],
+            "task_mapping_status": "universal"
+          }
+        ],
+        "tag_status": "completed"
+      },
+      {
+        "id": "A01.10",
+        "importance": 2,
+        "level": "page",
+        "dimension": "易学",
+        "aggregate_multiplier": 1.15,
+        "scenarios": [
+          {
+            "scenario_id": "S1",
+            "task_id": "T-LOGIN",
+            "share": 1,
+            "multiplier": 1.15,
+            "paradigm_delta": 1,
+            "task_match": false,
+            "neutral_fallback": [],
+            "task_mapping_status": "universal"
+          }
+        ],
+        "tag_status": "completed"
+      },
+      {
+        "id": "A01.11",
+        "importance": 1,
+        "level": "page",
+        "dimension": "易学",
+        "aggregate_multiplier": 1,
+        "scenarios": [
+          {
+            "scenario_id": "S1",
+            "task_id": "T-LOGIN",
+            "share": 1,
+            "multiplier": 1,
+            "paradigm_delta": 0,
+            "task_match": false,
+            "neutral_fallback": [],
+            "task_mapping_status": "universal"
+          }
+        ],
+        "tag_status": "completed"
+      },
+      {
+        "id": "A02.01",
+        "importance": 3,
+        "level": "page",
+        "dimension": "易学",
+        "aggregate_multiplier": 1.15,
+        "scenarios": [
+          {
+            "scenario_id": "S1",
+            "task_id": "T-LOGIN",
+            "share": 1,
+            "multiplier": 1.15,
+            "paradigm_delta": 1,
+            "task_match": false,
+            "neutral_fallback": [],
+            "task_mapping_status": "universal"
+          }
+        ],
+        "tag_status": "completed"
+      },
+      {
+        "id": "A02.02",
+        "importance": 2,
+        "level": "page",
+        "dimension": "易见",
+        "aggregate_multiplier": 1,
+        "scenarios": [
+          {
+            "scenario_id": "S1",
+            "task_id": "T-LOGIN",
+            "share": 1,
+            "multiplier": 1,
+            "paradigm_delta": 0,
+            "task_match": false,
+            "neutral_fallback": [],
+            "task_mapping_status": "universal"
+          }
+        ],
+        "tag_status": "completed"
+      },
+      {
+        "id": "A02.04",
+        "importance": 2,
+        "level": "page",
+        "dimension": "易学",
+        "aggregate_multiplier": 1,
+        "scenarios": [
+          {
+            "scenario_id": "S1",
+            "task_id": "T-LOGIN",
+            "share": 1,
+            "multiplier": 1,
+            "paradigm_delta": 0,
+            "task_match": false,
+            "neutral_fallback": [],
+            "task_mapping_status": "universal"
+          }
+        ],
+        "tag_status": "completed"
+      },
+      {
+        "id": "A02.05",
+        "importance": 2,
+        "level": "page",
+        "dimension": "易见",
+        "aggregate_multiplier": 1.15,
+        "scenarios": [
+          {
+            "scenario_id": "S1",
+            "task_id": "T-LOGIN",
+            "share": 1,
+            "multiplier": 1.15,
+            "paradigm_delta": 1,
+            "task_match": false,
+            "neutral_fallback": [],
+            "task_mapping_status": "universal"
+          }
+        ],
+        "tag_status": "completed"
+      },
+      {
+        "id": "A03.01",
+        "importance": 3,
+        "level": "page",
+        "dimension": "易学",
+        "aggregate_multiplier": 1.15,
+        "scenarios": [
+          {
+            "scenario_id": "S1",
+            "task_id": "T-LOGIN",
+            "share": 1,
+            "multiplier": 1.15,
+            "paradigm_delta": 1,
+            "task_match": false,
+            "neutral_fallback": [],
+            "task_mapping_status": "universal"
+          }
+        ],
+        "tag_status": "completed"
+      },
+      {
+        "id": "A03.02",
+        "importance": 2,
+        "level": "page",
+        "dimension": "易学",
+        "aggregate_multiplier": 1,
+        "scenarios": [
+          {
+            "scenario_id": "S1",
+            "task_id": "T-LOGIN",
+            "share": 1,
+            "multiplier": 1,
+            "paradigm_delta": 0,
+            "task_match": false,
+            "neutral_fallback": [],
+            "task_mapping_status": "universal"
+          }
+        ],
+        "tag_status": "completed"
+      },
+      {
+        "id": "A03.03",
+        "importance": 2,
+        "level": "page",
+        "dimension": "易操作",
+        "aggregate_multiplier": 1,
+        "scenarios": [
+          {
+            "scenario_id": "S1",
+            "task_id": "T-LOGIN",
+            "share": 1,
+            "multiplier": 1,
+            "paradigm_delta": 0,
+            "task_match": false,
+            "neutral_fallback": [],
+            "task_mapping_status": "universal"
+          }
+        ],
+        "tag_status": "completed"
+      },
+      {
+        "id": "A03.04",
+        "importance": 1,
+        "level": "page",
+        "dimension": "易学",
+        "aggregate_multiplier": 1,
+        "scenarios": [
+          {
+            "scenario_id": "S1",
+            "task_id": "T-LOGIN",
+            "share": 1,
+            "multiplier": 1,
+            "paradigm_delta": 0,
+            "task_match": false,
+            "neutral_fallback": [],
+            "task_mapping_status": "universal"
+          }
+        ],
+        "tag_status": "completed"
+      },
+      {
+        "id": "A03.05",
+        "importance": 2,
+        "level": "page",
+        "dimension": "易见",
+        "aggregate_multiplier": 1,
+        "scenarios": [
+          {
+            "scenario_id": "S1",
+            "task_id": "T-LOGIN",
+            "share": 1,
+            "multiplier": 1,
+            "paradigm_delta": 0,
+            "task_match": false,
+            "neutral_fallback": [],
+            "task_mapping_status": "universal"
+          }
+        ],
+        "tag_status": "completed"
+      },
+      {
+        "id": "A03.06",
+        "importance": 2,
+        "level": "page",
+        "dimension": "易学",
+        "aggregate_multiplier": 1.1,
+        "scenarios": [
+          {
+            "scenario_id": "S1",
+            "task_id": "T-LOGIN",
+            "share": 1,
+            "multiplier": 1.1,
+            "paradigm_delta": 0,
+            "task_match": true,
+            "neutral_fallback": [],
+            "task_mapping_status": "task_specific"
+          }
+        ],
+        "tag_status": "completed"
+      },
+      {
+        "id": "A03.07",
+        "importance": 2,
+        "level": "page",
+        "dimension": "易学",
+        "aggregate_multiplier": 1.25,
+        "scenarios": [
+          {
+            "scenario_id": "S1",
+            "task_id": "T-LOGIN",
+            "share": 1,
+            "multiplier": 1.25,
+            "paradigm_delta": 1,
+            "task_match": true,
+            "neutral_fallback": [],
+            "task_mapping_status": "task_specific"
+          }
+        ],
+        "tag_status": "completed"
+      },
+      {
+        "id": "A03.09",
+        "importance": 1,
+        "level": "page",
+        "dimension": "易操作",
+        "aggregate_multiplier": 1,
+        "scenarios": [
+          {
+            "scenario_id": "S1",
+            "task_id": "T-LOGIN",
+            "share": 1,
+            "multiplier": 1,
+            "paradigm_delta": 0,
+            "task_match": false,
+            "neutral_fallback": [],
+            "task_mapping_status": "universal"
+          }
+        ],
+        "tag_status": "completed"
+      },
+      {
+        "id": "B01.01",
+        "importance": 3,
+        "level": "page",
+        "dimension": "易见",
+        "aggregate_multiplier": 1.15,
+        "scenarios": [
+          {
+            "scenario_id": "S1",
+            "task_id": "T-LOGIN",
+            "share": 1,
+            "multiplier": 1.15,
+            "paradigm_delta": 1,
+            "task_match": false,
+            "neutral_fallback": [],
+            "task_mapping_status": "universal"
+          }
+        ],
+        "tag_status": "completed"
+      },
+      {
+        "id": "B01.04",
+        "importance": 2,
+        "level": "page",
+        "dimension": "易见",
+        "aggregate_multiplier": 1.15,
+        "scenarios": [
+          {
+            "scenario_id": "S1",
+            "task_id": "T-LOGIN",
+            "share": 1,
+            "multiplier": 1.15,
+            "paradigm_delta": 1,
+            "task_match": false,
+            "neutral_fallback": [],
+            "task_mapping_status": "universal"
+          }
+        ],
+        "tag_status": "completed"
+      },
+      {
+        "id": "B01.07",
+        "importance": 2,
+        "level": "page",
+        "dimension": "易见",
+        "aggregate_multiplier": 1,
+        "scenarios": [
+          {
+            "scenario_id": "S1",
+            "task_id": "T-LOGIN",
+            "share": 1,
+            "multiplier": 1,
+            "paradigm_delta": 0,
+            "task_match": false,
+            "neutral_fallback": [],
+            "task_mapping_status": "universal"
+          }
+        ],
+        "tag_status": "completed"
+      },
+      {
+        "id": "B01.08",
+        "importance": 1,
+        "level": "page",
+        "dimension": "易见",
+        "aggregate_multiplier": 1.15,
+        "scenarios": [
+          {
+            "scenario_id": "S1",
+            "task_id": "T-LOGIN",
+            "share": 1,
+            "multiplier": 1.15,
+            "paradigm_delta": 1,
+            "task_match": false,
+            "neutral_fallback": [],
+            "task_mapping_status": "universal"
+          }
+        ],
+        "tag_status": "completed"
+      },
+      {
+        "id": "B01.09",
+        "importance": 2,
+        "level": "page",
+        "dimension": "易见",
+        "aggregate_multiplier": 1.15,
+        "scenarios": [
+          {
+            "scenario_id": "S1",
+            "task_id": "T-LOGIN",
+            "share": 1,
+            "multiplier": 1.15,
+            "paradigm_delta": 1,
+            "task_match": false,
+            "neutral_fallback": [],
+            "task_mapping_status": "universal"
+          }
+        ],
+        "tag_status": "completed"
+      },
+      {
+        "id": "B01.10",
+        "importance": 2,
+        "level": "page",
+        "dimension": "易见",
+        "aggregate_multiplier": 0.85,
+        "scenarios": [
+          {
+            "scenario_id": "S1",
+            "task_id": "T-LOGIN",
+            "share": 1,
+            "multiplier": 0.85,
+            "paradigm_delta": -1,
+            "task_match": false,
+            "neutral_fallback": [],
+            "task_mapping_status": "universal"
+          }
+        ],
+        "tag_status": "completed"
+      },
+      {
+        "id": "B01.12",
+        "importance": 2,
+        "level": "page",
+        "dimension": "易见",
+        "aggregate_multiplier": 1,
+        "scenarios": [
+          {
+            "scenario_id": "S1",
+            "task_id": "T-LOGIN",
+            "share": 1,
+            "multiplier": 1,
+            "paradigm_delta": 0,
+            "task_match": false,
+            "neutral_fallback": [],
+            "task_mapping_status": "universal"
+          }
+        ],
+        "tag_status": "completed"
+      },
+      {
+        "id": "B01.13",
+        "importance": 1,
+        "level": "page",
+        "dimension": "易见",
+        "aggregate_multiplier": 1,
+        "scenarios": [
+          {
+            "scenario_id": "S1",
+            "task_id": "T-LOGIN",
+            "share": 1,
+            "multiplier": 1,
+            "paradigm_delta": 0,
+            "task_match": false,
+            "neutral_fallback": [],
+            "task_mapping_status": "universal"
+          }
+        ],
+        "tag_status": "completed"
+      },
+      {
+        "id": "B01.14",
+        "importance": 2,
+        "level": "page",
+        "dimension": "易操作",
+        "aggregate_multiplier": 1,
+        "scenarios": [
+          {
+            "scenario_id": "S1",
+            "task_id": "T-LOGIN",
+            "share": 1,
+            "multiplier": 1,
+            "paradigm_delta": 0,
+            "task_match": false,
+            "neutral_fallback": [],
+            "task_mapping_status": "universal"
+          }
+        ],
+        "tag_status": "completed"
+      },
+      {
+        "id": "B04.06",
+        "importance": 2,
+        "level": "page",
+        "dimension": "易学",
+        "aggregate_multiplier": 1.15,
+        "scenarios": [
+          {
+            "scenario_id": "S1",
+            "task_id": "T-LOGIN",
+            "share": 1,
+            "multiplier": 1.15,
+            "paradigm_delta": 1,
+            "task_match": false,
+            "neutral_fallback": [],
+            "task_mapping_status": "universal"
+          }
+        ],
+        "tag_status": "completed"
+      },
+      {
+        "id": "F1.01",
+        "importance": 3,
+        "level": "flow",
+        "dimension": "易操作",
+        "aggregate_multiplier": 1.15,
+        "scenarios": [
+          {
+            "scenario_id": "S1",
+            "task_id": "T-LOGIN",
+            "share": 1,
+            "multiplier": 1.15,
+            "paradigm_delta": 1,
+            "task_match": false,
+            "neutral_fallback": [],
+            "task_mapping_status": "universal"
+          }
+        ],
+        "tag_status": "completed"
+      },
+      {
+        "id": "F1.02",
+        "importance": 3,
+        "level": "flow",
+        "dimension": "易操作",
+        "aggregate_multiplier": 1,
+        "scenarios": [
+          {
+            "scenario_id": "S1",
+            "task_id": "T-LOGIN",
+            "share": 1,
+            "multiplier": 1,
+            "paradigm_delta": 0,
+            "task_match": false,
+            "neutral_fallback": [
+              "task_system"
+            ],
+            "task_mapping_status": "unspecified"
+          }
+        ],
+        "tag_status": "not_started"
+      },
+      {
+        "id": "F1.07",
+        "importance": 3,
+        "level": "flow",
+        "dimension": "易学",
+        "aggregate_multiplier": 1.25,
+        "scenarios": [
+          {
+            "scenario_id": "S1",
+            "task_id": "T-LOGIN",
+            "share": 1,
+            "multiplier": 1.25,
+            "paradigm_delta": 1,
+            "task_match": true,
+            "neutral_fallback": [],
+            "task_mapping_status": "task_specific"
+          }
+        ],
+        "tag_status": "completed"
+      },
+      {
+        "id": "F2.01",
+        "importance": 2,
+        "level": "flow",
+        "dimension": "易学",
+        "aggregate_multiplier": 1.15,
+        "scenarios": [
+          {
+            "scenario_id": "S1",
+            "task_id": "T-LOGIN",
+            "share": 1,
+            "multiplier": 1.15,
+            "paradigm_delta": 1,
+            "task_match": false,
+            "neutral_fallback": [],
+            "task_mapping_status": "universal"
+          }
+        ],
+        "tag_status": "completed"
+      },
+      {
+        "id": "F2.03",
+        "importance": 2,
+        "level": "flow",
+        "dimension": "易学",
+        "aggregate_multiplier": 1,
+        "scenarios": [
+          {
+            "scenario_id": "S1",
+            "task_id": "T-LOGIN",
+            "share": 1,
+            "multiplier": 1,
+            "paradigm_delta": 0,
+            "task_match": false,
+            "neutral_fallback": [],
+            "task_mapping_status": "universal"
+          }
+        ],
+        "tag_status": "completed"
+      },
+      {
+        "id": "F2.05",
+        "importance": 2,
+        "level": "flow",
+        "dimension": "易学",
+        "aggregate_multiplier": 1,
+        "scenarios": [
+          {
+            "scenario_id": "S1",
+            "task_id": "T-LOGIN",
+            "share": 1,
+            "multiplier": 1,
+            "paradigm_delta": 0,
+            "task_match": false,
+            "neutral_fallback": [],
+            "task_mapping_status": "universal"
+          }
+        ],
+        "tag_status": "completed"
+      },
+      {
+        "id": "F2.06",
+        "importance": 2,
+        "level": "flow",
+        "dimension": "易学",
+        "aggregate_multiplier": 1,
+        "scenarios": [
+          {
+            "scenario_id": "S1",
+            "task_id": "T-LOGIN",
+            "share": 1,
+            "multiplier": 1,
+            "paradigm_delta": 0,
+            "task_match": false,
+            "neutral_fallback": [],
+            "task_mapping_status": "universal"
+          }
+        ],
+        "tag_status": "completed"
+      },
+      {
+        "id": "F2.07",
+        "importance": 2,
+        "level": "flow",
+        "dimension": "易操作",
+        "aggregate_multiplier": 1.1,
+        "scenarios": [
+          {
+            "scenario_id": "S1",
+            "task_id": "T-LOGIN",
+            "share": 1,
+            "multiplier": 1.1,
+            "paradigm_delta": 0,
+            "task_match": true,
+            "neutral_fallback": [],
+            "task_mapping_status": "task_specific"
+          }
+        ],
+        "tag_status": "completed"
+      },
+      {
+        "id": "F3.01",
+        "importance": 2,
+        "level": "flow",
+        "dimension": "易见",
+        "aggregate_multiplier": 1,
+        "scenarios": [
+          {
+            "scenario_id": "S1",
+            "task_id": "T-LOGIN",
+            "share": 1,
+            "multiplier": 1,
+            "paradigm_delta": 0,
+            "task_match": false,
+            "neutral_fallback": [],
+            "task_mapping_status": "universal"
+          }
+        ],
+        "tag_status": "completed"
+      },
+      {
+        "id": "F3.04",
+        "importance": 2,
+        "level": "flow",
+        "dimension": "易学",
+        "aggregate_multiplier": 1.1,
+        "scenarios": [
+          {
+            "scenario_id": "S1",
+            "task_id": "T-LOGIN",
+            "share": 1,
+            "multiplier": 1.1,
+            "paradigm_delta": 0,
+            "task_match": true,
+            "neutral_fallback": [],
+            "task_mapping_status": "task_specific"
+          }
+        ],
+        "tag_status": "completed"
+      },
+      {
+        "id": "F3.05",
+        "importance": 2,
+        "level": "flow",
+        "dimension": "易见",
+        "aggregate_multiplier": 1.1,
+        "scenarios": [
+          {
+            "scenario_id": "S1",
+            "task_id": "T-LOGIN",
+            "share": 1,
+            "multiplier": 1.1,
+            "paradigm_delta": 0,
+            "task_match": true,
+            "neutral_fallback": [],
+            "task_mapping_status": "task_specific"
+          }
+        ],
+        "tag_status": "completed"
+      },
+      {
+        "id": "F3.06",
+        "importance": 1,
+        "level": "flow",
+        "dimension": "易操作",
+        "aggregate_multiplier": 1,
+        "scenarios": [
+          {
+            "scenario_id": "S1",
+            "task_id": "T-LOGIN",
+            "share": 1,
+            "multiplier": 1,
+            "paradigm_delta": 0,
+            "task_match": false,
+            "neutral_fallback": [],
+            "task_mapping_status": "universal"
+          }
+        ],
+        "tag_status": "completed"
+      },
+      {
+        "id": "F7.01",
+        "importance": 3,
+        "level": "flow",
+        "dimension": "易见",
+        "aggregate_multiplier": 1.15,
+        "scenarios": [
+          {
+            "scenario_id": "S1",
+            "task_id": "T-LOGIN",
+            "share": 1,
+            "multiplier": 1.15,
+            "paradigm_delta": 1,
+            "task_match": false,
+            "neutral_fallback": [],
+            "task_mapping_status": "universal"
+          }
+        ],
+        "tag_status": "completed"
+      },
+      {
+        "id": "F7.02",
+        "importance": 2,
+        "level": "flow",
+        "dimension": "易见",
+        "aggregate_multiplier": 1,
+        "scenarios": [
+          {
+            "scenario_id": "S1",
+            "task_id": "T-LOGIN",
+            "share": 1,
+            "multiplier": 1,
+            "paradigm_delta": 0,
+            "task_match": false,
+            "neutral_fallback": [],
+            "task_mapping_status": "universal"
+          }
+        ],
+        "tag_status": "completed"
+      },
+      {
+        "id": "F7.03",
+        "importance": 2,
+        "level": "flow",
+        "dimension": "易学",
+        "aggregate_multiplier": 1,
+        "scenarios": [
+          {
+            "scenario_id": "S1",
+            "task_id": "T-LOGIN",
+            "share": 1,
+            "multiplier": 1,
+            "paradigm_delta": 0,
+            "task_match": false,
+            "neutral_fallback": [
+              "task_system"
+            ],
+            "task_mapping_status": "unspecified"
+          }
+        ],
+        "tag_status": "not_started"
+      },
+      {
+        "id": "F7.04",
+        "importance": 1,
+        "level": "flow",
+        "dimension": "易操作",
+        "aggregate_multiplier": 1,
+        "scenarios": [
+          {
+            "scenario_id": "S1",
+            "task_id": "T-LOGIN",
+            "share": 1,
+            "multiplier": 1,
+            "paradigm_delta": 0,
+            "task_match": false,
+            "neutral_fallback": [],
+            "task_mapping_status": "universal"
+          }
+        ],
+        "tag_status": "completed"
+      },
+      {
+        "id": "F7.05",
+        "importance": 1,
+        "level": "flow",
+        "dimension": "易见",
+        "aggregate_multiplier": 1,
+        "scenarios": [
+          {
+            "scenario_id": "S1",
+            "task_id": "T-LOGIN",
+            "share": 1,
+            "multiplier": 1,
+            "paradigm_delta": 0,
+            "task_match": false,
+            "neutral_fallback": [],
+            "task_mapping_status": "universal"
+          }
+        ],
+        "tag_status": "completed"
+      }
+    ],
+    "note": "Paradigm shares are user-confirmed assessment weights; task shares are separate review allocations, not measured traffic. Context weights do not decide applicability."
+  },
+  "scenario_dimensions": [
+    {
+      "name": "易见",
+      "status": "scored",
+      "reason": null,
+      "score": 7.2625,
+      "coverage": {
+        "pass": 12,
+        "partial_pass": 1,
+        "fail": 1,
+        "insufficient_evidence": 1,
+        "not_applicable": 3,
+        "judged": 14,
+        "total": 18,
+        "gap_rate": 0.06666666666666667
+      },
+      "weighted_gap_rate": 0.052307692307692305,
+      "deductions": [
+        {
+          "issue_id": "I02",
+          "severity": "Major",
+          "base_penalty": 1.5,
+          "multiplier": 1.25,
+          "contributions": [
+            {
+              "criterion_id": "A01.02",
+              "scenario_id": "S1",
+              "multiplier": 1.25
+            }
+          ],
+          "deduction": 1.875
+        },
+        {
+          "issue_id": "I04",
+          "severity": "Minor",
+          "base_penalty": 0.75,
+          "multiplier": 1.15,
+          "contributions": [
+            {
+              "criterion_id": "A02.05",
+              "scenario_id": "S1",
+              "multiplier": 1.15
+            }
+          ],
+          "deduction": 0.8624999999999999
+        }
+      ]
+    },
+    {
+      "name": "易学",
+      "status": "scored",
+      "reason": null,
+      "score": 5.050000000000001,
+      "coverage": {
+        "pass": 14,
+        "partial_pass": 0,
+        "fail": 3,
+        "insufficient_evidence": 1,
+        "not_applicable": 3,
+        "judged": 17,
+        "total": 21,
+        "gap_rate": 0.05555555555555555
+      },
+      "weighted_gap_rate": 0.06377551020408163,
+      "deductions": [
+        {
+          "issue_id": "I01",
+          "severity": "High",
+          "base_penalty": 3,
+          "multiplier": 1.15,
+          "contributions": [
+            {
+              "criterion_id": "A01.05",
+              "scenario_id": "S1",
+              "multiplier": 1.15
+            },
+            {
+              "criterion_id": "A03.06",
+              "scenario_id": "S1",
+              "multiplier": 1.1
+            }
+          ],
+          "deduction": 3.4499999999999997
+        },
+        {
+          "issue_id": "I03",
+          "severity": "Major",
+          "base_penalty": 1.5,
+          "multiplier": 1,
+          "contributions": [
+            {
+              "criterion_id": "F7.03",
+              "scenario_id": "S1",
+              "multiplier": 1
+            }
+          ],
+          "deduction": 1.5
+        }
+      ]
+    },
+    {
+      "name": "易操作",
+      "status": "scored",
+      "reason": null,
+      "score": 9.75,
+      "coverage": {
+        "pass": 5,
+        "partial_pass": 1,
+        "fail": 0,
+        "insufficient_evidence": 2,
+        "not_applicable": 0,
+        "judged": 6,
+        "total": 8,
+        "gap_rate": 0.25
+      },
+      "weighted_gap_rate": 0.2545454545454546,
+      "deductions": [
+        {
+          "issue_id": "I05",
+          "severity": "Advisory",
+          "base_penalty": 0.25,
+          "multiplier": 1,
+          "contributions": [
+            {
+              "criterion_id": "A03.09",
+              "scenario_id": "S1",
+              "multiplier": 1
+            }
+          ],
+          "deduction": 0.25
+        }
+      ]
+    }
+  ],
+  "scenario_impacts": [
+    {
+      "issue_id": "I01",
+      "dimension": "易学",
+      "severity": "High",
+      "baseline_deduction": 3,
+      "scenario_multiplier": 1.15,
+      "scenario_deduction": 3.45,
+      "deduction_delta": 0.45,
+      "drivers": [
+        {
+          "criterion_id": "A01.05",
+          "scenario_id": "S1",
+          "multiplier": 1.15,
+          "selected": true
+        },
+        {
+          "criterion_id": "A03.06",
+          "scenario_id": "S1",
+          "multiplier": 1.1,
+          "selected": false
+        }
+      ],
+      "explanation_zh": "I01 的基础扣分为 3，场景系数 1.15，场景扣分为 3.45，主要关联 A01.05/S1。"
+    },
+    {
+      "issue_id": "I02",
+      "dimension": "易见",
+      "severity": "Major",
+      "baseline_deduction": 1.5,
+      "scenario_multiplier": 1.25,
+      "scenario_deduction": 1.875,
+      "deduction_delta": 0.375,
+      "drivers": [
+        {
+          "criterion_id": "A01.02",
+          "scenario_id": "S1",
+          "multiplier": 1.25,
+          "selected": true
+        }
+      ],
+      "explanation_zh": "I02 的基础扣分为 1.5，场景系数 1.25，场景扣分为 1.875，主要关联 A01.02/S1。"
+    },
+    {
+      "issue_id": "I04",
+      "dimension": "易见",
+      "severity": "Minor",
+      "baseline_deduction": 0.75,
+      "scenario_multiplier": 1.15,
+      "scenario_deduction": 0.8625,
+      "deduction_delta": 0.1125,
+      "drivers": [
+        {
+          "criterion_id": "A02.05",
+          "scenario_id": "S1",
+          "multiplier": 1.15,
+          "selected": true
+        }
+      ],
+      "explanation_zh": "I04 的基础扣分为 0.75，场景系数 1.15，场景扣分为 0.8625，主要关联 A02.05/S1。"
+    },
+    {
+      "issue_id": "I03",
+      "dimension": "易学",
+      "severity": "Major",
+      "baseline_deduction": 1.5,
+      "scenario_multiplier": 1,
+      "scenario_deduction": 1.5,
+      "deduction_delta": 0,
+      "drivers": [
+        {
+          "criterion_id": "F7.03",
+          "scenario_id": "S1",
+          "multiplier": 1,
+          "selected": true
+        }
+      ],
+      "explanation_zh": "I03 的基础扣分为 1.5，场景系数 1，场景扣分为 1.5，主要关联 F7.03/S1。"
+    },
+    {
+      "issue_id": "I05",
+      "dimension": "易操作",
+      "severity": "Advisory",
+      "baseline_deduction": 0.25,
+      "scenario_multiplier": 1,
+      "scenario_deduction": 0.25,
+      "deduction_delta": 0,
+      "drivers": [
+        {
+          "criterion_id": "A03.09",
+          "scenario_id": "S1",
+          "multiplier": 1,
+          "selected": true
+        }
+      ],
+      "explanation_zh": "I05 的基础扣分为 0.25，场景系数 1，场景扣分为 0.25，主要关联 A03.09/S1。"
+    }
+  ],
+  "scenario_scoring": {
+    "status": "scored",
+    "raw_score": 7.4,
+    "final_score": 7.4,
+    "rating": null,
+    "reason": null,
+    "label": "场景易用性参考分（试行）",
+    "calibration": "experimental_not_calibrated",
+    "delta_from_baseline": -0.3
+  }
+}

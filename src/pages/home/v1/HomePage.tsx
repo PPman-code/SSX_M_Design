@@ -30,9 +30,16 @@ function Placeholder({ tone }: { tone: Tone }) {
 }
 export function HomePage() {
   const [params] = useSearchParams();
+  const previewChrome = params.get('chrome') === 'wechat';
+  return <MobilePage onRefresh={simulateRefresh} refreshSuccessText="模拟刷新完成" title="黄老师-校管家" previewChrome={previewChrome} previewHistory={false} className="home-page" footer={<ProductTabBar active="home" />}>
+    <HomePageContent />
+  </MobilePage>;
+}
+
+function HomePageContent() {
+  const [params, setParams] = useSearchParams();
   const navigate = useNavigate();
   const { showToast } = useToast();
-  const previewChrome = params.get('chrome') === 'wechat';
   const candidate = params.get('role');
   const role: AttendanceRole = candidate && Object.hasOwn(roleLabels, candidate) ? candidate as AttendanceRole : 'teacher';
   const [roleOpen, setRoleOpen] = useState(false);
@@ -56,7 +63,7 @@ export function HomePage() {
       <div className="home-grid">{items.map(([label, tone]) => <button type="button" key={label} className="home-entry" onClick={() => open(label)}>{label === '出勤率' ? <img className="home-feature-icon" src={`${import.meta.env.BASE_URL}pages/home/v1/attendance.png`} width="32" height="32" alt="" /> : label === '学员管理' ? <Icon name="xueyuanguanli" className="home-feature-icon" style={{ fontSize: 32 }} /> : label === '意向学员' ? <Icon name="yixiangkehu" className="home-feature-icon" style={{ fontSize: 32 }} /> : <Placeholder tone={tone} />}<span>{label}</span></button>)}</div>
     </section>;
   }
-  return <MobilePage onRefresh={simulateRefresh} refreshSuccessText="模拟刷新完成" title="黄老师-校管家" previewChrome={previewChrome} previewHistory={false} className="home-page" footer={<ProductTabBar active="home" />}>
+  return <>
     <div className="home-role"><span>当前身份：</span><button ref={roleRef} type="button" onClick={() => setRoleOpen(true)}>{roleLabels[role]}<Icon name="caret-down" size="xs" /></button></div>
     <button type="button" className="home-announcement" onClick={() => showToast({ message: '2020年春节放假通知 · 示例公告' })}><Icon name="notification" size="sm" /><span>2020年春节放假通知</span><Icon name="right" size="sm" /></button>
     <div className="home-content">
@@ -66,6 +73,6 @@ export function HomePage() {
       {grid('云学辅', tutoring)}
       <section className="home-card" aria-label="今日课表"><div className="home-card-heading"><h2>今日课表</h2><span>共 3 节课</span><Icon name="right" size="sm" /></div><div className="home-lessons">{['去点名', '1/40', '40/40'].map((status, index) => <div className="home-lesson" key={index}><div><strong>09:00–09:40</strong><p>班级：小周老师教语文2班</p><p>教室：206</p></div>{index === 0 ? <button type="button" className="home-rollcall" onClick={() => open('上课点名')}>{status}</button> : <span>{status}</span>}</div>)}</div></section>
     </div>
-    <BottomSheet open={roleOpen} onOpenChange={setRoleOpen} title="切换身份" description="当前为设计模拟身份，不代表真实权限。" finalFocus={roleRef}><RadioGroup label="当前身份" value={role} onChange={(next) => { const search = new URLSearchParams(params); search.set('role', next); navigate(`/pages/home/v1?${search}`, { replace: true }); setRoleOpen(false); }}>{Object.entries(roleLabels).map(([value, label]) => <Radio key={value} value={value} label={label} variant="list" onSelect={value === role ? () => setRoleOpen(false) : undefined} />)}</RadioGroup></BottomSheet>
-  </MobilePage>;
+    <BottomSheet open={roleOpen} onOpenChange={setRoleOpen} title="切换身份" description="当前为设计模拟身份，不代表真实权限。" finalFocus={roleRef}><RadioGroup label="当前身份" value={role} onChange={(next) => { const search = new URLSearchParams(params); search.set('role', next); setParams(search, { replace: true }); setRoleOpen(false); }}>{Object.entries(roleLabels).map(([value, label]) => <Radio key={value} value={value} label={label} variant="list" onSelect={value === role ? () => setRoleOpen(false) : undefined} />)}</RadioGroup></BottomSheet>
+  </>;
 }

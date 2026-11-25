@@ -1,0 +1,57 @@
+{
+  "issue_id": "UES-001",
+  "title": "选校只有校名，无法核对新旧任职关系",
+  "priority": "P1",
+  "source_specialists": [
+    "ease-of-use-suite-47"
+  ],
+  "source_issue_ids": [
+    "I01"
+  ],
+  "diagnosis_refs": [
+    "D-01"
+  ],
+  "evidence_refs": [
+    "E-004",
+    "EV-A01",
+    "E-015"
+  ],
+  "affected_users_tasks": [
+    "首次使用系统的新入职老师",
+    "登录并确认当前学校"
+  ],
+  "impact": "曾在多所学校任职的老师可能认不出这次应进入哪所学校。已确认的是信息不足，真实离职记录是否出现尚未验证。",
+  "recommendation": "学校选项显示机构全称、校区、岗位与任职状态；当前入职记录给出清晰标签。停用关系由服务端限制，并提供「没找到我的学校」。",
+  "acceptance": "给既有旧学校又有新学校的老师明确区分两条关系，并能在绑定前核对当前学校。",
+  "specialist_detail": {
+    "id": "I01",
+    "title": "选校只有校名，无法核对新旧任职关系",
+    "primary_dimension": "易学",
+    "severity": "High",
+    "criterion_ids": [
+      "A01.05",
+      "A03.06"
+    ],
+    "scenario_links": [
+      {
+        "criterion_id": "A01.05",
+        "scenario_id": "S1"
+      },
+      {
+        "criterion_id": "A03.06",
+        "scenario_id": "S1"
+      }
+    ],
+    "evidence_refs": [
+      "E-004",
+      "EV-A01",
+      "E-015"
+    ],
+    "original": "evidence/schools.png",
+    "annotated": "evidence/I01-marked.png",
+    "observation": "两所学校只有名称，未显示校区、岗位、关系状态或当前入职线索。",
+    "impact": "曾在多所学校任职的老师可能认不出这次应进入哪所学校。已确认的是信息不足，真实离职记录是否出现尚未验证。",
+    "recommendation": "学校选项显示机构全称、校区、岗位与任职状态；当前入职记录给出清晰标签。停用关系由服务端限制，并提供「没找到我的学校」。",
+    "acceptance": "给既有旧学校又有新学校的老师明确区分两条关系，并能在绑定前核对当前学校。"
+  }
+}

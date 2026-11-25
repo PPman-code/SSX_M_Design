@@ -1,0 +1,63 @@
+html:has(.app-page--preview) { --product-bottom-safe-area: max(34px, env(safe-area-inset-bottom)); }
+.product-page.app-page {
+  position: relative;
+  background: var(--color-background-page);
+  color: var(--color-text);
+  padding-bottom: var(--product-bottom-safe-area, env(safe-area-inset-bottom));
+}
+.app-page:has(> .product-tabbar) { padding-bottom: 0; }
+.app-page {
+  --color-app-glow-yellow: oklch(from var(--color-home-placeholder-yellow) .94 calc(c * .88) calc(h + 14));
+  --color-app-glow-cyan: color-mix(in srgb, var(--color-avatar-student-sky) 78%, var(--color-tag-category-cyan-border));
+}
+.app-page.app-page--preview { padding-top: 0; }
+.app-page-top { flex-shrink: 0; background: var(--color-background-surface); color: var(--color-text); }
+.app-page-top[data-background='brand'] { background: var(--color-background-brand-bold); color: var(--color-text-inverse); }
+.app-page-top[data-background='transparent'] { background: transparent; }
+.app-page-top[data-background='brand'] .preview-system-status img { filter: invert(1); }
+.app-page-nav { min-height: 56px; display: grid; grid-template-columns: minmax(40px, 1fr) minmax(0, 2fr) minmax(40px, 1fr); align-items: center; gap: 8px; padding: 0 12px; }
+.app-page-nav-side { min-width: 0; display: flex; align-items: center; }
+.app-page-nav-actions { justify-content: flex-end; }
+.app-page-title { font-size: 17px; line-height: 24px; font-weight: 500; text-align: center; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.app-page-icon-button { display: inline-flex; justify-content: center; align-items: center; min-width: 40px; height: 40px; padding: 8px; border: 0; background: transparent; color: inherit; border-radius: 8px; }
+.app-page-icon-button:active { opacity: .65; }
+.app-page-icon-button:focus-visible { outline: 2px solid var(--color-border-brand); outline-offset: 2px; }
+.preview-home-indicator.app-home-indicator {
+  position: fixed;
+  z-index: calc(var(--z-index-popover) + 1);
+  inset: auto 0 0;
+  height: var(--product-bottom-safe-area);
+  background: transparent;
+  pointer-events: none;
+  justify-content: center;
+  align-items: flex-end;
+  padding: 0 0 8px;
+}
+.app-home-indicator span { width: 134px; }
+
+.teacher-app-account { padding: 16px; }
+.teacher-app-account h2 { margin: 0 0 12px; font-size: var(--typography-font-size-title-sm); font-weight: 500; }
+.teacher-app-account dl { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 12px 16px; margin: 0 0 12px; }
+.teacher-app-account dt { color: var(--color-text-subtle); }
+.teacher-app-account dd { margin: 0; overflow-wrap: anywhere; }
+.teacher-app-account small { display: block; color: var(--color-text-subtle); }
+.teacher-app-account .button { min-height: 48px; }
+
+/* Real App viewport: the header owns the status safe area, so its scroll
+   surface covers the status bar too. Preview continues to draw its own bars. */
+html:has(.app-page:not(.app-page--preview)),
+body:has(.app-page:not(.app-page--preview)) {
+  height: 100%;
+  overflow: hidden;
+  overscroll-behavior: none;
+  background: var(--color-background-page);
+}
+#root:has(.app-page:not(.app-page--preview)),
+.product-page.app-page:not(.app-page--preview) { height: 100%; }
+.product-page.app-page { padding-top: 0; }
+.app-page-top { padding-top: var(--app-top-safe-area, env(safe-area-inset-top)); }
+.app-page--preview > .app-page-top { padding-top: 0; }
+html:has(.app-page:not(.app-page--preview) :is(.teacher-mine, .teacher-workbench)),
+body:has(.app-page:not(.app-page--preview) :is(.teacher-mine, .teacher-workbench)) {
+  background: color-mix(in srgb, var(--color-background-page) 50%, var(--color-background-surface));
+}

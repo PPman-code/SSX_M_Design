@@ -1,3 +1,4 @@
+import { TeacherLoginDemoConfig } from './TeacherLoginDemoConfig';
 import { Toggle } from './ui/Toggle';
 import { archivedBusinessPages, businessPages } from '../page-registry';
 
@@ -20,6 +21,7 @@ export function WorkspaceConfig({ pageId, pageName, paymentEnabled, onPaymentCha
   const versions = [...archivedBusinessPages, ...businessPages].filter((page) => page.name === current?.name);
   return <section className="workspace-config" aria-label="页面配置">
     <div className="config-heading"><h2>页面配置</h2><div className="config-page-version"><span>{pageName || '组件预览'}</span>{versions.length > 1 && <select aria-label="页面版本" value={current?.route} onChange={(event) => onVersionChange(event.target.value)}>{versions.map((page) => <option key={page.id} value={page.route}>{page.version}</option>)}</select>}</div></div>
+    {pageId === 'teacher-app' && <TeacherLoginDemoConfig />}
     {pageId === 'parent-course-detail' && <div className="config-toggles">
       <div className="config-toggle-row"><span>班级多选</span><Toggle label="班级多选" checked={classMultiple} onChange={onClassMultipleChange} /></div>
       <div className="config-toggle-row"><span>剩余席位</span><Toggle label="剩余席位" checked={showRemainingSeats} onChange={onShowRemainingSeatsChange} /></div>

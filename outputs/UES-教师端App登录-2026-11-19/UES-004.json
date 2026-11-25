@@ -1,0 +1,52 @@
+{
+  "issue_id": "UES-004",
+  "title": "登录首屏的返回箭头没有对应去向",
+  "priority": "P2",
+  "source_specialists": [
+    "ease-of-use-suite-47"
+  ],
+  "source_issue_ids": [
+    "I04"
+  ],
+  "diagnosis_refs": [
+    "D-04"
+  ],
+  "evidence_refs": [
+    "E-002",
+    "EV-A04",
+    "E-015"
+  ],
+  "affected_users_tasks": [
+    "首次使用系统的新入职老师",
+    "登录并确认当前学校"
+  ],
+  "impact": "新老师可能以为可退回上一步，但该入口没有上一层。",
+  "recommendation": "首个登录页按原生导航实际层级呈现，无可返回路径就隐藏返回；绑定步骤的返回沿用真实上一步行为。",
+  "acceptance": "首次打开登录页不存在无去向的返回按钮，后续每步的返回目标可预测。",
+  "specialist_detail": {
+    "id": "I04",
+    "title": "登录首屏的返回箭头没有对应去向",
+    "primary_dimension": "易见",
+    "severity": "Minor",
+    "criterion_ids": [
+      "A02.05"
+    ],
+    "scenario_links": [
+      {
+        "criterion_id": "A02.05",
+        "scenario_id": "S1"
+      }
+    ],
+    "evidence_refs": [
+      "E-002",
+      "EV-A04",
+      "E-015"
+    ],
+    "original": "evidence/entry.png",
+    "annotated": "evidence/I04-marked.png",
+    "observation": "首屏点击 App 返回，仅显示「当前为 App 预览入口」轻提示，页面未离开。",
+    "impact": "新老师可能以为可退回上一步，但该入口没有上一层。",
+    "recommendation": "首个登录页按原生导航实际层级呈现，无可返回路径就隐藏返回；绑定步骤的返回沿用真实上一步行为。",
+    "acceptance": "首次打开登录页不存在无去向的返回按钮，后续每步的返回目标可预测。"
+  }
+}

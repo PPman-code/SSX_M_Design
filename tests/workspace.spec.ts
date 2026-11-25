@@ -128,14 +128,15 @@ test('unavailable LAN address explains how to proceed without localhost QR', asy
   await expect(page.getByRole('img', { name: '手机预览二维码' })).toHaveCount(0);
 });
 
-test('sidebar exposes separate teacher and parent projects without a business page list', async ({ page }) => {
+test('sidebar exposes teacher H5, teacher App and parent projects without a business page list', async ({ page }) => {
   await page.setViewportSize({ width: 1300, height: 1051 });
   await page.goto('/#/?theme=light');
   const nav = page.getByRole('navigation', { name: '工作区导航' });
-  await expect(nav.getByRole('link')).toHaveCount(4);
+  await expect(nav.getByRole('link')).toHaveCount(5);
+  await expect(nav.getByRole('link', { name: '教师端-app', exact: true })).toBeVisible();
   await expect(page.getByRole('navigation', { name: '业务页面' })).toHaveCount(0);
   await expect(page.locator('.pages-label')).toHaveCount(0);
-  const project = nav.getByRole('link', { name: '教师端项目', exact: true });
+  const project = nav.getByRole('link', { name: '老师端-h5', exact: true });
   await project.click();
   await expect(project).toHaveAttribute('aria-current', 'page');
   await expect(page.frameLocator('iframe').getByRole('region', { name: '报表中心', exact: true })).toBeVisible();
@@ -151,7 +152,7 @@ test('parent project opens course detail and stays isolated from teacher navigat
   await page.goto('/#/?page=home&theme=light');
   const nav = page.getByRole('navigation', { name: '工作区导航', exact: true });
   await expect(page.frameLocator('iframe').getByRole('region', { name: '报表中心', exact: true })).toBeVisible();
-  const parent = nav.getByRole('link', { name: '家长端项目', exact: true });
+  const parent = nav.getByRole('link', { name: '家长端-h5', exact: true });
   await parent.click();
   await expect(parent).toHaveAttribute('aria-current', 'page');
   const frame = page.frameLocator('iframe');
@@ -163,7 +164,7 @@ test('parent project opens course detail and stays isolated from teacher navigat
   await page.reload();
   await expect(parent).toHaveAttribute('aria-current', 'page');
   await expect(frame.locator('.parent-course-page')).toBeVisible();
-  await nav.getByRole('link', { name: '教师端项目', exact: true }).click();
+  await nav.getByRole('link', { name: '老师端-h5', exact: true }).click();
   await expect(frame.getByRole('region', { name: '报表中心', exact: true })).toBeVisible();
   await expect(page.getByRole('link', { name: '独立打开', exact: true })).toHaveAttribute('href', /pages\/home/);
   await page.goto('/#/pages/parent-course-detail/v1?theme=light');

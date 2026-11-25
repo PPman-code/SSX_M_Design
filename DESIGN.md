@@ -16,6 +16,9 @@ PC 规范按 2026-10-12 快照继承，不自动跟随 PC 更新；没有在本�
 ## 任务读取路由
 | 任务 | 必读 |
 | --- | --- |
+| 教师端 App / App 顶部导航 / Home 安全区 | docs/requirements/teacher-app.md、page-patterns.md 的 App 容器与底部安全区；组件稿未确认前仅维护候选外壳，不套用微信导航 |
+| 教师端 App 登录模块（临时设计例外） | [教师登录原型](docs/requirements/teacher-app.md#教师登录原型) 与当前设计稿；视觉和操作反馈按本模块设计验收，可局部自定义 |
+| 产品页面文案 | content-guidelines.md。演示数据与测试说明放在工作区配置或交付说明中 |
 | 新页面 | governance.md、page-patterns.md（含 56/48/40 顶部层级与单栏吸顶规则）、component-registry.md |
 | 顶部导航 / Search / Tab 组合与底部工具栏 | page-patterns.md 的顶部层级规则、interaction.md、components.md 的 Tabs（内容页签）/TabBar（底部主导航）、相关组件 API 与全部调用点；人员列表另读 list-pages.md |
 | 人员管理列表的新建、审查或统一 | list-pages.md（含已确认规则、候选基线及迁移记录）、两个现有列表样本；涉及抽取再读 component-registry.md / components.md |
@@ -30,7 +33,7 @@ PC 规范按 2026-10-12 快照继承，不自动跟随 PC 更新；没有在本�
 | 字体 | typography.md、foundations.md、相关组件与 token |
 | 文字标签 / Tag | components.md 的 Tag（18/20/24px三档）、component-registry.md、typography.md；区分静态Tag、未读Badge及分类Tabs；先核对全部调用点，不批量迁移旧标签 |
 | 修改 token | token-sync.md、tokens.json；改物理色或角色时再读对应 JSON |
-| 图标 | iconography.md（含单元格装饰图形 18px 规则）、Icon 公共 API |
+| 图标 | iconography.md（新增 SVG 直接命名存本地；含单元格装饰图形 18px 规则）、Icon 公共 API |
 | 版本 | page-versioning.md、目标页版本目录 |
 
 2026-10-28：Dialog 默认恢复基础文字按钮操作区（ios），取消常规文字、确认品牌文字、操作间细分隔线；独立实底按钮仅作为显式 buttons 变体保留。覆盖 2026-10-27 的默认独立按钮决定；相关 API 与迁移见 components.md 的 Dialog。
@@ -69,7 +72,7 @@ PC 规范按 2026-10-12 快照继承，不自动跟随 PC 更新；没有在本�
 
 ## 预览项目范围（2026-10-26）
 
-工作区分教师端与家长端两个项目入口，共用组件库与语义规范。家长端从 parent-course-detail 课程详情开始，封面使用用户图片并保持 4:3。2026-11-10 已接入「填写订单」结算原型，首页、课程列表及真实支付待补。详情边界见 docs/requirements/parent-course-detail.md。项目入口登记于 page-registry.ts 的 previewProjects，家长页面单列 parentBusinessPages。
+工作区分教师端 H5、教师端-app 与家长端三个项目入口，共用组件库与语义规范。家长端从 parent-course-detail 课程详情开始，封面使用用户图片并保持 4:3。2026-11-10 已接入「填写订单」结算原型，首页、课程列表及真实支付待补。详情边界见 docs/requirements/parent-course-detail.md。项目入口登记于 page-registry.ts 的 previewProjects，家长页面单列 parentBusinessPages。
 
 2026-11-02 学员管理筛选任务补充读取 docs/requirements/student-filters.md；列表/意向客户共同规范仍按 list-pages.md 路由，不将截图物理样式升级为规范。
 

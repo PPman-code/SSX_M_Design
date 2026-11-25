@@ -1,0 +1,135 @@
+/* App home shares Mine's ambient background and gently fades its navigation surface. */
+.app-page:has(.teacher-workbench) > .app-page-top { transition: background-color 180ms ease; }
+.product-page.app-page:has(.teacher-workbench) > .app-page-top[data-scrolled='true'] {
+  background: color-mix(in srgb, var(--color-background-surface) 94%, transparent);
+}
+@media (prefers-reduced-motion: reduce) {
+  .app-page:has(.teacher-workbench) > .app-page-top { transition: none; }
+}
+.app-page:has(.teacher-workbench) .app-page-nav--leading {
+  grid-template-columns: minmax(0, 1fr) 40px;
+  padding: 8px 16px 8px 12px;
+  min-height: 56px;
+}
+.workbench-campus-switch {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  max-width: 100%;
+  min-height: 40px;
+  padding: 8px 16px;
+  border: 0;
+  border-radius: 20px;
+  background: transparent;
+  color: var(--color-text);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 24px;
+}
+.workbench-campus-switch > span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.workbench-campus-switch:active { color: var(--color-text-subtle); }
+.workbench-campus-switch:focus-visible { outline: 2px solid var(--color-border-focused); outline-offset: 2px; }
+.app-page .workbench-notification { padding: 8px; width: 40px; height: 40px; border: 0; background: transparent; color: var(--color-text); }
+.app-page .workbench-notification:active { background: transparent; color: var(--color-text-subtle); }
+.app-page:has(.teacher-workbench) .workbench-campus-switch,
+.app-page:has(.teacher-workbench) .workbench-notification {
+  background: color-mix(in srgb, var(--color-background-surface) 40%, transparent);
+  transition: background-color 180ms ease;
+}
+.app-page:has(.teacher-workbench) > .app-page-top[data-scrolled='true'] .workbench-campus-switch,
+.app-page:has(.teacher-workbench) > .app-page-top[data-scrolled='true'] .workbench-notification { background: transparent; }
+@media (prefers-reduced-motion: reduce) {
+  .app-page:has(.teacher-workbench) .workbench-campus-switch,
+  .app-page:has(.teacher-workbench) .workbench-notification { transition: none; }
+}
+.teacher-workbench { min-height: 100%; gap: 12px; padding: 0 12px 20px; background: transparent; color: var(--color-text); }
+.teacher-workbench .home-card { border-radius: 12px; box-shadow: none; }
+.workbench-intro { position: relative; padding-bottom: 12px; }
+.workbench-greeting { position: relative; display: flex; align-items: flex-start; min-height: 81px; padding: 10px 138px 10px 16px; }
+.workbench-greeting-copy { min-width: 0; }
+.workbench-greeting h2 { margin: 0; font-size: 20px; line-height: 33.6px; font-weight: 500; }
+.workbench-greeting p { margin: 0; font-size: 14px; line-height: 24px; color: var(--color-text-subtle); }
+.workbench-portrait { position: absolute; top: -3px; right: 0; width: 126px; height: 135px; object-fit: contain; pointer-events: none; }
+.workbench-report { position: relative; display: flex; flex-direction: column; gap: 3px; min-height: 76px; padding: 7px 16px 12px; }
+.workbench-report-background { position: absolute; inset: -1px; width: calc(100% + 2px); height: calc(100% + 2px); pointer-events: none; }
+.workbench-report h2 { position: relative; display: flex; align-items: center; gap: 2px; margin: 0; font-size: 16px; line-height: 22px; font-weight: 500; color: var(--color-text); }
+.workbench-report-row { position: relative; display: flex; gap: 2px; align-items: center; }
+.workbench-report-options {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  mask-image: linear-gradient(to right, transparent, var(--color-text) 16px, var(--color-text) calc(100% - 16px), transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, var(--color-text) 16px, var(--color-text) calc(100% - 16px), transparent);
+}
+.workbench-report-track { display: flex; width: max-content; }
+.workbench-report-tags { display: flex; flex: none; gap: 10px; padding-right: 10px; }
+.workbench-report-tags > span { flex: none; padding: 0 8px; border-radius: 6px; background: var(--color-background-brand-subtle); color: var(--color-text-subtle); font-size: 12px; line-height: 24px; }
+@media (prefers-reduced-motion: no-preference) {
+  .workbench-report-track { animation: workbench-report-scroll 18s linear infinite; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .workbench-report-options { overflow-x: auto; scrollbar-width: none; }
+  .workbench-report-options::-webkit-scrollbar { display: none; }
+  .workbench-report-tags + .workbench-report-tags { display: none; }
+}
+.workbench-report:focus-within .workbench-report-track,
+.workbench-report:active .workbench-report-track { animation-play-state: paused; }
+@keyframes workbench-report-scroll {
+  to { transform: translateX(-50%); }
+}
+.teacher-workbench .workbench-report-view {
+  --button-tone: oklch(from var(--color-text) calc(l * .5) c h);
+  --button-tone-pressed: color-mix(in srgb, var(--button-tone) 85%, var(--color-background-surface));
+  flex: none; height: 32px; min-height: 32px; padding: 3px 12px; border-radius: 50px; border-color: var(--color-border-inverse); background: var(--button-tone); color: var(--color-text-inverse); font-size: 14px; line-height: 24px; font-weight: 500;
+}
+.teacher-workbench .workbench-report-view:active { background: var(--button-tone-pressed); }
+[data-color-mode='dark'] .teacher-workbench .workbench-report-view { --button-tone: var(--color-text); color: var(--color-background-surface); }
+[data-color-mode='dark'] .workbench-report-background { opacity: .12; }
+.teacher-workbench .home-card-heading { height: 48px; min-height: 48px; padding: 0 16px; }
+.teacher-workbench .home-card-heading h2 { color: var(--color-text); font-size: 16px; line-height: 24px; font-weight: 500; }
+.teacher-workbench .home-grid { row-gap: 8px; padding: 8px; }
+.teacher-workbench .home-entry { gap: 4px; padding: 6px 2px; min-height: 76px; border-radius: 8px; font-size: 12px; line-height: 20px; color: var(--color-text-subtle); }
+.workbench-feature-icon { display: grid; place-items: center; flex: none; width: 40px; height: 40px; border-radius: 12px; }
+.workbench-feature-icon > svg { width: 20px; height: 20px; }
+.workbench-feature-icon[data-tone='yellow'] { background: oklch(from var(--color-home-placeholder-yellow) .85 .14 calc(h - 15)); }
+.workbench-feature-icon[data-tone='blue'] { background: oklch(from var(--color-home-placeholder-blue) .78 .11 h); }
+.workbench-feature-icon[data-tone='orange'] { background: var(--color-home-placeholder-orange); }
+.workbench-feature-icon[data-tone='violet'] { background: oklch(from var(--color-avatar-student-purple) .76 .13 h); }
+.workbench-feature-icon[data-tone='pink'] { background: oklch(from var(--color-avatar-student-pink) .77 .15 h); }
+.workbench-feature-icon[data-tone='sky'] { background: oklch(from var(--color-home-placeholder-blue) .74 .13 h); }
+.teacher-workbench .home-todos { gap: 6px; grid-template-columns: repeat(4, minmax(0, 1fr)); padding: 4px 12px 14px; }
+.teacher-workbench .home-todos button { min-width: 0; min-height: 72px; padding: 6px 0; border-radius: 8px; color: var(--color-text); background: var(--color-background-neutral-subtlest); }
+.teacher-workbench .home-todos button:active { background: var(--color-background-neutral-selected); }
+.teacher-workbench .home-todos span { color: var(--color-text-subtle); }
+.teacher-workbench .workbench-heading-action { gap: 4px; min-height: 40px; padding: 0; color: var(--color-text-subtlest); font-size: 14px; line-height: 24px; }
+.teacher-workbench .workbench-todo-help { min-height: 14px; padding: 0; color: var(--color-text-subtlest); }
+.teacher-workbench .workbench-todo-help > svg { width: 14px; height: 14px; }
+.teacher-workbench .workbench-course-list { margin: 0; padding: 8px; list-style: none; gap: 16px; }
+.workbench-course { min-width: 0; }
+.workbench-course-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; min-height: 24px; padding: 0 8px; }
+.workbench-course-dot { flex: none; }
+.workbench-course-time { display: flex; flex: 1; align-items: center; flex-wrap: wrap; gap: 6px; }
+.workbench-course-time strong { color: var(--color-text); font-size: 18px; line-height: 24px; font-family: var(--typography-font-family-numeric); font-weight: 700; font-variant-numeric: tabular-nums; }
+.workbench-course-time .ssx-tag { flex: none; }
+.workbench-attendance { margin: 0; color: var(--color-text-subtle); font-size: 12px; line-height: 20px; }
+.workbench-course-body { display: flex; gap: 8px; padding: 4px 8px 0; }
+.workbench-course-connector { position: relative; display: grid; place-items: center; flex: none; width: 8px; }
+.workbench-course-connector::before { content: ''; width: 1px; height: 100%; background: var(--color-border-lighter); }
+.workbench-course-detail { display: flex; flex: 1; min-width: 0; align-items: center; gap: 8px; padding: 12px 8px; border-radius: 9px; background: var(--color-background-neutral-subtlest); }
+.workbench-course-detail > div { flex: 1; min-width: 0; }
+.workbench-course-name, .workbench-course-description { margin: 0; line-height: 20px; overflow-wrap: anywhere; }
+.workbench-course-name { font-size: 14px; color: var(--color-text); }
+.workbench-course-description { font-size: 12px; color: var(--color-text-subtle); }
+.teacher-workbench .workbench-course-action { flex: none; min-height: 32px; padding: 3px 8px; white-space: nowrap; }
+.workbench-course[data-phase='finished'] .workbench-course-time strong,
+.workbench-course[data-phase='finished'] .workbench-course-name,
+.workbench-course[data-phase='finished'] .workbench-course-description { color: var(--color-text-subtlest); }
+.workbench-course[data-attendance='overdue'] .workbench-attendance { color: var(--color-text-danger); }
+.workbench-course[data-attendance='pending'] .workbench-attendance { color: var(--color-text-warning); }
+@media (max-width: 374px) {
+  .workbench-greeting { padding-right: 122px; }
+  .workbench-greeting h2 { font-size: 18px; }
+}
+
+.workbench-report-title { display: block; width: 115px; height: 22px; object-fit: contain; }
+[data-color-mode='dark'] .workbench-report-title { filter: brightness(0) invert(1); }

@@ -25,7 +25,11 @@ for (const width of [360, 375, 390, 430]) {
     await expect(first).toContainText('金灿灿'); await expect(first).toContainText('¥4,700.00');
     await expect(first.locator('dt')).toHaveText(['剩余学费', '剩余数量', '电子钱包', '有效期至']);
     const number = await first.locator('.student-phone-row > span').boundingBox();
-    const phone = await first.locator('.student-phone img').boundingBox();
+    const phoneIcon = first.locator('.student-phone svg');
+    await expect(phoneIcon.locator('use')).toHaveAttribute('href', /#SSX-phone$/);
+    await expect(first.getByRole('button', { name: /学员二维码/ }).locator('use')).toHaveAttribute('href', /#SSX-qrcode$/);
+    await expect(first.getByRole('button', { name: /学员详情/ }).locator('use')).toHaveAttribute('href', /#SSX-right$/);
+    const phone = await phoneIcon.boundingBox();
     expect(phone!.x - number!.x - number!.width).toBeGreaterThanOrEqual(0);
     expect(phone!.x - number!.x - number!.width).toBeLessThan(8);
     expect(Math.abs(phone!.y + phone!.height / 2 - number!.y - number!.height / 2)).toBeLessThan(2);

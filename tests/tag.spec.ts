@@ -29,7 +29,7 @@ for (const theme of ['light', 'dark']) {
       await expect(tag).toHaveCSS('font-weight', '400');
     }
     await expect.poll(() => profile.locator('img').evaluate(el => (el as HTMLImageElement).naturalWidth)).toBeGreaterThan(0);
-    await expect.poll(() => page.locator('.student-detail-actions img').evaluateAll(es => es.every(el => (el as HTMLImageElement).naturalWidth > 0))).toBe(true);
+    await expect(page.locator('.student-detail-actions svg use')).toHaveCount(4);
     await page.screenshot({ path: `/tmp/ssx-tag-student-${theme}.png` });
   });
 }

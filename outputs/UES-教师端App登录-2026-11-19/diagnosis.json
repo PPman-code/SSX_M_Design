@@ -1,0 +1,249 @@
+{
+  "schema_version": "ues-diagnosis/0.1",
+  "run_id": "LOGIN-UES-01",
+  "version": 1,
+  "input_snapshot_id": "LOGIN-INPUT-01",
+  "evidence_index_version": 3,
+  "scenarios": [
+    {
+      "id": "S1",
+      "goal": "首次验证身份并确认进入当前学校",
+      "decision": "选择正确的登录方式和入职学校",
+      "required_information": [
+        "学校与账号归属",
+        "手机号验证结果",
+        "候选学校的身份信息",
+        "成功页当前学校"
+      ],
+      "success_outcome": "新老师能完成登录并确认当前学校",
+      "basis": "用户指定的新入职老师登录任务",
+      "assumptions": [
+        "候选学校可能来自不同入职经历，当前原型只提供名称"
+      ]
+    }
+  ],
+  "candidates": [
+    {
+      "id": "D-01",
+      "scenario_ids": [
+        "S1"
+      ],
+      "observation": "两所学校只有名称，未显示校区、岗位、关系状态或当前入职线索。",
+      "observation_evidence_ids": [
+        "E-004"
+      ],
+      "hypothesis": "选校只有校名，无法核对新旧任职关系",
+      "potential_consequence": "曾在多所学校任职的老师可能认不出这次应进入哪所学校。已确认的是信息不足，真实离职记录是否出现尚未验证。",
+      "verification": {
+        "action": "完成短信验证后比较两条记录，选择第二条并核对成功回显。",
+        "expected_discriminator": "复现该状态且缺少所需信息、目标或焦点",
+        "evidence_ids": [
+          "E-004",
+          "E-015",
+          "E-005"
+        ],
+        "status": "confirmed"
+      },
+      "counterevidence": {
+        "alternatives_checked": [
+          "选中后颜色和圆点明确，学校名也会回显；这些只区分所选项，仍无法判定当前任职关系。"
+        ],
+        "remaining_uncertainty": [
+          "原型没有在职、离职混合数据。"
+        ]
+      },
+      "conclusion": {
+        "status": "confirmed",
+        "confidence": "high",
+        "summary": "选校只有校名，无法核对新旧任职关系",
+        "linked_output_ids": [
+          "UES-001"
+        ]
+      }
+    },
+    {
+      "id": "D-02",
+      "scenario_ids": [
+        "S1"
+      ],
+      "observation": "账号登录跳过绑手机，与未登记手机号绑定工作账号，两个成功页都未显示学校；选校登录的结果页有学校。",
+      "observation_evidence_ids": [
+        "E-009"
+      ],
+      "hypothesis": "两条工作账号路径登录成功后缺少学校名称",
+      "potential_consequence": "老师能确认凭证验证成功，却无法确认当前是哪个学校。",
+      "verification": {
+        "action": "分别完成账号密码跳过绑定和未登记号码绑定账号，再与选校终态对比。",
+        "expected_discriminator": "复现该状态且缺少所需信息、目标或焦点",
+        "evidence_ids": [
+          "E-009",
+          "E-015",
+          "E-013",
+          "E-005"
+        ],
+        "status": "confirmed"
+      },
+      "counterevidence": {
+        "alternatives_checked": [
+          "选校成功页确有学校字段；其他两条路径实际页面树没有。"
+        ],
+        "remaining_uncertainty": [
+          "没有真实学校工作台。"
+        ]
+      },
+      "conclusion": {
+        "status": "confirmed",
+        "confidence": "high",
+        "summary": "两条工作账号路径登录成功后缺少学校名称",
+        "linked_output_ids": [
+          "UES-002"
+        ]
+      }
+    },
+    {
+      "id": "D-03",
+      "scenario_ids": [
+        "S1"
+      ],
+      "observation": "切换至账号登录、从验证码进入选校、绑定成功后，activeElement 都变为 BODY；选校页仍能用 Tab 找到单选组。",
+      "observation_evidence_ids": [
+        "E-004"
+      ],
+      "hypothesis": "切换方式和提交后，键盘焦点回到页面根",
+      "potential_consequence": "键盘或读屏用户可能错过刚出现的标题与成功状态，需要重新定位下一步。",
+      "verification": {
+        "action": "观察切换和提交后 activeElement，继续 Tab、方向键及 Enter。",
+        "expected_discriminator": "复现该状态且缺少所需信息、目标或焦点",
+        "evidence_ids": [
+          "E-004",
+          "E-015",
+          "E-005"
+        ],
+        "status": "confirmed"
+      },
+      "counterevidence": {
+        "alternatives_checked": [
+          "后续键盘操作能继续，已验证无焦点死锁。"
+        ],
+        "remaining_uncertainty": [
+          "未运行真实移动读屏。"
+        ]
+      },
+      "conclusion": {
+        "status": "confirmed",
+        "confidence": "high",
+        "summary": "切换方式和提交后，键盘焦点回到页面根",
+        "linked_output_ids": [
+          "UES-003"
+        ]
+      }
+    },
+    {
+      "id": "D-04",
+      "scenario_ids": [
+        "S1"
+      ],
+      "observation": "首屏点击 App 返回，仅显示「当前为 App 预览入口」轻提示，页面未离开。",
+      "observation_evidence_ids": [
+        "E-002"
+      ],
+      "hypothesis": "登录首屏的返回箭头没有对应去向",
+      "potential_consequence": "新老师可能以为可退回上一步，但该入口没有上一层。",
+      "verification": {
+        "action": "点击登录首页的返回箭头，观察轻提示和页面。",
+        "expected_discriminator": "复现该状态且缺少所需信息、目标或焦点",
+        "evidence_ids": [
+          "E-002",
+          "E-015"
+        ],
+        "status": "confirmed"
+      },
+      "counterevidence": {
+        "alternatives_checked": [
+          "绑定页可用更换手机号返回；缺陷限首次入口。"
+        ],
+        "remaining_uncertainty": []
+      },
+      "conclusion": {
+        "status": "confirmed",
+        "confidence": "high",
+        "summary": "登录首屏的返回箭头没有对应去向",
+        "linked_output_ids": [
+          "UES-004"
+        ]
+      }
+    },
+    {
+      "id": "D-05",
+      "scenario_ids": [
+        "S1"
+      ],
+      "observation": "手机号有持久标签和占位文字，输入前未指明 11 位格式。",
+      "observation_evidence_ids": [
+        "E-002"
+      ],
+      "hypothesis": "手机号格式在校验后才明确",
+      "potential_consequence": "新老师输入带国家区号的号码时，需要试错才能知道要求。",
+      "verification": {
+        "action": "检查首次填写前字段文本，并对照输入约束。",
+        "expected_discriminator": "复现该状态且缺少所需信息、目标或焦点",
+        "evidence_ids": [
+          "E-002",
+          "E-015",
+          "E-003"
+        ],
+        "status": "confirmed"
+      },
+      "counterevidence": {
+        "alternatives_checked": [
+          "字段有持久标签，可借错误提示恢复。"
+        ],
+        "remaining_uncertainty": []
+      },
+      "conclusion": {
+        "status": "confirmed",
+        "confidence": "high",
+        "summary": "手机号格式在校验后才明确",
+        "linked_output_ids": [
+          "UES-005"
+        ]
+      }
+    },
+    {
+      "id": "D-06",
+      "scenario_ids": [
+        "S1"
+      ],
+      "observation": "退出后用同一模拟手机号重登，直接到登录成功，显示原来绑定的学校。",
+      "observation_evidence_ids": [
+        "E-006"
+      ],
+      "hypothesis": "已绑定手机号重登会丢失所选学校",
+      "potential_consequence": "老师每次重登需重新核对学校",
+      "verification": {
+        "action": "选星禾艺术学校并绑定，退出后用同一号码重登",
+        "expected_discriminator": "再次登录是否显示原学校",
+        "evidence_ids": [
+          "E-005",
+          "E-006"
+        ],
+        "status": "rejected"
+      },
+      "counterevidence": {
+        "alternatives_checked": [
+          "同一内存会话的重登仍显示星禾艺术学校"
+        ],
+        "remaining_uncertainty": [
+          "刷新、换设备或真实任职变化未验证"
+        ]
+      },
+      "conclusion": {
+        "status": "rejected",
+        "confidence": "high",
+        "summary": "本次会话重登保留所选学校",
+        "linked_output_ids": []
+      }
+    }
+  ],
+  "stage_metrics": []
+}

@@ -1,0 +1,47 @@
+.my-content.teacher-mine { gap: 12px; padding: 16px 12px 20px; background: transparent; }
+.teacher-mine .my-profile { margin: 0 4px 4px; width: calc(100% - 8px); color: var(--color-text); }
+.teacher-mine-profile-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: inherit;
+  text-align: start;
+}
+.teacher-mine .my-name { font-size: 18px; font-weight: 600; line-height: 24px; }
+.teacher-mine-school-space { display: block; height: 24px; }
+.teacher-mine .teacher-mine-school {
+  position: absolute;
+  top: 42px;
+  left: 84px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  max-width: calc(100% - 120px);
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--color-text-subtle);
+  font-size: 12px;
+  line-height: 24px;
+  text-align: start;
+}
+.teacher-mine-school > span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.teacher-mine-profile-link > svg { color: var(--color-text-inverse); }
+[data-color-mode='dark'] .teacher-mine-profile-link > svg { color: var(--color-text-subtle); }
+.teacher-mine .menu-cell-arrow > svg { width: 16px; height: 16px; }
+.teacher-mine-school:active, .teacher-mine-profile-link:active { opacity: .65; }
+.teacher-mine-school:focus-visible, .teacher-mine-profile-link:focus-visible {
+  outline: 2px solid var(--color-border-focused);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+.teacher-app-settings { min-height: 100%; padding: 16px 12px; }
+
+
+/* Figma 6407:10926: original image crop inside the 56px circular slot. */
+.teacher-mine-avatar { position: relative; display: block; flex-shrink: 0; width: 56px; height: 56px; overflow: hidden; border-radius: 50%; background: color-mix(in srgb, var(--color-background-surface) 80%, transparent); }
+.teacher-mine-avatar > img { position: absolute; width: 211.54%; height: 141.03%; max-width: none; left: -48.47%; top: 8.15%; }

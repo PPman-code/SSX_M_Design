@@ -6,6 +6,104 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "48897162",
+      "name": "报名收费",
+      "font_class": "baomingshoufei",
+      "unicode": "edbb",
+      "unicode_decimal": 60859
+    },
+    {
+      "icon_id": "48897163",
+      "name": "调班",
+      "font_class": "tiaoban",
+      "unicode": "edbc",
+      "unicode_decimal": 60860
+    },
+    {
+      "icon_id": "48897166",
+      "name": "发优惠券",
+      "font_class": "fayouhuiquan",
+      "unicode": "edbd",
+      "unicode_decimal": 60861
+    },
+    {
+      "icon_id": "48897165",
+      "name": "排课",
+      "font_class": "paike1",
+      "unicode": "edbe",
+      "unicode_decimal": 60862
+    },
+    {
+      "icon_id": "48897167",
+      "name": "退费",
+      "font_class": "tuifei",
+      "unicode": "edbf",
+      "unicode_decimal": 60863
+    },
+    {
+      "icon_id": "48897170",
+      "name": "请假申请",
+      "font_class": "qingjiashenqing",
+      "unicode": "edc0",
+      "unicode_decimal": 60864
+    },
+    {
+      "icon_id": "48897100",
+      "name": "跟班试听",
+      "font_class": "genbanshiting",
+      "unicode": "edb9",
+      "unicode_decimal": 60857
+    },
+    {
+      "icon_id": "48897101",
+      "name": "新开班试听",
+      "font_class": "xinkaibanshiting",
+      "unicode": "edba",
+      "unicode_decimal": 60858
+    },
+    {
+      "icon_id": "47124244",
+      "name": "结转",
+      "font_class": "tiaoke1",
+      "unicode": "e87c",
+      "unicode_decimal": 59516
+    },
+    {
+      "icon_id": "47124245",
+      "name": "调入的排课",
+      "font_class": "tiaorudepaike",
+      "unicode": "e87e",
+      "unicode_decimal": 59518
+    },
+    {
+      "icon_id": "47124246",
+      "name": "排课",
+      "font_class": "paike",
+      "unicode": "e87d",
+      "unicode_decimal": 59517
+    },
+    {
+      "icon_id": "47124247",
+      "name": "上传附件",
+      "font_class": "tiaochudepaike",
+      "unicode": "e87b",
+      "unicode_decimal": 59515
+    },
+    {
+      "icon_id": "47124248",
+      "name": "转校",
+      "font_class": "tiaokexueyuan",
+      "unicode": "e87a",
+      "unicode_decimal": 59514
+    },
+    {
+      "icon_id": "47124249",
+      "name": "校区营收",
+      "font_class": "xiaoquyingshou",
+      "unicode": "e879",
+      "unicode_decimal": 59513
+    },
+    {
       "icon_id": "48810520",
       "name": "学员管理",
       "font_class": "xueyuanguanli",

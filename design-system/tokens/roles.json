@@ -136,6 +136,11 @@
       "$label": "teacher 无照片头像薄荷雾海青",
       "$light": "seaGreen",
       "$dark": "seaGreen"
+    },
+    "appTabAccent": {
+      "$label": "教师端App悬浮导航选中强调色",
+      "$light": "appTabBlue",
+      "$dark": "appTabBlue"
     }
   }
 }

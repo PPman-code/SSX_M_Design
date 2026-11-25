@@ -1,6 +1,7 @@
 :root {
   --role-aira-100: var(--palette-orchid-100);
   --role-aira-600: var(--palette-orchid-600);
+  --role-app-tab-accent-600: var(--palette-app-tab-blue-600);
   --role-avatar-neutral-100: var(--palette-neutral-100);
   --role-avatar-neutral-150: var(--palette-neutral-150);
   --role-avatar-neutral-200: var(--palette-neutral-200);
@@ -200,6 +201,7 @@
 :root[data-color-mode="dark"] {
   --role-aira-100: var(--palette-orchid-100);
   --role-aira-600: var(--palette-orchid-600);
+  --role-app-tab-accent-600: var(--palette-app-tab-blue-600);
   --role-avatar-neutral-100: var(--palette-neutral-100);
   --role-avatar-neutral-150: var(--palette-neutral-150);
   --role-avatar-neutral-200: var(--palette-neutral-200);

@@ -10,6 +10,7 @@ MobilePage 接收 title、children、footer、previewChrome 和 previewHistory�
 
 ## Button
 主按钮统一使用 color.background.brand.bold（Light #2878E8 / Dark #409EFF），不提供 hover 状态，按下复用同一语义族的 pressed，不自行换成更深品牌色阶。
+主按钮默认底色通过 `--button-tone` 读取，按压底色通过 `--button-tone-pressed` 读取。场景按设计使用非品牌底色时应成对设置这两个变量，沿用同一语义色系。教师端 App 登录页的中性主按钮已接入。
 variant: primary / secondary / ghost / soft / outline / text，默认 primary；soft 为辅助色、outline 为线框、text 为品牌文字按钮。页面次要操作优先使用 soft（品牌浅底 + 品牌文字，Light/Dark 使用语义映射），包括筛选/选择弹层的重置/取消、页面重试及常规次要按钮（2026-10-21 用户确认）。secondary 保留白底中性描边作为显式例外，ghost 仍为轻量操作；不是将 secondary API 全局重新定义为浅蓝。默认 md 统一为 40px 视觉高、至少 40px 点击热区、8px 圆角、16px/24px 字号行高 / 400 字重；sm 为同高的紧凑文字版，lg 保留 52px，仅在明确业务需要时使用，不作为常用默认规格。
 tone: brand / danger / warning；shape: default / round / square（默认保持项目圆角）。支持 block 通栏、icon（本地图标名称）、iconOnly（必须提供 icon 和 aria-label），loading/loadingText。加载时保留按钮颜色并显示旋转图形，阻止重复点击，不触发提交；设置 loading=false 后恢复。支持 ref 和标准原生 button 属性。disabled 与 loading 分开表达，减少动效时停止旋转。
 对照 [Arco Mobile Button 文档](https://arco.design/mobile/react/arco-design/pc/#/components/button) 与 Figma 34:3824 的样式、形状与状态；2026-10-13 的 44px 默认高度已被 2026-10-20 用户最新确认的 40px 视觉基线替代；圆角 8px、400 字重保留；2026-10-22 默认字号已从 15px 迁移为 16px/24px。主、次、辅助色、线框及普通通栏/弹窗主按钮共用此规格；round/square 仍为显式特殊形状。项目沿用主题蓝，不引入 Arco 运行时。类型颜色仅应用在 primary、soft、outline、text 上，secondary/ghost 保留中性语义。
@@ -120,7 +121,7 @@ PullToRefresh 绑定已有滚动容器 scrollRef，不包裹内容，不更换�
 ## Toast
 参考 [TDesign Mobile Toast 25169:19856](https://www.figma.com/design/Bfd7IgvXOOyyD7q2ComKCT/?node-id=25169-19856)。文字 14px / 22px / 400、6px 圆角；纯文字与横向图标提示上下 16px、左右 24px，横向图标 24px；纵向图标提示四边 24px、图标 32px。图文间隔 8px。单行纯文字高 54px、单行横向图标高 56px、单行纵向图标高 110px；不将表单单元格的 56px 或 18px 图标规则套在 Toast 上。
 
-颜色沿用 --color-toast-surface / --color-toast-text，Light/Dark 都保持现有 80% 黑底白字，不照抄 TDesign 的 90% 背景。状态图标由本地 Icon 的 check-circle / close-circle / exclamation-circle / loading 提供；loading 已覆盖为用户提供的白/蓝角度渐变圆环，尺寸仍为横向 24px / 纵向 32px；通用图标通过 IconName 传入，例如 cloud-download。旧 public/components/toast 资产留存，当前渲染不再调用，不引入新图标库。
+颜色沿用 --color-toast-surface / --color-toast-text，Light/Dark 都保持现有 80% 黑底白字，不照抄 TDesign 的 90% 背景。状态图标由本地 Icon 的 check-circle / close-circle / exclamation-circle / loading 提供；loading 已覆盖为用户提供的白/蓝角度渐变圆环，尺寸仍为横向 24px / 纵向 32px；通用图标通过 IconName 传入，例如 cloud-download。2026-11-18 清理未使用的旧 Toast SVG，状态图标统一由本地 Icon 提供。
 
 ToastProvider 已接入应用根；useToast 从 src/components/ui/useToast.ts 导入，showToast({ message, type, duration, layout, icon })。type 为 text（默认）/success/error/warning/loading；layout 为 horizontal/vertical，默认 vertical，兼容既有图标上下排布；纯文字不产生图标占位。icon 可传本地 IconName，覆盖状态默认图标；默认无需手动传 icon。
 
@@ -211,7 +212,7 @@ Props：open、onOpenChange、title、children、variant?（ios 默认 / buttons
 
 只点击/键盘打开，无 hover 状态或遮罩；外部点击和 Escape 关闭，执行后回到触发按钮，边缘自动避让。Base UI 管理 roving focus 与键盘字符导航；禁用项允许获得焦点供读屏识别，但 Enter/点击不执行、不关闭。正文长名称换行，菜单滚动隐藏滚动条。
 
-原始箭头与红点 SVG 保存于 public/components/popover-menu；红点继续按 0.5 比例在包装槽内显示，约 10px（深色含白描边 12px）。2026-10-22 箭头改为 14×6px CSS 三角，使用与面板一致的 --menu-surface；根据实际 data-side 朝向锚点，放在面板外侧，不叠加半透明 SVG 形成深色缺口。原箭头 SVG 仅保留为参考资产，无临时资源地址运行依赖。浅深色菜单、纯文字/图标/红点禁用与六种定位示例位于组件预览。业务示例只更新内存反馈，不调用真实扫码/通讯功能。
+原始红点 SVG 保存于 public/components/popover-menu；红点继续按 0.5 比例在包装槽内显示，约 10px（深色含白描边 12px）。2026-10-22 箭头改为 14×6px CSS 三角，使用与面板一致的 --menu-surface；根据实际 data-side 朝向锚点，放在面板外侧，不叠加半透明 SVG 形成深色缺口。2026-11-18 删除已停用的原箭头 SVG。浅深色菜单、纯文字/图标/红点禁用与六种定位示例位于组件预览。业务示例只更新内存反馈，不调用真实扫码/通讯功能。
 
 ## SideDrawer
 本地封装 Base UI Drawer。open/onOpenChange、title、children、footer、finalFocus；从右侧进入，最大 420px、窄屏 88% 宽。复用 BottomSheet 的产品视口边界、遮罩、焦点、键盘避让和滚动区，底部操作固定。意向客户与学员管理筛选共用，样式位于 SideDrawer.css；不改变 BottomSheet 默认行为。
@@ -249,6 +250,12 @@ Button 40px 基线（2026-10-20）：md/sm 视觉高度 40px，24px 行高配上
 
 迁移记录：组件预览“名称”字段已使用 external Input；新增输入框示例覆盖三种布局。Search、意向客户编辑表单、出勤率日期等现有业务字段暂未迁移；后续按字段校验、键盘及提交语义逐项核对。当前 API 为 Candidate，待真实业务表单验证后再升级 Recommended。短信/后端校验未接入，验证码按钮只显示本地演示反馈；真机软键盘、安全区和自动填充另验收。
 
+
+## VerificationCodeInput（候选组件）
+
+本地入口 `src/components/ui/VerificationCodeInput.tsx`。六格共用一个原生输入与一个键盘焦点，调用方提供 `label`、`value`、`onValueChange` 和可选 `error`。点击任意格都在末尾续输，退格从末尾逐位删除。聚焦时高亮下一空格，输满后高亮第六格。粘贴完整六位会替换当前验证码。
+
+教师端 App 的登录、绑定和解绑共用该组件。数字键盘及短信自动填充沿用原生输入属性，真机待验证。
 
 ## Input 与选择型 Cell 的表单混排审查（2026-10-21）
 

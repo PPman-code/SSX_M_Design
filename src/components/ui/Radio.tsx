@@ -25,10 +25,11 @@ interface RadioProps {
   disabled?: boolean;
   hideLabel?: boolean;
   className?: string;
+  describedBy?: string;
 }
-export function Radio({ value, label, variant = 'dot', onSelect, disabled, hideLabel = false, className = '' }: RadioProps) {
+export function Radio({ value, label, variant = 'dot', onSelect, disabled, hideLabel = false, className = '', describedBy }: RadioProps) {
   return <label className={`ssx-radio-label ${hideLabel ? 'ssx-radio-label--icon' : ''} ${className}`}>
-    <BaseRadio.Root value={value} disabled={disabled} onClick={onSelect} aria-label={hideLabel ? label : undefined} className={`ssx-radio ${hideLabel ? 'touch-target' : ''} ssx-radio--${variant}`}>
+    <BaseRadio.Root value={value} disabled={disabled} onClick={onSelect} aria-label={hideLabel ? label : undefined} aria-describedby={describedBy} className={`ssx-radio ${hideLabel ? 'touch-target' : ''} ssx-radio--${variant}`}>
       <span className="ssx-radio-mark" aria-hidden="true"><BaseRadio.Indicator className="ssx-radio-indicator">{variant === 'list' ? <Icon name="check" size="sm" /> : null}</BaseRadio.Indicator></span>
     </BaseRadio.Root>
     {!hideLabel && <span className="ssx-radio-text">{label}</span>}

@@ -33,12 +33,17 @@ export const parentBusinessPages = [{
   id: 'parent-course-detail', name: '课程详情', version: 'v1', status: '设计草稿', route: '/pages/parent-course-detail/v1',
   audience: '家长', description: '课程套餐详情、规格与选座，全部确认后进入填写订单。结算、收藏及支付反馈为本地模拟。', figmaUrl: '',
 }] as const;
-export const businessPages = [...teacherBusinessPages, ...parentBusinessPages] as const;
+export const teacherAppPages = [{
+  id: 'teacher-app', name: '教师端-app', version: 'v1', status: '设计草稿', route: '/pages/teacher-app/v1',
+  audience: '教师端 App', description: '教师端登录与账号绑定原型，使用本地模拟。', figmaUrl: '',
+}] as const;
+export const businessPages = [...teacherBusinessPages, ...parentBusinessPages, ...teacherAppPages] as const;
 export const previewProjects = [
-  { id: 'teacher', name: '教师端项目', entryPageId: 'home', icon: 'user' },
-  { id: 'parent', name: '家长端项目', entryPageId: 'parent-course-detail', icon: 'user-group' },
+  { id: 'teacher', name: '老师端-h5', entryPageId: 'home', icon: 'user' },
+  { id: 'teacher-app', name: '教师端-app', entryPageId: 'teacher-app', icon: 'apps' },
+  { id: 'parent', name: '家长端-h5', entryPageId: 'parent-course-detail', icon: 'user-group' },
 ] as const;
-export function projectForPage(pageId: string) { return parentBusinessPages.some(page => page.id === pageId) ? 'parent' : 'teacher'; }
+export function projectForPage(pageId: string) { return teacherAppPages.some(page => page.id === pageId) ? 'teacher-app' : parentBusinessPages.some(page => page.id === pageId) ? 'parent' : 'teacher'; }
 
 /** Historical versions retained for direct-route review, omitted from active navigation. */
 export const archivedBusinessPages = [{

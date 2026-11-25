@@ -1,3 +1,4 @@
+import { TeacherAppPage } from './pages/teacher-app/v1/TeacherAppPage';
 import { ParentCourseDetailPage } from './pages/parent-course-detail/v1/ParentCourseDetailPage';
 import { useEffect } from 'react';
 import { Link, Route, Routes, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
@@ -68,6 +69,7 @@ export function App() {
     <Route path="/pages/my/v1" element={<MyPage />} />
     <Route path="/pages/attendance/v2" element={<AttendancePageV2 />} />
     <Route path="/pages/attendance/v1" element={<AttendancePage />} />
+    <Route path="/pages/teacher-app/v1" element={<TeacherAppPage />} />
     <Route path="/mobile" element={<MobilePreview />} />
     <Route path="/handoff" element={<Workspace mode={mode} onToggleTheme={onToggleTheme} />} />
     <Route path="*" element={<main className="not-found"><h1>页面不存在</h1><p>这个设计页面可能尚未添加。</p><Link className="text-link" to="/">返回工作区</Link></main>} />

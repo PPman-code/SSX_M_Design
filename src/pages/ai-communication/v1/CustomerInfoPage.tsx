@@ -28,6 +28,20 @@ import './ai-communication.css';
 import '../../students/v1/student-status.css';
 import { copyText } from '../../../lib/clipboard';
 
+const studentActions = [
+  ['报名收费', 'baomingshoufei'],
+  ['请假申请', 'qingjiashenqing'],
+  ['上传附件', 'tiaochudepaike'],
+  ['发优惠券', 'fayouhuiquan'],
+  ['转校', 'tiaokexueyuan'],
+  ['调班', 'tiaoban'],
+  ['退费', 'tuifei'],
+  ['结转', 'tiaoke1'],
+  ['排课', 'paike1'],
+  ['新开班试听', 'xinkaibanshiting'],
+  ['跟班试听', 'genbanshiting'],
+] as const;
+
 export function CustomerInfoPage({ formal }: { formal?: { student: Student; pointsFooter: ReactNode; adjustment: ReactNode } } = {}) {
   const { params, actor, go } = useCommunicationNavigation();
   const { showToast } = useToast();
@@ -40,7 +54,9 @@ export function CustomerInfoPage({ formal }: { formal?: { student: Student; poin
   const [startError, setStartError] = useState('');
   const [infoOpen, setInfoOpen] = useState(false);
   const [actionsExpanded, setActionsExpanded] = useState(false);
-  const actionHeight = formal ? actionsExpanded ? 176 : 104 : 48;
+  const visibleStudentActions = actionsExpanded ? studentActions : studentActions.slice(0, 4);
+  // The four-column grid uses 72px rows, with 8px top padding and a 24px toggle.
+  const actionHeight = formal ? Math.ceil(visibleStudentActions.length / 4) * 72 + 32 : 48;
   const [tab, setTab] = useState(formal && params.get('detailTab') === 'points' ? '积分' : '沟通记录');
   const [historyFilter, setHistoryFilter] = useState(emptyHistoryFilter);
   const active = state.records.find(activeRecord);
@@ -84,7 +100,7 @@ export function CustomerInfoPage({ formal }: { formal?: { student: Student; poin
         <button type="button" className="student-detail-open" aria-label="查看学员资料" onClick={() => setInfoOpen(true)}><span className="sr-only">{person.name}</span><Icon name="right" size="base" /></button>
       </div> : customer && <button className="ai-customer-card ai-customer-profile" onClick={() => setInfoOpen(true)} aria-label="查看客户资料"><span className="ai-avatar" {...(!customer.avatar ? avatarAttributes('student', customer.id) : {})}>{customer.avatar ? <img src={customer.avatar} alt="" /> : customer.name[0]}</span><div><h2>{customer.name} {customer.gender && <span className={`ai-gender ai-gender--${customer.gender}`} aria-label={customer.gender === 'male' ? '男' : '女'}><Icon name={customer.gender === 'male' ? 'man' : 'woman'} size="xs" /></span>}</h2><p>录入时间：{customer.inputDate}</p></div><Icon name="right" size="base" /></button>}
       <div ref={markerRef} className="ai-tabs-sentinel" aria-hidden="true" />
-      <div ref={headerRef} className="ai-customer-navigation" style={formal ? { '--ai-action-height': `${actionHeight}px`, top: -actionHeight, minHeight: actionHeight + 48 } as CSSProperties : undefined}>{formal && <div className="student-detail-action-group"><div className="ai-customer-actions student-detail-actions" aria-label="学员业务操作">{([['报名收费', 8], ['请假申请', 2], ['上传附件', 3], ['发优惠券', 7], ['转校', 1], ['调班', 6], ['退费', 4], ['结转', 5]] as const).slice(0, actionsExpanded ? 8 : 4).map(([label, image]) => <Button key={label} variant="text" size="sm" onClick={() => showToast({ message: `${label}请在现有业务系统中办理` })}><img src={`${import.meta.env.BASE_URL}student-detail-actions/action-${image}.png`} alt="" />{label}</Button>)}</div><Button className="student-detail-expand" variant="text" aria-expanded={actionsExpanded} aria-label={actionsExpanded ? '收起学员功能' : '展开全部学员功能'} onClick={() => setActionsExpanded(value => !value)}><Icon className="student-detail-expand-icon" name="shangxiala" size="lg" viewBox="0 0 3072 1024" /></Button></div>}
+      <div ref={headerRef} className="ai-customer-navigation" style={formal ? { '--ai-action-height': `${actionHeight}px`, top: -actionHeight, minHeight: actionHeight + 48 } as CSSProperties : undefined}>{formal && <div className="student-detail-action-group"><div className="ai-customer-actions student-detail-actions" aria-label="学员业务操作">{visibleStudentActions.map(([label, icon]) => <Button key={label} variant="text" size="sm" onClick={() => showToast({ message: `${label}请在现有业务系统中办理` })}><Icon name={icon} size="lg" />{label}</Button>)}</div><Button className="student-detail-expand" variant="text" aria-expanded={actionsExpanded} aria-label={actionsExpanded ? '收起学员功能' : '展开全部学员功能'} onClick={() => setActionsExpanded(value => !value)}><Icon className="student-detail-expand-icon" name="shangxiala" size="lg" viewBox="0 0 3072 1024" /></Button></div>}
       {!formal && <div className="ai-customer-actions" aria-label="客户业务操作">{([['转正式学员', 'zhuanzhengshixueyuan'], ['转试听学员', 'zhuanshitingxueyuan'], ['取消转化', 'quxiaozhuanhua']] as const).map(([label, icon]) => <Button key={label} variant="text" size="sm" icon={icon} onClick={() => showToast({ message: `${label}请在现有业务系统中办理` })}>{label}</Button>)}</div>}
       <Tabs className="ai-customer-tabs" layout={formal ? 'content' : 'stretch'} data-stuck={tabsStuck || undefined} label={formal ? '学员详情分类' : '客户详情分类'} value={tab} onValueChange={setTab} items={detailTabs.map((label, index) => ({ value: label, label, id: `customer-tab-${index}`, panelId: 'customer-history-panel' }))} />
       {tab === '沟通记录' && pending.length > 0 && <div className="ai-pending-dock"><button className="ai-pending-entry" onClick={() => pending.length === 1 ? go('ai-record', { record: pending[0].id }) : go('ai-pending', { record: null })}><span><Icon name="mic-ai-fill" size="base" /> AI 记录 · {pending.length} 条待处理</span><Icon name="right" size="base" /></button></div>}

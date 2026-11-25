@@ -1,0 +1,17 @@
+{
+  "scope": [
+    "evidence-index",
+    "diagnosis",
+    "score-source",
+    "report markup",
+    "Chrome 1440px and 390px"
+  ],
+  "browser": [
+    "three tabs",
+    "no horizontal overflow",
+    "issue search",
+    "evidence lightbox keyboard open and close",
+    "47 audit rows"
+  ],
+  "notes": "结构、引用、计算来源、人工判断与浏览器呈现分别检查"
+}

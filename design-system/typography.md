@@ -33,6 +33,7 @@
 - JingBeiNumber-Bold.ttf 随项目存放 public/fonts/numeric/，fonts.css 用独立 family SSX JingBei Number 从同源URL加载，不使用 local()。源为用户电脑 /Users/zee/Library/Fonts/JingBeiNumber-Bold.ttf，原文件保留。
 - 仅替换既有 --typography-font-family-numeric 的专用展示场景，不扩大使用范围；正文/日期/时间/课时/座位号等继续原系统字体。字体文件是Bold单字重，不伪称具有Regular/Medium字重。字符范围只覆盖数字及相关标点货币符号。
 - 现有消费点包括课程主价格与弹窗价格、首页待办指标、出勤统计及组件示例中的专用数字。普通价格明细、原价、徽标不新增专用字体。
+- 2026-11-23 用户指定教师端 App 工作台「今日课程」的时间段使用专用数字字体。范围为课程时段中的数字。
 
 ## 2026-11-02 学员模块字体变量迁移（D/V）
 

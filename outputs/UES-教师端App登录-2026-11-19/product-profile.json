@@ -1,0 +1,60 @@
+{
+  "version": 1,
+  "product": {
+    "name": "校管家教师端 App 登录",
+    "version": "v1",
+    "platform": "mobile",
+    "product_type": [
+      "task_system"
+    ],
+    "development_stage": "interactive_prototype",
+    "stage_basis": "页面标记原型演示，使用虚构凭证与内存绑定",
+    "target_users": [
+      "首次使用系统的新入职老师"
+    ],
+    "core_tasks": [
+      {
+        "task_id": "T-LOGIN",
+        "goal": "登录并确认进入入职学校",
+        "success": "通过身份验证，必要时选择学校，终态可确认当前学校"
+      }
+    ]
+  },
+  "context": {
+    "id": "login-ease-v1",
+    "frozen": true,
+    "product_type": "教师端 App 登录",
+    "paradigm_selection": {
+      "primary": {
+        "paradigm": "task_system",
+        "share": 1
+      },
+      "confirmation": {
+        "source": "user_reply",
+        "user_statement": "任务系统型 100%（推荐）"
+      }
+    },
+    "scenarios": [
+      {
+        "id": "S1",
+        "task_id": "T-LOGIN",
+        "goal": "首次验证身份并确认进入当前学校",
+        "basis": "用户指定的新入职老师登录任务",
+        "primary_task": "execute",
+        "secondary_tasks": [
+          "compare",
+          "decide"
+        ]
+      }
+    ]
+  },
+  "inputs": [
+    "工作区预览及独立 App 登录页",
+    "桌面键盘、浏览器无障碍树、390px与320px截图"
+  ],
+  "constraints": [
+    "模拟数据",
+    "仅易用性",
+    "不测试设备读屏或生产身份关系"
+  ]
+}

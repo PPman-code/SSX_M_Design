@@ -1,0 +1,88 @@
+{
+  "schema_version": "ues-routing-plan/0.2",
+  "scope_request": {
+    "mode": "only",
+    "requested_specialists": [
+      "ease-of-use-suite-47"
+    ],
+    "include_visual": false,
+    "basis": "用户明确只评估 App 登录易用性"
+  },
+  "run_id": "LOGIN-UES-01",
+  "version": 1,
+  "input_snapshot_id": "LOGIN-INPUT-01",
+  "profile_version": 1,
+  "generated_at": "2026-11-19T02:26:41.731532+00:00",
+  "specialists": [
+    {
+      "name": "ues-baseline-gate",
+      "result_status": "not_selected",
+      "reason": "用户限定范围",
+      "evidence_basis": [],
+      "required_confirmations": [],
+      "dependencies": [],
+      "planned_outputs": []
+    },
+    {
+      "name": "ease-of-use-suite-47",
+      "result_status": "executed",
+      "reason": "用户指定",
+      "evidence_basis": [
+        "E-001"
+      ],
+      "required_confirmations": [
+        "paradigm"
+      ],
+      "dependencies": [],
+      "planned_outputs": [
+        "ease-assessment.json",
+        "score-result.json"
+      ]
+    },
+    {
+      "name": "consistency-suite-22",
+      "result_status": "not_selected",
+      "reason": "用户限定范围",
+      "evidence_basis": [],
+      "required_confirmations": [],
+      "dependencies": [],
+      "planned_outputs": []
+    },
+    {
+      "name": "task-experience-score",
+      "result_status": "not_selected",
+      "reason": "用户限定范围",
+      "evidence_basis": [],
+      "required_confirmations": [],
+      "dependencies": [],
+      "planned_outputs": []
+    },
+    {
+      "name": "page-performance-score",
+      "result_status": "not_selected",
+      "reason": "用户限定范围",
+      "evidence_basis": [],
+      "required_confirmations": [],
+      "dependencies": [],
+      "planned_outputs": []
+    },
+    {
+      "name": "virtual-user-walkthrough",
+      "result_status": "not_selected",
+      "reason": "用户限定范围",
+      "evidence_basis": [],
+      "required_confirmations": [],
+      "dependencies": [],
+      "planned_outputs": []
+    },
+    {
+      "name": "evaluate-visual-quality-v0-9",
+      "result_status": "not_selected",
+      "reason": "用户限定范围",
+      "evidence_basis": [],
+      "required_confirmations": [],
+      "dependencies": [],
+      "planned_outputs": []
+    }
+  ]
+}

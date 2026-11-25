@@ -1,0 +1,52 @@
+{
+  "issue_id": "UES-005",
+  "title": "手机号格式在校验后才明确",
+  "priority": "P3",
+  "source_specialists": [
+    "ease-of-use-suite-47"
+  ],
+  "source_issue_ids": [
+    "I05"
+  ],
+  "diagnosis_refs": [
+    "D-05"
+  ],
+  "evidence_refs": [
+    "E-002",
+    "EV-A05",
+    "E-015"
+  ],
+  "affected_users_tasks": [
+    "首次使用系统的新入职老师",
+    "登录并确认当前学校"
+  ],
+  "impact": "新老师输入带国家区号的号码时，需要试错才能知道要求。",
+  "recommendation": "在字段附近标明「请输入 11 位手机号」；真实支持范围确定后再决定是否提供区号。",
+  "acceptance": "在提交前能从字段说明判断可输入格式，错误时提示仍与该字段关联。",
+  "specialist_detail": {
+    "id": "I05",
+    "title": "手机号格式在校验后才明确",
+    "primary_dimension": "易操作",
+    "severity": "Advisory",
+    "criterion_ids": [
+      "A03.09"
+    ],
+    "scenario_links": [
+      {
+        "criterion_id": "A03.09",
+        "scenario_id": "S1"
+      }
+    ],
+    "evidence_refs": [
+      "E-002",
+      "EV-A05",
+      "E-015"
+    ],
+    "original": "evidence/entry.png",
+    "annotated": "evidence/I05-marked.png",
+    "observation": "手机号有持久标签和占位文字，输入前未指明 11 位格式。",
+    "impact": "新老师输入带国家区号的号码时，需要试错才能知道要求。",
+    "recommendation": "在字段附近标明「请输入 11 位手机号」；真实支持范围确定后再决定是否提供区号。",
+    "acceptance": "在提交前能从字段说明判断可输入格式，错误时提示仍与该字段关联。"
+  }
+}

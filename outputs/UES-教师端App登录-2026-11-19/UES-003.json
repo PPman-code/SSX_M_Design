@@ -1,0 +1,52 @@
+{
+  "issue_id": "UES-003",
+  "title": "切换方式和提交后，键盘焦点回到页面根",
+  "priority": "P1",
+  "source_specialists": [
+    "ease-of-use-suite-47"
+  ],
+  "source_issue_ids": [
+    "I03"
+  ],
+  "diagnosis_refs": [
+    "D-03"
+  ],
+  "evidence_refs": [
+    "E-004",
+    "EV-A03",
+    "E-015"
+  ],
+  "affected_users_tasks": [
+    "首次使用系统的新入职老师",
+    "登录并确认当前学校"
+  ],
+  "impact": "键盘或读屏用户可能错过刚出现的标题与成功状态，需要重新定位下一步。",
+  "recommendation": "切换登录方式保留当前按钮焦点，状态页切换后将焦点放到新标题并提供可读状态反馈。",
+  "acceptance": "只用键盘从验证码进入选校并确认；每次切页后焦点在本页标题或首个任务控件，随后 Tab 顺序合理。",
+  "specialist_detail": {
+    "id": "I03",
+    "title": "切换方式和提交后，键盘焦点回到页面根",
+    "primary_dimension": "易学",
+    "severity": "Major",
+    "criterion_ids": [
+      "F7.03"
+    ],
+    "scenario_links": [
+      {
+        "criterion_id": "F7.03",
+        "scenario_id": "S1"
+      }
+    ],
+    "evidence_refs": [
+      "E-004",
+      "EV-A03",
+      "E-015"
+    ],
+    "original": "evidence/schools.png",
+    "annotated": "evidence/I03-marked.png",
+    "observation": "切换至账号登录、从验证码进入选校、绑定成功后，activeElement 都变为 BODY；选校页仍能用 Tab 找到单选组。",
+    "impact": "键盘或读屏用户可能错过刚出现的标题与成功状态，需要重新定位下一步。",
+    "recommendation": "切换登录方式保留当前按钮焦点，状态页切换后将焦点放到新标题并提供可读状态反馈。",
+    "acceptance": "只用键盘从验证码进入选校并确认；每次切页后焦点在本页标题或首个任务控件，随后 Tab 顺序合理。"
+  }
+}
