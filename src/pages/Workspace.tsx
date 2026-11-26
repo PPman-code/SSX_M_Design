@@ -17,7 +17,7 @@ export function Workspace({ mode, onToggleTheme }: { mode: 'light' | 'dark'; onT
   const [width, setWidth] = useState(390);
   const paymentEnabled = params.get('payment') === 'enabled';
   const role = params.get('role') ?? '';
-  const courseParams = ['classMultiple', 'remainingSeats', ...(selectedProject === 'teacher-app' ? ['appNav', 'appBack', 'appAction'] : [])].map(key => params.has(key) ? `${key}=${encodeURIComponent(params.get(key)!)}` : '').filter(Boolean);
+  const courseParams = ['classMultiple', 'remainingSeats', ...(selectedProject === 'teacher-app' ? ['appNav', 'appBack', 'appAction', 'workbenchReport'] : [])].map(key => params.has(key) ? `${key}=${encodeURIComponent(params.get(key)!)}` : '').filter(Boolean);
   if (selectedPage?.id === 'parent-course-detail') {
     if (params.get('view') === 'checkout') courseParams.push('view=checkout');
     if (params.get('prefillSpecs') === 'enabled') courseParams.push('prefillSpecs=enabled');
@@ -39,7 +39,7 @@ export function Workspace({ mode, onToggleTheme }: { mode: 'light' | 'dark'; onT
   function changePreviewVersion(route: string) {
     document.querySelector('iframe')?.contentWindow?.postMessage({ type: 'ssx-preview-version', route }, window.location.origin);
   }
-  function updatePreviewConfig(key: 'payment' | 'classMultiple' | 'remainingSeats' | 'prefillSpecs', value: string) {
+  function updatePreviewConfig(key: 'payment' | 'classMultiple' | 'remainingSeats' | 'prefillSpecs' | 'workbenchReport', value: string) {
     if (key === 'payment' && currentPage?.id === selectedPage?.id && !currentParams.has('view') && !currentParams.has('from')) {
       setParams((previous) => { const next = new URLSearchParams(previous); if (value) next.set(key, value); else next.delete(key); return next; });
     } else {
@@ -92,6 +92,8 @@ export function Workspace({ mode, onToggleTheme }: { mode: 'light' | 'dark'; onT
             onClassMultipleChange={enabled => updatePreviewConfig('classMultiple', enabled ? 'enabled' : '')}
             onShowRemainingSeatsChange={enabled => updatePreviewConfig('remainingSeats', enabled ? '' : 'hidden')}
             onPrefillSpecsChange={enabled => updatePreviewConfig('prefillSpecs', enabled ? 'enabled' : '')}
+            showWorkbenchReport={currentParams.get('workbenchReport') !== 'hidden'}
+            onShowWorkbenchReportChange={enabled => updatePreviewConfig('workbenchReport', enabled ? '' : 'hidden')}
             paymentEnabled={currentParams.get('payment') === 'enabled'}
             onPaymentChange={enabled => updatePreviewConfig('payment', enabled ? 'enabled' : '')}
           /></aside>}

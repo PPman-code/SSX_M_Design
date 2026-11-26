@@ -8,6 +8,7 @@ import { MyPageContent } from '../../my/v1/MyPage';
 import { allDemoSchools, demoAccountSchools, demoSchools, maskPhone, onboardingPhone, type DemoAccountSchool, type DemoSchool } from './login-demo';
 import { loginSessionKey, readLoginSession, writeLoginSession, type LoginSession } from './login-session';
 import { AppPage } from './AppPage';
+import { AiraChat } from './AiraChat';
 import { TeacherLogin, TeacherLoginPreviewStatus, type LoginStep, type SmsChallenge } from './TeacherLogin';
 import { TeacherWorkbench } from './TeacherWorkbench';
 import { WorkbenchNavigation, type WorkbenchView } from './WorkbenchNavigation';
@@ -21,6 +22,7 @@ export function TeacherAppPage() {
   const [session, setSession] = useState(readLoginSession);
   const [step, setStep] = useState<LoginStep>(() => session.schoolId ? 'signed-in' : 'phone');
   const [workbenchView, setWorkbenchView] = useState<WorkbenchView>('home');
+  const [airaOpen, setAiraOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const settingsRef = useRef<HTMLButtonElement>(null);
   const restoreSettingsFocus = useRef(false);
@@ -62,6 +64,7 @@ export function TeacherAppPage() {
       setSms(undefined);
       setAgreementChecked(false);
       setWorkbenchView('home');
+      setAiraOpen(false);
       setSettingsOpen(false);
       setStep(stored.schoolId ? 'signed-in' : 'phone');
     }
@@ -76,6 +79,7 @@ export function TeacherAppPage() {
 
   function restart() {
     setSettingsOpen(false);
+    setAiraOpen(false);
     setWorkbenchView('home');
     setVerifiedPhone('');
     setSms(undefined);
@@ -193,9 +197,9 @@ export function TeacherAppPage() {
     onRefresh={signedIn && !showSettings ? simulateRefresh : undefined}
     actions={showWorkbench ? <Button className="workbench-notification" variant="ghost" aria-label="通知" onClick={showUnavailable}><Icon name="home-notification" size="md" /></Button>
       : params.get('appAction') === 'more' ? <button type="button" className="app-page-icon-button" aria-label="App 更多" onClick={showUnavailable}><Icon name="more" /></button> : undefined}
-    footer={signedIn && !showSettings ? <WorkbenchNavigation view={workbenchView} onChange={setWorkbenchView} onAira={showUnavailable} /> : undefined}>
+    footer={signedIn && !showSettings ? <WorkbenchNavigation view={workbenchView} onChange={setWorkbenchView} onAira={() => setAiraOpen(true)} /> : undefined}>
     {step === 'signed-in' ? showWorkbench
-      ? <TeacherWorkbench onOpenEntry={showUnavailable} />
+      ? <TeacherWorkbench onOpenEntry={showUnavailable} showReport={params.get('workbenchReport') !== 'hidden'} />
       : showSettings ? <div className="teacher-app-settings">
         <section className="my-menu teacher-app-account" aria-label="账号管理">
           <h2>账号管理</h2>
@@ -221,5 +225,6 @@ export function TeacherAppPage() {
       schoolChoices={schoolChoices} hasBoundChoices={hasBoundChoices}
       reservedPhone={demoAccountSchools.some(school => school.id === currentSchool?.id) ? onboardingPhone : ''}
       currentSchool={currentSchool} onPhoneVerified={phoneVerified} onAccountVerified={accountVerified} onEnterSchool={enterSchool} />}
+    {signedIn && <AiraChat key={session.schoolId} open={airaOpen} onOpenChange={setAiraOpen} />}
   </AppPage>;
 }

@@ -33,7 +33,7 @@ test('today courses keep the four design states regardless of the device time', 
   await page.getByLabel('工作账号', { exact: true }).fill('teacher@example.com');
   await page.getByLabel('密码', { exact: true }).fill('888888');
   await page.getByRole('button', { name: '登录', exact: true }).click();
-  const courses = page.getByRole('region', { name: '今日课程', exact: true });
+  const courses = page.getByRole('region', { name: '今日课表', exact: true });
   await expect(courses.getByRole('button', { name: '共 4 节课', exact: true })).toBeVisible();
   await expect(courses.locator('.workbench-course-time strong')).toHaveText(['08:00–08:45', '09:00–09:45', '10:00–11:00', '14:00–14:45']);
   await expect(courses.locator('.workbench-attendance')).toHaveText(['已点名：7/10', '超时未点名：10/10', '已点名：7/10', '未点名：0/10']);
@@ -67,9 +67,41 @@ test('floating app navigation preserves safe area and switches pages without cov
   }
   await nav.getByRole('button', { name: '我的', exact: true }).click();
   await expect(nav.getByRole('button', { name: '我的', exact: true })).toHaveAttribute('aria-current', 'page');
-  await nav.getByRole('button', { name: 'AIRA', exact: true }).click();
-  await expect(page.locator('.toast').getByText('未接入', { exact: true })).toBeVisible();
+  const aira = nav.getByRole('button', { name: 'AIRA', exact: true });
+  await aira.click();
+  const chat = page.getByRole('dialog', { name: 'AIRA', exact: true });
+  await expect(chat).toBeVisible();
+  const compactHeight = (await chat.boundingBox())!.height;
+  await chat.getByRole('button', { name: '展开对话' }).click();
+  expect((await chat.boundingBox())!.height).toBeGreaterThan(compactHeight);
+  await expect(chat.getByRole('button', { name: '今天还有什么事情要处理？' })).toBeVisible();
+  const send = chat.getByRole('button', { name: '发送', exact: true });
+  for (const width of [360, 375, 430, 390]) {
+    await page.setViewportSize({ width, height: 844 });
+    const sendBounds = (await send.boundingBox())!;
+    expect(sendBounds.x + sendBounds.width).toBeLessThan(width);
+    expect(sendBounds.y + sendBounds.height).toBeCloseTo(844 - 34 - 8, 0);
+    expect(await chat.locator('.sheet-content').evaluate(el => el.scrollWidth)).toBe(width);
+  }
+  if (process.env.SSX_AIRA_SCREENSHOT) await page.screenshot({ path: process.env.SSX_AIRA_SCREENSHOT });
+  await chat.getByRole('button', { name: '换一批' }).click();
+  await expect(chat.getByRole('button', { name: '帮我看看明天的课表' })).toBeVisible();
+  await chat.getByRole('button', { name: '帮我看看明天的课表' }).click();
+  await expect(chat.getByRole('log')).toHaveText('帮我看看明天的课表');
+  const input = chat.getByRole('textbox', { name: '消息' });
+  await input.fill('明天有哪些待办？');
+  await chat.getByRole('button', { name: '收起', exact: true }).click();
+  await expect(chat).toBeHidden();
+  await expect(aira).toBeFocused();
   await expect(nav.getByRole('button', { name: '我的', exact: true })).toHaveAttribute('aria-current', 'page');
+  await aira.click();
+  await expect(chat.getByRole('log')).toHaveText('帮我看看明天的课表');
+  await expect(input).toHaveValue('明天有哪些待办？');
+  await send.click();
+  await expect(chat.getByRole('log')).toContainText('明天有哪些待办？');
+  await expect(input).toBeEmpty();
+  await input.press('Enter');
+  await expect(page.getByText('请输入消息', { exact: true })).toBeVisible();
 });
 
 test('real App viewport paints the status safe area with the scrolling header and fills the host', async ({ page }) => {
@@ -107,4 +139,42 @@ test('teacher App preserves the restored translucent status bar configuration', 
   await expect(page.locator('meta[name="apple-mobile-web-app-status-bar-style"]')).toHaveAttribute('content', 'black-translucent');
   await page.goto('/#/pages/my/v1?theme=light');
   await expect(page.locator('meta[name="apple-mobile-web-app-status-bar-style"]')).toHaveAttribute('content', 'black-translucent');
+});
+
+test('workspace can hide the workbench report without leaving a gap above tasks', async ({ page }) => {
+  await page.goto('/#/?page=teacher-app&theme=light');
+  const frame = page.frameLocator('iframe');
+  await frame.getByRole('button', { name: '账号登录', exact: true }).click();
+  await frame.getByLabel('工作账号', { exact: true }).fill('teacher@example.com');
+  await frame.getByLabel('密码', { exact: true }).fill('888888');
+  await frame.getByRole('button', { name: '登录', exact: true }).click();
+  const toggle = page.getByRole('switch', { name: '显示经营数据专区' });
+  const tasks = frame.getByRole('region', { name: '我的待办' });
+  const report = frame.getByRole('region', { name: '经营数据专区' });
+  await expect(report).toBeVisible();
+  await expect(toggle).toBeChecked();
+  await expect(frame.locator('.teacher-workbench > .home-card > .home-card-heading > h2')).toHaveText(['我的待办', '常用功能', '今日课表']);
+  const initialTop = await tasks.evaluate(card => card.getBoundingClientRect().top);
+  const reportTop = await report.evaluate(card => card.getBoundingClientRect().top);
+  const portrait = frame.locator('.workbench-portrait');
+  const portraitGeometry = () => portrait.evaluate(image => {
+    const { x, y, width, height } = image.getBoundingClientRect();
+    return { x, y, width, height };
+  });
+  const initialPortrait = await portraitGeometry();
+  await toggle.click();
+  await expect(toggle).not.toBeChecked();
+  await expect(report).toHaveCount(0);
+  const hiddenTop = await tasks.evaluate(card => card.getBoundingClientRect().top);
+  expect(hiddenTop).toBeLessThan(initialTop - 60);
+  expect(await portraitGeometry()).toEqual(initialPortrait);
+  expect(Math.abs(hiddenTop - (reportTop + 19))).toBeLessThan(2);
+  expect(hiddenTop).toBeLessThan(initialPortrait.y + initialPortrait.height);
+  await expect(page.getByRole('link', { name: '独立打开' })).toHaveAttribute('href', /workbenchReport=hidden/);
+  if (process.env.SSX_WORKBENCH_SCREENSHOT) {
+    await frame.locator('.product-page').screenshot({ path: process.env.SSX_WORKBENCH_SCREENSHOT });
+  }
+  await toggle.click();
+  await expect(toggle).toBeChecked();
+  await expect(report).toBeVisible();
 });

@@ -248,7 +248,7 @@ test('unavailable App entries share the same toast without selecting the attenda
   await page.screenshot({ path: '/private/tmp/ssx-attendance-unavailable.png' });
   await expect(toast).toBeHidden();
 
-  for (const label of ['AIRA', '查看个人信息', '自定义报表']) {
+  for (const label of ['查看个人信息', '自定义报表']) {
     if (label === '查看个人信息') await page.getByRole('button', { name: '我的', exact: true }).click();
     await page.getByRole('button', { name: label, exact: true }).click();
     await expect(toast).toBeVisible();

@@ -26,14 +26,14 @@ function minutesOfDay(time: string) {
   return hour * 60 + minute;
 }
 
-export function TeacherWorkbench({ onOpenEntry }: { onOpenEntry: () => void }) {
+export function TeacherWorkbench({ onOpenEntry, showReport }: { onOpenEntry: () => void; showReport: boolean }) {
   const now = new Date();
   const needsAttendance = courses.filter(course => course.attendance === 'overdue');
   const tasks = [['待跟进', 4], ['待点名', needsAttendance.length], ['待点评', 3], ['待审批', 1]] as const;
 
   const assets = `${import.meta.env.BASE_URL}pages/teacher-app/v1/home/`;
   return <div className="home-page home-content teacher-workbench">
-    <div className="workbench-intro">
+    <div className="workbench-intro" data-report-hidden={!showReport || undefined}>
       <header className="workbench-greeting">
         <div className="workbench-greeting-copy">
           <h2>Hi 上午好，李老师</h2>
@@ -41,7 +41,7 @@ export function TeacherWorkbench({ onOpenEntry }: { onOpenEntry: () => void }) {
         </div>
       </header>
       <img className="workbench-portrait" src={`${assets}guanzai.png`} width="126" height="135" alt="" />
-      <section className="workbench-report" aria-label="经营数据专区">
+      {showReport && <section className="workbench-report" aria-label="经营数据专区">
         <img className="workbench-report-background" src={`${assets}report-card.svg`} alt="" />
         <h2><img className="workbench-report-title" src={`${assets}report-title.png`} width="115" height="22" alt="经营数据专区" /></h2>
         <div className="workbench-report-row">
@@ -54,21 +54,8 @@ export function TeacherWorkbench({ onOpenEntry }: { onOpenEntry: () => void }) {
           </div>
           <Button className="workbench-report-view touch-target" variant="secondary" onClick={onOpenEntry} aria-label="查看经营数据专区">查看</Button>
         </div>
-      </section>
+      </section>}
     </div>
-
-    <section className="home-card" aria-labelledby="workbench-features">
-      <div className="home-card-heading">
-        <h2 id="workbench-features">常用功能</h2>
-        <Button className="workbench-heading-action" variant="text" onClick={onOpenEntry}>编辑<Icon name="right" size="base" /></Button>
-      </div>
-      <div className="home-grid">
-        {features.map(([label, tone, icon]) => <button key={label} type="button" className="home-entry" onClick={onOpenEntry}>
-          <span className="workbench-feature-icon" data-tone={tone}><Icon name={icon} size="lg" /></span>
-          <span>{label}</span>
-        </button>)}
-      </div>
-    </section>
 
     <section className="home-card" aria-labelledby="workbench-tasks">
       <div className="home-card-heading home-todo-heading">
@@ -84,9 +71,22 @@ export function TeacherWorkbench({ onOpenEntry }: { onOpenEntry: () => void }) {
       </div>
     </section>
 
+    <section className="home-card" aria-labelledby="workbench-features">
+      <div className="home-card-heading">
+        <h2 id="workbench-features">常用功能</h2>
+        <Button className="workbench-heading-action" variant="text" onClick={onOpenEntry}>编辑<Icon name="right" size="base" /></Button>
+      </div>
+      <div className="home-grid">
+        {features.map(([label, tone, icon]) => <button key={label} type="button" className="home-entry" onClick={onOpenEntry}>
+          <span className="workbench-feature-icon" data-tone={tone}><Icon name={icon} size="lg" /></span>
+          <span>{label}</span>
+        </button>)}
+      </div>
+    </section>
+
     <section className="home-card" aria-labelledby="workbench-courses">
       <div className="home-card-heading">
-        <h2 id="workbench-courses">今日课程</h2>
+        <h2 id="workbench-courses">今日课表</h2>
         <Button className="workbench-heading-action workbench-course-count" variant="text" onClick={onOpenEntry}>共 {courses.length} 节课<Icon name="right" size="base" /></Button>
       </div>
       <ul className="home-lessons workbench-course-list">

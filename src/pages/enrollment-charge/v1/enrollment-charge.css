@@ -1,0 +1,49 @@
+.enrollment-charge .product-scroll { display: flex; flex-direction: column; }
+.enrollment-charge-tabs { position: sticky; top: 0; z-index: var(--z-index-sticky); flex: none; background: var(--color-background-surface); border-bottom: 1px solid var(--color-border-lighter); }
+.quick-charge-panel { flex: 1; padding: 10px 12px 14px; background: var(--color-background-brand-bold); }
+.quick-charge-card { overflow: hidden; border-radius: 14px; background: var(--color-background-surface); color: var(--color-text); }
+.quick-charge-header { display: flex; align-items: center; justify-content: space-between; gap: 8px; box-sizing: border-box; height: 56px; padding-inline: 20px; border-bottom: 1px solid var(--color-border-lighter); }
+.quick-charge-header .quick-charge-campus-trigger { min-width: 0; min-height: 44px; justify-content: flex-start; gap: 4px; padding-inline: 0 8px; color: var(--color-text); font-size: 16px; font-weight: 600; }
+.quick-charge-campus-trigger span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.quick-charge-campus-trigger svg { flex: none; color: var(--color-icon-subtle); }
+.quick-charge-body { display: flex; flex-direction: column; align-items: center; gap: var(--space-4); padding: var(--space-4); text-align: center; }
+.quick-charge-intro { display: grid; gap: var(--space-2); }
+.quick-charge-intro h2 { margin: 0; font-size: 28px; line-height: 40px; font-weight: 600; overflow-wrap: anywhere; }
+.quick-charge-intro .quick-charge-fixed-amount { font-family: var(--typography-font-family-numeric); font-weight: 700; font-variant-numeric: tabular-nums; }
+.quick-charge-body p, .quick-charge-poster-note { margin: 0; font-size: 14px; line-height: 22px; }
+.quick-charge-body p { color: var(--color-text-subtlest); }
+.quick-charge-poster-note { color: var(--color-text-subtle); }
+.quick-charge-code { margin: 0; max-width: 100%; }
+.quick-charge-code img { display: block; max-width: 100%; height: auto; border: 1px solid var(--color-border-lighter); border-radius: 14px; }
+.quick-charge-amount-actions { display: flex; gap: var(--space-4); }
+.quick-charge-amount-input.ssx-input--external .ssx-input-body {
+  height: 72px;
+  padding: 8px 0 4px;
+  border: 0;
+  border-bottom: 1px solid var(--color-border);
+  border-radius: 0;
+  background: transparent;
+}
+.quick-charge-amount-input.ssx-input--external .ssx-input-body:focus-within {
+  border-bottom-color: var(--color-border-focused);
+}
+.quick-charge-amount-input .ssx-input-prefix {
+  color: var(--color-text);
+  font-size: 28px;
+  line-height: 40px;
+}
+.quick-charge-amount-input.ssx-input .ssx-input-native {
+  height: 56px;
+  font-family: var(--typography-font-family-numeric);
+  font-size: 40px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  line-height: 56px;
+}
+.quick-charge-footer { padding: 0 var(--space-4) var(--space-4); }
+.quick-charge-footer .button { min-height: 48px; border-radius: 10px; }
+.charge-student-placeholder { padding: 40px 16px; text-align: center; color: var(--color-text-subtle); }
+.quick-charge-poster-sheet .sheet-content { background: var(--color-background-page); }
+.quick-charge-poster-preview { width: 100%; max-width: 280px; aspect-ratio: 1080 / 1466; margin-inline: auto; }
+.quick-charge-poster-preview img { display: block; width: 100%; height: auto; border-radius: var(--radius-md); -webkit-touch-callout: default; }
+.quick-charge-poster-sheet .quick-charge-poster-note { margin-top: 12px; text-align: center; }

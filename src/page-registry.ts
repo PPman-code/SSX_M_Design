@@ -3,6 +3,10 @@ const teacherBusinessPages = [{
   audience: '老师 / 班主任 / 学管师', description: '待办事项、常用功能、报表中心与今日课表；图标暂以色块占位。',
   figmaUrl: 'https://www.figma.com/design/hoN0voWKmRtnWBPuzMw1yB/?node-id=4195-60284',
 }, {
+  id: 'enrollment-charge', name: '报名收费', version: 'v1', status: '设计草稿', route: '/pages/enrollment-charge/v1',
+  audience: '老师 / 招生顾问 / 前台', description: '快速收费二维码、金额设置与海报预览，使用本地演示数据。',
+  figmaUrl: '',
+}, {
   id: 'my', name: '我的', version: 'v1', status: '设计草稿', route: '/pages/my/v1',
   audience: '班主任',
   description: '个人信息、报名收款及常用功能入口。',

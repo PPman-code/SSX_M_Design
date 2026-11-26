@@ -1,3 +1,4 @@
+import { EnrollmentChargePage } from './pages/enrollment-charge/v1/EnrollmentChargePage';
 import { TeacherAppPage } from './pages/teacher-app/v1/TeacherAppPage';
 import { ParentCourseDetailPage } from './pages/parent-course-detail/v1/ParentCourseDetailPage';
 import { useEffect } from 'react';
@@ -38,9 +39,11 @@ export function App() {
       }
       if (event.data?.type !== 'ssx-preview-config') return;
       const { key, value } = event.data;
-      if (!['payment', 'classMultiple', 'remainingSeats', 'prefillSpecs'].includes(key)) return;
-      if (key !== 'payment' && location.pathname !== '/pages/parent-course-detail/v1') return;
-      if (typeof value !== 'string' || !(key === 'remainingSeats' ? ['', 'hidden'] : ['', 'enabled']).includes(value)) return;
+      if (!['payment', 'classMultiple', 'remainingSeats', 'prefillSpecs', 'workbenchReport'].includes(key)) return;
+      const configRoute = key === 'workbenchReport' ? '/pages/teacher-app/v1' : '/pages/parent-course-detail/v1';
+      if (key !== 'payment' && location.pathname !== configRoute) return;
+      const configValue = key === 'remainingSeats' || key === 'workbenchReport' ? 'hidden' : 'enabled';
+      if (value !== '' && value !== configValue) return;
       setParams((previous) => {
         const next = new URLSearchParams(previous);
         if (value) next.set(key, value); else next.delete(key);
@@ -65,6 +68,7 @@ export function App() {
     <Route path="/pages/student-info/v1" element={<StudentInfoPage />} />
     <Route path="/pages/students/v1" element={<StudentPage />} />
     <Route path="/pages/prospective-students/v1" element={<CustomerPage />} />
+    <Route path="/pages/enrollment-charge/v1" element={<EnrollmentChargePage />} />
     <Route path="/pages/home/v1" element={<HomePage />} />
     <Route path="/pages/my/v1" element={<MyPage />} />
     <Route path="/pages/attendance/v2" element={<AttendancePageV2 />} />

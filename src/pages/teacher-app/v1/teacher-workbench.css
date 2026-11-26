@@ -45,6 +45,10 @@
 .teacher-workbench { min-height: 100%; gap: 12px; padding: 0 12px 20px; background: transparent; color: var(--color-text); }
 .teacher-workbench .home-card { border-radius: 12px; box-shadow: none; }
 .workbench-intro { position: relative; padding-bottom: 12px; }
+/* Match the report card's lowered edge on the portrait side (19px,
+   including the workbench's existing 12px row gap). */
+.workbench-intro[data-report-hidden] { padding-bottom: 7px; }
+.workbench-intro[data-report-hidden] + .home-card { position: relative; }
 .workbench-greeting { position: relative; display: flex; align-items: flex-start; min-height: 81px; padding: 10px 138px 10px 16px; }
 .workbench-greeting-copy { min-width: 0; }
 .workbench-greeting h2 { margin: 0; font-size: 20px; line-height: 33.6px; font-weight: 500; }

@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>教师端 App · 五岗位首页交互草图</title>
+<style>
+:root{font:16px/1.5 system-ui,sans-serif;color:#20262f;background:#f3f5f7;--line:#d7dce3;--ink:#222e40;--quiet:#556376;--blue:#174d93}
+*{box-sizing:border-box}body{margin:0}button{font:inherit;color:inherit;cursor:pointer}button:focus-visible{outline:3px solid #2875cb;outline-offset:3px}h1,h2,h3,p{margin:0}h1{font-size:clamp(25px,4vw,34px)}h2{font-size:20px}h3{font-size:16px}.workspace{max-width:1020px;margin:auto;padding:28px 20px}.intro{margin:8px 0 20px;color:var(--quiet)}.roles{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 22px}.roles button,.secondary{min-height:42px;padding:8px 13px;border:1px solid var(--line);border-radius:9px;background:white}.roles [aria-pressed=true]{background:var(--ink);color:white;border-color:var(--ink)}.layout{display:grid;grid-template-columns:minmax(0,390px) minmax(0,1fr);gap:28px;align-items:start}
+.phone{background:#f8f9fb;border:1px solid #adb7c5;border-radius:24px;overflow:hidden;min-width:0}.phone-head{padding:14px 16px;background:white;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:8px;align-items:baseline}.phone-head small{color:var(--quiet)}.screen{height:min(650px,72vh);min-height:450px;overflow:auto;padding:14px;scrollbar-width:thin}.card,.note{background:white;border:1px solid var(--line);border-radius:12px;padding:14px;margin-bottom:12px}.priority{border:1.5px solid #6d8db6;background:#f0f5fc}.scope{font-size:12px;color:var(--quiet);margin:4px 0 12px}.metric-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-bottom:10px}.metric{padding:8px;text-align:left;background:white;border:1px solid var(--line);border-radius:8px;min-height:62px}.metric strong{display:block;font-size:18px}.rows{margin-top:8px}.row{width:100%;display:flex;justify-content:space-between;align-items:center;gap:8px;text-align:left;background:none;border:0;border-top:1px solid var(--line);padding:10px 0;min-height:52px}.row small,.shortcut small{display:block;color:var(--quiet);margin-top:2px}.arrow{color:var(--blue);flex:none}.primary{background:var(--ink);color:white;border:none;border-radius:8px;min-height:42px;padding:8px 14px}.priority .primary{width:100%;margin-top:10px}.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin-top:10px}.shortcut{border:1px solid var(--line);border-radius:8px;background:white;min-height:44px;padding:6px 2px;font-size:13px}.shortcut:disabled{color:#6a7481;background:#f3f5f7;cursor:default}.bottom{padding:8px 16px;text-align:center;background:white;border-top:1px solid var(--line);color:var(--quiet);font-size:13px}.note h2{margin-bottom:8px}.note p+p{margin-top:10px}.note ul{padding-left:20px;margin:8px 0}dialog{width:min(92vw,390px);max-height:80vh;border:1px solid var(--line);border-radius:16px;padding:16px;color:inherit}dialog::backdrop{background:#17243877}.dialog-head{display:flex;justify-content:space-between;align-items:center;gap:10px}.details{list-style:none;padding:0;margin:8px 0 0}.details li{padding:10px 0;border-top:1px solid var(--line)}.details small{display:block;color:var(--quiet)}.status{margin-top:8px;font-size:13px;color:var(--quiet)}@media(max-width:680px){.workspace{padding:16px}.layout{grid-template-columns:1fr;gap:14px}.phone{max-width:390px;width:100%;justify-self:center}.screen{height:565px;max-height:72vh}}
+</style>
+</head>
+<body>
+<main class="workspace">
+<h1>教师端 App · 五岗位首页</h1>
+<p class="intro">交互草图。选一个岗位，再点首屏主操作、指标或待办，查看它们会打开的内容。</p>
+<div class="roles" role="group" aria-label="切换草图岗位">
+<button type="button" data-role="principal" aria-pressed="false">校长</button>
+<button type="button" data-role="teacher" aria-pressed="true">任课老师</button>
+<button type="button" data-role="academic" aria-pressed="false">教务／学管</button>
+<button type="button" data-role="advisor" aria-pressed="false">课程顾问</button>
+<button type="button" data-role="cashier" aria-pressed="false">财务／前台</button>
+</div>
+<div class="layout">
+<section class="phone" aria-label="首页草图">
+<header class="phone-head"><strong>星禾艺术学校</strong><small>城南校区</small></header>
+<div class="screen" id="screen"></div>
+<footer class="bottom">首页　·　AIRA　·　我的</footer>
+</section>
+<aside><section class="note"><h2 id="roleName"></h2><p id="reason"></p><p id="route"></p></section>
+<section class="note"><h2>共用首页结构</h2><ul><li>顶部先交代校区，卡片标明是本人还是全校区的数据。</li><li>首屏只突出一件事，其他工作放进待办和常用功能。</li><li>兼岗老师可以使用多个工作视图。原型外部的岗位切换仅用于对比，正式入口位置和权限待确认。</li></ul><p class="status">草图使用演示数据。收费入口只演示选择订单与核对信息。灰色入口表示在当前角色样例中不可用。</p></section></aside>
+</div>
+</main>
+<dialog id="detail" aria-labelledby="detailTitle">
+<div class="dialog-head"><h2 id="detailTitle"></h2><form method="dialog"><button class="secondary">返回首页</button></form></div>
+<p class="scope" id="detailScope"></p><ul class="details" id="detailRows"></ul>
+</dialog>
+<script>
+const roles = {
+principal:{
+ name:'校长／校区负责人', headline:'今日经营速览', scope:'城南校区 · 今日 · 截至 09:40',
+ metrics:[['¥8,600','今日实收',[['今日到账 ¥8,600','8 笔收款 · 已到账口径'],['城南校区','按入账时间统计']]],['5 人','新增报名',[['今日新增报名 5 人','按报名确认时间统计'],['创意手工 3 人 · 书法 2 人','课程分布']]]],
+ primary:['处理 1 项待审批','待审批 · 城南校区',[['创意手工 A 班调课申请','张老师提交 · 原周三 10:00 → 周四 14:00'],['核对教室与家长通知','详细审批由业务页完成']]],
+ title:'校区异常', tasks:[['1 节课待补点','创意手工 B 班 · 已结束',[['09:00–09:45 · 创意手工 B 班','10 人未点名 · 任课人 李老师']]]],
+ reason:'校长先要知道校区今天经营如何、有什么需要拍板。数字标明时间和范围，异常保留到具体责任人。',
+ route:'建议走法　首页 → 待审批 → 核对申请与影响范围。'
+},
+teacher:{
+ name:'任课老师', headline:'下一节课', scope:'我的课表 · 今日',
+ metrics:[['10:00–11:00','上课时间'],['教室 03','创意手工 · A 班']],
+ primary:['查看上课名单','10:00 · 创意手工 A 班',[['上课信息','10:00–11:00 · 教室 03 · 10 人'],['上课名单','林同学、周同学等 10 人'],['点名入口','开课时展示「去点名」']]],
+ title:'课后待办', tasks:[['补点名 · 10 人未点','09:00 · 创意手工 B 班',[['创意手工 B 班','09:00–09:45 · 已结束 · 10 人未点名'],['下一步','进入这一课次补点名']]],['待点评 · 3 人','08:00 · 创意手工 A 班',[['林同学、周同学、许同学','本节课仍待点评']]]],
+ reason:'排课时间、班级、教室和下一步集中在一起。待开课先看名单，课中去点名，漏点时回到具体课次补点。',
+ route:'建议走法　首页 → 下一节 → 名单。下课后从待办进入对应课次。'
+},
+academic:{
+ name:'教务／学管', headline:'今日排课异常', scope:'城南校区 · 今日 · 全校区课程',
+ metrics:[['1 项','调课待确认',[['书法 B 班','拟调整至周四 14:00 · 待确认教室']]],['1 节','课次待补点',[['09:00 · 创意手工 B 班','10 人未点名 · 任课人 李老师']]]],
+ primary:['查看排课异常','排课异常 · 今日',[['调课待确认 · 书法 B 班','周四 14:00 · 教室待确认'],['待补点 · 创意手工 B 班','09:00–09:45 · 10 人未点名']]],
+ title:'待协调', tasks:[['确认书法 B 班调课','拟改至周四 14:00',[['当前安排','周三 16:00 · 教室 02'],['拟调整','周四 14:00 · 教室待确认']]]],
+ reason:'教务需要处理一整个校区的例外。把班级、课次和责任人放在摘要里，避免先打开完整课表再找问题。',
+ route:'建议走法　首页 → 排课异常 → 定位具体班级和变更。'
+},
+advisor:{
+ name:'课程顾问／招生', headline:'今天需要跟进', scope:'我的线索 · 城南校区 · 今日',
+ metrics:[['4 人','今日到期',[['苏同学家长','10:30 前 · 确认试听时间'],['其余 3 条','本日到期']]],['2 人','试听待确认',[['苏同学 · 创意手工','今日 16:00 · 家长未确认'],['许同学 · 书法','明日 10:00 · 家长未确认']]]],
+ primary:['打开今日跟进','今日跟进 · 仅本人',[['10:30 · 苏同学家长','确认创意手工试听'],['11:00 · 周同学家长','回复秋季班时间'],['14:00 · 吴同学家长','回访试听反馈'],['16:00 · 林同学家长','确认报名资料']]],
+ title:'最近的试听', tasks:[['确认苏同学试听','今日 16:00 · 创意手工',[['试听安排','今日 16:00 · 创意手工 · 教室 03'],['当前状态','家长待确认']]]],
+ reason:'顾问需要知道先联系谁，以及这次联系要确认什么。到期任务和试听确认各有清楚的入口。',
+ route:'建议走法　首页 → 今日跟进 → 看对象、到期时间和跟进事项。'
+},
+cashier:{
+ name:'财务／前台收费', headline:'今日收款', scope:'城南校区 · 今日 · 授权可见',
+ metrics:[['3 笔','待收费',[['创意手工 A 班 · 林同学','报名订单 · 待收 ¥1,280'],['另有 2 笔','待收费']]],['¥8,600','今日到账',[['已到账合计 ¥8,600','8 笔 · 按入账日期统计']]]],
+ primary:['查找待收费订单','待收费订单 · 城南校区',[['林同学 · 创意手工 A 班','¥1,280 · 待收 · 示例订单 E018'],['苏同学 · 书法 B 班','¥980 · 待收 · 示例订单 E019'],['吴同学 · 创意手工 B 班','¥1,280 · 待收 · 示例订单 E020']]],
+ title:'对账待办', tasks:[['核对 1 笔差额','订单 ¥1,280 · 到账 ¥1,180',[['示例订单 E016','订单金额 ¥1,280'],['实到账 ¥1,180','差额 ¥100 · 待核对']]]],
+ reason:'前台收费与财务对账是两件不同的事。首屏把待收订单、已到账金额和差额拆开，防止看错口径。',
+ route:'建议走法　首页 → 待收费订单或今日到账 → 核对订单和资金状态。'
+}
+};
+const shortcuts = [
+ ['收费','查找待收订单与到账记录',['principal','cashier']],
+ ['课表','按日期查看校区排课或本人排课',['principal','teacher','academic','advisor']],
+ ['课程','查看课程与班级目录',['principal','teacher','academic','advisor']],
+ ['招生意向','查看意向客户及跟进情况',['principal','advisor']]
+];
+const detail = document.querySelector('#detail');
+const screen = document.querySelector('#screen');
+const create = (tag,text,className) => {
+ const node = document.createElement(tag);
+ if(text) node.textContent = text;
+ if(className) node.className = className;
+ return node;
+};
+function showDetail(title,items,scope) {
+ document.querySelector('#detailTitle').textContent=title;
+ document.querySelector('#detailScope').textContent=scope;
+ const list=document.querySelector('#detailRows');
+ list.replaceChildren(...items.map(([name,description])=>{
+  const item=create('li',name);
+  item.append(create('small',description));
+  return item;
+ }));
+ detail.showModal();
+}
+function action(label,className,onClick) {
+ const button=create('button',label,className);
+ button.type='button';
+ button.addEventListener('click',onClick);
+ return button;
+}
+function render(key) {
+ const data=roles[key];
+ for(const button of document.querySelectorAll('[data-role]')) button.setAttribute('aria-pressed',String(button.dataset.role===key));
+ document.querySelector('#roleName').textContent=data.name;
+ document.querySelector('#reason').textContent=data.reason;
+ document.querySelector('#route').textContent=data.route;
+ const priority=create('section','','card priority');
+ priority.append(create('h2',data.headline),create('p',data.scope,'scope'));
+ const metrics=create('div','','metric-grid');
+ for(const [value,label,items] of data.metrics) {
+  const metric=items ? action('','metric',()=>showDetail(label,items,data.scope)) : create('div','','metric');
+  metric.append(create('strong',value),create('span',label + (items ? ' ›' : '')));
+  metrics.append(metric);
+ }
+ const [label,title,items]=data.primary;
+ priority.append(metrics,action(label,'primary',()=>showDetail(title,items,data.scope)));
+ const tasks=create('section','','card');
+ tasks.append(create('h3',data.title));
+ const rows=create('div','','rows');
+ for(const [name,description,list] of data.tasks) {
+  const row=action('','row',()=>showDetail(name,list,data.scope));
+  const text=create('span',name);
+  text.append(create('small',description));
+  const arrow=create('span','›','arrow');
+  arrow.setAttribute('aria-hidden','true');
+  row.append(text,arrow);
+  rows.append(row);
+ }
+ tasks.append(rows);
+ const common=create('section','','card');
+ common.append(create('h3','常用功能'));
+ const grid=create('div','','grid');
+ for(const [name,description,roleKeys] of shortcuts) {
+  const button=action(name,'shortcut',()=>showDetail(name,[[name,description]],data.scope));
+  button.disabled=!roleKeys.includes(key);
+  grid.append(button);
+ }
+ common.append(grid);
+ screen.replaceChildren(priority,tasks,common);
+ screen.scrollTop=0;
+}
+for(const button of document.querySelectorAll('[data-role]')) button.addEventListener('click',()=>render(button.dataset.role));
+render('teacher');
+</script>
+</body>
+</html>

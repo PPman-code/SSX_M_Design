@@ -91,10 +91,12 @@ CellGroup 接收 children、可选 label 及 variant=card（默认圆角）/bloc
 参考 [Arco Mobile popover 45:2873](https://www.figma.com/design/507mHwo2qlL72kbftlM9Qi/?node-id=45-2873)，4px 圆角、14px/20px 文字、12×8px 内容边距、14×6px 箭头。白/黑外观使用专用语义 token，不随页面主题互换；白色操作按钮使用项目主题蓝。带操作或关闭时保留 44px 触控尺寸，因此气泡高度随操作增大。轻量、非模态，不替代确认对话框。action 执行后关闭气泡。
 
 ## BottomSheet
-open: boolean，onOpenChange(value: boolean)，title: string，description?: string，children: ReactNode，footer?: ReactNode，header?: ReactNode，className?: string，finalFocus?: RefObject<HTMLElement|null>。
+open: boolean，onOpenChange(value: boolean)，title: string，description?: ReactNode，descriptionPlacement?: 'below-header' | 'under-title'，children: ReactNode，footer?: ReactNode，header?: ReactNode，className?: string，finalFocus?: RefObject<HTMLElement|null>。
 封装 Base UI Drawer，支持滑动、遮罩、关闭按钮和 Escape；子级负责草稿/确认逻辑。外部触发器通过 finalFocus 明确回焦。
 最大 85dvh；手机全宽，桌面最大 560px；统一 16px / 24px / 500 居中标题、18px 关闭图标、40px 关闭触控区、16px 水平内容边距。内容区域独立滚动，footer 位于滚动区域之外，操作和安全区保持可见；操作区使用 SheetActions（单按钮全宽、双按钮等宽）。隐藏滚动条但保留触摸、滚轮和键盘滚动；包含 VirtualKeyboardProvider。
 文字标题与说明必须有意义；滚动与手势在真机检查后再声明兼容通过。
+
+需要让提示与标准标题组成一组时，使用 `descriptionPlacement="under-title"`。说明独占一行，左右各留 16px，在标题下方居中，间隔 4px，过长可换行。关闭入口对齐标题首行。默认 `below-header`，自定义头部也沿用头部之后的说明。快速收费个人海报已接入，其他调用按实际页面需要迁移。
 
 ## InfoDialog
 居中说明弹窗，封装 Base UI Dialog。open、onOpenChange、title、children、finalFocus；311px 宽、16px 圆角，短屏内容可滚动。底部「知道了」关闭，支持遮罩和 Escape，焦点限制在弹窗内并回到外部触发器。用于仅收款使用说明。

@@ -8,6 +8,8 @@ interface Props {
   classMultiple?: boolean;
   showRemainingSeats?: boolean;
   prefillSpecs?: boolean;
+  showWorkbenchReport?: boolean;
+  onShowWorkbenchReportChange?: (enabled: boolean) => void;
   onClassMultipleChange?: (enabled: boolean) => void;
   onShowRemainingSeatsChange?: (enabled: boolean) => void;
   onPrefillSpecsChange?: (enabled: boolean) => void;
@@ -16,12 +18,17 @@ interface Props {
   onVersionChange: (route: string) => void;
 }
 
-export function WorkspaceConfig({ pageId, pageName, paymentEnabled, onPaymentChange, onVersionChange, classMultiple = false, showRemainingSeats = true, prefillSpecs = false, onClassMultipleChange, onShowRemainingSeatsChange, onPrefillSpecsChange }: Props) {
+export function WorkspaceConfig({ pageId, pageName, paymentEnabled, onPaymentChange, onVersionChange, classMultiple = false, showRemainingSeats = true, prefillSpecs = false, showWorkbenchReport = true, onShowWorkbenchReportChange, onClassMultipleChange, onShowRemainingSeatsChange, onPrefillSpecsChange }: Props) {
   const current = [...businessPages, ...archivedBusinessPages].find((page) => page.id === pageId);
   const versions = [...archivedBusinessPages, ...businessPages].filter((page) => page.name === current?.name);
   return <section className="workspace-config" aria-label="页面配置">
     <div className="config-heading"><h2>页面配置</h2><div className="config-page-version"><span>{pageName || '组件预览'}</span>{versions.length > 1 && <select aria-label="页面版本" value={current?.route} onChange={(event) => onVersionChange(event.target.value)}>{versions.map((page) => <option key={page.id} value={page.route}>{page.version}</option>)}</select>}</div></div>
-    {pageId === 'teacher-app' && <TeacherLoginDemoConfig />}
+    {pageId === 'teacher-app' && <>
+      <div className="config-toggles">
+        <div className="config-toggle-row"><span>显示经营数据专区</span><Toggle label="显示经营数据专区" checked={showWorkbenchReport} onChange={onShowWorkbenchReportChange} /></div>
+      </div>
+      <TeacherLoginDemoConfig />
+    </>}
     {pageId === 'parent-course-detail' && <div className="config-toggles">
       <div className="config-toggle-row"><span>班级多选</span><Toggle label="班级多选" checked={classMultiple} onChange={onClassMultipleChange} /></div>
       <div className="config-toggle-row"><span>剩余席位</span><Toggle label="剩余席位" checked={showRemainingSeats} onChange={onShowRemainingSeatsChange} /></div>

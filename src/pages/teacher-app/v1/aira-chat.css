@@ -1,0 +1,117 @@
+.sheet.aira-chat {
+  --aira-top-inset: var(--app-top-safe-area, env(safe-area-inset-top));
+  --aira-available-height: calc(100dvh - var(--aira-top-inset) - var(--drawer-keyboard-inset, 0px));
+  height: 80dvh;
+  max-height: max(0px, calc(var(--aira-available-height) - 12px));
+}
+
+html:has(.app-page--preview) .sheet.aira-chat {
+  --aira-top-inset: 44px;
+}
+
+.sheet.aira-chat--expanded {
+  height: var(--aira-available-height);
+  max-height: var(--aira-available-height);
+}
+
+.aira-chat-header {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  gap: 8px;
+  min-height: 56px;
+  padding-inline: 12px;
+  border-bottom: 1px solid var(--color-border-lighter);
+}
+
+.aira-chat-header .aira-chat-mark {
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+}
+
+.aira-chat-header strong {
+  flex: 1;
+  font-size: var(--typography-font-size-title-sm);
+  font-weight: var(--typography-font-weight-medium);
+}
+
+.aira-chat-suggestions-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.aira-chat-suggestions-heading h3 {
+  margin: 0;
+  font-size: var(--typography-font-size-body);
+  font-weight: var(--typography-font-weight-medium);
+}
+
+.aira-chat-suggestions-heading .button {
+  padding-inline: 8px;
+  color: var(--color-text-brand);
+}
+
+.aira-chat-prompts,
+.aira-chat-messages {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.aira-chat-prompts .button {
+  max-width: 100%;
+  justify-content: space-between;
+  padding-inline: 12px;
+  background: var(--color-background-neutral-subtlest);
+  color: var(--color-text);
+  text-align: start;
+}
+
+.aira-chat-prompts .button:active {
+  background: var(--color-background-neutral-selected);
+}
+
+.aira-chat-prompts .button span,
+.aira-chat-messages li {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.aira-chat-prompts .button svg {
+  flex-shrink: 0;
+  color: var(--color-icon-subtle);
+}
+
+.aira-chat-messages li {
+  justify-self: end;
+  max-width: 85%;
+  padding: 8px 12px;
+  border-radius: 12px;
+  background: var(--color-background-brand-subtle);
+  white-space: pre-wrap;
+}
+
+.aira-chat-composer {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+}
+
+.aira-chat > .sheet-footer {
+  padding-bottom: calc(8px + max(0px, var(--product-bottom-safe-area, env(safe-area-inset-bottom)) - var(--drawer-keyboard-inset, 0px)));
+}
+
+.aira-chat-composer .ssx-input-body {
+  height: 40px;
+  padding-inline: 12px;
+}
+
+.aira-chat-composer .ssx-input-body:focus-within {
+  border-color: var(--color-border-focused);
+}

@@ -30,13 +30,15 @@ for (const width of [360, 375, 390, 430]) {
     await expect(page).toHaveURL(/pages\/my\/v1/);
   });
 }
-test('home switches simulated role, preserves dark theme and provides placeholder feedback', async ({ page }) => {
+test('home switches simulated role, preserves dark theme and opens the quick charge page', async ({ page }) => {
   await page.goto('/#/pages/home/v1?theme=dark');
   await page.getByRole('button', { name: '老师', exact: true }).click();
   await page.getByRole('radio', { name: '学管师', exact: true }).click();
   await expect(page.getByRole('dialog')).toBeHidden();
   await page.getByRole('button', { name: '报名收费', exact: true }).click();
-  await expect(page.locator('.toast-message')).toHaveText('报名收费页面待补充');
+  await expect(page.getByRole('tab', { name: '快速收费', selected: true })).toBeVisible();
+  await expect(page).toHaveURL(/theme=dark/);
+  await page.goBack();
   await page.getByRole('button', { name: '出勤率', exact: true }).click();
   await page.getByRole('button', { name: '查看统计范围说明' }).click();
   await expect(page.locator('.att-v2-scope')).toContainText('学管师');

@@ -45,7 +45,9 @@ function HomePageContent() {
   const [roleOpen, setRoleOpen] = useState(false);
   const roleRef = useRef<HTMLButtonElement>(null);
   function open(label: string) {
-    if (label === '学员管理') {
+    if (label === '报名收费') {
+      navigate(`/pages/enrollment-charge/v1?${params}`);
+    } else if (label === '学员管理') {
       const next = new URLSearchParams(params); next.set('from', 'home');
       navigate(`/pages/students/v1?${next}`);
     } else if (label === '意向学员') {
