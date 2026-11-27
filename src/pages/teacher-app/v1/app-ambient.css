@@ -1,4 +1,4 @@
-.app-page:has(:is(.teacher-mine, .teacher-workbench)) {
+.app-page:has(:is(.teacher-mine, .teacher-workbench, .business-data)) {
   --app-ambient-opacity: .84;
   --color-app-ambient-glow-yellow: oklch(from var(--color-app-glow-yellow) .95 max(c, .17) h);
   --color-app-ambient-glow-cyan: oklch(from var(--color-app-glow-cyan) .86 max(c, .13) h);
@@ -8,8 +8,8 @@
     color-mix(in srgb, var(--color-background-page) 50%, var(--color-background-surface)) 380px
   );
 }
-.app-page:has(:is(.teacher-mine, .teacher-workbench))::before,
-.app-page:has(:is(.teacher-mine, .teacher-workbench))::after {
+.app-page:has(:is(.teacher-mine, .teacher-workbench, .business-data))::before,
+.app-page:has(:is(.teacher-mine, .teacher-workbench, .business-data))::after {
   content: '';
   position: absolute;
   z-index: -1;
@@ -23,25 +23,25 @@
   opacity: var(--app-ambient-opacity);
   pointer-events: none;
 }
-.app-page:has(:is(.teacher-mine, .teacher-workbench))::before {
+.app-page:has(:is(.teacher-mine, .teacher-workbench, .business-data))::before {
   --color-app-ambient-glow: var(--color-app-ambient-glow-yellow);
   top: -398px;
   left: -311px;
   width: 662px;
 }
-.app-page:has(:is(.teacher-mine, .teacher-workbench))::after {
+.app-page:has(:is(.teacher-mine, .teacher-workbench, .business-data))::after {
   --color-app-ambient-glow: var(--color-app-ambient-glow-cyan);
   top: -240px;
   right: -210px;
   width: 520px;
 }
-[data-color-mode='dark'] .app-page:has(:is(.teacher-mine, .teacher-workbench)) { --app-ambient-opacity: .22; }
-.app-page:has(:is(.teacher-mine, .teacher-workbench)) > .app-page-top[data-background='surface'] { background: transparent; }
+[data-color-mode='dark'] .app-page:has(:is(.teacher-mine, .teacher-workbench, .business-data)) { --app-ambient-opacity: .22; }
+.app-page:has(:is(.teacher-mine, .teacher-workbench, .business-data)) > .app-page-top[data-background='surface'] { background: transparent; }
 @media (prefers-reduced-motion: no-preference) {
-  .app-page:has(:is(.teacher-mine, .teacher-workbench))::before {
+  .app-page:has(:is(.teacher-mine, .teacher-workbench, .business-data))::before {
     animation: app-ambient-drift-large 16s ease-in-out infinite alternate, app-ambient-breathe 7s ease-in-out infinite;
   }
-  .app-page:has(:is(.teacher-mine, .teacher-workbench))::after {
+  .app-page:has(:is(.teacher-mine, .teacher-workbench, .business-data))::after {
     animation: app-ambient-drift-small 13s ease-in-out -6s infinite alternate, app-ambient-breathe 6s ease-in-out -3s infinite;
   }
 }

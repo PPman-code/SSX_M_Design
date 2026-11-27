@@ -6,6 +6,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Cell, CellGroup } from '../../../components/ui/Cell';
 import { Search } from '../../../components/ui/Search';
 import { Checkbox } from '../../../components/ui/Checkbox';
+import { AppPage } from '../../teacher-app/v1/AppPage';
 import { MobilePage } from '../../../components/ui/MobilePage';
 import { Button } from '../../../components/ui/Button';
 import { Icon } from '../../../components/ui/Icon';
@@ -16,14 +17,23 @@ import { Dialog } from '../../../components/ui/Dialog';
 import { useToast } from '../../../components/ui/useToast';
 import { CustomerFilters } from './CustomerFilters';
 import { campuses, createCustomers, dateLabel, editableStatuses, emptyFilters, localDay, selectCustomers, sortOptions } from './model';
-import type { Customer, SortKey } from './model';
+import type { Customer, Filters, SortKey } from './model';
 import './customers.css';
 
-export function CustomerPage() {
+export type CustomerAppShell = {
+  title: string;
+  backLabel: string;
+  onBack: () => void;
+  preview: boolean;
+  defaultScope?: Filters['scope'];
+};
+
+export function CustomerPage({ appShell }: { appShell?: CustomerAppShell } = {}) {
   const navigate = useNavigate();
   const [params, setParams] = useSearchParams(); const { showToast } = useToast();
   const [customers, setCustomers] = useState(createCustomers); const [query, setQuery] = useState('');
-  const [filters, setFilters] = useState(emptyFilters); const [filterOpen, setFilterOpen] = useState(false); const [filterKey, setFilterKey] = useState(0);
+  const initialFilters = (): Filters => ({ ...emptyFilters(), scope: appShell?.defaultScope ?? 'all' });
+  const [filters, setFilters] = useState(initialFilters); const [filterOpen, setFilterOpen] = useState(false); const [filterKey, setFilterKey] = useState(0);
   const [sort, setSort] = useState<SortKey>('inputDate'); const [descending, setDescending] = useState(true); const [sortOpen, setSortOpen] = useState(false);
   const [batch, setBatch] = useState(false); const [selected, setSelected] = useState<string[]>([]);
   const [discardEdit, setDiscardEdit] = useState(false);
@@ -35,12 +45,13 @@ export function CustomerPage() {
   const [pendingAction, setPendingAction] = useState<{ label: string; count: number } | null>(null);
   const batchActionRef = useRef<HTMLButtonElement>(null);
   const [moreOpen, setMoreOpen] = useState(false);
-  const sortRef = useRef<HTMLButtonElement>(null); const filterRef = useRef<HTMLButtonElement>(null); const moreRef = useRef<HTMLButtonElement>(null);
+  const [appMoreOpen, setAppMoreOpen] = useState(false);
+  const sortRef = useRef<HTMLButtonElement>(null); const filterRef = useRef<HTMLButtonElement>(null); const moreRef = useRef<HTMLButtonElement>(null); const appMoreRef = useRef<HTMLButtonElement>(null);
   const scenario = params.get('state');
   const visible = scenario === 'empty' ? [] : selectCustomers(customers, query, filters, sort, descending);
   const allSelected = visible.length > 0 && visible.every(customer => selected.includes(customer.id));
   const filterActive = JSON.stringify(filters) !== JSON.stringify(emptyFilters());
-  function externalFlow(name: string, customer?: Customer) { if (name === '客户主页' && customer) { const next = new URLSearchParams(params); next.delete('state'); next.set('customer', customer.id); navigate(`/pages/customer-info/v1?${next}`); return; } showToast({ message: `${customer ? `${customer.name} · ` : ''}${name}请在现有业务系统中办理` }); }
+  function externalFlow(name: string, customer?: Customer) { if (name === '客户主页' && customer) { const next = new URLSearchParams(params); next.delete('state'); next.set('customer', customer.id); if (appShell) { next.set('shell', 'app'); if (appShell.preview) next.set('preview', '1'); } navigate(`/pages/customer-info/v1?${next}`); return; } showToast({ message: `${customer ? `${customer.name} · ` : ''}${name}请在现有业务系统中办理` }); }
   function toggle(id: string) { setSelected(previous => previous.includes(id) ? previous.filter(item => item !== id) : [...previous, id]); }
   function beginEdit() { setEditStatus(''); setEditCampus(''); setEditError(''); setChoosing(null); setEditOpen(true); }
   function requestEditClose() { if (editStatus || editCampus) setDiscardEdit(true); else setEditOpen(false); }
@@ -76,12 +87,13 @@ export function CustomerPage() {
       </div>
     </> : <Button block icon="plus" className="prospect-add-button" onClick={() => externalFlow('添加客户')}>添加客户</Button>}
   </div>;
-  return <MobilePage onRefresh={simulateRefresh} refreshDisabled={batch || scenario === 'forbidden'} refreshSuccessText="模拟刷新完成" title="意向客户管理" previewChrome={params.get('chrome') === 'wechat'} className="prospect-page" footer={scenario === 'forbidden' || scenario === 'error' ? undefined : footer}>{refreshIndicator => <>
+  const pageFooter = scenario === 'forbidden' || scenario === 'error' || (appShell && !batch) ? undefined : footer;
+  const pageBody = (refreshIndicator?: React.ReactNode) => <>
     <div className="prospect-content">
       {scenario === 'forbidden' ? <div className="prospect-empty" role="status"><h2>暂无客户查看权限</h2><p>请联系管理员开通权限</p></div> : scenario === 'error' ? <>{refreshIndicator}<div className="prospect-empty" role="alert"><h2>加载失败</h2><Button variant="soft" onClick={recover}>重试</Button></div></> : <>
-        {!batch && <Search className="prospect-tools" label="搜索客户" placeholder="搜索姓名 / 电话 / 公立学校" clearLabel="清除搜索" value={query} onValueChange={setQuery} actions={<><button ref={sortRef} type="button" className="icon-button touch-target" aria-label="排序" aria-haspopup="dialog" onClick={() => setSortOpen(true)}><img src={`${import.meta.env.BASE_URL}pages/prospective-students/v1/sort.svg`} width="20" height="20" alt="" /></button><button ref={filterRef} type="button" className="icon-button touch-target" data-active={filterActive || undefined} aria-label="筛选客户" aria-haspopup="dialog" onClick={() => { setFilterKey(key => key + 1); setFilterOpen(true); }}><img src={`${import.meta.env.BASE_URL}pages/prospective-students/v1/filter.svg`} width="20" height="20" alt="" />{filterActive && <span className="prospect-active-dot" />}</button></>} />}
+        {!batch && <Search className="prospect-tools" label="搜索客户" placeholder="搜索姓名 / 电话 / 公立学校" clearLabel="清除搜索" value={query} onValueChange={setQuery} actions={appShell ? undefined : <><button ref={sortRef} type="button" className="icon-button touch-target" aria-label="排序" aria-haspopup="dialog" onClick={() => setSortOpen(true)}><img src={`${import.meta.env.BASE_URL}pages/prospective-students/v1/sort.svg`} width="20" height="20" alt="" /></button><button ref={filterRef} type="button" className="icon-button touch-target" data-active={filterActive || undefined} aria-label="筛选客户" aria-haspopup="dialog" onClick={() => { setFilterKey(key => key + 1); setFilterOpen(true); }}><img src={`${import.meta.env.BASE_URL}pages/prospective-students/v1/filter.svg`} width="20" height="20" alt="" />{filterActive && <span className="prospect-active-dot" />}</button></>} />}
         {refreshIndicator}
-        <div className="prospect-count"><span aria-live="polite">共 <b>{visible.length}</b> 位客户</span>{!batch && <Button variant="text" size="sm" onClick={() => { if (!visible.length) { showToast({ message: '当前没有可批量操作的客户' }); return; } setBatch(true); setSelected([]); }}>批量管理</Button>}</div>
+        <div className="prospect-count"><span aria-live="polite">共 <b>{visible.length}</b> 位客户</span>{!batch && !appShell && <Button variant="text" size="sm" onClick={() => { if (!visible.length) { showToast({ message: '当前没有可批量操作的客户' }); return; } setBatch(true); setSelected([]); }}>批量管理</Button>}</div>
         <div className="prospect-list" role="list" aria-label="客户列表">{visible.map(customer => <article role="listitem" key={customer.id} className={`prospect-card ${selected.includes(customer.id) ? 'is-selected' : ''}`} onClick={batch ? () => toggle(customer.id) : () => externalFlow('客户主页', customer)}>
           <div className="prospect-card-heading">{batch && <Checkbox className="prospect-card-select" variant="circle" hideLabel label={`选择${customer.name}`} checked={selected.includes(customer.id)} onChange={() => toggle(customer.id)} onClick={(event) => { event.stopPropagation(); }} />}<div className="prospect-avatar" {...(!customer.avatar ? avatarAttributes('student', customer.id) : {})}>{customer.avatar ? <img src={customer.avatar} alt="" /> : customer.name[0]}</div><div className="prospect-person"><div className="prospect-person-title"><strong title={customer.name}>{customer.name}</strong>{customer.gender && <span className={`prospect-gender prospect-gender--${customer.gender}`} aria-label={customer.gender === 'male' ? '男' : '女'}><Icon name={customer.gender === 'male' ? 'man' : 'woman'} size="xs" /></span>}{customer.status && <span className={`prospect-status ${customer.status === '转化成功' ? 'prospect-status--success' : customer.status === '体验课报名' ? 'prospect-status--trial' : ''}`}>{customer.status}</span>}</div><div className="prospect-phone-row"><span className="prospect-phone-number">{params.get('phone') === 'masked' ? customer.phone.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2') : customer.phone}</span></div></div>{!batch && <div className="prospect-card-links">{params.get('phone') === 'masked' ? <button className="prospect-call touch-target" aria-label={`拨打${customer.name}电话`} onClick={(event) => { event.stopPropagation(); showToast({ message: '暂无号码查看及拨号权限' }); }}><Icon name="phone" size="base" /></button> : <a className="prospect-call touch-target" href={`tel:${customer.phone}`} aria-label={`拨打${customer.name}电话`} onClick={(event) => { event.stopPropagation(); }}><Icon name="phone" size="base" /></a>}<button className="icon-button prospect-detail-action" aria-label={`${customer.name}客户主页`} onClick={(event) => { event.stopPropagation(); externalFlow('客户主页', customer); }}><Icon name="right" size="base" /></button></div>}</div>
           <dl className="prospect-metrics"><div><dt>主责任人</dt><dd>{customer.owner || '\u00a0'}</dd></div><div><dt>意向级别</dt><dd className="prospect-hearts" aria-label={customer.level == null ? '未设置意向级别' : `${customer.level}心`}>{Array.from({ length: customer.level ?? 0 }, (_, heart) => <Icon key={heart} name="shoucangxuanzhong" size="xs" />)}</dd></div><div><dt>上次沟通</dt><dd>{dateLabel(customer.lastDate) || '\u00a0'}</dd></div></dl>
@@ -90,8 +102,8 @@ export function CustomerPage() {
         {!visible.length ? <div className="prospect-empty" role="status"><h2>暂无符合条件的客户</h2><Button variant="text" onClick={recover}>清除条件</Button></div> : <ListEnd />}
       </>}
     </div>
-    <BottomSheet title="排序方式" open={sortOpen} onOpenChange={setSortOpen} finalFocus={sortRef}><div className="prospect-sort-options">{sortOptions.map(option => <button type="button" aria-pressed={sort === option.key} key={option.key} onClick={() => { const nextDescending = sort === option.key ? !descending : option.key !== 'name'; setSort(option.key); setDescending(nextDescending); setSortOpen(false); showToast({ message: nextDescending ? '已按降序排列' : '已按升序排列' }); }}><span>按{option.label === '跟进时间' ? '下次跟进时间' : option.label === '沟通时间' ? '上次沟通时间' : option.label}排序{sort === option.key && <Icon name={descending ? 'arrow-down' : 'arrow-up'} size="sm" />}</span>{sort === option.key && <Icon name="check" size="sm" />}</button>)}</div><p className="prospect-sort-hint">再次点击已选项切换升序 / 降序</p></BottomSheet>
-    <CustomerFilters key={filterKey} value={filters} onApply={setFilters} open={filterOpen} onOpenChange={setFilterOpen} finalFocus={filterRef} />
+    <BottomSheet title="排序方式" open={sortOpen} onOpenChange={setSortOpen} finalFocus={appShell ? appMoreRef : sortRef}><div className="prospect-sort-options">{sortOptions.map(option => <button type="button" aria-pressed={sort === option.key} key={option.key} onClick={() => { const nextDescending = sort === option.key ? !descending : option.key !== 'name'; setSort(option.key); setDescending(nextDescending); setSortOpen(false); showToast({ message: nextDescending ? '已按降序排列' : '已按升序排列' }); }}><span>按{option.label === '跟进时间' ? '下次跟进时间' : option.label === '沟通时间' ? '上次沟通时间' : option.label}排序{sort === option.key && <Icon name={descending ? 'arrow-down' : 'arrow-up'} size="sm" />}</span>{sort === option.key && <Icon name="check" size="sm" />}</button>)}</div><p className="prospect-sort-hint">再次点击已选项切换升序 / 降序</p></BottomSheet>
+    <CustomerFilters key={filterKey} value={filters} onApply={setFilters} open={filterOpen} onOpenChange={setFilterOpen} finalFocus={appShell ? appMoreRef : filterRef} />
     <BottomSheet mode="editor" title="批量修改" open={editOpen} finalFocus={moreRef} onCloseRequest={requestEditClose} onOpenChange={setEditOpen}
       footer={<>{editError && <p role="alert" className="prospect-error">{editError}</p>}<SheetActions secondary={{ label: '取消', onClick: requestEditClose }} primary={{ label: '保存修改', onClick: saveEdit }} /></>}>
       <p className="prospect-edit-hint">已选 {selected.length} 位客户，未选择的字段保持原值。</p>
@@ -109,5 +121,20 @@ export function CustomerPage() {
       { label: '取消' }, { label: '确认', onSelect: () => { if (pendingAction) externalFlow(pendingAction.label); } },
     ]}>将对已选的 {pendingAction?.count ?? 0} 位客户执行「{pendingAction?.label}」。</Dialog>
     <Dialog open={confirmDelete} onOpenChange={setConfirmDelete} finalFocus={moreRef} title="删除客户" actions={[{ label: '取消' }, { label: '删除', danger: true, onSelect: () => { setCustomers(previous => previous.filter(customer => !selected.includes(customer.id))); setSelected([]); showToast({ message: '已从当前预览中删除' }); } }]}><p>确定删除选中的 {selected.length} 位客户？本次操作仅作用于当前预览数据。</p></Dialog>
-  </>}</MobilePage>;
+  </>;
+  if (appShell) {
+    return <AppPage title={appShell.title} preview={appShell.preview} backIcon="left" backLabel={appShell.backLabel} onBack={appShell.onBack}
+      actions={!batch && scenario !== 'forbidden' && scenario !== 'error' ? <>
+        <button type="button" className="app-page-icon-button" aria-label="添加客户" onClick={() => externalFlow('添加客户')}><Icon name="plus-circle" /></button>
+        <PopoverMenu label="更多操作" placement="bottom-end" open={appMoreOpen} onOpenChange={setAppMoreOpen} actions={[
+          { key: 'sort', label: '排序', onSelect: () => setSortOpen(true) },
+          { key: 'filter', label: '筛选', dot: filterActive, onSelect: () => { setFilterKey(key => key + 1); setFilterOpen(true); } },
+          { key: 'batch', label: '批量管理', onSelect: () => { if (!visible.length) { showToast({ message: '当前没有可批量操作的客户' }); return; } setBatch(true); setSelected([]); } },
+        ]} trigger={<button ref={appMoreRef} type="button" className="app-page-icon-button" aria-label="更多"><Icon name="more" /></button>} />
+      </> : undefined}
+      onRefresh={batch || scenario === 'forbidden' ? undefined : simulateRefresh} scrollKey="prospective-students-app" footer={pageFooter}>
+      {pageBody()}
+    </AppPage>;
+  }
+  return <MobilePage onRefresh={simulateRefresh} refreshDisabled={batch || scenario === 'forbidden'} refreshSuccessText="模拟刷新完成" title="意向客户管理" previewChrome={params.get('chrome') === 'wechat'} className="prospect-page" footer={pageFooter}>{refreshIndicator => pageBody(refreshIndicator)}</MobilePage>;
 }

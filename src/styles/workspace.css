@@ -32,9 +32,57 @@
 .device-scroll { max-width: 100%; overflow-x: auto; padding: 0 20px 8px; }
 .device-frame { position: relative; margin: 0 auto; }
 .device-frame iframe { display: block; border: 0; background: var(--color-background-page); }
-.device-frame--phone iframe { position: absolute; }
+.device-frame--phone {
+  padding: var(--device-bezel, 12px);
+  border-radius: calc(var(--device-screen-radius, 42px) + var(--device-bezel, 12px));
+  background: linear-gradient(145deg, #252c3f 0%, #171c28 52%, #1d2333 100%);
+  box-shadow: 0 20px 44px rgba(15, 23, 42, 0.22), inset 0 0 0 1.5px rgba(255, 255, 255, 0.14);
+}
+.device-frame--phone iframe {
+  position: relative;
+  border-radius: var(--device-screen-radius, 42px);
+  overflow: hidden;
+}
 .device-frame--plain { overflow: hidden; border-radius: var(--radius-lg); box-shadow: var(--elevation-shadow-md); }
-.device-shell { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; user-select: none; }
+.device-shell {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: inset 0 0 0 var(--device-bezel, 12px) #161b26;
+  pointer-events: none;
+  user-select: none;
+}
+.device-shell::before,
+.device-shell::after {
+  content: '';
+  position: absolute;
+  width: 3px;
+  border-radius: 2px;
+  background: #2b3347;
+}
+.device-shell::before {
+  left: -3px;
+  top: 132px;
+  height: 44px;
+  box-shadow: 0 58px 0 #2b3347, 0 112px 0 #2b3347;
+}
+.device-shell::after {
+  right: -3px;
+  top: 176px;
+  height: 68px;
+}
+.device-shell-island {
+  position: absolute;
+  left: 50%;
+  top: calc(var(--device-bezel, 12px) + 10px);
+  transform: translateX(-50%);
+  background: #0d1017;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08);
+}
+.device-frame[data-island='hole'] .device-shell-island { width: 14px; height: 14px; top: calc(var(--device-bezel, 12px) + 14px); border-radius: 50%; }
+.device-frame[data-island='compact'] .device-shell-island { width: 88px; height: 24px; border-radius: 999px; }
+.device-frame[data-island='standard'] .device-shell-island { width: 102px; height: 28px; border-radius: 999px; }
+.device-frame[data-island='large'] .device-shell-island { width: 112px; height: 30px; border-radius: 999px; }
 .preview-caption { margin-top: 12px; text-align: center; font-size: 11px; color: var(--color-text-subtlest); }
 .spec-panel { flex: 0 0 282px; display: flex; flex-direction: column; gap: 16px; }
 .spec-card { padding: 22px; border: 1px solid var(--color-border-lighter); border-radius: var(--radius-lg); background: var(--color-background-surface); }

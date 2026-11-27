@@ -1,8 +1,38 @@
 .sheet.aira-chat {
   --aira-top-inset: var(--app-top-safe-area, env(safe-area-inset-top));
   --aira-available-height: calc(100dvh - var(--aira-top-inset) - var(--drawer-keyboard-inset, 0px));
+  --aira-glow-strength: 1;
+  --aira-panel-bg: #F8F8F8;
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto minmax(0, 1fr) auto;
   height: 80dvh;
   max-height: max(0px, calc(var(--aira-available-height) - 12px));
+  background-color: var(--aira-panel-bg);
+  background-image:
+    radial-gradient(311px circle at calc(100% + 10px) -154px,
+      color-mix(in srgb, var(--color-app-aira-glow-cyan) calc(65% * var(--aira-glow-strength)), transparent) 31%,
+      color-mix(in srgb, var(--color-app-aira-glow-cyan) calc(52% * var(--aira-glow-strength)), transparent) 48%,
+      color-mix(in srgb, var(--color-app-aira-glow-cyan) calc(14% * var(--aira-glow-strength)), transparent) 78%, transparent),
+    radial-gradient(331px circle at 20px -240px,
+      color-mix(in srgb, var(--color-app-aira-glow-yellow) calc(57% * var(--aira-glow-strength)), transparent) 48%,
+      color-mix(in srgb, var(--color-app-aira-glow-yellow) calc(15% * var(--aira-glow-strength)), transparent) 78%, transparent);
+}
+
+/* Continue the panel behind the keyboard inset reserved by the drawer. */
+.sheet.aira-chat::after {
+  content: '';
+  position: absolute;
+  inset: 100% 0 auto;
+  height: var(--drawer-keyboard-inset, 0px);
+  background: var(--aira-panel-bg);
+  pointer-events: none;
+}
+
+[data-color-mode="dark"] .sheet.aira-chat {
+  --aira-glow-strength: .28;
+  --aira-panel-bg: var(--color-background-neutral-subtlest);
 }
 
 html:has(.app-page--preview) .sheet.aira-chat {
@@ -10,49 +40,126 @@ html:has(.app-page--preview) .sheet.aira-chat {
 }
 
 .sheet.aira-chat--expanded {
-  height: var(--aira-available-height);
-  max-height: var(--aira-available-height);
+  height: calc(100dvh - var(--drawer-keyboard-inset, 0px));
+  max-height: 100%;
+  max-width: none;
+  border-radius: 0;
+  box-shadow: none;
 }
 
 .aira-chat-header {
+  position: relative;
+  grid-area: 1 / 1;
   display: flex;
   align-items: center;
   flex-shrink: 0;
-  gap: 8px;
-  min-height: 56px;
-  padding-inline: 12px;
-  border-bottom: 1px solid var(--color-border-lighter);
+  justify-content: space-between;
+  padding: 20px 16px 4px 20px;
+}
+
+.aira-chat-header.aira-chat-header--page {
+  display: block;
+  padding: var(--aira-top-inset) 0 0;
+}
+
+.aira-chat-header.aira-chat-header--page[data-preview] {
+  padding-top: 0;
+}
+
+.aira-chat-header--page .aira-chat-brand {
+  justify-self: center;
+}
+
+.aira-chat-header--page .app-page-nav {
+  --app-nav-icon-background: transparent;
+}
+
+.aira-chat-brand {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--color-text);
 }
 
 .aira-chat-header .aira-chat-mark {
-  width: 36px;
-  height: 36px;
-  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
 }
 
-.aira-chat-header strong {
-  flex: 1;
-  font-size: var(--typography-font-size-title-sm);
-  font-weight: var(--typography-font-weight-medium);
+.aira-chat-header .aira-chat-wordmark {
+  width: 50px;
+  height: 11.579px;
+}
+
+.aira-chat-header .aira-chat-expand {
+  border-radius: 12px;
+  color: var(--color-icon);
+}
+
+.aira-chat-header .aira-chat-collapse {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  translate: -50% 0;
+  width: 44px;
+  align-items: flex-start;
+  padding: 9px 0 0;
+  border-radius: 12px;
+  touch-action: none;
+}
+
+.aira-chat-collapse span {
+  width: 32px;
+  height: 4px;
+  border-radius: var(--radius-full);
+  background: var(--color-border-strong);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .aira-chat-mark {
+    animation: aira-chat-mark-turn 4.8s ease-in-out infinite;
+  }
+}
+
+@keyframes aira-chat-mark-turn {
+  0%, 28% { transform: perspective(80px) rotateY(0deg); }
+  52%, 100% { transform: perspective(80px) rotateY(360deg); }
+}
+
+.aira-chat-suggestions {
+  display: grid;
+  gap: 16px;
+  padding: 28px 16px 0;
 }
 
 .aira-chat-suggestions-heading {
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-rows: 24px auto;
   align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  margin-bottom: 8px;
+  gap: 4px 8px;
+  padding-inline: 7px;
 }
 
 .aira-chat-suggestions-heading h3 {
   margin: 0;
-  font-size: var(--typography-font-size-body);
+  font-size: 18px;
+  line-height: var(--typography-line-height-body);
   font-weight: var(--typography-font-weight-medium);
 }
 
 .aira-chat-suggestions-heading .button {
-  padding-inline: 8px;
-  color: var(--color-text-brand);
+  --button-tone-text: var(--color-text-subtle);
+  gap: 4px;
+  min-height: var(--layout-touch-target);
+}
+
+.aira-chat-suggestions-heading p {
+  grid-column: 1 / -1;
+  margin: 0;
+  color: color-mix(in srgb, var(--color-text-subtlest) 30%, var(--color-text-subtle));
+  font-size: var(--typography-font-size-secondary);
+  line-height: var(--typography-line-height-body);
 }
 
 .aira-chat-prompts,
@@ -66,52 +173,362 @@ html:has(.app-page--preview) .sheet.aira-chat {
 
 .aira-chat-prompts .button {
   max-width: 100%;
-  justify-content: space-between;
-  padding-inline: 12px;
-  background: var(--color-background-neutral-subtlest);
+  padding: 8px 12px;
+  border: 0;
+  background: var(--color-background-surface);
   color: var(--color-text);
   text-align: start;
 }
 
 .aira-chat-prompts .button:active {
-  background: var(--color-background-neutral-selected);
+  background: var(--color-background-neutral-subtle);
 }
 
-.aira-chat-prompts .button span,
-.aira-chat-messages li {
+.aira-chat-prompts .button span {
   min-width: 0;
   overflow-wrap: anywhere;
 }
 
-.aira-chat-prompts .button svg {
-  flex-shrink: 0;
-  color: var(--color-icon-subtle);
+.aira-chat-prompts,
+.aira-chat-messages {
+  gap: 16px;
 }
 
-.aira-chat-messages li {
-  justify-self: end;
-  max-width: 85%;
+.aira-chat-message {
+  display: grid;
+  justify-items: start;
+  min-width: 0;
+}
+
+.aira-chat-message--user {
+  justify-items: end;
+  padding-inline-start: 40px;
+}
+
+.aira-chat-bubble {
+  max-width: 100%;
+  margin: 0;
   padding: 8px 12px;
-  border-radius: 12px;
-  background: var(--color-background-brand-subtle);
+  border-radius: 8px;
+  background: var(--color-background-surface);
+  line-height: var(--typography-line-height-body);
+  overflow-wrap: anywhere;
   white-space: pre-wrap;
+}
+
+.aira-chat-message--user .aira-chat-bubble {
+  background: var(--color-app-aira-user-bubble);
+  color: var(--color-text-inverse);
+}
+
+.aira-chat-think {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  width: 100%;
+  padding: 8px 12px;
+  color: var(--color-text-subtle);
+  font-size: var(--typography-font-size-secondary);
+  line-height: var(--typography-line-height-body);
+}
+
+@media (prefers-reduced-motion: no-preference) and (forced-colors: none) {
+  @supports (background-clip: text) {
+    .aira-chat-think-text {
+      background-image: linear-gradient(110deg,
+        var(--color-text-subtle) 32%, var(--color-text-brand-accessible) 50%, var(--color-text-subtle) 68%);
+      background-size: 240% 100%;
+      background-clip: text;
+      color: transparent;
+      animation: aira-chat-think-shine 1.6s linear infinite;
+    }
+  }
+}
+
+@keyframes aira-chat-think-shine {
+  from { background-position: right center; }
+  to { background-position: left center; }
+}
+
+.aira-chat-message-meta {
+  display: flex;
+  align-items: center;
+  padding-inline: 4px;
+  color: var(--color-text-subtle);
+  font-size: var(--typography-font-size-secondary);
+  line-height: var(--typography-line-height-caption);
+}
+
+.aira-chat-message-meta time {
+  position: relative;
+  inset-block-start: -2px;
+  z-index: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Fit the design's 12px gaps inside adjacent 40px button boxes. */
+.aira-chat-message-meta .button {
+  position: relative;
+  inset-inline-start: -15px;
+}
+
+.aira-chat-message-meta .button > svg {
+  position: relative;
+  inset-block-start: -2px;
+  width: var(--component-icon-size-sm);
+  height: var(--component-icon-size-sm);
+}
+
+.aira-chat-message-meta .button:first-of-type > svg {
+  inset-inline-start: 14px;
+}
+
+.aira-chat-message-meta .button:last-of-type > svg {
+  inset-inline-end: 14px;
+}
+
+.aira-chat-message-meta .button[aria-pressed="true"] {
+  color: var(--color-text);
+}
+
+.aira-chat-message-meta .button:active {
+  background: transparent;
+  color: var(--color-icon-brand);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .aira-chat-message-meta .button[aria-pressed]:active > svg {
+    scale: 1.12;
+  }
+
+  .aira-chat-message-meta .button[aria-pressed="true"] > svg {
+    animation: aira-chat-rating-pop 300ms ease-out;
+  }
+}
+
+@keyframes aira-chat-rating-pop {
+  0% { transform: scale(.92); }
+  35% { transform: scale(1.28) rotate(-12deg); }
+  65% { transform: scale(1.14) rotate(8deg); }
+  85% { transform: rotate(-3deg); }
+  100% { transform: none; }
 }
 
 .aira-chat-composer {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: 8px;
+  grid-template-columns: minmax(0, 1fr) 40px;
+  align-items: center;
+  gap: 4px;
+  min-height: 48px;
+  padding: 4px 4px 4px 24px;
+  border-radius: 24px;
+  background: var(--color-background-surface);
+  box-shadow: 0 3px 3px var(--color-shadow);
+  pointer-events: auto;
+}
+
+@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .aira-chat-composer {
+    background: color-mix(in srgb, var(--color-background-surface) 86%, transparent);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+  }
+}
+
+.sheet.aira-chat > .sheet-content {
+  grid-area: 2 / 1 / 4;
+  padding-block-end: calc(var(--aira-footer-height, 64px) + 16px);
+  scroll-padding-block-end: var(--aira-footer-height, 64px);
 }
 
 .aira-chat > .sheet-footer {
+  --footer-padding-inline: 20px;
+  grid-area: 3 / 1;
+  z-index: 1;
   padding-bottom: calc(8px + max(0px, var(--product-bottom-safe-area, env(safe-area-inset-bottom)) - var(--drawer-keyboard-inset, 0px)));
+  background: transparent;
+  box-shadow: none;
+  pointer-events: none;
 }
 
-.aira-chat-composer .ssx-input-body {
+.aira-chat-composer:not(.aira-chat-composer--voice) {
+  align-items: end;
+}
+
+.aira-chat-composer .ssx-input--multiline .ssx-input-body {
+  align-items: center;
+  min-height: 40px;
+  height: auto;
+  padding: 4px 0;
+  border: 0;
+  background: transparent;
+}
+
+.aira-chat-composer .ssx-input-autosize::after {
+  max-height: clamp(24px, calc(var(--aira-available-height) - 150px), 120px);
+  overflow: hidden;
+}
+
+.aira-chat-composer .ssx-input-autosize .ssx-input-native {
+  overflow-y: auto;
+  scrollbar-width: none;
+  overscroll-behavior: contain;
+}
+
+.aira-chat-composer .ssx-input-native::placeholder {
+  color: var(--color-app-aira-placeholder);
+}
+
+.aira-chat-composer .aira-chat-toggle {
+  border-color: transparent;
+}
+
+.aira-chat-composer .aira-chat-toggle:not(:active) {
+  background: transparent;
+}
+
+.aira-chat-composer .aira-chat-send {
+  --button-tone: transparent;
+  --button-pressed-overlay: transparent;
+  position: relative;
+}
+
+.aira-chat-send::before {
+  content: '';
+  position: absolute;
+  inset: 50% auto auto 50%;
+  width: 32px;
+  height: 32px;
+  translate: -50% -50%;
+  border-radius: var(--radius-full);
+  background: var(--color-app-aira-send);
+  pointer-events: none;
+}
+
+.aira-chat-send:active::before {
+  background: color-mix(in srgb, var(--color-app-aira-send) 88%, var(--color-text));
+}
+
+.aira-chat-send svg,
+.aira-chat-stop span {
+  position: relative;
+}
+
+.aira-chat-composer .aira-chat-stop {
+  width: 40px;
   height: 40px;
-  padding-inline: 12px;
+  padding: 0;
 }
 
-.aira-chat-composer .ssx-input-body:focus-within {
-  border-color: var(--color-border-focused);
+.aira-chat-stop span {
+  width: 10px;
+  height: 10px;
+  border-radius: 1px;
+  background: currentcolor;
+}
+
+.aira-chat-composer--voice {
+  padding-inline-start: 48px;
+}
+
+.aira-chat-composer .aira-chat-hold {
+  color: var(--color-text);
+  font-weight: var(--typography-font-weight-medium);
+  letter-spacing: -.3125px;
+  padding-inline: 0;
+  touch-action: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+
+.aira-chat-composer:has(.aira-chat-hold[data-holding]) {
+  position: relative;
+  isolation: isolate;
+  background: linear-gradient(105deg,
+    color-mix(in srgb, var(--color-app-aira-glow-yellow) 34%, var(--color-app-aira-composer)),
+    var(--color-app-aira-composer) 50%,
+    color-mix(in srgb, var(--color-app-aira-glow-cyan) 48%, var(--color-app-aira-composer)));
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--color-app-aira-glow-cyan) 65%, transparent);
+}
+
+.aira-chat-composer:has(.aira-chat-hold[data-holding])::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: -14px 10px 1px;
+  border-radius: inherit;
+  background: linear-gradient(105deg, var(--color-app-aira-glow-yellow), var(--color-app-aira-glow-cyan));
+  filter: blur(19px);
+  opacity: .42;
+  pointer-events: none;
+}
+
+.aira-chat-composer .aira-chat-hold[data-holding] {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  background: transparent;
+}
+
+.aira-chat-wave {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 3px;
+  color: color-mix(in srgb, var(--color-app-aira-send) 62%, var(--color-text));
+}
+
+.aira-chat-wave i {
+  --wave-peak: .66;
+  --wave-offset: -.38s;
+  width: 3px;
+  height: 22px;
+  flex-shrink: 0;
+  border-radius: var(--radius-full);
+  background: currentcolor;
+  transform: scaleY(var(--wave-peak));
+}
+
+.aira-chat-wave i:nth-child(2n) {
+  --wave-peak: .85;
+  --wave-offset: -.19s;
+}
+
+.aira-chat-wave i:nth-child(3n) {
+  --wave-peak: .52;
+  --wave-offset: -.61s;
+}
+
+.aira-chat-wave i:nth-child(4) {
+  --wave-peak: 1;
+  --wave-offset: -.05s;
+}
+
+.aira-chat-wave i:first-child,
+.aira-chat-wave i:last-child {
+  --wave-peak: .28;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .aira-chat-composer:has(.aira-chat-hold[data-holding])::before {
+    animation: aira-chat-hold-glow 1.65s ease-in-out infinite alternate;
+  }
+
+  .aira-chat-wave i {
+    animation: aira-chat-hold-wave .86s var(--wave-offset) ease-in-out infinite alternate;
+  }
+
+  .aira-chat-wave:last-child i {
+    animation-direction: alternate-reverse;
+  }
+}
+
+@keyframes aira-chat-hold-glow {
+  from { opacity: .34; transform: translateX(-5px) scale(.98); }
+  to { opacity: .7; transform: translateX(5px) scale(1.025); }
+}
+
+@keyframes aira-chat-hold-wave {
+  0%, 100% { transform: scaleY(.17); }
+  33%, 78% { transform: scaleY(var(--wave-peak)); }
+  57% { transform: scaleY(.34); }
 }

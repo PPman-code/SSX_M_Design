@@ -1,3 +1,4 @@
+import type { RefObject } from 'react';
 import { Button } from '../../../components/ui/Button';
 import { Icon } from '../../../components/ui/Icon';
 import { Tag } from '../../../components/ui/Tag';
@@ -6,7 +7,7 @@ import './teacher-workbench.css';
 
 const features = [
   ['收费', 'orange', 'home-enrollment'], ['课表', 'pink', 'home-timetable'],
-  ['课程', 'violet', 'home-orders'], ['招生意向', 'yellow', 'home-prospective'],
+  ['点名', 'blue', 'home-roll-call'], ['订单', 'violet', 'home-orders'],
 ] as const;
 // Fixed Figma samples deliberately show several states at once, independent of device time.
 const courses = [
@@ -26,7 +27,9 @@ function minutesOfDay(time: string) {
   return hour * 60 + minute;
 }
 
-export function TeacherWorkbench({ onOpenEntry, showReport }: { onOpenEntry: () => void; showReport: boolean }) {
+export function TeacherWorkbench({ onOpenEntry, onOpenCharge, onOpenRollCall, onOpenOrders, onOpenFollowUp, onOpenApproval, onOpenReport, reportRef, showReport }: {
+  onOpenEntry: () => void; onOpenCharge: () => void; onOpenRollCall: () => void; onOpenOrders: () => void; onOpenFollowUp: () => void; onOpenApproval: () => void; onOpenReport: () => void; reportRef: RefObject<HTMLButtonElement | null>; showReport: boolean;
+}) {
   const now = new Date();
   const needsAttendance = courses.filter(course => course.attendance === 'overdue');
   const tasks = [['待跟进', 4], ['待点名', needsAttendance.length], ['待点评', 3], ['待审批', 1]] as const;
@@ -52,7 +55,7 @@ export function TeacherWorkbench({ onOpenEntry, showReport }: { onOpenEntry: () 
               </div>)}
             </div>
           </div>
-          <Button className="workbench-report-view touch-target" variant="secondary" onClick={onOpenEntry} aria-label="查看经营数据专区">查看</Button>
+          <Button ref={reportRef} className="workbench-report-view touch-target" variant="primary" onClick={onOpenReport} aria-label="查看经营数据专区">查看</Button>
         </div>
       </section>}
     </div>
@@ -65,7 +68,7 @@ export function TeacherWorkbench({ onOpenEntry, showReport }: { onOpenEntry: () 
         </Button>
       </div>
       <div className="home-todos">
-        {tasks.map(([label, count]) => <button key={label} type="button" onClick={onOpenEntry}>
+        {tasks.map(([label, count]) => <button key={label} type="button" onClick={label === '待跟进' ? onOpenFollowUp : label === '待审批' ? onOpenApproval : onOpenEntry}>
           <strong>{count}</strong><span>{label}</span>
         </button>)}
       </div>
@@ -77,7 +80,7 @@ export function TeacherWorkbench({ onOpenEntry, showReport }: { onOpenEntry: () 
         <Button className="workbench-heading-action" variant="text" onClick={onOpenEntry}>编辑<Icon name="right" size="base" /></Button>
       </div>
       <div className="home-grid">
-        {features.map(([label, tone, icon]) => <button key={label} type="button" className="home-entry" onClick={onOpenEntry}>
+        {features.map(([label, tone, icon]) => <button key={label} type="button" className="home-entry" onClick={label === '收费' ? onOpenCharge : label === '点名' ? onOpenRollCall : label === '订单' ? onOpenOrders : onOpenEntry}>
           <span className="workbench-feature-icon" data-tone={tone}><Icon name={icon} size="lg" /></span>
           <span>{label}</span>
         </button>)}

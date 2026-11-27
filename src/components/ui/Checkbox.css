@@ -24,7 +24,7 @@
 .ssx-checkbox--check[data-disabled] .ssx-checkbox-mark { color: var(--color-text-disabled); }
 .ssx-checkbox--check[data-disabled][data-checked] .ssx-checkbox-mark { color: color-mix(in srgb, var(--color-icon-brand) 45%, var(--color-background-surface)); }
 .ssx-checkbox[data-readonly] { cursor: default; }
-.ssx-checkbox:not([data-disabled]):not([data-readonly]):active { background: var(--color-background-neutral-subtle); }
+.ssx-checkbox:not([data-disabled]):not([data-readonly]):active { box-shadow: inset 0 0 0 999px var(--color-overlay-pressed); }
 .ssx-checkbox-group--vertical > .ssx-checkbox + .ssx-checkbox::before { content: ''; position: absolute; top: 0; left: 44px; right: 16px; height: 0.5px; background: var(--color-border-lighter); }
 .ssx-checkbox-group--horizontal { flex-direction: row; flex-wrap: wrap; }
 .ssx-checkbox-group--horizontal > .ssx-checkbox { width: auto; flex: 1 1 auto; }

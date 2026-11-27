@@ -1,5 +1,32 @@
 import { expect, test } from '@playwright/test';
 
+test('teacher App charge navigation returns through the charge hub to the workbench', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/#/pages/teacher-app/v1?theme=light&chrome=app');
+  await page.getByRole('button', { name: '账号登录', exact: true }).click();
+  await page.getByLabel('工作账号', { exact: true }).fill('teacher@example.com');
+  await page.getByLabel('密码', { exact: true }).fill('888888');
+  await page.getByRole('button', { name: '登录', exact: true }).click();
+
+  const chargeEntry = page.getByRole('button', { name: '收费', exact: true });
+  await chargeEntry.click();
+  const chargeHub = page.getByRole('main', { name: '报名收费', exact: true });
+  await chargeHub.getByRole('button', { name: /^快速收费/ }).click();
+  const quickCharge = page.getByRole('main', { name: '快速收费', exact: true });
+  await expect(quickCharge).toBeVisible();
+  const homeIndicator = page.locator('.app-home-indicator');
+  await expect(homeIndicator).toHaveCSS('background-color', 'rgba(0, 0, 0, 0)');
+  const panel = quickCharge.locator('.quick-charge-panel');
+  await expect(panel).toHaveCSS('padding-bottom', '48px');
+  const panelBounds = (await panel.boundingBox())!;
+  const indicatorBounds = (await homeIndicator.boundingBox())!;
+  expect(panelBounds.y + panelBounds.height).toBeCloseTo(indicatorBounds.y + indicatorBounds.height, 0);
+  await page.getByRole('button', { name: '返回报名收费', exact: true }).click();
+  await expect(chargeHub).toBeVisible();
+  await page.getByRole('button', { name: '返回首页', exact: true }).click({ timeout: 3000 });
+  await expect(chargeEntry).toBeVisible();
+});
+
 test('H5 quick charge sets and clears amount, switches tabs, and previews both personal poster states', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/#/pages/home/v1?theme=light&chrome=wechat');
@@ -103,4 +130,52 @@ test('H5 quick charge sets and clears amount, switches tabs, and previews both p
   await poster.getByRole('button', { name: '关闭弹层' }).click();
   await page.getByRole('button', { name: '微信后退' }).click();
   await expect(page).toHaveURL(/pages\/home\/v1/);
+});
+
+test('teacher App order management uses navigation controls and filters demo orders', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/#/pages/teacher-app/v1?theme=light&chrome=app');
+  await page.getByRole('button', { name: '账号登录', exact: true }).click();
+  await page.getByLabel('工作账号', { exact: true }).fill('teacher@example.com');
+  await page.getByLabel('密码', { exact: true }).fill('888888');
+  await page.getByRole('button', { name: '登录', exact: true }).click();
+
+  await page.getByRole('button', { name: '订单', exact: true }).click();
+  const orders = page.getByRole('main', { name: '订单管理', exact: true });
+  const nav = page.getByRole('navigation', { name: 'App 顶部导航', exact: true });
+  await expect(nav).toHaveCSS('height', '44px');
+  await expect(orders.getByRole('tab', { name: '全部 (15)' })).toHaveAttribute('aria-selected', 'true');
+  await expect(orders.getByRole('tab', { name: '已付款 (10)' })).toBeVisible();
+  await nav.getByRole('button', { name: '学员收费', exact: true }).click();
+  await expect(page.getByText('学员收费功能请在现有业务系统中办理', { exact: true })).toBeVisible();
+  await expect(page.getByRole('button', { name: '学员收费', exact: true })).toHaveCount(1);
+  const searchRow = orders.getByRole('search', { name: '搜索学员订单区域' });
+  const search = searchRow.getByRole('textbox', { name: '搜索学员订单' });
+  await expect(searchRow).toHaveCSS('height', '56px');
+  await expect(search).toBeVisible();
+  await expect(search).not.toBeFocused();
+  await search.fill('s6805');
+  const partial = orders.getByRole('article', { name: '张子墨的订单' });
+  await expect(orders.getByRole('article')).toHaveCount(1);
+  await expect(partial.getByText('欠交', { exact: true })).toBeVisible();
+  await partial.getByRole('button', { name: '去收款' }).click();
+  await page.getByRole('dialog', { name: '订单收款' }).getByRole('button', { name: '确认模拟收款' }).click();
+  await expect(partial.getByText('欠交', { exact: true })).toHaveCount(0);
+  await searchRow.getByRole('button', { name: '清除搜索' }).click();
+
+  await nav.getByRole('button', { name: '切换校区：全部校区' }).click();
+  await page.getByRole('dialog', { name: '选择校区' }).getByRole('radio', { name: '城西校区' }).click();
+  await expect(orders.getByRole('tab', { name: '全部 (4)' })).toBeVisible();
+  await searchRow.getByRole('button', { name: '筛选订单', exact: true }).click();
+  const filters = page.getByRole('dialog', { name: '筛选订单' });
+  await filters.getByRole('radio', { name: '待收款' }).click();
+  await filters.getByRole('button', { name: '确定', exact: true }).click();
+  await expect(orders.getByText('暂无符合条件的订单')).toBeVisible();
+  await nav.getByRole('button', { name: '返回首页', exact: true }).click();
+
+  await page.getByRole('button', { name: '收费', exact: true }).click();
+  await page.getByRole('button', { name: /^订单管理/ }).click();
+  await expect(orders.getByRole('tab', { name: '已关闭 (2)' })).toBeVisible();
+  await nav.getByRole('button', { name: '返回报名收费', exact: true }).click();
+  await expect(page.getByRole('main', { name: '报名收费' })).toBeVisible();
 });

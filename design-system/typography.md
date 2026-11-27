@@ -40,7 +40,7 @@
 - 范围：students/v1/students.css、student-info/v1/student-info.css、student-info/v1/points-adjustment.css、ai-communication/v1/ai-communication.css；共用沟通样式的意向客户、沟通表单、AI录音/详情/待处理调用同步生效。
 - 将95处有既有对应项的字号、23处400/500字重替换为--typography-*变量；逐项核对变量解析值与迁移前相同，其他CSS声明逐字保持。不调整颜色、混色比例、间距、尺寸、交互或业务。
 - 16px→body、14px→secondary、12px→caption、11px→badge、15px→regular、18px→title、20px→title-lg、32px→display；Regular/Medium对应regular/medium字重变量。本次是既有数值到已有变量的迁移，不重新定义场景字号，不将所有语义相似文本统一成一个新字号。
-- 4处10px字体仍为明确保留项：学员列表状态标签、AI按钮辅助说明、AI播放器说明、沟通附件缩略名称（AI辅助说明可能有后续覆盖，保留现有层叠）。当前没有10px全局变量，不擅自改11px或新增全局规格。
+- 4处10px字体仍为明确保留项：学员列表状态标签、AI按钮辅助说明、AI播放器说明、沟通附件缩略名称（AI辅助说明可能有后续覆盖，保留现有层叠）。2026-11-27 已补充 `10px / 14px` 全局变量 `--typography-font-size-micro` / `--typography-line-height-micro`，并移除与 `body` 重复的 `bodyLarge`。
 - 原有行高均保留，包括沟通正文25px、辅助信息18/20/22px等；用户确认的24px收起区域、48px详情按钮及页面几何不变。
 - 本轮仅完成上述文件的字号/字重变量迁移；其他模块、行高/间距变量化与先前审查的7项整改不在本轮，不声明已完成迁移。
 

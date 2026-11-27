@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useId, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Button } from '../../../components/ui/Button';
 import { Icon } from '../../../components/ui/Icon';
@@ -9,6 +9,13 @@ import { allDemoSchools, demoAccountSchools, demoSchools, maskPhone, onboardingP
 import { loginSessionKey, readLoginSession, writeLoginSession, type LoginSession } from './login-session';
 import { AppPage } from './AppPage';
 import { AiraChat } from './AiraChat';
+import { ApprovalPage } from './ApprovalPage';
+import { BusinessData, BusinessDataAira, BusinessDataTabs, type BusinessTab } from './BusinessData';
+import { ChargeHubPage } from './ChargeHubPage';
+import { CustomerPage } from '../../prospective-students/v1/CustomerPage';
+import { EnrollmentChargePage } from '../../enrollment-charge/v1/EnrollmentChargePage';
+import { OrderManagementPage } from './OrderManagementPage';
+import { RollCallPage } from './RollCallPage';
 import { TeacherLogin, TeacherLoginPreviewStatus, type LoginStep, type SmsChallenge } from './TeacherLogin';
 import { TeacherWorkbench } from './TeacherWorkbench';
 import { WorkbenchNavigation, type WorkbenchView } from './WorkbenchNavigation';
@@ -24,7 +31,18 @@ export function TeacherAppPage() {
   const [workbenchView, setWorkbenchView] = useState<WorkbenchView>('home');
   const [airaOpen, setAiraOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const [businessDataOpen, setBusinessDataOpen] = useState(false);
+  const [followUpOpen, setFollowUpOpen] = useState(false);
+  const [approvalOpen, setApprovalOpen] = useState(false);
+  const [chargeOpen, setChargeOpen] = useState(false);
+  const [ordersOpen, setOrdersOpen] = useState(false);
+  const [quickChargeOpen, setQuickChargeOpen] = useState(false);
+  const [rollCallOpen, setRollCallOpen] = useState(false);
+  const [businessTab, setBusinessTab] = useState<BusinessTab>('board');
+  const businessDataId = useId();
   const settingsRef = useRef<HTMLButtonElement>(null);
+  const reportRef = useRef<HTMLButtonElement>(null);
+  const restoreReportFocus = useRef(false);
   const restoreSettingsFocus = useRef(false);
   const [verifiedPhone, setVerifiedPhone] = useState('');
   const [sms, setSms] = useState<SmsChallenge>();
@@ -40,20 +58,27 @@ export function TeacherAppPage() {
   const atLogin = step === 'phone' || step === 'account';
   const screen = atLogin ? 'login' : step;
   const signedIn = step === 'signed-in';
-  const showWorkbench = signedIn && workbenchView === 'home';
-  const showMine = signedIn && workbenchView === 'mine' && !settingsOpen;
-  const showSettings = signedIn && settingsOpen;
-  const previousScreen = useRef({ step, workbenchView, settingsOpen });
+  const showBusinessData = signedIn && businessDataOpen;
+  const showFollowUp = signedIn && followUpOpen && !showBusinessData;
+  const showApproval = signedIn && approvalOpen && !showBusinessData && !showFollowUp;
+  const showWorkbench = signedIn && workbenchView === 'home' && !showBusinessData && !showFollowUp && !showApproval;
+  const showMine = signedIn && workbenchView === 'mine' && !settingsOpen && !showBusinessData && !showFollowUp && !showApproval;
+  const showSettings = signedIn && settingsOpen && !showBusinessData && !showFollowUp && !showApproval;
+  const previousScreen = useRef({ step, workbenchView, settingsOpen, businessDataOpen, followUpOpen });
 
   useEffect(() => {
-    if (previousScreen.current.step !== step || previousScreen.current.workbenchView !== workbenchView || previousScreen.current.settingsOpen !== settingsOpen) {
+    const previous = previousScreen.current;
+    if (previous.step !== step || previous.workbenchView !== workbenchView || previous.settingsOpen !== settingsOpen || previous.businessDataOpen !== businessDataOpen || previous.followUpOpen !== followUpOpen) {
       if (restoreSettingsFocus.current && showMine) {
         settingsRef.current?.focus();
         restoreSettingsFocus.current = false;
+      } else if (restoreReportFocus.current && showWorkbench) {
+        reportRef.current?.focus({ preventScroll: true });
+        restoreReportFocus.current = false;
       } else headingRef.current?.focus();
     }
-    previousScreen.current = { step, workbenchView, settingsOpen };
-  }, [step, workbenchView, settingsOpen, showMine]);
+    previousScreen.current = { step, workbenchView, settingsOpen, businessDataOpen, followUpOpen };
+  }, [step, workbenchView, settingsOpen, businessDataOpen, followUpOpen, showMine, showWorkbench]);
 
   useEffect(() => {
     function syncSession(event: StorageEvent) {
@@ -66,6 +91,9 @@ export function TeacherAppPage() {
       setWorkbenchView('home');
       setAiraOpen(false);
       setSettingsOpen(false);
+      setBusinessDataOpen(false);
+      setFollowUpOpen(false);
+      setApprovalOpen(false);
       setStep(stored.schoolId ? 'signed-in' : 'phone');
     }
     window.addEventListener('storage', syncSession);
@@ -79,6 +107,13 @@ export function TeacherAppPage() {
 
   function restart() {
     setSettingsOpen(false);
+    setBusinessDataOpen(false);
+    setFollowUpOpen(false);
+    setApprovalOpen(false);
+    setChargeOpen(false);
+    setOrdersOpen(false);
+    setQuickChargeOpen(false);
+    setRollCallOpen(false);
     setAiraOpen(false);
     setWorkbenchView('home');
     setVerifiedPhone('');
@@ -87,6 +122,15 @@ export function TeacherAppPage() {
   }
 
   function backToLogin() {
+    if (showBusinessData) {
+      restoreReportFocus.current = true;
+      setBusinessDataOpen(false);
+      return;
+    }
+    if (showFollowUp) {
+      setFollowUpOpen(false);
+      return;
+    }
     if (showSettings) {
       restoreSettingsFocus.current = true;
       setSettingsOpen(false);
@@ -181,25 +225,66 @@ export function TeacherAppPage() {
 
   const background = params.get('appNav');
   const back = params.get('appBack');
+  const preview = params.get('chrome') === 'app';
   function showUnavailable() {
     toast.showToast({ message: '未接入' });
   }
 
-  return <AppPage title="教师端-app" showNavTitle={!atLogin && step !== 'verify-phone' && step !== 'select-school' && !showMine} preview={params.get('chrome') === 'app'}
+  if (showFollowUp) {
+    return <CustomerPage appShell={{ title: '意向客户', backLabel: '返回首页', onBack: () => setFollowUpOpen(false), preview, defaultScope: 'self' }} />;
+  }
+  if (showApproval) {
+    return <ApprovalPage preview={preview} onBack={() => setApprovalOpen(false)} onSearch={showUnavailable} />;
+  }
+  if (signedIn && rollCallOpen) {
+    return <>
+      <RollCallPage preview={preview} onBack={() => setRollCallOpen(false)} onOpenAira={() => setAiraOpen(true)} />
+      <AiraChat key={session.schoolId} open={airaOpen} onOpenChange={setAiraOpen}
+        onReturnHome={() => { setRollCallOpen(false); setWorkbenchView('home'); }} preview={preview} />
+    </>;
+  }
+  if (signedIn && quickChargeOpen) {
+    return <EnrollmentChargePage appShell={{ title: '快速收费', backLabel: '返回报名收费', onBack: () => setQuickChargeOpen(false), preview }} />;
+  }
+  if (signedIn && ordersOpen) {
+    return <>
+      <OrderManagementPage preview={preview} backLabel={chargeOpen ? '返回报名收费' : '返回首页'}
+        onBack={() => setOrdersOpen(false)} onOpenAira={() => setAiraOpen(true)} />
+      <AiraChat key={session.schoolId} open={airaOpen} onOpenChange={setAiraOpen}
+        onReturnHome={() => { setOrdersOpen(false); setChargeOpen(false); setWorkbenchView('home'); }} preview={preview} />
+    </>;
+  }
+  if (signedIn && chargeOpen) {
+    return <>
+      <ChargeHubPage preview={preview} onBack={() => setChargeOpen(false)} onOpenQuickCharge={() => setQuickChargeOpen(true)} onOpenOrders={() => setOrdersOpen(true)} onOpenAira={() => setAiraOpen(true)} />
+      <AiraChat key={session.schoolId} open={airaOpen} onOpenChange={setAiraOpen}
+        onReturnHome={() => { setChargeOpen(false); setQuickChargeOpen(false); setWorkbenchView('home'); }} preview={preview} />
+    </>;
+  }
+
+  return <AppPage title="教师端-app" showNavTitle={!atLogin && step !== 'verify-phone' && step !== 'select-school' && !showMine} preview={preview}
     previewStatus={step === 'phone' ? <TeacherLoginPreviewStatus /> : undefined}
-    solidNavOnScroll={showWorkbench}
+    solidNavOnScroll={showWorkbench || showBusinessData}
+    navFadeDistance={showBusinessData ? 160 : undefined}
     navLeading={showWorkbench ? <button type="button" className="workbench-campus-switch" aria-label={`当前校区：${currentSchool?.name ?? '星禾艺术学校'}`} onClick={showUnavailable}><span>{currentSchool?.name ?? '星禾艺术学校'}</span><Icon name="school-chevron" size="md" /></button> : undefined}
-    navTitle={signedIn ? <h1 className={showWorkbench ? 'sr-only' : 'app-page-title workbench-heading'} ref={headingRef} tabIndex={-1}>{showSettings ? '设置' : '工作台'}</h1> : undefined}
+    navTitle={signedIn ? <>
+      <h1 className={showWorkbench || showBusinessData ? 'sr-only' : 'app-page-title workbench-heading'} ref={headingRef} tabIndex={-1}>{showBusinessData ? '经营数据专区' : showFollowUp ? '待跟进客户' : showSettings ? '设置' : '工作台'}</h1>
+      {showBusinessData && <BusinessDataTabs id={businessDataId} tab={businessTab} onChange={setBusinessTab} />}
+    </> : undefined}
     background={background === 'brand' || background === 'transparent' ? background : 'surface'}
-    backIcon={showSettings ? 'left' : step === 'account' ? 'left' : step === 'phone' || step === 'signed-in' || back === 'none' ? null : back === 'close' ? 'close' : 'left'}
-    backLabel={showSettings ? '返回我的' : step === 'account' ? '返回手机号登录' : undefined}
+    backIcon={showBusinessData || showFollowUp || showSettings || step === 'account' ? 'left' : step === 'phone' || step === 'signed-in' || back === 'none' ? null : back === 'close' ? 'close' : 'left'}
+    backLabel={showBusinessData || showFollowUp ? '返回首页' : showSettings ? '返回我的' : step === 'account' ? '返回手机号登录' : undefined}
     onBack={backToLogin}
-    onRefresh={signedIn && !showSettings ? simulateRefresh : undefined}
-    actions={showWorkbench ? <Button className="workbench-notification" variant="ghost" aria-label="通知" onClick={showUnavailable}><Icon name="home-notification" size="md" /></Button>
+    onRefresh={signedIn && !showSettings && !showBusinessData && !showFollowUp ? simulateRefresh : undefined}
+    scrollKey={showBusinessData ? 'business-data' : showFollowUp ? 'follow-up' : undefined}
+    actions={showWorkbench ? <button type="button" className="app-page-icon-button" aria-label="通知" onClick={showUnavailable}><Icon name="home-notification" size="md" /></button>
       : params.get('appAction') === 'more' ? <button type="button" className="app-page-icon-button" aria-label="App 更多" onClick={showUnavailable}><Icon name="more" /></button> : undefined}
-    footer={signedIn && !showSettings ? <WorkbenchNavigation view={workbenchView} onChange={setWorkbenchView} onAira={() => setAiraOpen(true)} /> : undefined}>
-    {step === 'signed-in' ? showWorkbench
-      ? <TeacherWorkbench onOpenEntry={showUnavailable} showReport={params.get('workbenchReport') !== 'hidden'} />
+    footer={showBusinessData ? <BusinessDataAira onOpen={() => setAiraOpen(true)} />
+      : signedIn && !showSettings && !showFollowUp ? <WorkbenchNavigation view={workbenchView} onChange={setWorkbenchView} onAira={() => setAiraOpen(true)} /> : undefined}>
+    {step === 'signed-in' ? showBusinessData
+      ? <BusinessData id={businessDataId} tab={businessTab} />
+      : showWorkbench
+      ? <TeacherWorkbench onOpenEntry={showUnavailable} onOpenCharge={() => setChargeOpen(true)} onOpenRollCall={() => setRollCallOpen(true)} onOpenOrders={() => setOrdersOpen(true)} onOpenFollowUp={() => setFollowUpOpen(true)} onOpenApproval={() => setApprovalOpen(true)} onOpenReport={() => { setBusinessTab('board'); setBusinessDataOpen(true); }} reportRef={reportRef} showReport={params.get('workbenchReport') !== 'hidden'} />
       : showSettings ? <div className="teacher-app-settings">
         <section className="my-menu teacher-app-account" aria-label="账号管理">
           <h2>账号管理</h2>
@@ -225,6 +310,7 @@ export function TeacherAppPage() {
       schoolChoices={schoolChoices} hasBoundChoices={hasBoundChoices}
       reservedPhone={demoAccountSchools.some(school => school.id === currentSchool?.id) ? onboardingPhone : ''}
       currentSchool={currentSchool} onPhoneVerified={phoneVerified} onAccountVerified={accountVerified} onEnterSchool={enterSchool} />}
-    {signedIn && <AiraChat key={session.schoolId} open={airaOpen} onOpenChange={setAiraOpen} />}
+    {signedIn && <AiraChat key={session.schoolId} open={airaOpen} onOpenChange={setAiraOpen}
+      onReturnHome={() => { setBusinessDataOpen(false); setWorkbenchView('home'); }} preview={preview} />}
   </AppPage>;
 }

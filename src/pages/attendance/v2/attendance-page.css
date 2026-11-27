@@ -28,7 +28,7 @@
 .att-v2-group-heading strong { font-weight: var(--typography-font-weight-medium); }
 .att-v2-group-toolbar { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: center; gap: 8px; margin-bottom: 12px; }
 .att-v2-value, .att-v2-dimension { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-width: 0; min-height: 44px; padding: 0 12px; border: 0; border-radius: 8px; background: var(--color-background-surface); color: var(--color-text); font-size: var(--typography-font-size-secondary); }
-.att-v2-value:active, .att-v2-dimension:active { background: var(--color-background-neutral-subtle); }
+.att-v2-value:active, .att-v2-dimension:active { box-shadow: inset 0 0 0 999px var(--color-overlay-pressed); }
 .att-v2-value-label, .att-v2-dimension-label { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .att-v2-value > svg, .att-v2-dimension > svg { flex-shrink: 0; color: var(--color-text-subtle); }
 .att-v2-row-count { font-size: var(--typography-font-size-badge); font-weight: var(--typography-font-weight-regular); color: var(--color-text-subtle); white-space: nowrap; }

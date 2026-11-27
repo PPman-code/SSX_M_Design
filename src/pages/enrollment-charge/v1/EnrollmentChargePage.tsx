@@ -7,6 +7,7 @@ import { SheetActions, SheetSelectionList } from '../../../components/ui/SheetCo
 import { Icon } from '../../../components/ui/Icon';
 import { Input } from '../../../components/ui/Input';
 import { MobilePage } from '../../../components/ui/MobilePage';
+import { AppPage } from '../../teacher-app/v1/AppPage';
 import { Tabs, type TabItem } from '../../../components/ui/Tabs';
 import { Tag } from '../../../components/ui/Tag';
 import { createPersonalChargePoster } from './personal-charge-poster';
@@ -21,9 +22,11 @@ const qrSource = `${import.meta.env.BASE_URL}pages/enrollment-charge/v1/demo-rec
 const campusOptions = ['星禾艺术城南校区', '滨江校区', '星禾艺术中心校区'].map(name => ({ value: name, label: name }));
 const campusNameLimit = 6;
 
-export function EnrollmentChargePage() {
+type ChargeAppShell = { title: string; backLabel: string; onBack: () => void; preview?: boolean };
+
+export function EnrollmentChargePage({ appShell }: { appShell?: ChargeAppShell } = {}) {
   const [params, setParams] = useSearchParams();
-  const tab: ChargeTab = params.get('tab') === 'student' ? 'student' : 'quick';
+  const tab: ChargeTab = !appShell && params.get('tab') === 'student' ? 'student' : 'quick';
   const [campus, setCampus] = useState(campusOptions[0].value);
   const [campusOpen, setCampusOpen] = useState(false);
   const [amount, setAmount] = useState<number | null>(null);
@@ -79,13 +82,7 @@ export function EnrollmentChargePage() {
     setPosterOpen(true);
   }
 
-  return <MobilePage title={tab === 'quick' ? '快速收费' : '学员收费'} previewChrome={params.get('chrome') === 'wechat'} className="enrollment-charge">
-    <Tabs className="enrollment-charge-tabs" label="报名收费" size="primary" items={tabs} value={tab} onValueChange={changeTab} />
-    <section id="charge-student-panel" className="charge-student-placeholder" role="tabpanel" aria-labelledby="charge-student-tab" hidden={tab !== 'student'}>
-      <p>学员收费暂未开放</p>
-      <Button variant="text" onClick={() => changeTab('quick')}>前往快速收费</Button>
-    </section>
-    <section id="charge-quick-panel" className="quick-charge-panel" role="tabpanel" aria-labelledby="charge-quick-tab" hidden={tab !== 'quick'}>
+  const quickChargeSection = <section id="charge-quick-panel" className="quick-charge-panel" role="tabpanel" aria-labelledby="charge-quick-tab" hidden={tab !== 'quick'}>
       <div className="quick-charge-card">
         <header className="quick-charge-header">
           <Button ref={campusTrigger} className="quick-charge-campus-trigger" variant="ghost"
@@ -112,7 +109,8 @@ export function EnrollmentChargePage() {
           <Button ref={posterTrigger} block onClick={openPoster}>生成海报</Button>
         </div>
       </div>
-    </section>
+    </section>;
+  const chargeDialogs = <>
     <BottomSheet open={campusOpen} onOpenChange={setCampusOpen} title="选择校区" finalFocus={campusTrigger}>
       <SheetSelectionList label="校区选项" options={campusOptions} value={campus}
         onChange={value => { setCampus(value); setCampusOpen(false); }} onReselect={() => setCampusOpen(false)} />
@@ -138,5 +136,20 @@ export function EnrollmentChargePage() {
         {posterImage && <p className="quick-charge-poster-note">长按保存海报</p>}
       </>}
     </BottomSheet>
+  </>;
+  if (appShell) {
+    return <AppPage title={appShell.title} className="enrollment-charge" preview={appShell.preview} backIcon="left" backLabel={appShell.backLabel} onBack={appShell.onBack} scrollKey="enrollment-charge-app">
+      {quickChargeSection}
+      {chargeDialogs}
+    </AppPage>;
+  }
+  return <MobilePage title={tab === 'quick' ? '快速收费' : '学员收费'} previewChrome={params.get('chrome') === 'wechat'} className="enrollment-charge">
+    <Tabs className="enrollment-charge-tabs" label="报名收费" size="primary" items={tabs} value={tab} onValueChange={changeTab} />
+    <section id="charge-student-panel" className="charge-student-placeholder" role="tabpanel" aria-labelledby="charge-student-tab" hidden={tab !== 'student'}>
+      <p>学员收费暂未开放</p>
+      <Button variant="text" onClick={() => changeTab('quick')}>前往快速收费</Button>
+    </section>
+    {quickChargeSection}
+    {chargeDialogs}
   </MobilePage>;
 }

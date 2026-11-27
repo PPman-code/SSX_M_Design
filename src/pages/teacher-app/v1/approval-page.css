@@ -1,0 +1,63 @@
+.app-page:has(.approval-status) {
+  background: var(--color-background-surface);
+}
+
+.approval-tabs-bar {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: var(--color-background-surface);
+  border-bottom: 1px solid var(--color-border-lighter);
+}
+
+.approval-status {
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  padding: 64px 24px;
+  text-align: center;
+}
+
+.approval-status-art {
+  width: 108px;
+  height: 108px;
+  margin-bottom: 4px;
+  overflow: hidden;
+  border-radius: 50%;
+  background: linear-gradient(to top, var(--color-background-neutral-subtle), transparent 88%);
+}
+
+.approval-status-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: grayscale(1) brightness(1.045);
+  /* Keep the original character pixels above the separate background gradient. */
+  clip-path: polygon(
+    45.7% 21.6%, 47.2% 21%, 48% 22.1%, 49.2% 27%, 49.7% 35%,
+    53.8% 35.4%, 57.7% 36.5%, 61.3% 38.1%, 64.4% 39.5%, 69% 36.8%,
+    75.6% 33.1%, 81.9% 29.9%, 84.5% 29.4%, 85.8% 29.8%, 86% 31.4%,
+    84.3% 36.6%, 82.6% 43.1%, 79.2% 51.2%, 78.1% 54.8%, 79.2% 62.5%,
+    79% 67%, 77.7% 73.3%, 75.5% 76.9%, 80.6% 76.6%, 84.7% 78%, 88% 80%,
+    100% 100%, 0 100%, 10.3% 80.7%, 12.2% 78.5%, 16.8% 76.7%, 21.7% 76.6%,
+    19.6% 73%, 18.3% 68.8%, 17.8% 63%, 18.4% 58.5%, 20.6% 52.7%, 23% 47%,
+    26.3% 41.9%, 30.2% 36.7%, 34.6% 31.9%, 39.6% 26.6%, 43.5% 23%
+  );
+}
+
+.approval-status h2 {
+  margin: 0;
+  font-size: var(--typography-font-size-body);
+  line-height: var(--typography-line-height-body);
+  font-weight: var(--typography-font-weight-medium);
+  color: var(--color-text);
+}
+
+.approval-status p {
+  margin: 0;
+  max-width: 260px;
+  font-size: var(--typography-font-size-caption);
+  line-height: var(--typography-line-height-caption);
+  color: var(--color-text-subtlest);
+}

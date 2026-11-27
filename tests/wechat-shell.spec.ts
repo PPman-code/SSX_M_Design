@@ -12,8 +12,7 @@ test('project preview top control goes back inside the preview and phone routes 
   expect(footerBottom).toBe(await frame.locator('html').evaluate(() => innerHeight));
   await frame.getByRole('button', { name: '出勤率', exact: true }).click();
   await expect(frame.getByRole('navigation', { name: '微信浏览导航' })).toBeVisible();
-  const historyColor = await frame.locator('.preview-history').evaluate((element) => getComputedStyle(element).backgroundColor);
-  await expect(frame.locator('.preview-home-indicator')).toHaveCSS('background-color', historyColor);
+  await expect(frame.locator('.preview-home-indicator')).toHaveCSS('background-color', 'rgba(0, 0, 0, 0)');
   await page.screenshot({ path: 'test-results/wechat-report-shell.png' });
   await frame.getByRole('button', { name: '微信顶部返回' }).click();
   await expect(frame.locator('.preview-web-title')).toContainText('黄老师-校管家');

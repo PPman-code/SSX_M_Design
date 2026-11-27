@@ -9,8 +9,8 @@
 MobilePage 接收 title、children、footer、previewChrome 和 previewHistory（默认 true）；真实页面使用浏览器安全区，内容独立滚动，footer 不遮挡内容。previewChrome 仅用于对照 Figma，不提供真实微信容器功能。MenuCell 接收本地 IconName、label、onClick，保持 56px 行高与 18px 图标。TabBar 接收 items、active、onSelect，不自动改变路由。
 
 ## Button
-主按钮统一使用 color.background.brand.bold（Light #2878E8 / Dark #409EFF），不提供 hover 状态，按下复用同一语义族的 pressed，不自行换成更深品牌色阶。
-主按钮默认底色通过 `--button-tone` 读取，按压底色通过 `--button-tone-pressed` 读取。场景按设计使用非品牌底色时应成对设置这两个变量，沿用同一语义色系。教师端 App 登录页的中性主按钮已接入。
+主按钮统一使用 color.background.brand.bold（Light #2878E8 / Dark #409EFF），不提供 hover 状态；按压态统一由通用半透明叠加层与透明度机制接管（实底按钮叠加 `--color-overlay-pressed-bold`，浅底/白底/描边/幽灵按钮叠加 `--color-overlay-pressed`，文字按钮 `opacity: 0.65`），不再在 tokens.json 为各语义色单独维护 `*-pressed` 变量。
+主按钮底色通过 `--button-tone` 读取；仅当特定场景的深色/定制实底按钮（如教师端 App 登录页中性主按钮）需要自定义按压底色时，可显式成对设置 `--button-tone-pressed` 与 `--button-pressed-overlay: transparent`。
 variant: primary / secondary / ghost / soft / outline / text，默认 primary；soft 为辅助色、outline 为线框、text 为品牌文字按钮。页面次要操作优先使用 soft（品牌浅底 + 品牌文字，Light/Dark 使用语义映射），包括筛选/选择弹层的重置/取消、页面重试及常规次要按钮（2026-10-21 用户确认）。secondary 保留白底中性描边作为显式例外，ghost 仍为轻量操作；不是将 secondary API 全局重新定义为浅蓝。默认 md 统一为 40px 视觉高、至少 40px 点击热区、8px 圆角、16px/24px 字号行高 / 400 字重；sm 为同高的紧凑文字版，lg 保留 52px，仅在明确业务需要时使用，不作为常用默认规格。
 tone: brand / danger / warning；shape: default / round / square（默认保持项目圆角）。支持 block 通栏、icon（本地图标名称）、iconOnly（必须提供 icon 和 aria-label），loading/loadingText。加载时保留按钮颜色并显示旋转图形，阻止重复点击，不触发提交；设置 loading=false 后恢复。支持 ref 和标准原生 button 属性。disabled 与 loading 分开表达，减少动效时停止旋转。
 对照 [Arco Mobile Button 文档](https://arco.design/mobile/react/arco-design/pc/#/components/button) 与 Figma 34:3824 的样式、形状与状态；2026-10-13 的 44px 默认高度已被 2026-10-20 用户最新确认的 40px 视觉基线替代；圆角 8px、400 字重保留；2026-10-22 默认字号已从 15px 迁移为 16px/24px。主、次、辅助色、线框及普通通栏/弹窗主按钮共用此规格；round/square 仍为显式特殊形状。项目沿用主题蓝，不引入 Arco 运行时。类型颜色仅应用在 primary、soft、outline、text 上，secondary/ghost 保留中性语义。

@@ -1,4 +1,4 @@
-.student-page { background: var(--color-background-page); }
+.product-page.student-page { background: var(--color-background-page); }
 .student-content { min-height: 100%; }
 .student-filter-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--color-background-brand-bold); position: absolute; top: 4px; right: 4px; }
 .student-tabs { --tabs-text: var(--color-text); --tabs-item-padding: 0 4px; --tabs-indicator-radius: 0px; position: sticky; top: 0; z-index: 1; background: var(--color-background-surface); border-bottom: 1px solid var(--color-border-lighter); }
@@ -19,7 +19,7 @@
 .student-card-actions { display: flex; align-self: start; align-items: flex-start; gap: 8px; flex-shrink: 0; }
 .student-card-actions button { display: inline-flex; position: relative; align-items: center; justify-content: center; width: 28px; height: 28px; flex-shrink: 0; padding: 0; border: 0; background: transparent; color: var(--color-icon-subtle); }
 .student-card-actions .student-round-action { border-radius: 50%; background: var(--color-background-neutral-subtle); }
-.student-round-action:active { background: var(--color-background-neutral-hovered); transform: scale(0.92); }
+.student-round-action:active { box-shadow: inset 0 0 0 999px var(--color-overlay-pressed); transform: scale(0.92); }
 .student-detail-action:active { opacity: 0.6; }
 .student-metrics { display: grid; grid-template-columns: minmax(0, 93fr) minmax(0, 84fr) minmax(0, 84fr) minmax(0, 68fr); gap: 0; margin: 0; padding: 12px 0 14px; }
 .student-metrics > div { min-width: 0; }

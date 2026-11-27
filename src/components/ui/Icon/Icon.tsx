@@ -3,9 +3,21 @@ import { iconSpritePrefix, type IconName as SpriteIconName } from './icon-names.
 import styles from './Icon.module.css';
 
 const localGlyphs = {
+  'list-filter': { path: 'selection/filter.svg', size: 20, mode: 'mask' },
   'app-tab-home': { path: 'teacher-app/tab-home.svg', size: 24, width: 18.4286, height: 19.7146, mode: 'mask' },
   'app-tab-mine': { path: 'teacher-app/tab-mine.svg', size: 24, mode: 'mask' },
   'app-tab-aira': { path: 'teacher-app/tab-aira-motion.svg', size: 44, mode: 'original' },
+  'aira-chat-mark': { path: 'teacher-app/aira-chat-mark.svg', size: 20, width: 20.0001, mode: 'original' },
+  'aira-chat-wordmark': { path: 'teacher-app/aira-chat-wordmark.svg', size: 50, height: 11.579, mode: 'mask' },
+  'aira-chat-send': { path: 'teacher-app/aira-chat-send.svg', size: 16, mode: 'mask' },
+  'aira-chat-mic': { path: 'teacher-app/aira-chat-mic.svg', size: 16, mode: 'mask' },
+  'aira-chat-thinking': { path: 'teacher-app/aira-chat-thinking.svg', size: 12, width: 12.0002, mode: 'mask' },
+  'aira-keyboard': { path: 'teacher-app/aira-keyboard.svg', size: 16, mode: 'mask' },
+  'aira-message-copy': { path: 'teacher-app/aira-message-copy.svg', size: 14, mode: 'mask' },
+  'aira-message-like': { path: 'teacher-app/aira-message-like.svg', size: 14, mode: 'mask' },
+  'aira-message-like-filled': { path: 'teacher-app/aira-message-like-filled.svg', size: 14, mode: 'mask' },
+  'aira-message-dislike': { path: 'teacher-app/aira-message-dislike.svg', size: 14, mode: 'mask' },
+  'aira-message-dislike-filled': { path: 'teacher-app/aira-message-dislike-filled.svg', size: 14, mode: 'mask' },
   'home-prospective': { path: 'teacher-app/prospective-students.svg', size: 20, mode: 'original' },
   'home-students': { path: 'teacher-app/student-management.svg', size: 20, mode: 'original' },
   'home-enrollment': { path: 'teacher-app/enrollment-payment.svg', size: 20, mode: 'original' },

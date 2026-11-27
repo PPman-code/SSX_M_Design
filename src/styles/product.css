@@ -9,7 +9,7 @@
 .preview-chrome { flex-shrink: 0; background: var(--color-my-chrome); color: var(--color-my-text); }
 .preview-system-status { height: 44px; display: flex; align-items: center; justify-content: space-between; padding: 0 14px 0 32px; }
 .preview-wechat-nav { min-height: 54px; display: grid; grid-template-columns: 44px minmax(0, 1fr) 44px; align-items: center; padding: 0 8px; }
-.preview-home-indicator { flex-shrink: 0; display: flex; justify-content: center; height: 34px; padding-top: 21px; padding-bottom: 8px; background: var(--color-background-surface); }
+.preview-home-indicator { flex-shrink: 0; display: flex; justify-content: center; height: 34px; padding-top: 21px; padding-bottom: 8px; background: transparent; }
 .preview-home-indicator span { display: block; width: 144px; height: 5px; border-radius: 100px; background: var(--color-text); }
 
 
@@ -21,9 +21,9 @@
 .preview-history { display: flex; flex-shrink: 0; align-items: center; justify-content: center; gap: 48px; min-height: 44px; background: var(--color-my-chrome); border-top: 1px solid var(--color-border-lighter); }
 .preview-history button { display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; border: 0; background: transparent; color: var(--color-my-text); }
 .preview-history button:disabled { color: var(--color-text-disabled); cursor: default; }
-.with-preview-chrome .preview-home-indicator { background: var(--color-my-chrome); }
-/* Without browser history, the Home indicator overlays the product's own bottom surface. */
-.with-preview-chrome:not(:has(.preview-history)) .preview-home-indicator { position: absolute; left: 0; right: 0; bottom: 0; background: transparent; pointer-events: none; }
+.with-preview-chrome .preview-history { padding-bottom: 34px; }
+/* The Home indicator always overlays the bottommost surface transparently. */
+.with-preview-chrome .preview-home-indicator { position: absolute; left: 0; right: 0; bottom: 0; background: transparent; pointer-events: none; }
 .with-preview-chrome:not(:has(.preview-history)) .product-tabbar { padding-bottom: 34px; }
 .with-preview-chrome:not(:has(.preview-history)):not(:has(.product-tabbar)) .product-scroll > :first-child:not(.pull-refresh-accessible),
 .with-preview-chrome:not(:has(.preview-history)):not(:has(.product-tabbar)) .product-scroll > .pull-refresh + * { padding-bottom: max(34px, env(safe-area-inset-bottom)); }

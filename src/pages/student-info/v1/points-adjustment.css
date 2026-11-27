@@ -14,7 +14,7 @@
 .points-entry { min-width: 0; border: 0.5px solid var(--color-border-light); border-radius: var(--radius-md); overflow: hidden; }
 .points-entry-heading { display: flex; gap: 12px; align-items: center; justify-content: space-between; min-height: 40px; padding-inline: 16px; background: var(--color-background-neutral-subtle); }
 .points-entry-heading h3 { font-size: var(--typography-font-size-body); line-height: var(--typography-line-height-body); font-weight: var(--typography-font-weight-medium); color: var(--color-text); overflow-wrap: anywhere; }
-.points-entry-heading > .button { --button-tone-text: var(--color-text-subtle); --button-tone-pressed: var(--color-text); flex-shrink: 0; }
+.points-entry-heading > .button { --button-tone-text: var(--color-text-subtle); flex-shrink: 0; }
 .points-entry-fields { display: flex; flex-direction: column; }
 .points-entry-fields .field-divider::after { height: 0.5px; background: var(--color-border-lighter); }
 .points-entry-fields > .field-divider:last-child::after { content: none; }

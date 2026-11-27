@@ -69,7 +69,7 @@
 .parent-checkout-coupon { width: 100%; }
 .button.parent-checkout-coupon-trigger { display: flex; justify-content: space-between; width: 100%; gap: 12px; padding: 0; font-size: inherit; line-height: inherit; }
 .parent-checkout-coupon-value { display: inline-flex; align-items: center; gap: 4px; }
-.button.parent-checkout-coupon-trigger:active { background: var(--color-background-neutral-subtlest); }
+.button.parent-checkout-coupon-trigger:active { box-shadow: inset 0 0 0 999px var(--color-overlay-pressed); }
 .parent-checkout-coupon-trigger svg { color: var(--color-text-subtlest); }
 .parent-checkout-coupons-title { margin: 0 0 8px; font-size: 14px; line-height: 22px; font-weight: 500; }
 .parent-checkout-coupons { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }

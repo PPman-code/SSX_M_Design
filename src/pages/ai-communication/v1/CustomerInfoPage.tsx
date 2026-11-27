@@ -5,6 +5,7 @@ import { useCustomerStickyHeader } from './useCustomerStickyHeader';
 import { Tabs } from '../../../components/ui/Tabs';
 import { useCommunicationNavigation } from './useCommunicationNavigation';
 import { useEffect, useState, type ReactNode, type CSSProperties } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { BottomSheet } from '../../../components/ui/BottomSheet';
 import { RecordingWaveform } from './RecordingWaveform';
 import { RecordingScenarios } from './RecordingScenarios';
@@ -14,6 +15,7 @@ import { CustomerHistoryFilters } from './CustomerHistoryFilters';
 import { emptyHistoryFilter, matchesHistory } from './history-filter';
 import { Button } from '../../../components/ui/Button';
 import { MobilePage } from '../../../components/ui/MobilePage';
+import { AppPage } from '../../teacher-app/v1/AppPage';
 import { Icon } from '../../../components/ui/Icon';
 import { Dialog } from '../../../components/ui/Dialog';
 import { useToast } from '../../../components/ui/useToast';
@@ -43,6 +45,7 @@ const studentActions = [
 ] as const;
 
 export function CustomerInfoPage({ formal }: { formal?: { student: Student; pointsFooter: ReactNode; adjustment: ReactNode } } = {}) {
+  const navigate = useNavigate();
   const { params, actor, go } = useCommunicationNavigation();
   const { showToast } = useToast();
   const state = useCommunications();
@@ -84,10 +87,13 @@ export function CustomerInfoPage({ formal }: { formal?: { student: Student; poin
     if (!record) { setStartError('本地存储不可用，未开始记录，请检查可用空间'); return; }
     setStartOpen(false); go('ai-recording', { customer: record.customerId, record: record.id });
   }
-  return <MobilePage title={formal ? person?.name ?? "学员信息" : tabsStuck && person && !forbidden ? person.name : "意向客户信息"} className={`ai-page ai-customer-page ${formal ? 'student-info-page' : ''}`} previewChrome={params.get('chrome') === 'wechat'} footer={person && !forbidden && tab === '沟通记录' ? <footer className="ai-entry-footer">
+  const pageTitle = formal ? person?.name ?? "学员信息" : tabsStuck && person && !forbidden ? person.name : "意向客户信息";
+  const pageClassName = `ai-page ai-customer-page ${formal ? 'student-info-page' : ''}`;
+  const pageFooter = person && !forbidden && tab === '沟通记录' ? <footer className="ai-entry-footer">
     <Button className="ai-start-button" data-state={currentRecording?.status ?? 'idle'} data-recording={currentRecording?.status === 'recording' || undefined} variant="soft" shape="round" aria-label={recordingLabel} onClick={openRecorder}>{currentRecording ? <>{currentRecording.status === 'recording' && <RecordingWaveform appearance="button" paused={false} />}<span className="ai-entry-status"><span className="ai-entry-dot" aria-hidden="true" /><span className="ai-entry-state-text">{currentRecording.status === 'paused' ? '暂停中' : 'AI 记录中…'}</span></span><span className="ai-entry-view">查看</span></> : <><span className="ai-entry-idle-title"><Icon name="mic-ai-fill" size="base" />AI 实时记录</span><span className="ai-free-tag ai-entry-free" aria-hidden="true">限免</span></>}</Button>
     <Button shape="round" onClick={() => go('communication-form', { record: null, communication: null })}>添加沟通记录</Button>
-  </footer> : formal && !forbidden && tab === '积分' ? formal.pointsFooter : undefined}>
+  </footer> : formal && !forbidden && tab === '积分' ? formal.pointsFooter : undefined;
+  const pageContent = <>
     <PageTitle title={formal ? `${formal.student.name}的学员信息` : "意向客户信息"} />
     {!person || forbidden ? <div className="ai-empty"><Icon name="info-circle" size="lg" /><h2>{forbidden ? formal ? '暂无学员查看权限' : '暂无客户查看权限' : '未找到客户'}</h2><p>{formal ? '请从学员管理进入' : '请从意向客户管理进入'}</p></div> : <>
       {formal ? <div className="ai-customer-card ai-customer-profile student-detail-profile">
@@ -126,5 +132,9 @@ export function CustomerInfoPage({ formal }: { formal?: { student: Student; poin
       <p>{active?.creator === actor ? `${active.customerName} · ${active.status === 'paused' ? '录音已暂停' : '录音中'}` : `${active?.creator ?? '其他老师'}正在为${active?.customerName ?? '其他学员'}录音`}</p>
       <p>{active?.creator === actor ? '开启新记录前，请先结束这条录音。' : '请由原记录人结束后再试。'}</p>
     </Dialog>
-  </MobilePage>;
+  </>;
+  if (params.get('shell') === 'app') {
+    return <AppPage title={pageTitle} className={pageClassName} preview={params.get('preview') === '1' || params.get('chrome') === 'app' || params.get('chrome') === 'wechat'} backIcon="left" backLabel="返回" onBack={() => navigate(-1)} footer={pageFooter}>{pageContent}</AppPage>;
+  }
+  return <MobilePage title={pageTitle} className={pageClassName} previewChrome={params.get('chrome') === 'wechat'} footer={pageFooter}>{pageContent}</MobilePage>;
 }

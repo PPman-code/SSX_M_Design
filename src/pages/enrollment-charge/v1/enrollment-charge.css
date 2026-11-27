@@ -1,4 +1,8 @@
 .enrollment-charge .product-scroll { display: flex; flex-direction: column; }
+.product-page.app-page.enrollment-charge { padding-bottom: 0; }
+.app-page.enrollment-charge .quick-charge-panel {
+  padding-bottom: calc(14px + var(--product-bottom-safe-area, env(safe-area-inset-bottom)));
+}
 .enrollment-charge-tabs { position: sticky; top: 0; z-index: var(--z-index-sticky); flex: none; background: var(--color-background-surface); border-bottom: 1px solid var(--color-border-lighter); }
 .quick-charge-panel { flex: 1; padding: 10px 12px 14px; background: var(--color-background-brand-bold); }
 .quick-charge-card { overflow: hidden; border-radius: 14px; background: var(--color-background-surface); color: var(--color-text); }

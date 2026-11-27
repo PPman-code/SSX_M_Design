@@ -24,7 +24,7 @@
 .menu-cell { display: flex; align-items: center; gap: 12px; width: 100%; padding: 16px; min-height: 56px; border: 0; background: var(--color-background-surface); text-align: left; color: var(--color-my-text); }
 .menu-cell > span:not(.menu-cell-arrow) { flex: 1; min-width: 0; font-size: var(--typography-font-size-body); line-height: var(--typography-line-height-body); overflow-wrap: anywhere; }
 .menu-cell-arrow { display: flex; align-items: center; color: var(--color-my-tab-muted); }
-.menu-cell:active, .payment-entry:active { background: var(--color-background-neutral-subtle); }
+.menu-cell:active, .payment-entry:active { box-shadow: inset 0 0 0 999px var(--color-overlay-pressed); }
 .my-entry-note { font-size: var(--typography-font-size-body); line-height: var(--typography-line-height-body); }
 .collection-instructions { display: flex; flex-direction: column; gap: 6px; text-align: justify; }
 .collection-instructions h3 { font-size: var(--typography-font-size-body); line-height: var(--typography-line-height-body); font-weight: var(--typography-font-weight-medium); color: var(--color-text-subtle); }

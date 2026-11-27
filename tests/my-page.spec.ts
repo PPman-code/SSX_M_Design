@@ -170,9 +170,9 @@ test('phone shell preserves viewport width and interaction while direct pages om
   await page.goto('/#/?page=my&theme=light');
   const frame = page.frameLocator('iframe');
   await expect(page.locator('.device-shell')).toBeVisible();
-  await expect.poll(() => page.locator('.device-shell').evaluate((image) => image instanceof HTMLImageElement && image.complete && image.naturalWidth === 1350)).toBe(true);
   await expect(page.locator('.device-shell')).toHaveCSS('pointer-events', 'none');
   expect(await frame.locator('body').evaluate(() => innerWidth)).toBe(390);
+  expect(await frame.locator('body').evaluate(() => innerHeight)).toBe(844);
   await frame.getByRole('button', { name: '查看个人信息' }).click();
   await expect(frame.getByRole('dialog')).toBeVisible();
   await frame.getByRole('button', { name: '关闭弹层' }).click();
@@ -180,6 +180,7 @@ test('phone shell preserves viewport width and interaction while direct pages om
   await page.locator('.device-frame').screenshot({ path: 'test-results/phone-shell-my.png', animations: 'disabled' });
   await page.getByRole('button', { name: '430', exact: true }).click();
   expect(await frame.locator('body').evaluate(() => innerWidth)).toBe(430);
+  expect(await frame.locator('body').evaluate(() => innerHeight)).toBe(932);
   await expect(page.locator('.device-shell')).toBeVisible();
   await page.goto('/#/pages/my/v1?theme=light');
   await expect(page.locator('.device-shell, .preview-chrome')).toHaveCount(0);

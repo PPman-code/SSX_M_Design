@@ -1,5 +1,26 @@
 # 变更记录
 
+## 2026-11-27 · D/V 按压态统一为半透明叠加层与透明度方案
+
+- 教师端 App 顶部导航的独立图标按钮复用浅层按压色和圆形轮廓，覆盖 AppPage、首页通知和 AIRA 全屏导航。
+- 清理 `tokens.json` 中 10 个 `background.*.pressed` 与 `border.brandPressed` 冗余状态 token，新增通用 `color.overlay.pressed`（浅色 `4%` 黑 / 深色 `6%` 白）与 `color.overlay.pressedBold`（`10%` 黑）。
+- 全站公共组件（`Button`、`IconButton`、`BaseCell`、`InfoDialog`、`ActionSheet`、`Collapse`、`Checkbox`、`Stepper`、`Picker`、`SheetNavBar`）及页面交互元素按压态统一切换为 `box-shadow: inset 0 0 0 999px var(--color-overlay-pressed)` / `--color-overlay-pressed-bold`，纯文字按钮与黑色实心按钮（「查看」）采用 `opacity` 衰减（`0.65` / `0.85`）。
+
+## 2026-11-27 · D/V 中性色阶收敛与 Layer 交替模型
+
+- 将 `palette.neutral` 从 17 档收敛为明度单调递增的 11 档均匀色阶（移除 `175 / 250 / 275 / 350 / 450 / 550`），并将 AIRA 专属底色 `#F8F8F8` 收回 `aira-chat.css`。
+- 参考 IBM Carbon Layering 模型，将通用页面底色 `color.background.page` 定为 `neutral.150`（`#F6F6F6`），确立浅色页面「`page (150 #F6F6F6)` → `surface (100 #FFFFFF)` → `neutral.subtle (200 #F5F7FA)` → `surface (100 #FFFFFF)`」灰白交替循环层级。
+
+## 2026-11-27 · D 页面颜色规范分级与 hovered token 清理
+
+- 明确区分「常规业务页面（严格消费通用语义 token）」与「品牌/体验展示型页面（登录、AI/AIRA、首页、我的、营销/会员等，可在各自模块 CSS 内独立配色，不污染全局 `palette.json` 与根 `tokens.json`）」。
+- 从 `tokens.json` 移除 10 个未使用的 PC 遗留 `*-hovered` 语义 token 并重新生成 CSS 与目录。
+
+## 2026-11-26 · D/V App 顶部导航栏高度修正
+
+- 明确区分「页面业务顶部第一层 56px（Search / 独立第一层 Tab）」与「App 自有顶部导航栏」，将 `AppPage` 默认导航高度 `.app-page-nav` 从 56px 占位参数修正为 44px（安全区另计）。
+- 全屏 AIRA 对话与经营数据专区共用 44px 导航；教师端 App 首页按设计稿 `6398:77289` 保留 56px 场景实现；H5 业务栏、单元格及底部工具栏 56px 规则不变。
+
 ## 2026-11-25 · V/D 常规下拉图标
 
 - 常规下拉选择优先使用线形 `down` 图标，快速收费校区选择已接入。

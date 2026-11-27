@@ -137,6 +137,26 @@
       "$light": "seaGreen",
       "$dark": "seaGreen"
     },
+    "appAiraSurface": {
+      "$label": "教师端 App AIRA 对话输入栏",
+      "$light": "icyGray",
+      "$dark": "icyGray"
+    },
+    "appAiraYellow": {
+      "$label": "教师端 App AIRA 对话黄色柔光",
+      "$light": "vividLemon",
+      "$dark": "vividLemon"
+    },
+    "appAiraCyan": {
+      "$label": "教师端 App AIRA 对话青色柔光和发送按钮",
+      "$light": "electricCyan",
+      "$dark": "electricCyan"
+    },
+    "appAiraMessage": {
+      "$label": "教师端 App AIRA 用户消息背景",
+      "$light": "appTabBlue",
+      "$dark": "appTabBlue"
+    },
     "appTabAccent": {
       "$label": "教师端App悬浮导航选中强调色",
       "$light": "appTabBlue",
